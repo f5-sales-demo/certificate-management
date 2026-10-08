@@ -1,127 +1,81 @@
 ---
 title: Create certificates
-description: Prepare a certificate manifest and reference it from an HTTPS load balancer.
+description: Prepare one validated manifest, preview and apply it, then configure HTTPS.
 sidebar:
   label: Create certificates
-  order: 2
+  order: 1
 tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 2
 ---
 
-Create a certificate from existing inputs and reference an existing origin pool. Complete the [overview setup](../#before-you-begin) first. Use `chain1.pem` and its matching `server1-key.pem`; the manual path also needs `key1.location` from [encryption](../encrypt-private-keys/). Allow about ten minutes plus propagation.
+Complete the [overview setup](../#before-you-begin). Supply `chain1.pem`, a current PEM certificate chain with the leaf first, and its matching unprotected `server1-key.pem`. Allow about ten minutes plus propagation. For protected PEM, PKCS#12, or stdin, choose an [input workflow](../input-workflows/) instead of the preparation command below.
 
 Inspect the exact certificate and load balancer names before applying. Create missing resources you own; if an existing name belongs to another operator or project, select another name. Schema validation and dry run do not establish ownership.
 
-## Prepare a validated certificate
+## Prepare a validated manifest
 
-Native preparation verifies the key matches the leaf, checks chain order, issuer signatures and validity dates, and encrypts the normalized key without deploying:
+Prepare `certificate1.json` directly. Native preparation checks the key matches the leaf, chain order, issuer signatures, and validity dates, then encrypts the normalized key. It retrieves public material using the default `shared/ves-io-allow-volterra` policy and creates no tenant resource.
 
 ```bash
 xcsh blindfold certificate --context-name certificate-admin \
   --cert chain1.pem --key server1-key.pem --name "$XCSH_CERT_NAME" \
-  -n "$XCSH_NAMESPACE" --output-file native-certificate.json \
-  --result-file native-prepared.json > native-report.json 2> native.err
+  -n "$XCSH_NAMESPACE" --output-file certificate1.json \
+  > certificate1-prepared.json 2> certificate1-prepared.err
+jq -e '.status == "prepared"' certificate1-prepared.json > /dev/null
+export XCSH_CERT_MANIFEST=certificate1.json
 ```
 
-It retrieves public material online with the default `shared/ves-io-allow-volterra` policy. Use [input workflows](../input-workflows/) for protected PEM or PKCS#12. To use this prepared artifact with the commands below, substitute `native-certificate.json` for `certificate1.json` throughout; reuse that same saved file on reapply.
+## Preview and apply
 
-## Construct structured JSON
-
-For an already encrypted location, create this serializer and run it with the public chain. This alternative checks encoding, not the cryptographic relationship between the original key and chain; perform native validation of the source pair first.
+Use this procedure for any saved native manifest. `XCSH_CERT_MANIFEST` names the file you prepared; report filenames derive from it. Validate and preview the file:
 
 ```bash
-cat > make-certificate.py <<'PY'
-import base64
-import json
-import os
-import sys
-from pathlib import Path
-
-chain_file, location_file, destination = sys.argv[1:]
-XCSH_NAMESPACE = os.environ['XCSH_NAMESPACE']
-location = Path(location_file).read_text().strip()
-prefix = 'string:///'
-if not location.startswith(prefix):
-    raise SystemExit('Expected a Blindfold location')
-base64.b64decode(location[len(prefix):], validate=True)
-manifest = {
-    'kind': 'certificate',
-    'metadata': {
-        'name': os.environ['XCSH_CERT_NAME'],
-        'namespace': XCSH_NAMESPACE,
-        'labels': {'certificate-administration': 'example-tls'},
-    },
-    'spec': {
-        'certificate_url': prefix + base64.b64encode(
-            Path(chain_file).read_bytes()).decode('ascii'),
-        'private_key': {'blindfold_secret_info': {'location': location}},
-    },
-}
-with Path(destination).open('x') as output:
-    json.dump(manifest, output, indent=2)
-    output.write('\n')
-PY
-python3 make-certificate.py chain1.pem key1.location certificate1.json
+XCSH_APPLY_PREFIX="${XCSH_CERT_MANIFEST%.json}"
+jq -e . "$XCSH_CERT_MANIFEST" > /dev/null
+xcsh validate -f "$XCSH_CERT_MANIFEST" -n "$XCSH_NAMESPACE" -o json \
+  > "$XCSH_APPLY_PREFIX-validation.json" 2> "$XCSH_APPLY_PREFIX-validation.err"
+xcsh apply -f "$XCSH_CERT_MANIFEST" -n "$XCSH_NAMESPACE" --dry-run client -o json \
+  > "$XCSH_APPLY_PREFIX-preview.json" 2> "$XCSH_APPLY_PREFIX-preview.err"
 ```
 
-| Field | Purpose |
-| --- | --- |
-| `kind` | Selects the xcsh `certificate` resource kind. |
-| `metadata.name`, `metadata.namespace` | Identify your owned resource. |
-| `metadata.labels` | Record project ownership; use your team's label value consistently. |
-| `spec.certificate_url` | `string:///` plus base64 of the public leaf-first PEM chain. Base64 is encoding. |
-| `spec.private_key.blindfold_secret_info.location` | The retained encrypted location, unchanged. |
-
-## Validate, apply, and reapply
-
-Validate syntax and schema, inspect a client dry run, then apply your saved manifest. Capture all resource reports privately:
+Inspect the full private preview before continuing. Client dry run reads the target and calculates changes without a tenant write. Apply the same file:
 
 ```bash
-jq -e . certificate1.json > /dev/null
-xcsh validate -f certificate1.json -n "$XCSH_NAMESPACE" -o json \
-  > certificate1-validation.json 2> certificate1-validation.err
-xcsh apply -f certificate1.json -n "$XCSH_NAMESPACE" --dry-run client -o json \
-  > certificate1-preview.json 2> certificate1-preview.err
-xcsh apply -f certificate1.json -n "$XCSH_NAMESPACE" -o json \
-  > certificate1-apply.json 2> certificate1-apply.err
-jq -e '.success and (.results[0].status == "created" or .results[0].status == "updated" or .results[0].status == "unchanged")' \
-  certificate1-apply.json > /dev/null
-jq '{success, statuses: [.results[].status]}' certificate1-apply.json
+xcsh apply -f "$XCSH_CERT_MANIFEST" -n "$XCSH_NAMESPACE" -o json \
+  > "$XCSH_APPLY_PREFIX-apply.json" 2> "$XCSH_APPLY_PREFIX-apply.err"
+jq -e '.success and (.results[0].status == "created" or
+  .results[0].status == "updated" or .results[0].status == "unchanged")' \
+  "$XCSH_APPLY_PREFIX-apply.json" > /dev/null
+jq '{success, statuses: [.results[].status]}' "$XCSH_APPLY_PREFIX-apply.json"
 ```
 
-For a missing owned name, the sanitized status is `created`; reconciling owned configuration is `updated`, and an identical existing manifest is `unchanged`. Inspect the full private preview before any update. Client dry run reads the target and calculates changes without a tenant write. Neither JSON parsing nor generic schema validation checks that an encrypted key matches a certificate.
+Expect `created` for a missing owned name, `updated` for changed owned configuration, or `unchanged` for an identical manifest. Generic parsing and schema validation do not check whether an encrypted key matches the certificate; native preparation performs that check before encryption.
 
-Apply the identical saved manifest again:
+Reapply the identical saved file:
 
 ```bash
-xcsh apply -f certificate1.json -n "$XCSH_NAMESPACE" -o json \
-  > certificate1-reapply.json 2> certificate1-reapply.err
+xcsh apply -f "$XCSH_CERT_MANIFEST" -n "$XCSH_NAMESPACE" -o json \
+  > "$XCSH_APPLY_PREFIX-reapply.json" 2> "$XCSH_APPLY_PREFIX-reapply.err"
 jq -e '.success and .results[0].status == "unchanged"' \
-  certificate1-reapply.json > /dev/null
-jq '{success, statuses: [.results[].status]}' certificate1-reapply.json
+  "$XCSH_APPLY_PREFIX-reapply.json" > /dev/null
 ```
 
-Expected status: `unchanged`. New encryption changes ciphertext; reuse the file rather than preparing it again.
-
-### Combined creation
-
-When you do not need a saved manifest, `blindfold create` validates, encrypts, creates once, and reads back the named certificate. Use it instead of generic creation for an absent owned name:
-
-```bash
-xcsh blindfold create --context-name certificate-admin   --cert chain1.pem --key server1-key.pem --name "$XCSH_CERT_NAME"   -n "$XCSH_NAMESPACE" --dry-run client --json   --result-file combined-preview.json > combined-preview.out 2> combined-preview.err
-xcsh blindfold create --context-name certificate-admin   --cert chain1.pem --key server1-key.pem --name "$XCSH_CERT_NAME"   -n "$XCSH_NAMESPACE" --json --result-file combined-created.json   > combined-created.out 2> combined-created.err
-```
-
-Creation fails if the name exists. The public report's `accepted` status confirms matching named readback; it does not prove HTTPS readiness. See [uncertain outcomes](../troubleshooting/#reconcile-uncertain-outcomes) before retrying.
+Expect `unchanged`. Encryption uses fresh randomness, so encrypting the same key again produces different ciphertext. Preserve the saved manifest and encrypted location for unchanged reapply.
 
 ## Reference an existing origin pool
 
-Your origin pool must already be reachable and configured for the intended origin. For an HTTPS origin, verify upstream trust and matching Server Name Indication (SNI) there. Set `XCSH_UPSTREAM_HOST` to the origin's expected Host header. Keep the approved origin pool configuration under its existing owner's control.
+Supply an existing reachable origin pool, an owned hostname with a DNS record, and outbound endpoint access on port 443. For an HTTPS origin, verify upstream trust and matching Server Name Indication (SNI) there. Set `XCSH_UPSTREAM_HOST` to the origin's expected Host header. Keep the approved origin pool configuration under its existing owner's control.
 
-This minimal HTTPS load balancer references your certificate and existing pool. It enables no application security controls; apply your organization's security configuration before using it beyond an authorized administration example. The owned hostname needs a DNS record, either managed by the load balancer in an existing F5 DNS zone or provisioned by your DNS owner. Preserve unrelated records.
+This minimal HTTPS load balancer references your certificate and existing pool. It enables no application security controls; apply your
+organization's security configuration before using it beyond an authorized administration example. The owned hostname needs a DNS record,
+either managed by the load balancer in an existing F5 DNS zone or provisioned by your DNS owner. Preserve unrelated records.
 
 ```bash
+export XCSH_ORIGIN_POOL_NAME='<EXISTING_ORIGIN_POOL_NAME>'
+export XCSH_ORIGIN_NAMESPACE="$XCSH_NAMESPACE"
+export XCSH_DOMAINNAME='app.example.com'
+export XCSH_UPSTREAM_HOST='origin.example.com'
 python3 - <<'PY'
 import json
 import os
@@ -194,6 +148,11 @@ xcsh validate -f load-balancer.json -n "$XCSH_NAMESPACE" -o json \
   > lb-validation.json 2> lb-validation.err
 xcsh apply -f load-balancer.json -n "$XCSH_NAMESPACE" --dry-run client -o json \
   > lb-preview.json 2> lb-preview.err
+```
+
+Inspect `lb-preview.json` privately before applying:
+
+```bash
 xcsh apply -f load-balancer.json -n "$XCSH_NAMESPACE" -o json \
   > lb-apply.json 2> lb-apply.err
 jq -e '.success and (.results[0].status == "created" or .results[0].status == "updated" or .results[0].status == "unchanged")' lb-apply.json > /dev/null

@@ -1,157 +1,122 @@
 ---
 title: Verify and rotate
-description: Verify readiness and strict TLS, then rotate with an existing renewed pair.
+description: Check resource readiness and strict TLS, then apply a validated replacement.
 sidebar:
   label: Verify and rotate
-  order: 3
+  order: 2
 tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 2
 ---
 
-Verify the certificate served by your HTTPS load balancer, then replace it using an existing renewed certificate and key. Complete [creation](../create-certificates/) and keep its saved manifests, paired public documents, and `make-certificate.py`. Supply `chain2.pem`, `server2-key.pem`, and both trust files from the [overview](../#before-you-begin). Allow five minutes per propagation check.
+Use the [overview setup](../#before-you-begin) and an existing HTTPS load balancer that references your certificate, such as the one in
+[Create certificates](../create-certificates/). Set `XCSH_DOMAINNAME` to its owned hostname. Supply `chain1.pem` and approved `trust1.pem`
+anchors; for a self-signed certificate, use that public certificate itself. Allow five minutes for propagation before repeating a failed
+readiness or fingerprint check.
 
-## Check resource readiness
+## Check resource readiness and DNS
 
-Read the named resource privately:
+Read the named load balancer and check both states:
 
 ```bash
-xcsh get http_loadbalancer "$XCSH_LB_NAME" -n "$XCSH_NAMESPACE" -o json   > readiness.json 2> readiness.err
+xcsh get http_loadbalancer "$XCSH_LB_NAME" -n "$XCSH_NAMESPACE" -o json \
+  > readiness.json 2> readiness.err
 jq -e '.success and .results[0].resource.spec.state == "VIRTUAL_HOST_READY" and
   .results[0].resource.spec.cert_state == "CertificateValid"' readiness.json > /dev/null
 ```
 
-Wait for `VIRTUAL_HOST_READY` and `CertificateValid`, then check DNS. Have your DNS owner verify the hostname at the zone's authoritative nameservers as well as your client's resolver. A ready API resource alone does not prove the served certificate.
-
-## Verify strict TLS
-
-Create this script in your private directory. It waits up to five minutes, resolves the client hostname, validates explicit trust and hostname/SNI, compares the leaf SHA-256 fingerprint, and checks HTTP 200 from `/get`. If your application has another approved success path, change `/get` and its expected status accordingly.
+Wait for `VIRTUAL_HOST_READY` and `CertificateValid`. Check resolution from your client:
 
 ```bash
-cat > verify-https.py <<'PY'
-import hashlib
-import json
-import os
-import socket
-import ssl
-import subprocess
-import sys
-import time
-from pathlib import Path
-
-leaf, trust_file, report_name = sys.argv[1:]
-expected = hashlib.sha256(subprocess.check_output(
-    ['openssl', 'x509', '-in', leaf, '-outform', 'DER'])).hexdigest()
-trust = ssl.create_default_context(cafile=trust_file)
-domain = os.environ['XCSH_DOMAINNAME']
-deadline = time.monotonic() + 300
-while time.monotonic() < deadline:
-    with open('lb-readback.json', 'wb') as out, open('lb-readback.err', 'wb') as err:
-        read = subprocess.run([
-            'xcsh', 'get', 'http_loadbalancer', os.environ['XCSH_LB_NAME'],
-            '-n', os.environ['XCSH_NAMESPACE'], '-o', 'json',
-        ], stdout=out, stderr=err, timeout=40, check=False)
-    if read.returncode:
-        raise SystemExit('Named load balancer read failed; inspect private report')
-    spec = json.loads(Path('lb-readback.json').read_text())['results'][0]['resource']['spec']
-    if (spec.get('state') != 'VIRTUAL_HOST_READY'
-            or spec.get('cert_state') != 'CertificateValid'):
-        time.sleep(3)
-        continue
-    try:
-        addresses = sorted({x[4][0] for x in socket.getaddrinfo(
-            domain, 443, type=socket.SOCK_STREAM)})
-    except socket.gaierror:
-        time.sleep(3)
-        continue
-    for address in addresses:
-        vip = address
-        if not vip:
-            continue
-        try:
-            with socket.create_connection((vip, 443), timeout=5) as raw:
-                with trust.wrap_socket(raw, server_hostname=domain) as tls:
-                    actual = hashlib.sha256(tls.getpeercert(binary_form=True)).hexdigest()
-            if actual != expected:
-                continue
-            with open('https.err', 'wb') as err:
-                response = subprocess.run([
-                    'curl', '--silent', '--show-error', '--fail', '--noproxy', '*',
-                    '--connect-timeout', '5', '--max-time', '10', '--cacert', trust_file,
-                    '--resolve', domain + ':443:' + ('[' + vip + ']' if ':' in vip else vip), 'https://' + domain + '/get',
-                    '--output', 'https-body.txt', '--write-out', '%{http_code}',
-                ], stdout=subprocess.PIPE, stderr=err, check=False)
-            if response.returncode or response.stdout != b'200':
-                continue
-            summary = {
-                'ready': True, 'certificate_valid': True, 'ca_trust': True,
-                'sni': True, 'fingerprint_match': True, 'https': 200,
-                'fingerprint': actual, 'client_dns': True,
-            }
-            Path(report_name).write_text(json.dumps(summary, indent=2) + '\n')
-            print(json.dumps({k: v for k, v in summary.items() if k != 'fingerprint'}))
-            raise SystemExit(0)
-        except (OSError, ssl.SSLError):
-            continue
-    time.sleep(3)
-raise SystemExit('HTTPS did not converge within five minutes; inspect private reports')
-PY
-python3 verify-https.py chain1.pem trust1.pem tls1-summary.json
+python3 -c 'import os,socket; print(*sorted({a[4][0] for a in socket.getaddrinfo(os.environ["XCSH_DOMAINNAME"],443,type=socket.SOCK_STREAM)}),sep="\n")'
 ```
 
-Expected summary: every check is `true`, with `"https": 200`. For self-signed inputs, `trust1.pem` is the public certificate itself. For issued certificates, use your approved trust anchors. Keep system trust unchanged; do not disable certificate verification. This check requires an unexpired certificate and a DNS SAN matching `XCSH_DOMAINNAME`.
+Have your DNS owner check the hostname at the zone's authoritative nameservers if resolution fails. Resource readiness alone does not prove which certificate clients receive.
+
+## Verify strict TLS and the application
+
+Select the expected chain, approved trust anchors, application path, and expected HTTP status. Keep the path beginning with `/`; use the application's documented success status.
+
+```bash
+export XCSH_EXPECTED_CHAIN=chain1.pem
+export XCSH_TRUST_FILE=trust1.pem
+export XCSH_HTTPS_PATH='/'
+export XCSH_EXPECTED_HTTP_STATUS=200
+export XCSH_TLS_PREFIX=tls1
+```
+
+Validate trust and the hostname, send Server Name Indication (SNI), and retain the served certificate:
+
+```bash
+openssl s_client -connect "$XCSH_DOMAINNAME:443" -servername "$XCSH_DOMAINNAME" \
+  -verify_hostname "$XCSH_DOMAINNAME" -verify_return_error \
+  -CAfile "$XCSH_TRUST_FILE" -showcerts < /dev/null \
+  > "$XCSH_TLS_PREFIX-handshake.txt" 2> "$XCSH_TLS_PREFIX-handshake.err"
+openssl x509 -in "$XCSH_TLS_PREFIX-handshake.txt" \
+  -out "$XCSH_TLS_PREFIX-served.pem"
+openssl x509 -in "$XCSH_EXPECTED_CHAIN" -noout -sha256 -fingerprint \
+  > "$XCSH_TLS_PREFIX-expected.sha256"
+openssl x509 -in "$XCSH_TLS_PREFIX-served.pem" -noout -sha256 -fingerprint \
+  > "$XCSH_TLS_PREFIX-served.sha256"
+cmp "$XCSH_TLS_PREFIX-expected.sha256" "$XCSH_TLS_PREFIX-served.sha256"
+```
+
+Expect successful trust and hostname validation and identical SHA-256 leaf fingerprints. A mismatch can indicate propagation or the wrong certificate reference; investigate before continuing. The certificate must be current and have a DNS Subject Alternative Name (SAN) matching the hostname.
+
+Check the configured application path with the same trust and hostname:
+
+```bash
+curl --silent --show-error --fail --noproxy '*' \
+  --connect-timeout 5 --max-time 15 --cacert "$XCSH_TRUST_FILE" \
+  "https://$XCSH_DOMAINNAME$XCSH_HTTPS_PATH" \
+  --output "$XCSH_TLS_PREFIX-body.txt" --write-out '%{http_code}\n' \
+  > "$XCSH_TLS_PREFIX-http-status.txt" 2> "$XCSH_TLS_PREFIX-https.err"
+test "$(cat "$XCSH_TLS_PREFIX-http-status.txt")" = "$XCSH_EXPECTED_HTTP_STATUS"
+```
+
+Expect the configured HTTP status. Keep system trust unchanged and do not disable certificate verification. An application failure after successful TLS checks requires [origin troubleshooting](../troubleshooting/#diagnose-deployment-and-tls-failures).
 
 ## Rotate with renewed inputs
 
-Inspect the existing owned certificate, confirm the renewed chain/key match, and validate them with native preparation using new artifact paths. Retain the working certificate and trust anchor until the replacement serves successfully.
+Supply existing renewed `chain2.pem`, matching `server2-key.pem`, and approved `trust2.pem`. Inspect the owned certificate before changing it. Retain the working certificate and trust anchor until the replacement serves successfully.
+
+Keep the same key algorithm while the certificate is referenced: RSA to RSA or elliptic curve (EC) to EC. To change algorithms, create a separate certificate, change the load balancer reference, and verify before removing the old resource.
+
+Prepare the replacement once:
 
 ```bash
-xcsh blindfold certificate --context-name certificate-admin   --cert chain2.pem --key server2-key.pem --name "$XCSH_CERT_NAME"   -n "$XCSH_NAMESPACE" --output-file native-renewed-certificate.json   > renewed-prepared.json 2> renewed-prepared.err
+xcsh blindfold certificate --context-name certificate-admin \
+  --cert chain2.pem --key server2-key.pem --name "$XCSH_CERT_NAME" \
+  -n "$XCSH_NAMESPACE" --output-file certificate2.json \
+  > certificate2-prepared.json 2> certificate2-prepared.err
+jq -e '.status == "prepared"' certificate2-prepared.json > /dev/null
+export XCSH_CERT_MANIFEST=certificate2.json
 ```
 
-To follow the saved-manifest path, encrypt the existing replacement key, use the same serializer and ownership labels, and apply its new chain and location:
+Follow [Preview and apply](../create-certificates/#preview-and-apply) with this saved manifest, including unchanged reapply. A changed replacement returns `updated`; the load balancer keeps the same certificate reference.
+
+Select the replacement inputs, then repeat the resource, DNS, handshake, fingerprint, and application commands above:
 
 ```bash
-xcsh blindfold encrypt --input server2-key.pem \
-  --public-key tenant-public-key.json --policy-document policy.json \
-  --encoding location --output-file key2.location \
-  > encrypt2-report.json 2> encrypt2.err
-python3 make-certificate.py chain2.pem key2.location certificate2.json
-xcsh validate -f certificate2.json -n "$XCSH_NAMESPACE" -o json \
-  > certificate2-validation.json 2> certificate2-validation.err
-xcsh apply -f certificate2.json -n "$XCSH_NAMESPACE" --dry-run client -o json \
-  > certificate2-preview.json 2> certificate2-preview.err
-xcsh apply -f certificate2.json -n "$XCSH_NAMESPACE" -o json \
-  > certificate2-apply.json 2> certificate2-apply.err
-jq -e '.success and .results[0].status == "updated"' \
-  certificate2-apply.json > /dev/null
+export XCSH_EXPECTED_CHAIN=chain2.pem
+export XCSH_TRUST_FILE=trust2.pem
+export XCSH_TLS_PREFIX=tls2
 ```
 
-The load balancer keeps the same certificate reference. F5 rejects an algorithm change while a certificate is referenced; rotate RSA to RSA or elliptic curve (EC) to EC. To change algorithms, create a separate certificate, change the reference, and verify before removing the old resource.
+Confirm the new served fingerprint matches `chain2.pem` and differs from the previous one:
 
 ```bash
-python3 verify-https.py chain2.pem trust2.pem tls2-summary.json
-jq -e -s '.[0].fingerprint != .[1].fingerprint and
-  .[0].https == 200 and .[1].https == 200' \
-  tls1-summary.json tls2-summary.json > /dev/null
-printf '%s\n' 'Rotation verified: fingerprint changed; HTTPS 200'
+if cmp -s tls1-served.sha256 tls2-served.sha256; then
+  printf '%s\n' 'Replacement fingerprint did not change' >&2
+  exit 1
+fi
 ```
 
-Expected result: the served fingerprint changes and HTTPS returns 200 after rotation. This does not measure uninterrupted service during propagation. Retain the final saved manifest and private key for continued administration; identical reapply of that manifest should remain `unchanged`.
-
-### Combined replacement
-
-As an alternative to applying the rotation manifest, `blindfold replace` validates, encrypts, replaces once, and reads back the existing named certificate:
-
-```bash
-xcsh blindfold replace --context-name certificate-admin   --cert chain2.pem --key server2-key.pem --name "$XCSH_CERT_NAME"   -n "$XCSH_NAMESPACE" --json --result-file combined-replaced.json   > combined-replaced.out 2> combined-replaced.err
-```
-
-Replacement requires an existing name and preserves writable metadata and certificate options from F5's replace form. Verify TLS separately after either replacement path.
+Retain `certificate2.json` and its private inputs for continued administration. These checks verify the replacement after propagation; they do not measure uninterrupted service during propagation.
 
 ## Retire owned resources optionally
 
-Retirement is an administrative choice; the permanent showcase remains deployed. Before deletion, verify recorded ownership and that no other resource references the certificate. Delete your load balancer first, then its certificate. Preserve shared origin pools, DNS zones, unrelated records, and shared certificates.
+Before deletion, verify ownership and that no other resource references the certificate. Delete your load balancer first, then its certificate. Preserve shared origin pools, DNS zones, and unrelated records.
 
 ```bash
 xcsh delete http_loadbalancer "$XCSH_LB_NAME" -n "$XCSH_NAMESPACE" -o json \
@@ -160,33 +125,15 @@ xcsh delete certificate "$XCSH_CERT_NAME" -n "$XCSH_NAMESPACE" -o json \
   > certificate-delete.json 2> certificate-delete.err
 ```
 
-Verify the exact names are absent; only a named `not_found` confirms absence:
+Read both exact names. These reads should exit nonzero, so capture the reports before interpreting the errors:
 
 ```bash
-python3 - <<'PY'
-import json
-import os
-import subprocess
-import time
-from pathlib import Path
-
-for kind, name in [('http_loadbalancer', os.environ['XCSH_LB_NAME']),
-                   ('certificate', os.environ['XCSH_CERT_NAME'])]:
-    deadline = time.monotonic() + 120
-    while True:
-        with open(kind + '-absence.json', 'wb') as out, open(kind + '-absence.err', 'wb') as err:
-            result = subprocess.run([
-                'xcsh', 'get', kind, name, '-n', os.environ['XCSH_NAMESPACE'], '-o', 'json',
-            ], stdout=out, stderr=err, timeout=40, check=False)
-        report = json.loads(Path(kind + '-absence.json').read_text())
-        error = report['results'][0].get('error', {})
-        if result.returncode and error.get('kind') == 'not_found':
-            break
-        if error or time.monotonic() >= deadline:
-            raise SystemExit('Named absence not verified; inspect private report')
-        time.sleep(3)
-print('Cleanup verified: both named resources absent')
-PY
+xcsh get http_loadbalancer "$XCSH_LB_NAME" -n "$XCSH_NAMESPACE" -o json \
+  > lb-absence.json 2> lb-absence.err || true
+xcsh get certificate "$XCSH_CERT_NAME" -n "$XCSH_NAMESPACE" -o json \
+  > certificate-absence.json 2> certificate-absence.err || true
+jq -e '.results[0].error.kind == "not_found"' lb-absence.json > /dev/null
+jq -e '.results[0].error.kind == "not_found"' certificate-absence.json > /dev/null
 ```
 
-Keep private ownership records until absence is verified, then follow your retention policy for local artifacts. An authentication or network error is not cleanup evidence. See [Troubleshooting](../troubleshooting/) for failures.
+Only named `not_found` confirms absence. If a resource still exists, allow deletion to propagate and repeat its read. Authentication and network failures do not prove deletion. Keep private ownership records until absence is verified, then follow your retention policy.

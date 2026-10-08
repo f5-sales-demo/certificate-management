@@ -1,15 +1,15 @@
 ---
 title: Encrypt private keys
-description: Retrieve tenant public material and retain an encrypted private-key location.
+description: Retrieve paired public material and retain an encrypted private-key location.
 sidebar:
   label: Encrypt private keys
-  order: 1
+  order: 3
 tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 2
 ---
 
-Encrypt an existing unprotected PEM private key before sending it to F5 Distributed Cloud. Use the [overview configuration](../#before-you-begin), `server1-key.pem`, and the private directory from that setup. Allow about five minutes; this task creates no tenant resource.
+Encrypt raw private-key bytes locally for F5 Distributed Cloud without deploying a certificate. Use the [overview configuration](../#before-you-begin), `server1-key.pem`, and the private directory from that setup. Allow about five minutes; this task creates no tenant resource.
 
 ## Retrieve tenant public material
 
@@ -23,7 +23,7 @@ xcsh blindfold policy --context-name certificate-admin \
   --output-file policy.json > policy-report.json 2> policy.err
 ```
 
-These files default to snake_case JSON. They contain public encryption material and tenant identity, so keep them private. Both documents must identify the same canonical tenant. Refresh the pair when the tenant key or policy changes.
+These files default to snake_case JSON. They contain public encryption material and tenant identity, so keep them private. Both documents must identify the same canonical tenant. Paired documents select offline encryption, which performs no context resolution, credential lookup, or network access. Refresh the pair when the tenant key or policy changes.
 
 ## Encrypt the existing key
 
@@ -37,12 +37,12 @@ xcsh blindfold encrypt --input server1-key.pem \
 jq -e '.status == "prepared"' encrypt1-report.json > /dev/null
 ```
 
-`key1.location` contains `string:///` followed by the base64 envelope. Paired documents make encryption offline; omit `--context-name`. Raw encryption preserves bytes and does not interpret certificate content. For protected PEM, use [native certificate input handling](../input-workflows/#use-a-protected-pem-key).
+`key1.location` contains `string:///` followed by the base64 envelope. Omit `--context-name` when supplying both documents. Raw encryption preserves bytes and does not interpret certificate content. For protected PEM, use [native certificate input handling](../input-workflows/#use-a-protected-pem-key).
 
 ## Retain the location
 
 Copy the location unchanged into `spec.private_key.blindfold_secret_info.location`. Keep exactly one `string:///` prefix. Ciphertext remains a sensitive operational artifact.
 
-Encryption uses fresh randomness. Encrypting the same key again produces different ciphertext, so preserve the saved location and manifest when you want an unchanged reapply. The [command reference](../command-reference/#native-encryption-envelope) describes the envelope and output encodings.
+For output encodings and input limits, see the [Command reference](../command-reference/#supported-inputs-and-limits). Preserve saved artifacts as described in [unchanged reapply](../create-certificates/#preview-and-apply).
 
-Continue to [Create certificates](../create-certificates/) with `chain1.pem` and `key1.location`, or use native preparation there to validate and encrypt the matching pair together.
+This task is complete when the location is retained. To validate a matching certificate/key pair and prepare a manifest, use [Create certificates](../create-certificates/).
