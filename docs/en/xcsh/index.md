@@ -2,6 +2,7 @@
 title: xcsh
 description: Encrypt private keys with Blindfold, apply certificate manifests, and verify HTTPS.
 sidebar:
+  label: xcsh
   order: 2
 tableOfContents:
   minHeadingLevel: 2
