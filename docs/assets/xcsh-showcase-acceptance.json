@@ -1,20 +1,23 @@
 {
-  "schema_version": 3,
-  "verified_at": "2026-10-08T14:24:53.864100+00:00",
-  "source_baseline": "b6709b842c6229269dd6048ffeb0655d506aa88f",
-  "issue": "https://github.com/f5-sales-demo/certificate-management/issues/15",
+  "schema_version": 4,
+  "verified_at": "2026-10-08T14:51:49.654776+00:00",
+  "source_baseline": "091768be5eea4b5aff91de996c1654849a02c480",
+  "issue": "https://github.com/f5-sales-demo/certificate-management/issues/17",
   "source_pages": [
     {
       "path": "docs/en/xcsh/command-reference.md",
-      "sha256": "d39273f102d958a64650d54390fb727d5efc19837e56c6340ffffcefec354845"
+      "sha256": "d39273f102d958a64650d54390fb727d5efc19837e56c6340ffffcefec354845",
+      "body_unchanged": true
     },
     {
       "path": "docs/en/xcsh/index.md",
-      "sha256": "34a2d9f3079c4621bd308116505746af48f772bf261e834282930c375c4cd4d0"
+      "sha256": "75e54d151bc7c29e0a3b3c3cd3ef019327727fac00889faf095d31ab94fc8a54",
+      "body_unchanged": true
     },
     {
       "path": "docs/en/xcsh/input-workflows.md",
-      "sha256": "8082885530339d908abac5a63d2aef8346e4b156925056185b683756cc5b343f"
+      "sha256": "8082885530339d908abac5a63d2aef8346e4b156925056185b683756cc5b343f",
+      "body_unchanged": true
     }
   ],
   "public_endpoint": "https://certificate-management.f5-sales-demo.com/get",
@@ -194,71 +197,273 @@
     }
   },
   "rendered_navigation": {
+    "verified_at": "2026-10-08T14:51:49.654776+00:00",
+    "method": "Playwright with headless Google Chrome; supplemental automation only",
+    "expected_sidebar": [
+      {
+        "href": "/certificate-management/en/xcsh/",
+        "label": "xcsh"
+      },
+      {
+        "href": "/certificate-management/en/xcsh/input-workflows/",
+        "label": "Input variants"
+      },
+      {
+        "href": "/certificate-management/en/xcsh/command-reference/",
+        "label": "Command reference"
+      }
+    ],
+    "rejected_article_label": "Overview",
     "views": [
       {
         "width": 1440,
-        "page": "overview",
-        "three_page_menu": true,
+        "page": "/en/xcsh/",
+        "title": "xcsh | Certificate Management",
+        "heading": "xcsh",
+        "sidebar": [
+          {
+            "href": "/certificate-management/en/xcsh/",
+            "label": "xcsh"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/command-reference/",
+            "label": "Command reference"
+          }
+        ],
+        "active_label": "xcsh",
         "current_expanded": true,
-        "keyboard": true,
-        "headings": 4,
+        "pagination": [
+          {
+            "href": "/certificate-management/en/",
+            "label": "Overview",
+            "rel": "prev"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants",
+            "rel": "next"
+          }
+        ],
+        "keyboard": {
+          "group_enter_space": true,
+          "active_link_enter": true,
+          "mobile_menu_enter": false
+        },
         "links": true,
         "no_horizontal_overflow": true
       },
       {
         "width": 1440,
-        "page": "input-workflows/",
-        "three_page_menu": true,
+        "page": "/en/xcsh/input-workflows/",
+        "title": "Input variants | Certificate Management",
+        "heading": "Input variants",
+        "sidebar": [
+          {
+            "href": "/certificate-management/en/xcsh/",
+            "label": "xcsh"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/command-reference/",
+            "label": "Command reference"
+          }
+        ],
+        "active_label": "Input variants",
         "current_expanded": true,
-        "keyboard": true,
-        "headings": 3,
+        "pagination": [
+          {
+            "href": "/certificate-management/en/xcsh/",
+            "label": "xcsh",
+            "rel": "prev"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/command-reference/",
+            "label": "Command reference",
+            "rel": "next"
+          }
+        ],
+        "keyboard": {
+          "group_enter_space": true,
+          "active_link_enter": true,
+          "mobile_menu_enter": false
+        },
         "links": true,
         "no_horizontal_overflow": true
       },
       {
         "width": 1440,
-        "page": "command-reference/",
-        "three_page_menu": true,
+        "page": "/en/xcsh/command-reference/",
+        "title": "Command reference | Certificate Management",
+        "heading": "Command reference",
+        "sidebar": [
+          {
+            "href": "/certificate-management/en/xcsh/",
+            "label": "xcsh"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/command-reference/",
+            "label": "Command reference"
+          }
+        ],
+        "active_label": "Command reference",
         "current_expanded": true,
-        "keyboard": true,
-        "headings": 4,
+        "pagination": [
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants",
+            "rel": "prev"
+          }
+        ],
+        "keyboard": {
+          "group_enter_space": true,
+          "active_link_enter": true,
+          "mobile_menu_enter": false
+        },
         "links": true,
         "no_horizontal_overflow": true
       },
       {
         "width": 390,
-        "page": "overview",
-        "three_page_menu": true,
+        "page": "/en/xcsh/",
+        "title": "xcsh | Certificate Management",
+        "heading": "xcsh",
+        "sidebar": [
+          {
+            "href": "/certificate-management/en/xcsh/",
+            "label": "xcsh"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/command-reference/",
+            "label": "Command reference"
+          }
+        ],
+        "active_label": "xcsh",
         "current_expanded": true,
-        "keyboard": true,
-        "headings": 4,
+        "pagination": [
+          {
+            "href": "/certificate-management/en/",
+            "label": "Overview",
+            "rel": "prev"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants",
+            "rel": "next"
+          }
+        ],
+        "keyboard": {
+          "group_enter_space": true,
+          "active_link_enter": true,
+          "mobile_menu_enter": true
+        },
         "links": true,
         "no_horizontal_overflow": true
       },
       {
         "width": 390,
-        "page": "input-workflows/",
-        "three_page_menu": true,
+        "page": "/en/xcsh/input-workflows/",
+        "title": "Input variants | Certificate Management",
+        "heading": "Input variants",
+        "sidebar": [
+          {
+            "href": "/certificate-management/en/xcsh/",
+            "label": "xcsh"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/command-reference/",
+            "label": "Command reference"
+          }
+        ],
+        "active_label": "Input variants",
         "current_expanded": true,
-        "keyboard": true,
-        "headings": 3,
+        "pagination": [
+          {
+            "href": "/certificate-management/en/xcsh/",
+            "label": "xcsh",
+            "rel": "prev"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/command-reference/",
+            "label": "Command reference",
+            "rel": "next"
+          }
+        ],
+        "keyboard": {
+          "group_enter_space": true,
+          "active_link_enter": true,
+          "mobile_menu_enter": true
+        },
         "links": true,
         "no_horizontal_overflow": true
       },
       {
         "width": 390,
-        "page": "command-reference/",
-        "three_page_menu": true,
+        "page": "/en/xcsh/command-reference/",
+        "title": "Command reference | Certificate Management",
+        "heading": "Command reference",
+        "sidebar": [
+          {
+            "href": "/certificate-management/en/xcsh/",
+            "label": "xcsh"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants"
+          },
+          {
+            "href": "/certificate-management/en/xcsh/command-reference/",
+            "label": "Command reference"
+          }
+        ],
+        "active_label": "Command reference",
         "current_expanded": true,
-        "keyboard": true,
-        "headings": 4,
+        "pagination": [
+          {
+            "href": "/certificate-management/en/xcsh/input-workflows/",
+            "label": "Input variants",
+            "rel": "prev"
+          }
+        ],
+        "keyboard": {
+          "group_enter_space": true,
+          "active_link_enter": true,
+          "mobile_menu_enter": true
+        },
         "links": true,
         "no_horizontal_overflow": true
       }
     ],
-    "llms_full_removed_content_absent": true,
-    "external_links": true,
-    "page_errors": 0
+    "llms_full": {
+      "status": 200,
+      "three_article_headings": true,
+      "full_article_commands": true,
+      "sha256": "e5817b41ea96e92ebf63c2a02e7f6c217c3d3339b436eb6401046d5609878f04"
+    },
+    "page_errors": 0,
+    "chrome_session": {
+      "accepted": false,
+      "failure": "Chrome DevTools could not connect: DevToolsActivePort missing from the local Chrome profile."
+    },
+    "scope": "Workflow-pinned build served locally; published-page verification is recorded separately after deployment."
   },
   "validation": {
     "bash_blocks": 10,
@@ -282,6 +487,21 @@
   },
   "limitations": [
     "The showcase uses a self-signed certificate and the published explicit trust anchor.",
-    "Temporary certificate lifecycle checks do not measure uninterrupted HTTPS during rotation."
-  ]
+    "Temporary certificate lifecycle checks do not measure uninterrupted HTTPS during rotation.",
+    "Published Chrome-session acceptance is incomplete: Chrome DevTools could not connect because DevToolsActivePort is missing. Headless navigation checks are supplemental only."
+  ],
+  "command_acceptance_provenance": {
+    "verified_at": "2026-10-08T14:24:53.864100+00:00",
+    "issue": "https://github.com/f5-sales-demo/certificate-management/issues/15",
+    "source_baseline": "b6709b842c6229269dd6048ffeb0655d506aa88f",
+    "note": "Host source hashes and certificate lifecycle results retain their original dated acceptance. The label correction preserves all article bodies and the same ten command-block hashes; commands were not replayed for this navigation-only change."
+  },
+  "navigation_correction": {
+    "sidebar_label": "xcsh",
+    "article_route": "/en/xcsh/",
+    "article_body_unchanged": true,
+    "supporting_pages_unchanged": true,
+    "unchanged_bash_blocks": 10,
+    "chrome_session_acceptance": false
+  }
 }
