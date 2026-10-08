@@ -1,0 +1,276 @@
+{
+  "article_sha256": "80e721712eacc22384c299a2a15930636eaf40f637e28b47187d9aa36bb8f6d5",
+  "source_baseline": "68220943df00f3c5b45d2f235a353aff915a4848",
+  "qualified_source": "aadca560d252a50077772ab057913ac9e2e961bd",
+  "release_source": "0e098c53daf34b1e1732090a8a851329cffcd855",
+  "release": "v23.0.1",
+  "immutable": true,
+  "release_workflow": 37718333251,
+  "fix_prs": [4811, 4813],
+  "ubuntu": {
+    "walkthrough": {
+      "article_sha256": "80e721712eacc22384c299a2a15930636eaf40f637e28b47187d9aa36bb8f6d5",
+      "version": "xcsh/23.0.1",
+      "binary_sha256": "c95f5bd6955bcd4d2f4c3af36ffc5fec8beebeef2bb9fcd357b2423ff0074653",
+      "host": "Linux",
+      "create": true,
+      "unchanged_reapply": true,
+      "rotation": true,
+      "tls": [
+        {
+          "ready": true,
+          "certificate_valid": true,
+          "ca_trust": true,
+          "sni": true,
+          "fingerprint_match": true,
+          "https": 200
+        },
+        {
+          "ready": true,
+          "certificate_valid": true,
+          "ca_trust": true,
+          "sni": true,
+          "fingerprint_match": true,
+          "https": 200
+        }
+      ],
+      "named_cleanup": true,
+      "protected_pem": true,
+      "pkcs12": true,
+      "stdin": true,
+      "offline": true,
+      "canonical_and_compatibility": true,
+      "binary_outfile": true,
+      "explicit_versions": true,
+      "combined_create_replace": true
+    },
+    "negative": {
+      "negative_cases": [
+        {
+          "case": "partial-documents",
+          "expected_exit": 2,
+          "passed": true
+        },
+        {
+          "case": "malformed-document",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "mismatched-tenant",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "output-conflict",
+          "expected_exit": 2,
+          "passed": true
+        },
+        {
+          "case": "binary-encoding-conflict",
+          "expected_exit": 2,
+          "passed": true
+        },
+        {
+          "case": "existing-destination",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "symlink-destination",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "mismatched-key",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "wrong-pem-password",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "wrong-bundle-password",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "format-conflict",
+          "expected_exit": 2,
+          "passed": true
+        },
+        {
+          "case": "key-version-range",
+          "expected_exit": 2,
+          "passed": true
+        }
+      ],
+      "uncertain_write_guidance": "source regression verifies one mutation and named reconciliation; no live fault injection"
+    },
+    "assistant": {
+      "assistant_cases": [
+        {
+          "operation": "encrypt",
+          "successful_tool_result": true,
+          "mode_0600": true,
+          "provider_tool_containment": true
+        },
+        {
+          "operation": "certificate",
+          "successful_tool_result": true,
+          "mode_0600": true,
+          "provider_tool_containment": true
+        }
+      ],
+      "deployments": 0
+    }
+  },
+  "mac": {
+    "walkthrough": {
+      "article_sha256": "80e721712eacc22384c299a2a15930636eaf40f637e28b47187d9aa36bb8f6d5",
+      "version": "xcsh/23.0.1",
+      "binary_sha256": "b2ef583e3a3b3db106cf3c3b0ee78b65090db437ceeb61b35ed4e4d929427624",
+      "host": "Darwin",
+      "create": true,
+      "unchanged_reapply": true,
+      "rotation": true,
+      "tls": [
+        {
+          "ready": true,
+          "certificate_valid": true,
+          "ca_trust": true,
+          "sni": true,
+          "fingerprint_match": true,
+          "https": 200
+        },
+        {
+          "ready": true,
+          "certificate_valid": true,
+          "ca_trust": true,
+          "sni": true,
+          "fingerprint_match": true,
+          "https": 200
+        }
+      ],
+      "named_cleanup": true,
+      "protected_pem": true,
+      "pkcs12": true,
+      "stdin": true,
+      "offline": true,
+      "canonical_and_compatibility": true,
+      "binary_outfile": true,
+      "explicit_versions": true,
+      "combined_create_replace": true
+    },
+    "negative": {
+      "negative_cases": [
+        {
+          "case": "partial-documents",
+          "expected_exit": 2,
+          "passed": true
+        },
+        {
+          "case": "malformed-document",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "mismatched-tenant",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "output-conflict",
+          "expected_exit": 2,
+          "passed": true
+        },
+        {
+          "case": "binary-encoding-conflict",
+          "expected_exit": 2,
+          "passed": true
+        },
+        {
+          "case": "existing-destination",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "symlink-destination",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "mismatched-key",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "wrong-pem-password",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "wrong-bundle-password",
+          "expected_exit": 1,
+          "passed": true
+        },
+        {
+          "case": "format-conflict",
+          "expected_exit": 2,
+          "passed": true
+        },
+        {
+          "case": "key-version-range",
+          "expected_exit": 2,
+          "passed": true
+        }
+      ],
+      "uncertain_write_guidance": "source regression verifies one mutation and named reconciliation; no live fault injection"
+    },
+    "assistant": {
+      "assistant_cases": [
+        {
+          "operation": "encrypt",
+          "successful_tool_result": true,
+          "mode_0600": true,
+          "provider_tool_containment": true
+        },
+        {
+          "operation": "certificate",
+          "successful_tool_result": true,
+          "mode_0600": true,
+          "provider_tool_containment": true
+        }
+      ],
+      "deployments": 0
+    }
+  },
+  "managed_parity": {
+    "source_commit": "e4bb967b8fad845db33d6ba9281fa98481af05d9",
+    "state_digest": "sha256:5f75eee6e85d3003f7dc0e00d9fe681a6cfa1a6b40fcbd520141b1ae067ef260",
+    "managed_files": 62,
+    "absent_paths": 16,
+    "mismatches": [],
+    "required_absent_present": []
+  },
+  "editorial": {
+    "microsoft_guidance_reviewed": true,
+    "numbered_tasks": true,
+    "reserved_identifiers": true,
+    "private_artifacts": true,
+    "README_and_landing_unchanged": true
+  },
+  "local_checks": {
+    "pre_commit": true,
+    "markdown": true,
+    "textlint": true,
+    "spelling": true,
+    "pii_enforce": true,
+    "pii_audit": true,
+    "gitleaks": true,
+    "shared_builder": true,
+    "shell_tests": true
+  }
+}

@@ -1,0 +1,659 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-08T04:21:51.419408+00:00",
+  "source_baseline": "da0b77b3e24f842c8839823977df2547b364e673",
+  "source_pages": {
+    "assistant-workflow.md": "sha256:238fdc343cfff28ddf0fd871f7eb219203b9ff931ed6bfbbe9c7232583e0240b",
+    "command-reference.md": "sha256:0c1374f48b4e1d87546ed3e36cdd21e06714f48f0fe642c6e17d632aa78a0149",
+    "create-certificates.md": "sha256:e05d08aec605dba6ecdf8d1a60d2fd8a1b710ccaaa5d8e60399243ee7fc50297",
+    "encrypt-private-keys.md": "sha256:ce708c0bfcbf08413ca0a9b05cb93655696f7469fb56b081b3e1f56d550d541f",
+    "index.md": "sha256:ba85a830eb99baf4857929996c93ed4214addb8d982e10a1eff1ea73ea350583",
+    "input-workflows.md": "sha256:3c8c6e788752f9c1c40a9ce9e54441028cb4d1bd379bbb55015d47fd2bd26c84",
+    "troubleshooting.md": "sha256:1e31f58b85ca28e5ff07a00e800809e8d74d3f8e6d2f15aaf64646e9fe792e48",
+    "verify-and-rotate.md": "sha256:64b06f492c4400eff762e4d8c1662a7a89edf45f89359453525894811790ab0f"
+  },
+  "public_endpoint": "https://certificate-management.f5-sales-demo.com/get",
+  "trust_artifact": {
+    "path": "assets/certificate-management.pem",
+    "sha256": "16ae68023040b4c7f99484bf0308aa8702575f88d62f90b74a1f620a0bd6c1a3",
+    "fingerprint_sha256": "07a0dec40c594b7c1c7d2aee07cd98388dedfa03bc976ad62f8e6d487c4c72f8",
+    "validity": {
+      "notBefore": "Oct  8 04:05:58 2026 GMT",
+      "notAfter": "Oct  5 04:05:58 2036 GMT"
+    },
+    "rsa_bits": 2048,
+    "self_signed": true,
+    "valid_days": 3650,
+    "ordinary_browser_trust": false
+  },
+  "retained_resources": [
+    {
+      "kind": "certificate",
+      "name": "certificate-management",
+      "ownership_label": {
+        "certificate-administration": "certificate-management"
+      }
+    },
+    {
+      "kind": "http_loadbalancer",
+      "name": "certificate-management",
+      "ownership_label": {
+        "certificate-administration": "certificate-management"
+      }
+    },
+    {
+      "kind": "origin_pool",
+      "name": "certificate-management-httpbin",
+      "ownership_label": {
+        "certificate-administration": "certificate-management"
+      }
+    }
+  ],
+  "dns_companion": {
+    "kind": "http_loadbalancer",
+    "name": "certificate-management-http",
+    "redirect_https": true,
+    "f5_managed_dns": true
+  },
+  "dns": {
+    "authoritative_nameservers_verified": 2,
+    "mac_client_resolution": true,
+    "ubuntu_isolated_client_resolution": true,
+    "ubuntu_upstream_negative_cache": "Earlier NXDOMAIN remained cached at the workstation upstream resolver; acceptance used an isolated mount namespace with a public resolver. Global workstation configuration unchanged.",
+    "shared_zone_retained": true,
+    "prior_records_preserved": true
+  },
+  "hosts": {
+    "ubuntu": {
+      "host": "Linux",
+      "cli": "xcsh/23.0.1",
+      "binary_sha256": "c95f5bd6955bcd4d2f4c3af36ffc5fec8beebeef2bb9fcd357b2423ff0074653",
+      "source_pages": {
+        "assistant-workflow.md": "sha256:238fdc343cfff28ddf0fd871f7eb219203b9ff931ed6bfbbe9c7232583e0240b",
+        "command-reference.md": "sha256:0c1374f48b4e1d87546ed3e36cdd21e06714f48f0fe642c6e17d632aa78a0149",
+        "create-certificates.md": "sha256:e05d08aec605dba6ecdf8d1a60d2fd8a1b710ccaaa5d8e60399243ee7fc50297",
+        "encrypt-private-keys.md": "sha256:ce708c0bfcbf08413ca0a9b05cb93655696f7469fb56b081b3e1f56d550d541f",
+        "index.md": "sha256:ba85a830eb99baf4857929996c93ed4214addb8d982e10a1eff1ea73ea350583",
+        "input-workflows.md": "sha256:3c8c6e788752f9c1c40a9ce9e54441028cb4d1bd379bbb55015d47fd2bd26c84",
+        "troubleshooting.md": "sha256:1e31f58b85ca28e5ff07a00e800809e8d74d3f8e6d2f15aaf64646e9fe792e48",
+        "verify-and-rotate.md": "sha256:64b06f492c4400eff762e4d8c1662a7a89edf45f89359453525894811790ab0f"
+      },
+      "commands": [
+        {
+          "stage": "create",
+          "tag": "context-setup",
+          "sha256": "f8344a2d0cee0d13840d357a0666ef3b3c57864dc4ccdafd14bb484973dc748c",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "encrypt-0",
+          "sha256": "e70280f3547e104698b6c4657fd174585ef176f083f9896381f4d8a9cc17b6a2",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "encrypt-1",
+          "sha256": "147edc3bdc1ffecd82f68de8c3d381cc0e304227842b8a2a55bf6e83153b3eb1",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "prepare-0-Prepare",
+          "sha256": "ac0903223df3924970f7110dcd455d540d126a718bef953b77ee97a77cdaa224",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "prepare-0-Construct",
+          "sha256": "9a6ab0fe1591d0e819eafb54384527ba0dcecb650123179591f3313507462973",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "certificate-apply-0",
+          "sha256": "a065a66c31e50e60c7315d448d2e8df2d92fa0f31361b4e4a3d9e8a587161b52",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "certificate-apply-1",
+          "sha256": "b9c4533b845d1c76573517633fa7a56703ba12d546035c5ad3fef6395718f4dd",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "loadbalancer-0",
+          "sha256": "78101abdfdaf6c11649f86a2a6815f101b23303d60603c7190e45082531312e3",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "variant-0",
+          "sha256": "a15e9535fc7a6b40c05378796e663cb6f31caba623d594c739b67541d0356830",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "variant-1",
+          "sha256": "6d91da0c5a53bbc7ee6d3265570c3c6c672e5d144b3d540a3998e94924eaed69",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "variant-2",
+          "sha256": "cb356ce1ccadba48abcf3b08e6d849b361f2abc332c771ae8aa0edd17c952272",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "variant-3",
+          "sha256": "2db6c96c367a0da3f82b1f4ebf89afac77d499c878fa77790e4a501177ecdd2d",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "reference-0",
+          "sha256": "a54b93cbcb0786b24d6db2d123a7e6eb36a148c24ca24e93b6cf481a0e7f9c7d",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "combined-create",
+          "sha256": "b27018a54a3ff01873d3d24dad2703e457f932ada07c071bc51319877b09a674",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "combined-replace",
+          "sha256": "a4a50e848bfa59f32040eb46aaf1836d8444c990fee1c7309d151cd5ef5efdc0",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "temporary-retirement",
+          "sha256": "044b95c4f84641a31afc689b3e2d0d5ca03771fc6fe112bd9e51ae38961ca464",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "rotation-0",
+          "sha256": "b36559d06055d827fd4bcef6c8ba448a756a7dc31fcdc35d4270eb7924d0f411",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "rotation-1",
+          "sha256": "e82c9af326ce2e7452489d911eba880c6dd8127e31cd991dcda4d16b45562fdd",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "rotation-0",
+          "sha256": "b36559d06055d827fd4bcef6c8ba448a756a7dc31fcdc35d4270eb7924d0f411",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "rotation-1",
+          "sha256": "e82c9af326ce2e7452489d911eba880c6dd8127e31cd991dcda4d16b45562fdd",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "rotation-2",
+          "sha256": "ce35fafcaeaa337edde0da9311ae668a6f238d6a1c32afdd99f38e5df3bd58ed",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "final-reapply",
+          "sha256": "04a0c2c554d2d61177dd938007d160b289876ba3784f40960b725eadf18daf6c",
+          "success": true
+        }
+      ],
+      "tls1": {
+        "ready": true,
+        "certificate_valid": true,
+        "ca_trust": true,
+        "sni": true,
+        "fingerprint_match": true,
+        "https": 200,
+        "fingerprint": "49a3f72fb66629fc62185c55e521c38e313c6c3976cbcda0753edde6321ce3f1",
+        "client_dns": true
+      },
+      "tls2": {
+        "ready": true,
+        "certificate_valid": true,
+        "ca_trust": true,
+        "sni": true,
+        "fingerprint_match": true,
+        "https": 200,
+        "fingerprint": "07a0dec40c594b7c1c7d2aee07cd98388dedfa03bc976ad62f8e6d487c4c72f8",
+        "client_dns": true
+      },
+      "retained_resources": [
+        {
+          "kind": "certificate",
+          "name": "certificate-management",
+          "ownership_label": {
+            "certificate-administration": "certificate-management"
+          }
+        },
+        {
+          "kind": "http_loadbalancer",
+          "name": "certificate-management",
+          "ownership_label": {
+            "certificate-administration": "certificate-management"
+          }
+        },
+        {
+          "kind": "origin_pool",
+          "name": "certificate-management-httpbin",
+          "ownership_label": {
+            "certificate-administration": "certificate-management"
+          }
+        }
+      ],
+      "dns_companion": {
+        "kind": "http_loadbalancer",
+        "name": "certificate-management-http",
+        "managed_dns": true,
+        "redirect_https": true
+      },
+      "public_endpoint": "https://certificate-management.f5-sales-demo.com/get",
+      "assistant": {
+        "assistant_cases": [
+          {
+            "operation": "encrypt",
+            "successful_tool_result": true,
+            "mode_0600": true,
+            "provider_tool_containment": true
+          },
+          {
+            "operation": "certificate",
+            "successful_tool_result": true,
+            "mode_0600": true,
+            "provider_tool_containment": true
+          }
+        ],
+        "deployments": 0
+      },
+      "input_workflows": {
+        "protected_pem": true,
+        "single_key_pkcs12": true,
+        "stdin": true,
+        "offline": true,
+        "compatibility": true,
+        "binary_outfile": true,
+        "explicit_versions": true,
+        "combined_create_replace": true,
+        "temporary_named_absence": true
+      },
+      "unchanged_reapply": true,
+      "final_manifest_reapply": "unchanged",
+      "rotation_fingerprint_changed": true
+    },
+    "mac": {
+      "host": "Darwin",
+      "cli": "xcsh/23.0.1",
+      "binary_sha256": "b2ef583e3a3b3db106cf3c3b0ee78b65090db437ceeb61b35ed4e4d929427624",
+      "source_pages": {
+        "assistant-workflow.md": "sha256:238fdc343cfff28ddf0fd871f7eb219203b9ff931ed6bfbbe9c7232583e0240b",
+        "command-reference.md": "sha256:0c1374f48b4e1d87546ed3e36cdd21e06714f48f0fe642c6e17d632aa78a0149",
+        "create-certificates.md": "sha256:e05d08aec605dba6ecdf8d1a60d2fd8a1b710ccaaa5d8e60399243ee7fc50297",
+        "encrypt-private-keys.md": "sha256:ce708c0bfcbf08413ca0a9b05cb93655696f7469fb56b081b3e1f56d550d541f",
+        "index.md": "sha256:ba85a830eb99baf4857929996c93ed4214addb8d982e10a1eff1ea73ea350583",
+        "input-workflows.md": "sha256:3c8c6e788752f9c1c40a9ce9e54441028cb4d1bd379bbb55015d47fd2bd26c84",
+        "troubleshooting.md": "sha256:1e31f58b85ca28e5ff07a00e800809e8d74d3f8e6d2f15aaf64646e9fe792e48",
+        "verify-and-rotate.md": "sha256:64b06f492c4400eff762e4d8c1662a7a89edf45f89359453525894811790ab0f"
+      },
+      "commands": [
+        {
+          "stage": "create",
+          "tag": "context-setup",
+          "sha256": "f8344a2d0cee0d13840d357a0666ef3b3c57864dc4ccdafd14bb484973dc748c",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "encrypt-0",
+          "sha256": "e70280f3547e104698b6c4657fd174585ef176f083f9896381f4d8a9cc17b6a2",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "encrypt-1",
+          "sha256": "147edc3bdc1ffecd82f68de8c3d381cc0e304227842b8a2a55bf6e83153b3eb1",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "prepare-0-Prepare",
+          "sha256": "ac0903223df3924970f7110dcd455d540d126a718bef953b77ee97a77cdaa224",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "prepare-0-Construct",
+          "sha256": "9a6ab0fe1591d0e819eafb54384527ba0dcecb650123179591f3313507462973",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "certificate-apply-0",
+          "sha256": "bf25a5eeefd08d301a384f82ff35c47ceb87015a44e61a602ff8c58899a2ccc2",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "certificate-apply-1",
+          "sha256": "b9c4533b845d1c76573517633fa7a56703ba12d546035c5ad3fef6395718f4dd",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "loadbalancer-0",
+          "sha256": "764278d195afd42bd2983bcb0c4c2c1014984c2b35e06c6b7fedf77ea1ab3f4c",
+          "success": true
+        },
+        {
+          "stage": "create",
+          "tag": "strict-tls1-0",
+          "sha256": "6633647b02d9b001682baa50635c82a6f6b4480bba6406d5f0d345fb41de1a8e",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "rotation-0",
+          "sha256": "b36559d06055d827fd4bcef6c8ba448a756a7dc31fcdc35d4270eb7924d0f411",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "rotation-1",
+          "sha256": "e82c9af326ce2e7452489d911eba880c6dd8127e31cd991dcda4d16b45562fdd",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "rotation-2",
+          "sha256": "ce35fafcaeaa337edde0da9311ae668a6f238d6a1c32afdd99f38e5df3bd58ed",
+          "success": true
+        },
+        {
+          "stage": "rotate",
+          "tag": "final-reapply",
+          "sha256": "04a0c2c554d2d61177dd938007d160b289876ba3784f40960b725eadf18daf6c",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "variant-0",
+          "sha256": "a15e9535fc7a6b40c05378796e663cb6f31caba623d594c739b67541d0356830",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "variant-1",
+          "sha256": "6d91da0c5a53bbc7ee6d3265570c3c6c672e5d144b3d540a3998e94924eaed69",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "variant-2",
+          "sha256": "cb356ce1ccadba48abcf3b08e6d849b361f2abc332c771ae8aa0edd17c952272",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "variant-3",
+          "sha256": "2db6c96c367a0da3f82b1f4ebf89afac77d499c878fa77790e4a501177ecdd2d",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "reference-0",
+          "sha256": "a54b93cbcb0786b24d6db2d123a7e6eb36a148c24ca24e93b6cf481a0e7f9c7d",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "combined-create",
+          "sha256": "b27018a54a3ff01873d3d24dad2703e457f932ada07c071bc51319877b09a674",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "combined-replace",
+          "sha256": "a4a50e848bfa59f32040eb46aaf1836d8444c990fee1c7309d151cd5ef5efdc0",
+          "success": true
+        },
+        {
+          "stage": "variants",
+          "tag": "temporary-retirement",
+          "sha256": "044b95c4f84641a31afc689b3e2d0d5ca03771fc6fe112bd9e51ae38961ca464",
+          "success": true
+        }
+      ],
+      "tls1": {
+        "ready": true,
+        "certificate_valid": true,
+        "ca_trust": true,
+        "sni": true,
+        "fingerprint_match": true,
+        "https": 200,
+        "fingerprint": "49a3f72fb66629fc62185c55e521c38e313c6c3976cbcda0753edde6321ce3f1",
+        "client_dns": true
+      },
+      "tls2": {
+        "ready": true,
+        "certificate_valid": true,
+        "ca_trust": true,
+        "sni": true,
+        "fingerprint_match": true,
+        "https": 200,
+        "fingerprint": "07a0dec40c594b7c1c7d2aee07cd98388dedfa03bc976ad62f8e6d487c4c72f8",
+        "client_dns": true
+      },
+      "retained_resources": [
+        {
+          "kind": "certificate",
+          "name": "certificate-management",
+          "ownership_label": {
+            "certificate-administration": "certificate-management"
+          }
+        },
+        {
+          "kind": "http_loadbalancer",
+          "name": "certificate-management",
+          "ownership_label": {
+            "certificate-administration": "certificate-management"
+          }
+        },
+        {
+          "kind": "origin_pool",
+          "name": "certificate-management-httpbin",
+          "ownership_label": {
+            "certificate-administration": "certificate-management"
+          }
+        }
+      ],
+      "dns_companion": {
+        "kind": "http_loadbalancer",
+        "name": "certificate-management-http",
+        "managed_dns": true,
+        "redirect_https": true
+      },
+      "public_endpoint": "https://certificate-management.f5-sales-demo.com/get",
+      "assistant": {
+        "assistant_cases": [
+          {
+            "operation": "encrypt",
+            "successful_tool_result": true,
+            "mode_0600": true,
+            "provider_tool_containment": true
+          },
+          {
+            "operation": "certificate",
+            "successful_tool_result": true,
+            "mode_0600": true,
+            "provider_tool_containment": true
+          }
+        ],
+        "deployments": 0
+      },
+      "input_workflows": {
+        "protected_pem": true,
+        "single_key_pkcs12": true,
+        "stdin": true,
+        "offline": true,
+        "compatibility": true,
+        "binary_outfile": true,
+        "explicit_versions": true,
+        "combined_create_replace": true,
+        "temporary_named_absence": true
+      },
+      "unchanged_reapply": true,
+      "final_manifest_reapply": "unchanged",
+      "rotation_fingerprint_changed": true
+    }
+  },
+  "rendered_navigation": [
+    {
+      "width": 1440,
+      "page": "overview",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 3,
+      "links": true
+    },
+    {
+      "width": 1440,
+      "page": "encrypt-private-keys/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 3,
+      "links": true
+    },
+    {
+      "width": 1440,
+      "page": "create-certificates/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 1440,
+      "page": "verify-and-rotate/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 1440,
+      "page": "input-workflows/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 1440,
+      "page": "assistant-workflow/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 1440,
+      "page": "command-reference/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 5,
+      "links": true
+    },
+    {
+      "width": 1440,
+      "page": "troubleshooting/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 390,
+      "page": "overview",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 3,
+      "links": true
+    },
+    {
+      "width": 390,
+      "page": "encrypt-private-keys/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 3,
+      "links": true
+    },
+    {
+      "width": 390,
+      "page": "create-certificates/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 390,
+      "page": "verify-and-rotate/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 390,
+      "page": "input-workflows/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 390,
+      "page": "assistant-workflow/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    },
+    {
+      "width": 390,
+      "page": "command-reference/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 5,
+      "links": true
+    },
+    {
+      "width": 390,
+      "page": "troubleshooting/",
+      "flat_menu": true,
+      "keyboard": true,
+      "h2_toc": 4,
+      "links": true
+    }
+  ],
+  "historical_receipt": "assets/xcsh-certificate-acceptance.json",
+  "limitations": [
+    "HTTPBin is an external dependency.",
+    "HTTP 200 before and after rotation does not establish uninterrupted service.",
+    "Self-signed certificate requires explicit trust; no public CA or scheduled renewal."
+  ],
+  "private_owner_artifacts": "Retained in owner-only storage outside the published repository."
+}
