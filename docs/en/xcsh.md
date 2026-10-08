@@ -752,6 +752,8 @@ unresolved. It does not automatically retry a mutation. Keep the submitted manif
 determine the outcome. Generic resource reports are not Blindfold public reports and must be inspected
 privately.
 
+The generic resource transport can retry network failures and HTTP 408, 429, or 503 responses. The one-mutation guarantee above applies to combined Blindfold create/replace.
+
 ## References
 
 - [xcsh v23.0.1 immutable release](https://github.com/f5-sales-demo/xcsh/releases/tag/v23.0.1)
