@@ -1,175 +1,287 @@
 {
-  "schema_version": 2,
-  "verified_at": "2026-10-08T12:51:19.094002+00:00",
-  "source_baseline": "6e51ab8b6d93a3409970bbe6242ab30788c66791",
-  "issue": "https://github.com/f5-sales-demo/certificate-management/issues/11",
+  "schema_version": 3,
+  "verified_at": "2026-10-08T14:24:53.864100+00:00",
+  "source_baseline": "b6709b842c6229269dd6048ffeb0655d506aa88f",
+  "issue": "https://github.com/f5-sales-demo/certificate-management/issues/15",
   "source_pages": [
     {
-      "path": "docs/en/xcsh/assistant-workflow.md",
-      "sha256": "fe89914eb3572f8ceceb988f424aa1b5f41befba89c045737be08a14ac8d9558"
-    },
-    {
       "path": "docs/en/xcsh/command-reference.md",
-      "sha256": "a5839a30e87300c056bd2f677a41abe4fa0eba6938ea20f83d333cf9c115cc0d"
-    },
-    {
-      "path": "docs/en/xcsh/create-certificates.md",
-      "sha256": "5b2c1ae5552b8e018dfc5b28724daff79e924e070eba859d8bb6594ddeaf68a7"
-    },
-    {
-      "path": "docs/en/xcsh/encrypt-private-keys.md",
-      "sha256": "d8e68806139c85a0df22f76b8eb3824c69d3f8406f56fca4b37126b276cf940c"
+      "sha256": "d39273f102d958a64650d54390fb727d5efc19837e56c6340ffffcefec354845"
     },
     {
       "path": "docs/en/xcsh/index.md",
-      "sha256": "0b5eae85d781fefb7720522acce363b9bf06d6ecf0692f789cd732ed16fc05a9"
+      "sha256": "34a2d9f3079c4621bd308116505746af48f772bf261e834282930c375c4cd4d0"
     },
     {
       "path": "docs/en/xcsh/input-workflows.md",
-      "sha256": "6b85179ff8c67573527c39a2202edcd2c84a09d90092dd26e11a9ab8a8027b3a"
-    },
-    {
-      "path": "docs/en/xcsh/troubleshooting.md",
-      "sha256": "0982a1f48764cd2ecc3c2e85e9c2289fca03f4a9607ae4c8221d28ddebfd613f"
-    },
-    {
-      "path": "docs/en/xcsh/verify-and-rotate.md",
-      "sha256": "e2a7ba4477413d4b1017c11f6b2912b83fabb93b760c27bae01e21d92b1f4a2d"
+      "sha256": "8082885530339d908abac5a63d2aef8346e4b156925056185b683756cc5b343f"
     }
   ],
   "public_endpoint": "https://certificate-management.f5-sales-demo.com/get",
   "public_certificate": {
     "path": "assets/certificate-management.pem",
     "sha256": "16ae68023040b4c7f99484bf0308aa8702575f88d62f90b74a1f620a0bd6c1a3",
-    "expires": "2036-10-05",
     "self_signed": true
   },
   "hosts": {
     "Ubuntu": {
-      "prepare": {
-        "host": "Linux",
-        "cli": "xcsh/23.0.1",
-        "binary_sha256": "c95f5bd6955bcd4d2f4c3af36ffc5fec8beebeef2bb9fcd357b2423ff0074653",
-        "native_manifests": 4,
-        "raw_offline_stdin": true,
-        "request_secrets": true,
-        "secret_inputs_private": true
+      "host": "Linux",
+      "cli": "xcsh/23.0.1",
+      "binary_sha256": "c95f5bd6955bcd4d2f4c3af36ffc5fec8beebeef2bb9fcd357b2423ff0074653",
+      "source_pages": {
+        "command-reference.md": "d39273f102d958a64650d54390fb727d5efc19837e56c6340ffffcefec354845",
+        "index.md": "34a2d9f3079c4621bd308116505746af48f772bf261e834282930c375c4cd4d0",
+        "input-workflows.md": "8082885530339d908abac5a63d2aef8346e4b156925056185b683756cc5b343f"
       },
-      "lifecycle": {
-        "host": "Linux",
-        "cli": "xcsh/23.0.1",
-        "binary_sha256": "c95f5bd6955bcd4d2f4c3af36ffc5fec8beebeef2bb9fcd357b2423ff0074653",
-        "created": true,
-        "unchanged_reapply": true,
-        "rotated": true,
-        "fingerprint_changed": true,
-        "https": 200,
-        "negative_untrusted": true,
-        "negative_hostname": true,
-        "negative_fingerprint": true
-      },
-      "retained": {
-        "host": "Linux",
-        "cli": "xcsh/23.0.1",
-        "binary_sha256": "c95f5bd6955bcd4d2f4c3af36ffc5fec8beebeef2bb9fcd357b2423ff0074653",
+      "commands": [
+        {
+          "tag": "main-0",
+          "sha256": "6cb3b668fe70a815562d79ac8caf5165293807815f44d6e914224d00827ce3a3",
+          "success": true
+        },
+        {
+          "tag": "main-1",
+          "sha256": "203d2bfde7997b19cb698ef0c9efa994f6adc2d627bd43560c8bcffb09831949",
+          "success": true
+        },
+        {
+          "tag": "main-2",
+          "sha256": "16a4cdf4fb53a82e3bc923f85a8c8943f0c3447223498dadee723733d61a1d66",
+          "success": true
+        },
+        {
+          "tag": "main-3",
+          "sha256": "d5c66e7d1ce89e5656369147a35b1e488dc51861735e6a765295648d9abc8f2b",
+          "success": true
+        },
+        {
+          "tag": "main-4",
+          "sha256": "b3d0ac21da2ff6a6ccc470251eae3245019f2de1c85cf6e74b71da586ca7e338",
+          "success": true
+        },
+        {
+          "tag": "main-5",
+          "sha256": "335dfbc20a1a72dd276494dd3337997c371c50a39e6aab7e753f370476890fbc",
+          "success": true
+        },
+        {
+          "tag": "main-6",
+          "sha256": "3a50e7e9c04a1872efa02cf46ef1b5b0a2907d6ed2f3d817314988c2cafbe56a",
+          "success": true
+        },
+        {
+          "tag": "variant-0",
+          "sha256": "bc7853e093fc2a39ee3b01cdf05a0519f519f98536ac8966aec10005742540f0",
+          "success": true
+        },
+        {
+          "tag": "variant-1",
+          "sha256": "4caba94b5dc3ea3e821da66c9224fe56e2718cabdf914a3bf2ad3db47f895b8a",
+          "success": true
+        },
+        {
+          "tag": "variant-2",
+          "sha256": "50a4f5568bf8b0df987a71ecbb0fc077e50e4d92fe694f579487e4c166451ece",
+          "success": true
+        }
+      ],
+      "created": "created",
+      "identical_reapply": "unchanged",
+      "replacement": "updated",
+      "showcase": {
         "read_only": true,
-        "strict_tls": true,
+        "trust": true,
+        "hostname": true,
         "fingerprint_match": true,
         "https": 200,
+        "json_response": true,
         "public_certificate_sha256": "16ae68023040b4c7f99484bf0308aa8702575f88d62f90b74a1f620a0bd6c1a3"
-      }
+      },
+      "input_variants": {
+        "protected_pem": true,
+        "pkcs12": true,
+        "raw_stdin": true
+      },
+      "mode_0600": true,
+      "reference_help_operations": 9,
+      "temporary_named_not_found": true,
+      "retained_resources_unchanged": true,
+      "owner_artifacts_unchanged": true
     },
     "Mac": {
-      "prepare": {
-        "host": "Darwin",
-        "cli": "xcsh/23.0.1",
-        "binary_sha256": "b2ef583e3a3b3db106cf3c3b0ee78b65090db437ceeb61b35ed4e4d929427624",
-        "native_manifests": 4,
-        "raw_offline_stdin": true,
-        "request_secrets": true,
-        "secret_inputs_private": true
+      "host": "Darwin",
+      "cli": "xcsh/23.0.1",
+      "binary_sha256": "b2ef583e3a3b3db106cf3c3b0ee78b65090db437ceeb61b35ed4e4d929427624",
+      "source_pages": {
+        "input-workflows.md": "8082885530339d908abac5a63d2aef8346e4b156925056185b683756cc5b343f",
+        "command-reference.md": "d39273f102d958a64650d54390fb727d5efc19837e56c6340ffffcefec354845",
+        "index.md": "34a2d9f3079c4621bd308116505746af48f772bf261e834282930c375c4cd4d0"
       },
-      "verify-replacement": {
-        "host": "Darwin",
-        "cli": "xcsh/23.0.1",
-        "binary_sha256": "b2ef583e3a3b3db106cf3c3b0ee78b65090db437ceeb61b35ed4e4d929427624",
-        "replacement_prepared": true,
-        "strict_tls": true,
-        "fingerprint_match": true,
-        "https": 200,
-        "negative_untrusted": true,
-        "negative_hostname": true,
-        "negative_fingerprint": true
-      },
-      "retained": {
-        "host": "Darwin",
-        "cli": "xcsh/23.0.1",
-        "binary_sha256": "b2ef583e3a3b3db106cf3c3b0ee78b65090db437ceeb61b35ed4e4d929427624",
+      "commands": [
+        {
+          "tag": "main-0",
+          "sha256": "6cb3b668fe70a815562d79ac8caf5165293807815f44d6e914224d00827ce3a3",
+          "success": true
+        },
+        {
+          "tag": "main-1",
+          "sha256": "203d2bfde7997b19cb698ef0c9efa994f6adc2d627bd43560c8bcffb09831949",
+          "success": true
+        },
+        {
+          "tag": "main-2",
+          "sha256": "16a4cdf4fb53a82e3bc923f85a8c8943f0c3447223498dadee723733d61a1d66",
+          "success": true
+        },
+        {
+          "tag": "main-3",
+          "sha256": "d5c66e7d1ce89e5656369147a35b1e488dc51861735e6a765295648d9abc8f2b",
+          "success": true
+        },
+        {
+          "tag": "main-4",
+          "sha256": "b3d0ac21da2ff6a6ccc470251eae3245019f2de1c85cf6e74b71da586ca7e338",
+          "success": true
+        },
+        {
+          "tag": "main-5",
+          "sha256": "335dfbc20a1a72dd276494dd3337997c371c50a39e6aab7e753f370476890fbc",
+          "success": true
+        },
+        {
+          "tag": "main-6",
+          "sha256": "3a50e7e9c04a1872efa02cf46ef1b5b0a2907d6ed2f3d817314988c2cafbe56a",
+          "success": true
+        },
+        {
+          "tag": "variant-0",
+          "sha256": "bc7853e093fc2a39ee3b01cdf05a0519f519f98536ac8966aec10005742540f0",
+          "success": true
+        },
+        {
+          "tag": "variant-1",
+          "sha256": "4caba94b5dc3ea3e821da66c9224fe56e2718cabdf914a3bf2ad3db47f895b8a",
+          "success": true
+        },
+        {
+          "tag": "variant-2",
+          "sha256": "50a4f5568bf8b0df987a71ecbb0fc077e50e4d92fe694f579487e4c166451ece",
+          "success": true
+        }
+      ],
+      "created": "created",
+      "identical_reapply": "unchanged",
+      "replacement": "updated",
+      "showcase": {
         "read_only": true,
-        "strict_tls": true,
+        "trust": true,
+        "hostname": true,
         "fingerprint_match": true,
         "https": 200,
+        "json_response": true,
         "public_certificate_sha256": "16ae68023040b4c7f99484bf0308aa8702575f88d62f90b74a1f620a0bd6c1a3"
-      }
+      },
+      "input_variants": {
+        "protected_pem": true,
+        "pkcs12": true,
+        "raw_stdin": true
+      },
+      "mode_0600": true,
+      "reference_help_operations": 9,
+      "temporary_named_not_found": true,
+      "retained_resources_unchanged": true,
+      "owner_artifacts_unchanged": true
     }
   },
-  "assistant": {
-    "assistant_cases": [
+  "rendered_navigation": {
+    "views": [
       {
-        "operation": "encrypt",
-        "successful_tool_result": true,
-        "mode_0600": true,
-        "provider_tool_containment": true
+        "width": 1440,
+        "page": "overview",
+        "three_page_menu": true,
+        "current_expanded": true,
+        "keyboard": true,
+        "headings": 4,
+        "links": true,
+        "no_horizontal_overflow": true
       },
       {
-        "operation": "certificate",
-        "successful_tool_result": true,
-        "mode_0600": true,
-        "provider_tool_containment": true
+        "width": 1440,
+        "page": "input-workflows/",
+        "three_page_menu": true,
+        "current_expanded": true,
+        "keyboard": true,
+        "headings": 3,
+        "links": true,
+        "no_horizontal_overflow": true
+      },
+      {
+        "width": 1440,
+        "page": "command-reference/",
+        "three_page_menu": true,
+        "current_expanded": true,
+        "keyboard": true,
+        "headings": 4,
+        "links": true,
+        "no_horizontal_overflow": true
+      },
+      {
+        "width": 390,
+        "page": "overview",
+        "three_page_menu": true,
+        "current_expanded": true,
+        "keyboard": true,
+        "headings": 4,
+        "links": true,
+        "no_horizontal_overflow": true
+      },
+      {
+        "width": 390,
+        "page": "input-workflows/",
+        "three_page_menu": true,
+        "current_expanded": true,
+        "keyboard": true,
+        "headings": 3,
+        "links": true,
+        "no_horizontal_overflow": true
+      },
+      {
+        "width": 390,
+        "page": "command-reference/",
+        "three_page_menu": true,
+        "current_expanded": true,
+        "keyboard": true,
+        "headings": 4,
+        "links": true,
+        "no_horizontal_overflow": true
       }
     ],
-    "deployments": 0
-  },
-  "combined_commands": {
-    "create_preview": true,
-    "create_accepted": true,
-    "replace_preview": true,
-    "replace_accepted": true,
-    "exact_name_absent": true
-  },
-  "cleanup": {
-    "exact_names_absent": true,
-    "temporary_dns_absent": true,
-    "retained_certificate_unchanged": true,
-    "zone_records_unchanged": true,
-    "dns_serial_advanced": true
-  },
-  "rendered_navigation": {
-    "views": 16,
-    "desktop_width": 1440,
-    "mobile_width": 390,
-    "flat_order": true,
-    "current_page_expanded": true,
-    "keyboard": true,
-    "breadcrumbs_on_task_pages": true,
-    "pagination": true,
-    "local_links_and_fragments": true,
-    "no_horizontal_overflow": true,
-    "llms_full_removed_content_absent": true
+    "llms_full_removed_content_absent": true,
+    "external_links": true,
+    "page_errors": 0
   },
   "validation": {
-    "bash_blocks": 30,
-    "embedded_python_syntax": true,
+    "bash_blocks": 10,
     "markdown": true,
     "prose": true,
     "spelling": true,
     "pii": true,
     "secrets": true,
     "repo_hygiene": true,
+    "three_pages_only": true,
+    "removed_walkthrough_topics_absent": true,
+    "reader_version_requirements_absent": true,
     "builder_image": "ghcr.io/f5-sales-demo/docs-builder@sha256:049219671eb53fb884af5a529ab638ba01894492ac6918da76bc17a069607e72"
   },
+  "cleanup": {
+    "temporary_certificates_named_not_found_on_both_hosts": true,
+    "showcase_certificate_unchanged": true,
+    "dns_zone_unchanged": true,
+    "load_balancers_and_origin_pool_unchanged": true,
+    "existing_owner_artifacts_unchanged": true
+  },
   "limitations": [
-    "Checks establish HTTPS after propagation, not uninterrupted service during rotation.",
-    "The retained showcase is self-signed and requires the published certificate as an explicit trust anchor."
+    "The showcase uses a self-signed certificate and the published explicit trust anchor.",
+    "Temporary certificate lifecycle checks do not measure uninterrupted HTTPS during rotation."
   ]
 }
