@@ -327,8 +327,8 @@ Run the walkthrough in one Bash session. Replace `<SAVED_CONTEXT_NAME>` and `<AP
        if read.returncode:
            raise SystemExit('Named load balancer read failed; inspect private report')
        spec = json.loads(Path('lb-readback.json').read_text())['results'][0]['resource']['spec']
-       if ('ready' not in str(spec.get('state', '')).lower()
-               or 'valid' not in str(spec.get('cert_state', '')).lower()):
+       if (spec.get('state') != 'VIRTUAL_HOST_READY'
+               or spec.get('cert_state') != 'CertificateValid'):
            time.sleep(3)
            continue
        for entry in spec.get('dns_info', []):
