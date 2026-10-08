@@ -3,16 +3,40 @@
   "verified_at": "2026-10-08T12:51:19.094002+00:00",
   "source_baseline": "6e51ab8b6d93a3409970bbe6242ab30788c66791",
   "issue": "https://github.com/f5-sales-demo/certificate-management/issues/11",
-  "source_pages": {
-    "docs/en/xcsh/assistant-workflow.md": "fe89914eb3572f8ceceb988f424aa1b5f41befba89c045737be08a14ac8d9558",
-    "docs/en/xcsh/command-reference.md": "a5839a30e87300c056bd2f677a41abe4fa0eba6938ea20f83d333cf9c115cc0d",
-    "docs/en/xcsh/create-certificates.md": "5b2c1ae5552b8e018dfc5b28724daff79e924e070eba859d8bb6594ddeaf68a7",
-    "docs/en/xcsh/encrypt-private-keys.md": "d8e68806139c85a0df22f76b8eb3824c69d3f8406f56fca4b37126b276cf940c",
-    "docs/en/xcsh/index.md": "0b5eae85d781fefb7720522acce363b9bf06d6ecf0692f789cd732ed16fc05a9",
-    "docs/en/xcsh/input-workflows.md": "6b85179ff8c67573527c39a2202edcd2c84a09d90092dd26e11a9ab8a8027b3a",
-    "docs/en/xcsh/troubleshooting.md": "0982a1f48764cd2ecc3c2e85e9c2289fca03f4a9607ae4c8221d28ddebfd613f",
-    "docs/en/xcsh/verify-and-rotate.md": "e2a7ba4477413d4b1017c11f6b2912b83fabb93b760c27bae01e21d92b1f4a2d"
-  },
+  "source_pages": [
+    {
+      "path": "docs/en/xcsh/assistant-workflow.md",
+      "sha256": "fe89914eb3572f8ceceb988f424aa1b5f41befba89c045737be08a14ac8d9558"
+    },
+    {
+      "path": "docs/en/xcsh/command-reference.md",
+      "sha256": "a5839a30e87300c056bd2f677a41abe4fa0eba6938ea20f83d333cf9c115cc0d"
+    },
+    {
+      "path": "docs/en/xcsh/create-certificates.md",
+      "sha256": "5b2c1ae5552b8e018dfc5b28724daff79e924e070eba859d8bb6594ddeaf68a7"
+    },
+    {
+      "path": "docs/en/xcsh/encrypt-private-keys.md",
+      "sha256": "d8e68806139c85a0df22f76b8eb3824c69d3f8406f56fca4b37126b276cf940c"
+    },
+    {
+      "path": "docs/en/xcsh/index.md",
+      "sha256": "0b5eae85d781fefb7720522acce363b9bf06d6ecf0692f789cd732ed16fc05a9"
+    },
+    {
+      "path": "docs/en/xcsh/input-workflows.md",
+      "sha256": "6b85179ff8c67573527c39a2202edcd2c84a09d90092dd26e11a9ab8a8027b3a"
+    },
+    {
+      "path": "docs/en/xcsh/troubleshooting.md",
+      "sha256": "0982a1f48764cd2ecc3c2e85e9c2289fca03f4a9607ae4c8221d28ddebfd613f"
+    },
+    {
+      "path": "docs/en/xcsh/verify-and-rotate.md",
+      "sha256": "e2a7ba4477413d4b1017c11f6b2912b83fabb93b760c27bae01e21d92b1f4a2d"
+    }
+  ],
   "public_endpoint": "https://certificate-management.f5-sales-demo.com/get",
   "public_certificate": {
     "path": "assets/certificate-management.pem",
