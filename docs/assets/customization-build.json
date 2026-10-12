@@ -1,0 +1,11 @@
+{
+  "builder_version": "1.10.0",
+  "builder_source": "bbbc401d4ca6ab137bfd49fc25b31f053df227ef",
+  "builder_digest": "sha256:4877c9eb61f59a37bd0a38dd5f2ad6bd8fd96c66685bdca0397e4d1b71e4beb5",
+  "publication_run": "https://github.com/f5-sales-demo/docs-builder/actions/runs/38303961443",
+  "independent_immutable_tests": 30,
+  "browser_clipboards": 60,
+  "links_fragments": 166,
+  "canonical_downloads": 76,
+  "historical_assets": 26
+}
