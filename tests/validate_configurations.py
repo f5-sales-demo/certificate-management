@@ -22,7 +22,7 @@ env.pop("XCSH_API_URL", None)
 receipt: dict[str, dict[str, int]] = {"runnable": {}, "reference": {}}
 terraform_path = shutil.which("terraform")
 assert terraform_path is not None
-terraform = str(Path(terraform_path).resolve())
+TERRAFORM = str(Path(terraform_path).resolve())
 for group, directories in [
     ("runnable", sorted((root / "terraform").glob("*/versions.tf"))),
     ("reference", sorted((root / "terraform/reference").glob("*/versions.tf.example"))),
@@ -39,7 +39,7 @@ for group, directories in [
             ["validate", "-json"],
         ]:
             result = subprocess.run(  # noqa: S603 -- fixed Terraform subcommands and repository-owned paths.
-                [terraform, "-chdir=" + str(dest), *command],
+                [TERRAFORM, "-chdir=" + str(dest), *command],
                 env=env,
                 capture_output=True,
                 check=False,
