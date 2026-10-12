@@ -1,0 +1,309 @@
+{
+  "desktop_mobile_clipboards": [
+    {
+      "width": 1440,
+      "route": "terraform/",
+      "clipboard_sha256": "66b2344d7a448ac1f4d11d7ba6ef6cba734bf8fb340c0a40072d7cf78c8ef8fc"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/",
+      "clipboard_sha256": "682d72f7ebad97f977dd2e068d0edd00b7bb14d633b61eed7e989940878a0b97"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/",
+      "clipboard_sha256": "5f64e646dabed6787c0828d73b7c047082d223f02dfe478b6e7e8283fff8f1f6"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/",
+      "clipboard_sha256": "43273a10e154ffbaf5794a6999ba5e1c18c7b133276a41861134869245dbcc23"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/",
+      "clipboard_sha256": "1fe79723e68adb7c33a487a4d8f8cae5de404f52d2d42242a93c158dbb371255"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/",
+      "clipboard_sha256": "29399b66fd9f6a2a986a67ab42373be02f1619531c8252cb6448b9cf6aae9634"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/",
+      "clipboard_sha256": "e51d75c0cab718d37790d19473a9b38c0cb70e9ba2a05050a26465dff3fd7aed"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "de8be442451062f949770e2e5ea69891a8a6899766819b22e6751587d5228a21"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "1ee787d450b978972658cfb49e8871dbea5969ba1f97938ae8bbcb66d0f31ca1"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "918cad800eab87d39a84c2384dc788cf528cc186044193b2ac2a9e1cd13da8be"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "1f92e8c4b243a134f41f641e04988f7dd2dba83265bde82a51210a1e57f547e4"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "672baa2386f7d41fe3bc4a76a796567b89aa74ff79637225642faeb34d781864"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "e8a77ad7c19ff55cbcc95d998545ab2a3bdeb52f2ac63be8531025f5083d52f3"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "64fc5c1766dec3c5550d4934e4eab183a0d0a1d6fb3b60a04440d14650b8911b"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "e1431b70d680ca19c2814adcf2448aa07a1cb5feedc383014bb27df460dd33a9"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "5871960f128f3b37b3e730431c4eff0b64126415427108775885e3efe4c201e7"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/certificate-surfaces/",
+      "clipboard_sha256": "e19d370ecc0e9f7da1b0bf547507d0774bc3394e25b2fe8da7585e634797ac15"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/certificate-surfaces/",
+      "clipboard_sha256": "1e930f0d616ea7f574cca949a190d21612788b0ae7215268999003fb255bda35"
+    },
+    {
+      "width": 1440,
+      "route": "terraform/certificate-surfaces/",
+      "clipboard_sha256": "0963b9867bd3ead5b9c5ecdfef81dc427af6e2a2feae2c899c6f56eae205ff1d"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/",
+      "clipboard_sha256": "88c99a4ad6e0229b13b89f57ea930a0c09c1a2c8b1559d8555277f7aa6bd7747"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/",
+      "clipboard_sha256": "f8895a586cfef2b41891a3a3aff391e53017cc715adebfb65a8a7faf9974beaa"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/",
+      "clipboard_sha256": "ff52a039782a2bda3ede6ad52b49f58eda51523055187fc59d4286485645a00e"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/",
+      "clipboard_sha256": "6cbc768526a35ff7bcea94f529e4cd01eb6d55cdd567b9ec7efb86c309a3f875"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/",
+      "clipboard_sha256": "5b56a4895d3d423f3f00aeb277ae3e92ea9da116f2f3fce21bc738544be8bd9d"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/",
+      "clipboard_sha256": "47d7b58d5a7b0baf83effdd810dc09579ef3e02189fd7168d6393505ad6ab5e0"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/",
+      "clipboard_sha256": "0068eb843d2b26b693d0dfd8f6003dbf0e6a274b1cce7c85fa726444b2c2aa66"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/",
+      "clipboard_sha256": "722d923dd688085b1b0ab33849d6961ea3ac82741379a9cb64d0854c90dcab0b"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/input-workflows/",
+      "clipboard_sha256": "c2a58f67f481efbcfd27f3e21282ab6f6d7dd4aa9cfd933c6a2134fb50b313b9"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/input-workflows/",
+      "clipboard_sha256": "fcafe7a78a283e5f8ad8ed7069388c2e3ac360489a5545cfbe81d17651a90550"
+    },
+    {
+      "width": 1440,
+      "route": "xcsh/input-workflows/",
+      "clipboard_sha256": "eab4ca034c990da85885aa9c06569ad672b7c511238d5d15a0ba9dcdd4f73fc7"
+    },
+    {
+      "width": 390,
+      "route": "terraform/",
+      "clipboard_sha256": "66b2344d7a448ac1f4d11d7ba6ef6cba734bf8fb340c0a40072d7cf78c8ef8fc"
+    },
+    {
+      "width": 390,
+      "route": "terraform/",
+      "clipboard_sha256": "682d72f7ebad97f977dd2e068d0edd00b7bb14d633b61eed7e989940878a0b97"
+    },
+    {
+      "width": 390,
+      "route": "terraform/",
+      "clipboard_sha256": "5f64e646dabed6787c0828d73b7c047082d223f02dfe478b6e7e8283fff8f1f6"
+    },
+    {
+      "width": 390,
+      "route": "terraform/",
+      "clipboard_sha256": "43273a10e154ffbaf5794a6999ba5e1c18c7b133276a41861134869245dbcc23"
+    },
+    {
+      "width": 390,
+      "route": "terraform/",
+      "clipboard_sha256": "1fe79723e68adb7c33a487a4d8f8cae5de404f52d2d42242a93c158dbb371255"
+    },
+    {
+      "width": 390,
+      "route": "terraform/",
+      "clipboard_sha256": "29399b66fd9f6a2a986a67ab42373be02f1619531c8252cb6448b9cf6aae9634"
+    },
+    {
+      "width": 390,
+      "route": "terraform/",
+      "clipboard_sha256": "e51d75c0cab718d37790d19473a9b38c0cb70e9ba2a05050a26465dff3fd7aed"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "de8be442451062f949770e2e5ea69891a8a6899766819b22e6751587d5228a21"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "1ee787d450b978972658cfb49e8871dbea5969ba1f97938ae8bbcb66d0f31ca1"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "918cad800eab87d39a84c2384dc788cf528cc186044193b2ac2a9e1cd13da8be"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "1f92e8c4b243a134f41f641e04988f7dd2dba83265bde82a51210a1e57f547e4"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "672baa2386f7d41fe3bc4a76a796567b89aa74ff79637225642faeb34d781864"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "e8a77ad7c19ff55cbcc95d998545ab2a3bdeb52f2ac63be8531025f5083d52f3"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "64fc5c1766dec3c5550d4934e4eab183a0d0a1d6fb3b60a04440d14650b8911b"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "e1431b70d680ca19c2814adcf2448aa07a1cb5feedc383014bb27df460dd33a9"
+    },
+    {
+      "width": 390,
+      "route": "terraform/input-lifecycle/",
+      "clipboard_sha256": "5871960f128f3b37b3e730431c4eff0b64126415427108775885e3efe4c201e7"
+    },
+    {
+      "width": 390,
+      "route": "terraform/certificate-surfaces/",
+      "clipboard_sha256": "e19d370ecc0e9f7da1b0bf547507d0774bc3394e25b2fe8da7585e634797ac15"
+    },
+    {
+      "width": 390,
+      "route": "terraform/certificate-surfaces/",
+      "clipboard_sha256": "1e930f0d616ea7f574cca949a190d21612788b0ae7215268999003fb255bda35"
+    },
+    {
+      "width": 390,
+      "route": "terraform/certificate-surfaces/",
+      "clipboard_sha256": "0963b9867bd3ead5b9c5ecdfef81dc427af6e2a2feae2c899c6f56eae205ff1d"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/",
+      "clipboard_sha256": "88c99a4ad6e0229b13b89f57ea930a0c09c1a2c8b1559d8555277f7aa6bd7747"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/",
+      "clipboard_sha256": "f8895a586cfef2b41891a3a3aff391e53017cc715adebfb65a8a7faf9974beaa"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/",
+      "clipboard_sha256": "ff52a039782a2bda3ede6ad52b49f58eda51523055187fc59d4286485645a00e"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/",
+      "clipboard_sha256": "6cbc768526a35ff7bcea94f529e4cd01eb6d55cdd567b9ec7efb86c309a3f875"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/",
+      "clipboard_sha256": "5b56a4895d3d423f3f00aeb277ae3e92ea9da116f2f3fce21bc738544be8bd9d"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/",
+      "clipboard_sha256": "47d7b58d5a7b0baf83effdd810dc09579ef3e02189fd7168d6393505ad6ab5e0"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/",
+      "clipboard_sha256": "0068eb843d2b26b693d0dfd8f6003dbf0e6a274b1cce7c85fa726444b2c2aa66"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/",
+      "clipboard_sha256": "722d923dd688085b1b0ab33849d6961ea3ac82741379a9cb64d0854c90dcab0b"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/input-workflows/",
+      "clipboard_sha256": "c2a58f67f481efbcfd27f3e21282ab6f6d7dd4aa9cfd933c6a2134fb50b313b9"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/input-workflows/",
+      "clipboard_sha256": "fcafe7a78a283e5f8ad8ed7069388c2e3ac360489a5545cfbe81d17651a90550"
+    },
+    {
+      "width": 390,
+      "route": "xcsh/input-workflows/",
+      "clipboard_sha256": "eab4ca034c990da85885aa9c06569ad672b7c511238d5d15a0ba9dcdd4f73fc7"
+    }
+  ],
+  "session_credentials": true,
+  "reset_clear": true,
+  "storage_disabled": true,
+  "canonical_downloads_unchanged": true,
+  "historical_exclusion": true
+}

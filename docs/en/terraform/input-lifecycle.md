@@ -19,14 +19,55 @@ Native Blindfold preparation validates the matching key and leaf-first certifica
 
 `certificate_pem` is public material. Never put a plaintext key or bundle into ordinary variables, `file()` attributes, outputs, or legacy `clear_secret_info`. `sensitive = true` hides a value from display but does not prevent storage.
 
-Enter a protected-file passphrase without echo, export it only for the session, and set `blindfold.passphrase_env = "TLS_INPUT_PASSWORD"`. Unset it after Terraform exits. Avoid command-line passphrase arguments.
+Enter a protected-file passphrase without echo, export it only for the session, and set `blindfold.passphrase_env = "XCSH_TLS_INPUT_PASSWORD"`. Unset it after Terraform exits. Avoid command-line passphrase arguments.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_TLS_INPUT_PASSWORD">
 
 ```bash
-read -r -s TLS_INPUT_PASSWORD
-export TLS_INPUT_PASSWORD
+if [ -z "${XCSH_TLS_INPUT_PASSWORD:-}" ]; then
+  read -r -s -p 'Input passphrase: ' XCSH_TLS_INPUT_PASSWORD
+  printf '\n'
+fi
+export XCSH_TLS_INPUT_PASSWORD
 ```
 
+</div>
+
 These schema-checked fragments illustrate write-only input wiring; they are not complete deployment configurations:
+
+For a protected PEM input, map its path to the existing variable and add `passphrase_env = "XCSH_TLS_INPUT_PASSWORD"` to that resource's `blindfold` object. Keep the passphrase in the environment until both planning and applying finish, then unset it. The variable name is fixed; the passphrase value never enters HCL.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_CERT_FILE XCSH_PROTECTED_KEY_FILE">
+
+```bash
+export TF_VAR_certificate_file="$XCSH_CERT_FILE"
+export TF_VAR_private_key_file="$XCSH_PROTECTED_KEY_FILE"
+```
+
+</div>
+
+For a P12 variant in a separate private configuration, declare a string variable `pkcs12_file` and replace the PEM selectors with this object:
+
+<div data-xcsh-context="hcl" data-xcsh-fields="">
+
+```hcl
+blindfold = {
+  pkcs12_file    = var.pkcs12_file
+  passphrase_env = "XCSH_TLS_INPUT_PASSWORD"
+}
+```
+
+</div>
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_P12_FILE">
+
+```bash
+export TF_VAR_pkcs12_file="$XCSH_P12_FILE"
+```
+
+</div>
+
+<div data-xcsh-context="hcl" data-xcsh-fields="">
 
 ```hcl
 variable "private_key" {
@@ -45,6 +86,20 @@ variable "material_version" {
 # }
 ```
 
+</div>
+
+Map the write-only version to its native variable. To supply a write-only PEM key, read its file into the declared ephemeral sensitive variable in the shell; never save it in a variable file:
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_MATERIAL_VERSION XCSH_KEY_FILE">
+
+```bash
+export TF_VAR_material_version="$XCSH_MATERIAL_VERSION"
+TF_VAR_private_key="$(cat "$XCSH_KEY_FILE")"
+export TF_VAR_private_key
+```
+
+</div>
+
 For P12, use `pkcs12_wo = var.pkcs12_base64` and `passphrase_wo = var.passphrase` with both variables declared `sensitive` and `ephemeral`. Remove
 other key/certificate input selectors. Increase `material_version` whenever a write-only input changes; Terraform cannot derive a change from a value
 it deliberately does not persist. Reusing a version is a declaration that the material is unchanged. Supply ephemeral values again when applying a
@@ -59,6 +114,20 @@ encrypted output and maps provenance by ID, rather than by list position. The de
 The qualified insertion/reorder/removal test uses one RSA and one EC entry. Respect the consumer’s algorithm/list constraints. Duplicate or missing
 IDs are invalid. Give a replacement logical certificate
 a new ID if its role changes.
+
+Use `<XCSH_CERT_ID>` for the logical identity in a local inline fragment; the published example's structural resource labels remain fixed:
+
+<div data-xcsh-context="hcl" data-xcsh-fields="XCSH_CERT_ID XCSH_CERT_FILE XCSH_KEY_FILE">
+
+```hcl
+blindfold = {
+  id               = "<XCSH_CERT_ID>"
+  certificate_file = "<XCSH_CERT_FILE>"
+  private_key_file = "<XCSH_KEY_FILE>"
+}
+```
+
+</div>
 
 ## Policy and context rotation
 
@@ -95,16 +164,31 @@ serving for each intended client before retiring an entry.
 
 Transport Layer Security (TLS) interception signs new leaf certificates. Generate a separate signing certificate authority (CA) and distribute only its public trust certificate to authorized clients. The showcase’s `CA:false` server certificate cannot act as this CA.
 
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_INTERCEPTION_CA_FILE XCSH_INTERCEPTION_KEY_FILE">
+
 ```bash
 umask 077
-mkdir -p "$XCSH_WORKDIR/interception"
+mkdir -p "$(dirname "$XCSH_INTERCEPTION_CA_FILE")" "$(dirname "$XCSH_INTERCEPTION_KEY_FILE")"
 openssl req -x509 -newkey rsa:2048 -nodes -sha256 -days 3650 \
   -subj '/CN=Example interception CA' \
   -addext 'basicConstraints=critical,CA:true,pathlen:0' \
   -addext 'keyUsage=critical,keyCertSign,cRLSign' \
-  -keyout "$XCSH_WORKDIR/interception/ca-key.pem" \
-  -out "$XCSH_WORKDIR/interception/ca.pem"
+  -keyout "$XCSH_INTERCEPTION_KEY_FILE" \
+  -out "$XCSH_INTERCEPTION_CA_FILE"
 ```
+
+</div>
+
+Map the signing CA files in a separate state for interception:
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_INTERCEPTION_CA_FILE XCSH_INTERCEPTION_KEY_FILE">
+
+```bash
+export TF_VAR_certificate_file="$XCSH_INTERCEPTION_CA_FILE"
+export TF_VAR_private_key_file="$XCSH_INTERCEPTION_KEY_FILE"
+```
+
+</div>
 
 Supply these CA files to the [proxy interception
 example](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/proxy-intercept). It is not advertised by default. Serving

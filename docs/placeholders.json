@@ -1,0 +1,77 @@
+{
+  "version": 2,
+  "fields": [
+    "XCSH_API_URL",
+    "XCSH_API_TOKEN",
+    "XCSH_NAMESPACE",
+    "XCSH_LB_NAME",
+    "XCSH_DOMAINNAME",
+    "XCSH_DNS_ZONE",
+    "XCSH_ORIGIN_HOSTNAME",
+    "XCSH_ORIGIN_POOL_NAME",
+    "XCSH_COMPANION_DOMAINNAME",
+    "XCSH_WORKDIR",
+    "XCSH_CERT_NAME",
+    "XCSH_CERT_ID",
+    "XCSH_CERT_FILE",
+    "XCSH_KEY_FILE",
+    "XCSH_RENEWED_CERT_FILE",
+    "XCSH_RENEWED_KEY_FILE",
+    "XCSH_PROTECTED_KEY_FILE",
+    "XCSH_P12_FILE",
+    "XCSH_TLS_INPUT_PASSWORD",
+    "XCSH_MATERIAL_VERSION",
+    "XCSH_ORIGIN_CA_FILE",
+    "XCSH_INTERCEPTION_CA_FILE",
+    "XCSH_INTERCEPTION_KEY_FILE",
+    "XCSH_VIRTUAL_SITE_NAME",
+    "XCSH_VIRTUAL_SITE_NAMESPACE",
+    "XCSH_CONTAINER_IMAGE"
+  ],
+  "groups": [
+    {
+      "label": "Tenant and application",
+      "keys": [
+        "XCSH_API_URL",
+        "XCSH_API_TOKEN",
+        "XCSH_NAMESPACE",
+        "XCSH_LB_NAME",
+        "XCSH_DOMAINNAME",
+        "XCSH_DNS_ZONE",
+        "XCSH_ORIGIN_HOSTNAME",
+        "XCSH_ORIGIN_POOL_NAME",
+        "XCSH_COMPANION_DOMAINNAME"
+      ]
+    },
+    {
+      "label": "Certificate inputs",
+      "keys": ["XCSH_WORKDIR", "XCSH_CERT_NAME", "XCSH_CERT_ID", "XCSH_CERT_FILE", "XCSH_KEY_FILE"]
+    },
+    {
+      "label": "Renewal and protected inputs",
+      "keys": [
+        "XCSH_RENEWED_CERT_FILE",
+        "XCSH_RENEWED_KEY_FILE",
+        "XCSH_PROTECTED_KEY_FILE",
+        "XCSH_P12_FILE",
+        "XCSH_TLS_INPUT_PASSWORD",
+        "XCSH_MATERIAL_VERSION"
+      ]
+    },
+    {
+      "label": "Prerequisite settings",
+      "keys": [
+        "XCSH_ORIGIN_CA_FILE",
+        "XCSH_INTERCEPTION_CA_FILE",
+        "XCSH_INTERCEPTION_KEY_FILE",
+        "XCSH_VIRTUAL_SITE_NAME",
+        "XCSH_VIRTUAL_SITE_NAMESPACE",
+        "XCSH_CONTAINER_IMAGE"
+      ]
+    }
+  ],
+  "behavior": {
+    "fallbackToDefaults": true,
+    "environmentCredentials": true
+  }
+}

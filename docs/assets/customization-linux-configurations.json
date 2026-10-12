@@ -1,0 +1,31 @@
+{
+  "runnable": {
+    "advertise-tls": 0,
+    "cdn-origin-mtls": 0,
+    "cdn-server-tls": 0,
+    "cluster-tls": 0,
+    "http-origin-mtls": 0,
+    "inline-server-tls": 0,
+    "named-certificate": 0,
+    "origin-mtls": 0,
+    "proxy-intercept": 0,
+    "proxy-tls": 0,
+    "secret-access-tls": 0,
+    "tcp-tls": 0,
+    "virtual-host-tls": 0,
+    "workload-service-custom": 0,
+    "workload-service-public-multi": 0,
+    "workload-service-public-single": 0
+  },
+  "reference": {
+    "bigip-server-tls": 0,
+    "connector-intercept": 0,
+    "nfv-advertise_on_sli_vip": 0,
+    "nfv-advertise_on_slo_internet_vip": 0,
+    "nfv-advertise_on_slo_sli": 0,
+    "nfv-advertise_on_slo_vip": 0,
+    "workload-stateful_service-custom": 0,
+    "workload-stateful_service-public-multi": 0,
+    "workload-stateful_service-public-single": 0
+  }
+}
