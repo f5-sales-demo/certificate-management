@@ -1,0 +1,64 @@
+resource "xcsh_workload" "example" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  service {
+    num_replicas = 1
+    containers {
+      name           = "synthetic"
+      init_container = false
+      default_flavor = {}
+      image {
+        name        = var.image
+        public      = {}
+        pull_policy = "IMAGE_PULL_POLICY_DEFAULT"
+      }
+    }
+    deploy_options {
+      deploy_ce_virtual_sites {
+        virtual_site {
+          name      = var.virtual_site_name
+          namespace = var.virtual_site_namespace
+        }
+      }
+    }
+    advertise_options {
+      advertise_on_public {
+        multi_ports {
+          ports {
+            port {
+              info {
+                port        = 443
+                target_port = 8080
+                protocol    = "PROTOCOL_HTTP"
+              }
+              name = "https"
+            }
+            http_loadbalancer {
+              domains = [var.domain]
+              default_route {
+                disable_host_rewrite = {}
+              }
+              https {
+                port                  = 443
+                default_header        = {}
+                enable_path_normalize = {}
+                default_loadbalancer  = {}
+                tls_parameters {
+                  no_mtls = {}
+                  tls_config {
+                    default_security = {}
+                  }
+                  tls_certificates {
+                    blindfold = { id = "server", certificate_file = var.certificate_file, private_key_file = var.private_key_file }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

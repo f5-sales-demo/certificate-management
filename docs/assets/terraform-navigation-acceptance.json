@@ -1,0 +1,72 @@
+[
+  {
+    "width": 1440,
+    "page": "/en/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 1440,
+    "page": "/en/terraform/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 1440,
+    "page": "/en/terraform/input-lifecycle/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 1440,
+    "page": "/en/terraform/certificate-surfaces/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 1440,
+    "page": "/en/xcsh/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 390,
+    "page": "/en/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 390,
+    "page": "/en/terraform/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 390,
+    "page": "/en/terraform/input-lifecycle/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 390,
+    "page": "/en/terraform/certificate-surfaces/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  },
+  {
+    "width": 390,
+    "page": "/en/xcsh/",
+    "links_fragments": true,
+    "navigation": true,
+    "no_page_overflow": true
+  }
+]

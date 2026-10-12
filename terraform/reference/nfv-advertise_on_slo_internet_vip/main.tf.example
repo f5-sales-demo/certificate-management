@@ -1,0 +1,15 @@
+# Fragment: requires a separately provisioned managed appliance and site.
+resource "xcsh_nfv_service" "example" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  https_management {
+    domain_suffix = var.domain
+    advertise_on_slo_internet_vip {
+      tls_certificates {
+        blindfold = { id = "server", certificate_file = var.certificate_file, private_key_file = var.private_key_file }
+      }
+    }
+  }
+}

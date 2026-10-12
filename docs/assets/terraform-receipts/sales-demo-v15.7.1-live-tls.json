@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "provider_version": "15.7.1",
+  "network_route": "direct tenant HTTPS with certificate verification",
+  "provider_sha256": "980682d5dd2c84641c04a8f4990625455c10de9698003629e25eb9ca3affe438",
+  "gates": {
+    "named_init": 0,
+    "named_initial_plan": 0,
+    "named_initial_apply": 0,
+    "named_initial_empty": 0,
+    "initial_named": {
+      "strict_trust_hostname": true,
+      "fingerprint_match": true,
+      "https": 200,
+      "served_sha256": "47727ac2ce51bd930b427543305cc5c7d3a92351ea5d62081e1b255483e87772"
+    },
+    "named_renewal_plan": 0,
+    "named_renewal_apply": 0,
+    "named_renewal_empty": 0,
+    "renewal_named": {
+      "strict_trust_hostname": true,
+      "fingerprint_match": true,
+      "https": 200,
+      "served_sha256": "44fa787bb72a2da08c8bbfe9578c357ddd4ed39590314aacea8ddbee5e7007ba"
+    },
+    "named_destroy_plan": 0,
+    "named_destroy": 0,
+    "inline_init": 0,
+    "inline_initial_plan": 0,
+    "inline_initial_apply": 0,
+    "inline_initial_empty": 0,
+    "initial_inline": {
+      "strict_trust_hostname": true,
+      "fingerprint_match": true,
+      "https": 200,
+      "served_sha256": "3c2522061f73bf434773cd65462d4866e8f4a2b0937d925983d1be9580621bc5"
+    },
+    "inline_renewal_plan": 0,
+    "inline_renewal_apply": 0,
+    "inline_renewal_empty": 0,
+    "renewal_inline": {
+      "strict_trust_hostname": true,
+      "fingerprint_match": true,
+      "https": 200,
+      "served_sha256": "b0701c57f7244d0e2afcffc1f78bee3afb279f3f603b3b32d43ddfcc2a0a6080"
+    },
+    "inline_destroy_plan": 0,
+    "inline_destroy": 0,
+    "destroy_plan": 0,
+    "destroy": 0
+  },
+  "cleanup_http": 404
+}
