@@ -1,0 +1,47 @@
+resource "xcsh_bigip_http_proxy" "example" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  proxy_advertisement {
+    do_not_advertise = {}
+  }
+  lb_algorithm {
+    round_robin {
+
+    }
+  }
+  proxy_config {
+    domains = [var.domain]
+    https {
+      port                  = 443
+      default_loadbalancer  = {}
+      default_header        = {}
+      enable_path_normalize = {}
+      tls_parameters {
+        no_mtls = {}
+        tls_config {
+          default_security = {}
+        }
+        tls_certificates {
+          blindfold = { id = "server", certificate_file = var.certificate_file, private_key_file = var.private_key_file }
+        }
+      }
+    }
+  }
+  origin_pools {
+    pools {
+      name     = "synthetic-origin"
+      priority = 1
+      weight   = 1
+      origin_servers {
+        port = 443
+        origin_servers {
+          public_name {
+            dns_name = var.domain
+          }
+        }
+      }
+    }
+  }
+}

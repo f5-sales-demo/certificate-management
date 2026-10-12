@@ -1,0 +1,11 @@
+{
+  "bigip-server-tls": 0,
+  "connector-intercept": 0,
+  "nfv-advertise_on_sli_vip": 0,
+  "nfv-advertise_on_slo_internet_vip": 0,
+  "nfv-advertise_on_slo_sli": 0,
+  "nfv-advertise_on_slo_vip": 0,
+  "workload-stateful_service-custom": 0,
+  "workload-stateful_service-public-multi": 0,
+  "workload-stateful_service-public-single": 0
+}

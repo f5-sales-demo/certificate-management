@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "provider_version": "15.7.1",
+  "provider_sha256": "980682d5dd2c84641c04a8f4990625455c10de9698003629e25eb9ca3affe438",
+  "network_route": "private diagnostic proxy with verified upstream HTTPS",
+  "gates": {
+    "init": 0,
+    "backend_plan": 0,
+    "backend_apply": 0,
+    "backend_empty": 0,
+    "backend_strict_trust_hostname_client_auth": true,
+    "backend_served_fingerprint_matches": true,
+    "backend_rejects_missing_client_certificate": true,
+    "named-origin_initial_plan": 0,
+    "named-origin_initial_apply": 0,
+    "named-origin_initial_empty": 0,
+    "named-origin_initial_provider_encrypted_client_https_success": true,
+    "named-origin_renewal_plan": 0,
+    "named-origin_renewal_apply": 0,
+    "named-origin_renewal_empty": 0,
+    "named-origin_renewal_provider_encrypted_client_https_success": true,
+    "named-origin_remove_plan": 0,
+    "named-origin_remove_apply": 0,
+    "destroy_plan": 0,
+    "destroy": 0
+  },
+  "cleanup_http": 404
+}

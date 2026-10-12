@@ -1,0 +1,20 @@
+resource "xcsh_network_connector" "example" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  sli_to_slo_snat {
+    interface_ip {
+
+    }
+  }
+  enable_forward_proxy {
+    tls_intercept {
+      enable_for_all_domains = {}
+      volterra_trusted_ca    = {}
+      custom_certificate {
+        blindfold = { id = "signing-ca", certificate_file = var.certificate_file, private_key_file = var.private_key_file }
+      }
+    }
+  }
+}

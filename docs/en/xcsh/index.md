@@ -11,6 +11,8 @@ tableOfContents:
 
 Use the latest [xcsh](https://f5-sales-demo.github.io/xcsh/) with an [authenticated environment](https://f5-sales-demo.github.io/xcsh/en/f5-distributed-cloud/contexts-namespaces/), existing certificate/key inputs, and your namespace in `XCSH_NAMESPACE`. Keep keys, encrypted artifacts, and resource reports in a private directory outside Git.
 
+For native Terraform preparation without the xcsh CLI, see the [Terraform walkthrough](../terraform/). Both retained endpoints serve the same public trust certificate; each tool owns separate resources.
+
 ## Public material
 
 The tenant public key and TLS secret policy provide the paired public material for local Blindfold encryption.
@@ -101,4 +103,6 @@ curl --silent --show-error --fail --cacert showcase-trust.pem \
   --output showcase-response.json --write-out '%{http_code}\n'
 ```
 
-Expect matching fingerprints and HTTP `200` with a JSON response. [Current evidence](../../assets/xcsh-showcase-acceptance.json) records the verified commands and endpoint checks; [Command reference](./command-reference/) lists flags, limits, and recovery guidance.
+Expect matching fingerprints and HTTP `200` with a JSON response. [Shared certificate evidence](../../assets/terraform-showcase-acceptance.json)
+records the current shared-certificate rotation and endpoint checks; [historical xcsh acceptance](../../assets/xcsh-showcase-acceptance.json) retains
+the earlier command measurements; [Command reference](./command-reference/) lists flags, limits, and recovery guidance.
