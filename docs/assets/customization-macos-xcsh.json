@@ -1,0 +1,61 @@
+{
+  "host": "Darwin",
+  "commands": [
+    {
+      "label": "main-0",
+      "exit": 0,
+      "source_sha256": "b2994fa5d273a777332dd156e3cf9fa35b980d59712361ced5914aaa98e3d832"
+    },
+    {
+      "label": "main-1",
+      "exit": 0,
+      "source_sha256": "6cb3b668fe70a815562d79ac8caf5165293807815f44d6e914224d00827ce3a3"
+    },
+    {
+      "label": "main-2",
+      "exit": 0,
+      "source_sha256": "294e2804a2ef6750d5b45fa558ad428122d65f969d262611b7f5b9d327b4bcfe"
+    },
+    {
+      "label": "main-3",
+      "exit": 0,
+      "source_sha256": "b190b45c746bdf47fddd218cd589e601e67f761c5985ecc5b1e9ad83fc145599"
+    },
+    {
+      "label": "main-4",
+      "exit": 0,
+      "source_sha256": "ddc8897dd3201da00f49319fec9adbc7571e700435d93e41693a3af7ea5d4033"
+    },
+    {
+      "label": "main-5",
+      "exit": 0,
+      "source_sha256": "08583ffbc78d31777ee0caba9b47d1d23095b3063683c99a44cadfe9627c8fe7"
+    },
+    {
+      "label": "main-6",
+      "exit": 0,
+      "source_sha256": "45536d46b9327fed679ab32010b0469b8544fd6c3890f6d6809eda19cfaf59b2"
+    },
+    {
+      "label": "variant-0",
+      "exit": 0,
+      "source_sha256": "99972fd81b3854edb59461840ed206d2854a7bba38e98bf736923fa46d4ad730"
+    },
+    {
+      "label": "variant-1",
+      "exit": 0,
+      "source_sha256": "f55f6d3811e51783a569ed0196c23526a4660532fa41bb6d668ac5be7a0344d8"
+    },
+    {
+      "label": "variant-2",
+      "exit": 0,
+      "source_sha256": "86a312152ffd9c877ff052603f1eeb90484a041b9a7e36dddc985ba6b4bc5ee1"
+    },
+    {
+      "label": "cleanup",
+      "exit": 0
+    }
+  ],
+  "protected_passphrase_literal": true,
+  "disposable_resource_removed": true
+}
