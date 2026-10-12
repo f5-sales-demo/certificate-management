@@ -1,0 +1,46 @@
+{
+  "host": "Darwin",
+  "source_sha256": "fa6827edfe071db0145bb01bf34d2242aef96008808c55cdd65d0ac77f82b416",
+  "fences": [
+    {
+      "index": 0,
+      "source_sha256": "1f7500a047cc32137907dc01c103d4b5377a4b2509eac5678eb81b31f5add286"
+    },
+    {
+      "index": 1,
+      "source_sha256": "7d6fbec7594ac228835ab726159965d536ce7aaf7e4fe62cbff76febc18bd612"
+    },
+    {
+      "index": 2,
+      "source_sha256": "0d0400f177769bb1a3a453b9335cc4abf688ea25286ff53d746589fa35c81b16"
+    },
+    {
+      "index": 3,
+      "source_sha256": "d3281466833971d31a736f4022f71cb0ac46ea11931a5b07647eeabbca2eb5c7"
+    },
+    {
+      "index": 4,
+      "source_sha256": "34d4230fb0b8eb91460db7be98ba1af042e41c2e81bfb776db0ea120cb39322b"
+    },
+    {
+      "index": 5,
+      "source_sha256": "3bb53791a68133ec463ea4ba1562c4585fab8a4cf5ab7a768cd4457bb40687b6"
+    },
+    {
+      "index": 6,
+      "source_sha256": "7c9c1630a5a4e2860d046abd58715a2381a05e33a46a8ec34938d19bb86ec753"
+    }
+  ],
+  "gates": {
+    "initial": 0,
+    "verify-initial-1": 1,
+    "verify-initial-2": 0,
+    "renewal": 0,
+    "verify-renewed-1": 0,
+    "secret_containment": true,
+    "cleanup": 0,
+    "cleanup_http": 404,
+    "all_documented_fences": true
+  },
+  "terraform_path_isolation": true
+}

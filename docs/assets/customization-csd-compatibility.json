@@ -1,0 +1,6 @@
+{
+  "csd_current_build": true,
+  "namespace_shared": true,
+  "load_balancer_shared": true,
+  "same_tab_credentials_shared": true
+}

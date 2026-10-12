@@ -62,6 +62,50 @@ Cluster, advertise-policy, proxy, secret-access, TCP, and virtual-host examples 
 concrete traffic consumer. Service-workload examples require an existing customer-edge (CE) virtual site with workload capacity and an available
 container image. A configuration lifecycle pass with an empty qualification selector does not establish running workload traffic.
 
+## Map prerequisite values
+
+The form uses `<XCSH_NAMESPACE>`, `<XCSH_LB_NAME>`, and `<XCSH_DOMAINNAME>` for deployment settings. The named-certificate configuration uses the same `var.name` for its certificate and HTTPS load balancer; `<XCSH_CERT_NAME>` belongs to the separately owned xcsh certificate. `<XCSH_DNS_ZONE>` identifies your prerequisite zone; the named example manages a hostname association and has no zone variable.
+
+Export the existing native variables for the configuration you choose. Each configuration ignores variables it does not declare. Create a separate directory and state for each configuration; never copy several configurations into one directory.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE XCSH_LB_NAME XCSH_DOMAINNAME XCSH_CERT_FILE XCSH_KEY_FILE XCSH_ORIGIN_HOSTNAME XCSH_ORIGIN_CA_FILE XCSH_VIRTUAL_SITE_NAME XCSH_VIRTUAL_SITE_NAMESPACE XCSH_CONTAINER_IMAGE">
+
+```bash
+export TF_VAR_namespace="$XCSH_NAMESPACE"
+export TF_VAR_name="$XCSH_LB_NAME"
+export TF_VAR_domain="$XCSH_DOMAINNAME"
+export TF_VAR_certificate_file="$XCSH_CERT_FILE"
+export TF_VAR_private_key_file="$XCSH_KEY_FILE"
+export TF_VAR_origin_hostname="$XCSH_ORIGIN_HOSTNAME"
+export TF_VAR_origin_ca_file="$XCSH_ORIGIN_CA_FILE"
+export TF_VAR_virtual_site_name="$XCSH_VIRTUAL_SITE_NAME"
+export TF_VAR_virtual_site_namespace="$XCSH_VIRTUAL_SITE_NAMESPACE"
+export TF_VAR_image="$XCSH_CONTAINER_IMAGE"
+```
+
+</div>
+
+For the standalone origin-pool configuration, map the origin-pool name to its existing `name` variable:
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_ORIGIN_POOL_NAME">
+
+```bash
+export TF_VAR_name="$XCSH_ORIGIN_POOL_NAME"
+```
+
+</div>
+
+For `inline-server-tls`, construct the list using JSON encoding rather than shell interpolation into JSON. IDs stay attached to their logical certificate; native provider resource labels remain fixed.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_CERT_ID XCSH_CERT_FILE XCSH_KEY_FILE">
+
+```bash
+TF_VAR_certificates="$(python3 -c 'import json,os; print(json.dumps([{"id":os.environ["XCSH_CERT_ID"],"certificate_file":os.environ["XCSH_CERT_FILE"],"private_key_file":os.environ["XCSH_KEY_FILE"]}]))')"
+export TF_VAR_certificates
+```
+
+</div>
+
 ## Restricted reference fragments
 
 Files under [`terraform/reference`](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference) end in `.tf.example`. They illustrate schema paths and are excluded from normal `terraform apply` discovery. Review them against the installed schema; do not deploy them into the retained shared namespace.
