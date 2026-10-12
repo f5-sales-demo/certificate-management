@@ -22,7 +22,8 @@ PAGES = [
 ]
 ARTIFACTS = Path(
     os.environ.get(
-        "CERT_CUSTOMIZATION_ARTIFACTS", tempfile.mkdtemp(prefix="certificate-customization-browser-")
+        "CERT_CUSTOMIZATION_ARTIFACTS",
+        tempfile.mkdtemp(prefix="certificate-customization-browser-"),
     )
 )
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
@@ -36,7 +37,7 @@ with sync_playwright() as p:
             permissions=["clipboard-read", "clipboard-write"],
         )
         page = context.new_page()
-        errors = []
+        errors: list[str] = []
         page.on("pageerror", lambda error, errors=errors: errors.append(str(error)))
 
         def visit(route, page=page):
@@ -181,4 +182,6 @@ with sync_playwright() as p:
         "historical_exclusion": True,
     }
     (ARTIFACTS / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
-    sys.stdout.write(f"Browser acceptance passed: {len(checks)} desktop/mobile clipboard comparisons and persistence controls.\n")
+    sys.stdout.write(
+        f"Browser acceptance passed: {len(checks)} desktop/mobile clipboard comparisons and persistence controls.\n"
+    )

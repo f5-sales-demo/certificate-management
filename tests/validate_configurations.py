@@ -19,7 +19,10 @@ config.write_text("provider_installation { direct {} }\n")
 env = {**os.environ, "TF_CLI_CONFIG_FILE": str(config), "TF_IN_AUTOMATION": "1"}
 env.pop("XCSH_API_TOKEN", None)
 env.pop("XCSH_API_URL", None)
-receipt = {"runnable": {}, "reference": {}}
+receipt: dict[str, dict[str, int]] = {"runnable": {}, "reference": {}}
+terraform_path = shutil.which("terraform")
+assert terraform_path is not None
+terraform = str(Path(terraform_path).resolve())
 for group, directories in [
     ("runnable", sorted((root / "terraform").glob("*/versions.tf"))),
     ("reference", sorted((root / "terraform/reference").glob("*/versions.tf.example"))),
@@ -36,7 +39,7 @@ for group, directories in [
             ["validate", "-json"],
         ]:
             result = subprocess.run(  # noqa: S603 -- fixed Terraform subcommands and repository-owned paths.
-                [str(Path(shutil.which("terraform")).resolve()), "-chdir=" + str(dest), *command],
+                [terraform, "-chdir=" + str(dest), *command],
                 env=env,
                 capture_output=True,
                 check=False,
@@ -45,7 +48,9 @@ for group, directories in [
             (dest / (command[0] + ".out")).write_bytes(result.stdout)
             (dest / (command[0] + ".err")).write_bytes(result.stderr)
             if result.returncode:
-                message = f"{group}/{source.name} {command[0]} failed; private logs in {dest}"
+                message = (
+                    f"{group}/{source.name} {command[0]} failed; private logs in {dest}"
+                )
                 raise RuntimeError(message)
         receipt[group][source.name] = 0
 assert len(receipt["runnable"]) == 16
