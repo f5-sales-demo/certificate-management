@@ -8,11 +8,6 @@ variable "name" {
   description = "Unique name owned only by this Terraform state."
   default     = "example-tls"
 }
-variable "domain" {
-  type        = string
-  description = "Application hostname covered by the server certificate SAN."
-  default     = "tls.example.com"
-}
 variable "certificate_file" {
   type        = string
   description = "Absolute path to a leaf-first PEM chain outside Git."
