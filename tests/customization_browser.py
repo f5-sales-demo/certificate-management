@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import shutil
 import sys
 import tempfile
 from pathlib import Path
@@ -29,7 +30,17 @@ ARTIFACTS = Path(
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(executable_path="/usr/bin/google-chrome", headless=True)
+    browser_path = (
+        os.environ.get("CERT_BROWSER_EXECUTABLE")
+        or shutil.which("google-chrome")
+        or shutil.which("chromium-browser")
+        or shutil.which("chromium")
+    )
+    browser = (
+        p.chromium.launch(executable_path=browser_path, headless=True)
+        if browser_path
+        else p.chromium.launch(headless=True)
+    )
     checks = []
     for width, height in [(1440, 1000), (390, 844)]:
         context = browser.new_context(
