@@ -59,6 +59,12 @@ def main() -> None:
     )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if not any(
+        shutil.which(name) for name in ("google-chrome", "chromium-browser", "chromium")
+    ) and not os.environ.get("CERT_BROWSER_EXECUTABLE"):
+        subprocess.run(
+            [sys.executable, "-m", "playwright", "install", "chromium"], check=True
+        )
     root = Path(__file__).resolve().parents[1]
     work = Path(tempfile.mkdtemp(prefix="certificate-current-builder-"))
     content = work / "content"
