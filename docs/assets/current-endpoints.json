@@ -1,0 +1,17 @@
+{
+  "qualification": "credential-free published endpoints and source/download consistency",
+  "endpoints": {
+    "certificate-management.f5-sales-demo.com": {
+      "trusted_hostname": true,
+      "served_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+      "expected_response": true,
+      "http_redirect": 301
+    },
+    "certificate-management-terraform.f5-sales-demo.com": {
+      "trusted_hostname": true,
+      "served_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+      "expected_response": true,
+      "http_redirect": 301
+    }
+  }
+}

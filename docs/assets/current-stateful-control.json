@@ -1,0 +1,11 @@
+{
+  "virtual_sites": {
+    "write_http": 200
+  },
+  "workloads": {
+    "write_http": 500
+  },
+  "qualification": "stateful HTTP advertisement without TLS control only",
+  "encryption_or_served_tls": "not qualified",
+  "typed_absence_passes": 2
+}

@@ -1,0 +1,100 @@
+{
+  "restrictions": {
+    "reference/connector-intercept": {
+      "disposition": "api_drops_certificate_configuration",
+      "write_http": 200,
+      "encrypted_certificate_in_request": true,
+      "certificate_material_in_response": false,
+      "request_sha256": "f12f3974f30fa62fc6932df5d56128f08110a1bef11964fbab55dd280ab655e6",
+      "response_sha256": "440c57c885906e92f2eade2d097ef1af68fb840a2100f6dd9471a5988cea96e0",
+      "namespace": "system",
+      "configuration_lifecycle": "unqualified",
+      "served_tls": "unqualified",
+      "cleanup": "typed_absence_twice"
+    },
+    "reference/workload-stateful_service-custom": {
+      "disposition": "api_server_failure",
+      "write_http": 500,
+      "encrypted_certificate_in_request": true,
+      "certificate_material_in_response": false,
+      "request_sha256": "a7c56c8ffdf5d376018f8607dd399fbf6089c2689da3e66644e73cf60ceefafd",
+      "response_sha256": "044137d9880daec868f9da39cc6cd562295f87e16167e354ba46449f17f1af9d",
+      "namespace": "certificate-management",
+      "configuration_lifecycle": "failed",
+      "served_tls": "unqualified",
+      "cleanup": "typed_absence_twice",
+      "control_without_tls_receipt": "current-stateful-control.json"
+    },
+    "reference/workload-stateful_service-public-single": {
+      "disposition": "api_server_failure",
+      "write_http": 500,
+      "encrypted_certificate_in_request": true,
+      "certificate_material_in_response": false,
+      "request_sha256": "9eca1df64f8ca9b27365aef87df7c5fa9d5d78567b10024fe6a69272cdbe2272",
+      "response_sha256": "25eb6ae9329d8e29aef15ef08b3ba49754768e204e6f7b5729844863f57700d9",
+      "namespace": "certificate-management",
+      "configuration_lifecycle": "failed",
+      "served_tls": "unqualified",
+      "cleanup": "typed_absence_twice",
+      "control_without_tls_receipt": "current-stateful-control.json"
+    },
+    "reference/workload-stateful_service-public-multi": {
+      "disposition": "api_server_failure",
+      "write_http": 500,
+      "encrypted_certificate_in_request": true,
+      "certificate_material_in_response": false,
+      "request_sha256": "59f8ef9b184e0333690d2d5b1004969ff169eb0bc571345173cae91a170c68f8",
+      "response_sha256": "28ec518a8415e36a47a29c67426fa3a5b2f4bcfbeb57472577b49897507aa7c1",
+      "namespace": "certificate-management",
+      "configuration_lifecycle": "failed",
+      "served_tls": "unqualified",
+      "cleanup": "typed_absence_twice",
+      "control_without_tls_receipt": "current-stateful-control.json"
+    },
+    "reference/bigip-server-tls": {
+      "disposition": "api_not_implemented",
+      "typed_absence_prerequisite_http": 501,
+      "no_write_attempted": true,
+      "configuration_lifecycle": "unqualified",
+      "served_tls": "unqualified"
+    },
+    "reference/nfv-advertise_on_sli_vip": {
+      "disposition": "missing_isolated_appliance_prerequisite",
+      "target_namespace_nfv_service_count": 0,
+      "inventory_http": 200,
+      "appliance_and_site_inputs": "not supplied within authorized scope",
+      "configuration_lifecycle": "unqualified",
+      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
+      "served_tls": "unqualified"
+    },
+    "reference/nfv-advertise_on_slo_internet_vip": {
+      "disposition": "missing_isolated_appliance_prerequisite",
+      "target_namespace_nfv_service_count": 0,
+      "inventory_http": 200,
+      "appliance_and_site_inputs": "not supplied within authorized scope",
+      "configuration_lifecycle": "unqualified",
+      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
+      "served_tls": "unqualified"
+    },
+    "reference/nfv-advertise_on_slo_sli": {
+      "disposition": "missing_isolated_appliance_prerequisite",
+      "target_namespace_nfv_service_count": 0,
+      "inventory_http": 200,
+      "appliance_and_site_inputs": "not supplied within authorized scope",
+      "configuration_lifecycle": "unqualified",
+      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
+      "served_tls": "unqualified"
+    },
+    "reference/nfv-advertise_on_slo_vip": {
+      "disposition": "missing_isolated_appliance_prerequisite",
+      "target_namespace_nfv_service_count": 0,
+      "inventory_http": 200,
+      "appliance_and_site_inputs": "not supplied within authorized scope",
+      "configuration_lifecycle": "unqualified",
+      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
+      "served_tls": "unqualified"
+    }
+  },
+  "unclassified_results": 0,
+  "reference_api_failures": 3
+}

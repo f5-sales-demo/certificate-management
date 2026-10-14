@@ -1,0 +1,32 @@
+{
+  "node_count": 25,
+  "resource_type_count": 14,
+  "installed_schema_sha256": "ac383326a810e64074d102efb150c746ea375a232c1748dd56591a241f9346ad",
+  "nodes": [
+    "xcsh_advertise_policy.tls_parameters.common_params.tls_certificates",
+    "xcsh_bigip_http_proxy.proxy_config.https.tls_parameters.tls_certificates",
+    "xcsh_cdn_loadbalancer.https.tls_cert_options.tls_inline_params.tls_certificates",
+    "xcsh_cdn_loadbalancer.origin_pool.use_tls.use_mtls.tls_certificates",
+    "xcsh_certificate",
+    "xcsh_cluster.tls_parameters.common_params.tls_certificates",
+    "xcsh_http_loadbalancer.default_pool.use_tls.use_mtls.tls_certificates",
+    "xcsh_http_loadbalancer.https.tls_parameters.tls_certificates",
+    "xcsh_network_connector.enable_forward_proxy.tls_intercept.custom_certificate",
+    "xcsh_nfv_service.https_management.advertise_on_sli_vip.tls_certificates",
+    "xcsh_nfv_service.https_management.advertise_on_slo_internet_vip.tls_certificates",
+    "xcsh_nfv_service.https_management.advertise_on_slo_sli.tls_certificates",
+    "xcsh_nfv_service.https_management.advertise_on_slo_vip.tls_certificates",
+    "xcsh_origin_pool.use_tls.use_mtls.tls_certificates",
+    "xcsh_proxy.dynamic_proxy.https_proxy.tls_params.tls_certificates",
+    "xcsh_proxy.tls_intercept.custom_certificate",
+    "xcsh_secret_management_access.access_info.tls_config.common_params.tls_certificates",
+    "xcsh_tcp_loadbalancer.tls_tcp.tls_parameters.tls_certificates",
+    "xcsh_virtual_host.tls_parameters.common_params.tls_certificates",
+    "xcsh_workload.service.advertise_options.advertise_custom.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
+    "xcsh_workload.service.advertise_options.advertise_on_public.multi_ports.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
+    "xcsh_workload.service.advertise_options.advertise_on_public.port.http_loadbalancer.https.tls_parameters.tls_certificates",
+    "xcsh_workload.stateful_service.advertise_options.advertise_custom.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
+    "xcsh_workload.stateful_service.advertise_options.advertise_on_public.multi_ports.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
+    "xcsh_workload.stateful_service.advertise_options.advertise_on_public.port.http_loadbalancer.https.tls_parameters.tls_certificates"
+  ]
+}

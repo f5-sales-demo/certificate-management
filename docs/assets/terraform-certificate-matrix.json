@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "node_count": 25,
   "resource_type_count": 14,
   "nodes": [
@@ -8,227 +8,494 @@
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/provider-v15.7.1-linux-advertise-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "advertise-tls",
-      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/provider-v15.7.1-linux-advertise-tls.json",
+        "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_bigip_http_proxy.proxy_config.https.tls_parameters.tls_certificates",
-      "schema_serialization": "passed",
+      "schema_serialization": "unqualified",
       "configuration_lifecycle": "unqualified",
       "served_tls": "unqualified",
-      "prerequisite": "Sales Demo API returns HTTP 501 Not Implemented",
+      "prerequisite": "api not implemented",
       "example": "reference/bigip-server-tls",
-      "prerequisite_or_restriction": "Sales Demo API returns HTTP 501 Not Implemented"
+      "prerequisite_or_restriction": "api not implemented",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "Sales Demo API returns HTTP 501 Not Implemented",
+        "prerequisite_or_restriction": "Sales Demo API returns HTTP 501 Not Implemented"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     },
     {
       "node": "xcsh_cdn_loadbalancer.https.tls_cert_options.tls_inline_params.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/provider-v15.7.2-linux-cdn-server-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "cdn-server-tls",
-      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/provider-v15.7.2-linux-cdn-server-tls.json",
+        "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_cdn_loadbalancer.origin_pool.use_tls.use_mtls.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/provider-v15.7.2-linux-explicit-defaults.json",
+      "receipt": "current-linux-qualification.json",
       "example": "cdn-origin-mtls",
-      "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain."
+      "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/provider-v15.7.2-linux-explicit-defaults.json",
+        "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_certificate",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "passed",
-      "receipt": "terraform-receipts/sales-demo-v15.7.1-live-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "named-certificate",
-      "prerequisite_or_restriction": "Existing namespace and tenant-managed hostname."
+      "prerequisite_or_restriction": "Existing namespace and tenant-managed hostname.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "passed",
+        "receipt": "terraform-receipts/sales-demo-v15.7.1-live-tls.json",
+        "prerequisite_or_restriction": "Existing namespace and tenant-managed hostname."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"],
+      "current_served_tls_receipt": "current-served-tls.json",
+      "served_tls_receipt": "current-served-tls.json"
     },
     {
       "node": "xcsh_cluster.tls_parameters.common_params.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/provider-v15.7.1-linux-cluster-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "cluster-tls",
-      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/provider-v15.7.1-linux-cluster-tls.json",
+        "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_http_loadbalancer.default_pool.use_tls.use_mtls.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/sales-demo-v15.7.1-http-origin-mtls.json",
+      "receipt": "current-linux-qualification.json",
       "served_tls_limitation": "API lifecycle passed; end-to-end serving returned HTTP 404 without concrete route",
       "example": "http-origin-mtls",
-      "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain."
+      "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/sales-demo-v15.7.1-http-origin-mtls.json",
+        "served_tls_limitation": "API lifecycle passed; end-to-end serving returned HTTP 404 without concrete route",
+        "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_http_loadbalancer.https.tls_parameters.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "passed",
-      "receipt": "terraform-receipts/sales-demo-v15.7.1-live-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "inline-server-tls",
-      "prerequisite_or_restriction": "Existing namespace and tenant-managed hostname."
+      "prerequisite_or_restriction": "Existing namespace and tenant-managed hostname.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "passed",
+        "receipt": "terraform-receipts/sales-demo-v15.7.1-live-tls.json",
+        "prerequisite_or_restriction": "Existing namespace and tenant-managed hostname."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"],
+      "current_served_tls_receipt": "current-served-tls.json",
+      "served_tls_receipt": "current-served-tls.json"
     },
     {
       "node": "xcsh_network_connector.enable_forward_proxy.tls_intercept.custom_certificate",
-      "schema_serialization": "passed",
+      "schema_serialization": "unqualified",
       "configuration_lifecycle": "unqualified",
       "served_tls": "unqualified",
-      "prerequisite": "API permits system namespace only",
+      "prerequisite": "api drops certificate configuration",
       "example": "reference/connector-intercept",
-      "prerequisite_or_restriction": "API permits system namespace only"
+      "prerequisite_or_restriction": "api drops certificate configuration",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "API permits system namespace only",
+        "prerequisite_or_restriction": "API permits system namespace only"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     },
     {
       "node": "xcsh_nfv_service.https_management.advertise_on_sli_vip.tls_certificates",
-      "schema_serialization": "passed",
+      "schema_serialization": "unqualified",
       "configuration_lifecycle": "unqualified",
       "served_tls": "unqualified",
-      "prerequisite": "Isolated NFV service and managed cloud appliance prerequisites unavailable",
+      "prerequisite": "missing isolated appliance prerequisite",
       "example": "reference/nfv-advertise_on_sli_vip",
-      "prerequisite_or_restriction": "Isolated NFV service and managed cloud appliance prerequisites unavailable"
+      "prerequisite_or_restriction": "missing isolated appliance prerequisite",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "Isolated NFV service and managed cloud appliance prerequisites unavailable",
+        "prerequisite_or_restriction": "Isolated NFV service and managed cloud appliance prerequisites unavailable"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     },
     {
       "node": "xcsh_nfv_service.https_management.advertise_on_slo_internet_vip.tls_certificates",
-      "schema_serialization": "passed",
+      "schema_serialization": "unqualified",
       "configuration_lifecycle": "unqualified",
       "served_tls": "unqualified",
-      "prerequisite": "Isolated NFV service and managed cloud appliance prerequisites unavailable",
+      "prerequisite": "missing isolated appliance prerequisite",
       "example": "reference/nfv-advertise_on_slo_internet_vip",
-      "prerequisite_or_restriction": "Isolated NFV service and managed cloud appliance prerequisites unavailable"
+      "prerequisite_or_restriction": "missing isolated appliance prerequisite",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "Isolated NFV service and managed cloud appliance prerequisites unavailable",
+        "prerequisite_or_restriction": "Isolated NFV service and managed cloud appliance prerequisites unavailable"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     },
     {
       "node": "xcsh_nfv_service.https_management.advertise_on_slo_sli.tls_certificates",
-      "schema_serialization": "passed",
+      "schema_serialization": "unqualified",
       "configuration_lifecycle": "unqualified",
       "served_tls": "unqualified",
-      "prerequisite": "Isolated NFV service and managed cloud appliance prerequisites unavailable",
+      "prerequisite": "missing isolated appliance prerequisite",
       "example": "reference/nfv-advertise_on_slo_sli",
-      "prerequisite_or_restriction": "Isolated NFV service and managed cloud appliance prerequisites unavailable"
+      "prerequisite_or_restriction": "missing isolated appliance prerequisite",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "Isolated NFV service and managed cloud appliance prerequisites unavailable",
+        "prerequisite_or_restriction": "Isolated NFV service and managed cloud appliance prerequisites unavailable"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     },
     {
       "node": "xcsh_nfv_service.https_management.advertise_on_slo_vip.tls_certificates",
-      "schema_serialization": "passed",
+      "schema_serialization": "unqualified",
       "configuration_lifecycle": "unqualified",
       "served_tls": "unqualified",
-      "prerequisite": "Isolated NFV service and managed cloud appliance prerequisites unavailable",
+      "prerequisite": "missing isolated appliance prerequisite",
       "example": "reference/nfv-advertise_on_slo_vip",
-      "prerequisite_or_restriction": "Isolated NFV service and managed cloud appliance prerequisites unavailable"
+      "prerequisite_or_restriction": "missing isolated appliance prerequisite",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "Isolated NFV service and managed cloud appliance prerequisites unavailable",
+        "prerequisite_or_restriction": "Isolated NFV service and managed cloud appliance prerequisites unavailable"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     },
     {
       "node": "xcsh_origin_pool.use_tls.use_mtls.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "passed",
-      "receipt": "terraform-receipts/provider-v15.7.1-linux-origin-mtls.json",
-      "served_tls_receipt": "terraform-receipts/sales-demo-v15.7.1-served-origin-mtls.json",
+      "receipt": "current-linux-qualification.json",
+      "served_tls_receipt": "current-served-mtls.json",
       "example": "origin-mtls",
-      "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain."
+      "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "passed",
+        "receipt": "terraform-receipts/provider-v15.7.1-linux-origin-mtls.json",
+        "served_tls_receipt": "terraform-receipts/sales-demo-v15.7.1-served-origin-mtls.json",
+        "prerequisite_or_restriction": "Existing origin with client authentication and trusted server chain."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"],
+      "current_served_tls_receipt": "current-served-mtls.json"
     },
     {
       "node": "xcsh_proxy.dynamic_proxy.https_proxy.tls_params.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/sales-demo-v15.7.1-proxy-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "proxy-tls",
-      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/sales-demo-v15.7.1-proxy-tls.json",
+        "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_proxy.tls_intercept.custom_certificate",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/sales-demo-v15.7.1-proxy-intercept.json",
+      "receipt": "current-linux-qualification.json",
       "example": "proxy-intercept",
-      "prerequisite_or_restriction": "Forward proxy route and client CA trust."
+      "prerequisite_or_restriction": "Forward proxy route and client CA trust.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/sales-demo-v15.7.1-proxy-intercept.json",
+        "prerequisite_or_restriction": "Forward proxy route and client CA trust."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_secret_management_access.access_info.tls_config.common_params.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/provider-v15.7.1-linux-secret-access-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "secret-access-tls",
-      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/provider-v15.7.1-linux-secret-access-tls.json",
+        "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_tcp_loadbalancer.tls_tcp.tls_parameters.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/sales-demo-v15.7.1-tcp-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "tcp-tls",
-      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/sales-demo-v15.7.1-tcp-tls.json",
+        "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_virtual_host.tls_parameters.common_params.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/sales-demo-v15.7.1-virtual-host-tls.json",
+      "receipt": "current-linux-qualification.json",
       "example": "virtual-host-tls",
-      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/sales-demo-v15.7.1-virtual-host-tls.json",
+        "prerequisite_or_restriction": "Concrete consumer/advertisement required for serving."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_workload.service.advertise_options.advertise_custom.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/provider-v15.7.2-linux-workload-service-custom.json",
+      "receipt": "current-linux-qualification.json",
       "example": "workload-service-custom",
-      "prerequisite_or_restriction": "Existing CE virtual site and workload capacity."
+      "prerequisite_or_restriction": "Existing CE virtual site and workload capacity.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/provider-v15.7.2-linux-workload-service-custom.json",
+        "prerequisite_or_restriction": "Existing CE virtual site and workload capacity."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_workload.service.advertise_options.advertise_on_public.multi_ports.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/provider-v15.7.2-linux-workload-service-public-multi.json",
+      "receipt": "current-linux-qualification.json",
       "example": "workload-service-public-multi",
-      "prerequisite_or_restriction": "Existing CE virtual site and workload capacity."
+      "prerequisite_or_restriction": "Existing CE virtual site and workload capacity.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/provider-v15.7.2-linux-workload-service-public-multi.json",
+        "prerequisite_or_restriction": "Existing CE virtual site and workload capacity."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_workload.service.advertise_options.advertise_on_public.port.http_loadbalancer.https.tls_parameters.tls_certificates",
       "schema_serialization": "passed",
       "configuration_lifecycle": "passed",
       "served_tls": "unqualified",
-      "receipt": "terraform-receipts/provider-v15.7.2-linux-workload-service-public-single.json",
+      "receipt": "current-linux-qualification.json",
       "example": "workload-service-public-single",
-      "prerequisite_or_restriction": "Existing CE virtual site and workload capacity."
+      "prerequisite_or_restriction": "Existing CE virtual site and workload capacity.",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "passed",
+        "served_tls": "unqualified",
+        "receipt": "terraform-receipts/provider-v15.7.2-linux-workload-service-public-single.json",
+        "prerequisite_or_restriction": "Existing CE virtual site and workload capacity."
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_lifecycle_receipts": ["current-linux-qualification.json", "current-macos-qualification.json"]
     },
     {
       "node": "xcsh_workload.stateful_service.advertise_options.advertise_custom.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
-      "schema_serialization": "passed",
-      "configuration_lifecycle": "unqualified",
+      "schema_serialization": "unqualified",
+      "configuration_lifecycle": "failed",
       "served_tls": "unqualified",
-      "prerequisite": "Live API rejects public and custom advertisement for stateful services",
+      "prerequisite": "api server failure",
       "example": "reference/workload-stateful_service-custom",
-      "prerequisite_or_restriction": "Live API rejects public and custom advertisement for stateful services"
+      "prerequisite_or_restriction": "api server failure",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "Live API rejects public and custom advertisement for stateful services",
+        "prerequisite_or_restriction": "Live API rejects public and custom advertisement for stateful services"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     },
     {
       "node": "xcsh_workload.stateful_service.advertise_options.advertise_on_public.multi_ports.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
-      "schema_serialization": "passed",
-      "configuration_lifecycle": "unqualified",
+      "schema_serialization": "unqualified",
+      "configuration_lifecycle": "failed",
       "served_tls": "unqualified",
-      "prerequisite": "Live API rejects public and custom advertisement for stateful services",
+      "prerequisite": "api server failure",
       "example": "reference/workload-stateful_service-public-multi",
-      "prerequisite_or_restriction": "Live API rejects public and custom advertisement for stateful services"
+      "prerequisite_or_restriction": "api server failure",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "Live API rejects public and custom advertisement for stateful services",
+        "prerequisite_or_restriction": "Live API rejects public and custom advertisement for stateful services"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     },
     {
       "node": "xcsh_workload.stateful_service.advertise_options.advertise_on_public.port.http_loadbalancer.https.tls_parameters.tls_certificates",
-      "schema_serialization": "passed",
-      "configuration_lifecycle": "unqualified",
+      "schema_serialization": "unqualified",
+      "configuration_lifecycle": "failed",
       "served_tls": "unqualified",
-      "prerequisite": "Live API rejects public and custom advertisement for stateful services",
+      "prerequisite": "api server failure",
       "example": "reference/workload-stateful_service-public-single",
-      "prerequisite_or_restriction": "Live API rejects public and custom advertisement for stateful services"
+      "prerequisite_or_restriction": "api server failure",
+      "historical": {
+        "schema_serialization": "passed",
+        "configuration_lifecycle": "unqualified",
+        "served_tls": "unqualified",
+        "prerequisite": "Live API rejects public and custom advertisement for stateful services",
+        "prerequisite_or_restriction": "Live API rejects public and custom advertisement for stateful services"
+      },
+      "schema_validation": "passed",
+      "current_schema_receipts": ["current-linux-configurations.json", "current-macos-configurations.json"],
+      "current_restriction_receipt": "current-restrictions.json",
+      "receipt": "current-restrictions.json"
     }
-  ]
+  ],
+  "current_artifacts_receipt": "current-artifacts.json"
 }

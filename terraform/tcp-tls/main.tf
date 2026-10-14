@@ -8,6 +8,14 @@ resource "xcsh_tcp_loadbalancer" "example" {
   do_not_advertise    = {}
   no_sni              = {}
   no_service_policies = {}
+  origin_pools_weights {
+    pool {
+      name      = xcsh_origin_pool.backend.name
+      namespace = data.xcsh_namespace.existing.name
+    }
+    weight   = 1
+    priority = 1
+  }
   tls_tcp {
     tls_parameters {
       no_mtls = {}
@@ -19,4 +27,17 @@ resource "xcsh_tcp_loadbalancer" "example" {
       }
     }
   }
+}
+
+resource "xcsh_origin_pool" "backend" {
+  name      = "${var.name}-origin"
+  namespace = data.xcsh_namespace.existing.name
+  labels    = { certificate-example = "terraform" }
+  port      = var.origin_port
+  origin_servers {
+    public_name {
+      dns_name = var.origin_hostname
+    }
+  }
+  no_tls = {}
 }
