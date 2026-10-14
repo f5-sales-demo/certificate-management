@@ -14,7 +14,7 @@ Deploy a named certificate and HTTPS load balancer with native provider encrypti
 ## Prerequisites
 
 Allow about 20 minutes plus certificate propagation. Install the current published Terraform and
-**`f5-sales-demo/xcsh` provider** artifacts. The provider supports Terraform 1.11 or later for write-only inputs.
+**`f5-sales-demo/xcsh` provider** artifacts. The examples allow native-provider releases starting at 15.6.1; qualification resolves and installs the current publication. The provider supports Terraform 1.11 or later for write-only inputs.
 See the [current qualification receipt](../../assets/current-artifacts.json) for resolved versions, digests, source commits, and the status of live gates. Provide an existing namespace, certificate permissions, load-balancer capacity, and a hostname in a tenant-managed
 DNS zone. Terraform reads the namespace as a data source and never owns it.
 

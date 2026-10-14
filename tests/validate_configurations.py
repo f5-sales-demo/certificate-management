@@ -40,7 +40,9 @@ for group, directories in [
         for file in source.glob("*.tf" if group == "runnable" else "*.tf.example"):
             shutil.copyfile(file, dest / file.name.removesuffix(".example"))
         assert not re.search(
-            r"^\s*version\s*=", (dest / "versions.tf").read_text(), re.MULTILINE
+            r'^\s*version\s*=\s*"\s*(?:=\s*)?\d+\.\d+\.\d+\s*"',
+            (dest / "versions.tf").read_text(),
+            re.MULTILINE,
         )
         for command in [
             ["init", "-upgrade", "-backend=false", "-input=false"],
