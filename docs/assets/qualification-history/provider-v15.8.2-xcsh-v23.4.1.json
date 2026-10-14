@@ -1,0 +1,94 @@
+{
+  "source_commit": "a40b25f8ade9ffe956c7307d8423221c19c78290",
+  "immutable": true,
+  "receipts": {
+    "current-artifacts.json": {
+      "sha256": "e97bbab23600ca6c11ceb899635a7bb5b4a6cb45623ab9dceaf5e56e93bc10b5",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-artifacts.json"
+    },
+    "current-customization.json": {
+      "sha256": "76767511f9f0b4bc6c5396cc844146cbf3dcbdfb11af903c6bdbae0d2d9801ce",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-customization.json"
+    },
+    "current-endpoints.json": {
+      "sha256": "c3abded6b63c85c76d87b5cb1057dba01d31567a896df9e42d578824c5810961",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-endpoints.json"
+    },
+    "current-linux-cleanup.json": {
+      "sha256": "292659cf74e812d5cee0d4cef55518b865f6dd652ea63e4bf859adcf39c9f2be",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-linux-cleanup.json"
+    },
+    "current-linux-configurations.json": {
+      "sha256": "37e786928ce13833a0e8a4da2954b6aaed94597ba9240b7e9a3d6d12b0b2526f",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-linux-configurations.json"
+    },
+    "current-linux-inputs.json": {
+      "sha256": "9c3fe018b84fb9b214d8663b49c285172edde227b351561ce3a0b2ba5229f9e2",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-linux-inputs.json"
+    },
+    "current-linux-qualification.json": {
+      "sha256": "d56b9899285febda5e0f7ef83ccc973ddc97f2b5b20b0331d3c8337c47fefbaf",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-linux-qualification.json"
+    },
+    "current-linux-reader.json": {
+      "sha256": "00e055c2f1c3c5e2217c89bfa4a677a95b6b8b5f1a9982fd24e941785d63aba5",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-linux-reader.json"
+    },
+    "current-linux-xcsh-reader.json": {
+      "sha256": "f18a71729c5619b56b09dd14bd59ef8fa3331cc96a2d1e458b20be5914930949",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-linux-xcsh-reader.json"
+    },
+    "current-macos-cleanup.json": {
+      "sha256": "54f5aaf105db7b411debae1b025e8fe1aa004c560ed98c321be61e3d308d96eb",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-macos-cleanup.json"
+    },
+    "current-macos-configurations.json": {
+      "sha256": "95c11865a7f8958b3e25f5ca8a2cf4a01a9656c0b21fdf985dc171ca6c89957a",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-macos-configurations.json"
+    },
+    "current-macos-inputs.json": {
+      "sha256": "3602d3538dcc8976c7a23f31e6d21eebe92debc5c6298db6895a118e34bc0375",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-macos-inputs.json"
+    },
+    "current-macos-qualification.json": {
+      "sha256": "67dd5c202fd98365956df8d2386122a66ef5d9e06ac6ae4df95d1dbf60b5095b",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-macos-qualification.json"
+    },
+    "current-macos-reader.json": {
+      "sha256": "c756a7bbc9d91d598b566cae83a3dbe107614b6092dc63f0bb1c8d4f70a99155",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-macos-reader.json"
+    },
+    "current-macos-xcsh-reader.json": {
+      "sha256": "7070fb3c42d0be3a8329cafc62cccfcd717ae40387268b4ef03bfc1a061d83fb",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-macos-xcsh-reader.json"
+    },
+    "current-restrictions.json": {
+      "sha256": "fb484d8283748ec834ccba933ce043b4636660da9714d6c740fb457e8290628d",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-restrictions.json"
+    },
+    "current-retained.json": {
+      "sha256": "7ee727b47e5be1788c7c828186ad8b7f30da28f043505c0554ef74cf568bd157",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-retained.json"
+    },
+    "current-schema-inventory.json": {
+      "sha256": "9dff6debea103439703e2da5e3b90f81251f0c29945c42e208228e20157f617c",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-schema-inventory.json"
+    },
+    "current-served-mtls.json": {
+      "sha256": "23ff11d1efdca08e684bd0d2ad63aa21b98aafde3e8ca13756ad9fc80c8c0651",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-served-mtls.json"
+    },
+    "current-served-tls.json": {
+      "sha256": "7edaf79e16f91e7e914df1af1c458502e581e41ae719d2983fc70210759bf435",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-served-tls.json"
+    },
+    "current-stateful-control.json": {
+      "sha256": "31aa21bfeb4ed5300dc903527a2f794fbb609033bcce9cda87365f1017947b3d",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-stateful-control.json"
+    },
+    "terraform-certificate-matrix.json": {
+      "sha256": "b6a3c1b2e87e1145707c6e1325b075ce49efeada317a1e7f3bc0528b4be1d2b3",
+      "url": "https://raw.githubusercontent.com/f5-sales-demo/certificate-management/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/terraform-certificate-matrix.json"
+    }
+  }
+}

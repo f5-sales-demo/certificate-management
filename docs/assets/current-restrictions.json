@@ -1,59 +1,82 @@
 {
+  "artifacts": {
+    "platform": "linux_amd64",
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+      "archive_sha256": "sha256:38034b38d03096399a7a1264a14561a8029b2b496fd1f169452656e53968f1b7",
+      "binary_sha256": "sha256:00a240950f88f51a03ad90975f1647737e40ddcd5df30a703fd840aa07dccced"
+    },
+    "provider": {
+      "version": "15.8.3",
+      "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+      "archive_sha256": "sha256:285b827ed27e7b59d2026724efa6bd0920fd839e2df99fb488f5b3e91b54f2bd",
+      "binary_sha256": "sha256:986377888674fe867053d4f59c79d89cb0b36e97ad7578a40edbdc530688cc7a"
+    },
+    "xcsh": {
+      "version": "23.4.2",
+      "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+      "archive_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785",
+      "binary_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785"
+    }
+  },
   "restrictions": {
     "reference/connector-intercept": {
       "disposition": "api_drops_certificate_configuration",
       "write_http": 200,
       "encrypted_certificate_in_request": true,
       "certificate_material_in_response": false,
-      "request_sha256": "f12f3974f30fa62fc6932df5d56128f08110a1bef11964fbab55dd280ab655e6",
-      "response_sha256": "440c57c885906e92f2eade2d097ef1af68fb840a2100f6dd9471a5988cea96e0",
+      "request_sha256": "53e1b063d61170b075668b6724995ffdb060f3287b11b5f3342497ea84242d5e",
+      "response_sha256": "88503d9a2b7774b0842c709197623eefa8e298d527eb4e9193578dd78289f282",
       "namespace": "system",
-      "configuration_lifecycle": "unqualified",
+      "configuration_lifecycle": "failed",
       "served_tls": "unqualified",
-      "cleanup": "typed_absence_twice"
+      "cleanup": "typed_absence_twice",
+      "provider_result": "fails unresolved write outcome when encrypted material is missing from readback"
     },
     "reference/workload-stateful_service-custom": {
       "disposition": "api_server_failure",
       "write_http": 500,
       "encrypted_certificate_in_request": true,
       "certificate_material_in_response": false,
-      "request_sha256": "a7c56c8ffdf5d376018f8607dd399fbf6089c2689da3e66644e73cf60ceefafd",
-      "response_sha256": "044137d9880daec868f9da39cc6cd562295f87e16167e354ba46449f17f1af9d",
-      "namespace": "certificate-management",
+      "request_sha256": "fcd11da09e297798e595920ee6d5bcc4552195014cb89daac221c378a9cc9216",
+      "response_sha256": "a08797b590253c3381dce9c9d6a1384736d1b6552197af13989ae9e6be3f1ac9",
       "configuration_lifecycle": "failed",
       "served_tls": "unqualified",
       "cleanup": "typed_absence_twice",
-      "control_without_tls_receipt": "current-stateful-control.json"
+      "control_without_tls_receipt": "current-stateful-control.json",
+      "namespace_role": "qualification target"
     },
     "reference/workload-stateful_service-public-single": {
       "disposition": "api_server_failure",
       "write_http": 500,
       "encrypted_certificate_in_request": true,
       "certificate_material_in_response": false,
-      "request_sha256": "9eca1df64f8ca9b27365aef87df7c5fa9d5d78567b10024fe6a69272cdbe2272",
-      "response_sha256": "25eb6ae9329d8e29aef15ef08b3ba49754768e204e6f7b5729844863f57700d9",
-      "namespace": "certificate-management",
+      "request_sha256": "84546f3f62dfd115259ff8de309f4a831afe09fd16c332bccfaf334ba0e002d2",
+      "response_sha256": "76bdfc0e98da10667a7fc1c12cdde7ab695e0773a10f8419514a586f402654c9",
       "configuration_lifecycle": "failed",
       "served_tls": "unqualified",
       "cleanup": "typed_absence_twice",
-      "control_without_tls_receipt": "current-stateful-control.json"
+      "control_without_tls_receipt": "current-stateful-control.json",
+      "namespace_role": "qualification target"
     },
     "reference/workload-stateful_service-public-multi": {
       "disposition": "api_server_failure",
       "write_http": 500,
       "encrypted_certificate_in_request": true,
       "certificate_material_in_response": false,
-      "request_sha256": "59f8ef9b184e0333690d2d5b1004969ff169eb0bc571345173cae91a170c68f8",
-      "response_sha256": "28ec518a8415e36a47a29c67426fa3a5b2f4bcfbeb57472577b49897507aa7c1",
-      "namespace": "certificate-management",
+      "request_sha256": "f3139369b2c267fa595eb22fca98e98bb2454442a4e85c3f58e98507f2eab74b",
+      "response_sha256": "cdddc0f24bcb5862759ff0fb07be19a08da45f0f5989a146da0f8cc84fa77d20",
       "configuration_lifecycle": "failed",
       "served_tls": "unqualified",
       "cleanup": "typed_absence_twice",
-      "control_without_tls_receipt": "current-stateful-control.json"
+      "control_without_tls_receipt": "current-stateful-control.json",
+      "namespace_role": "qualification target"
     },
     "reference/bigip-server-tls": {
       "disposition": "api_not_implemented",
       "typed_absence_prerequisite_http": 501,
+      "response_sha256": "22c8b025473c9dae16bb651a793405634a9911f43034918b85762760df1a1419",
       "no_write_attempted": true,
       "configuration_lifecycle": "unqualified",
       "served_tls": "unqualified"
@@ -62,39 +85,40 @@
       "disposition": "missing_isolated_appliance_prerequisite",
       "target_namespace_nfv_service_count": 0,
       "inventory_http": 200,
+      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
       "appliance_and_site_inputs": "not supplied within authorized scope",
       "configuration_lifecycle": "unqualified",
-      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
       "served_tls": "unqualified"
     },
     "reference/nfv-advertise_on_slo_internet_vip": {
       "disposition": "missing_isolated_appliance_prerequisite",
       "target_namespace_nfv_service_count": 0,
       "inventory_http": 200,
+      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
       "appliance_and_site_inputs": "not supplied within authorized scope",
       "configuration_lifecycle": "unqualified",
-      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
       "served_tls": "unqualified"
     },
     "reference/nfv-advertise_on_slo_sli": {
       "disposition": "missing_isolated_appliance_prerequisite",
       "target_namespace_nfv_service_count": 0,
       "inventory_http": 200,
+      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
       "appliance_and_site_inputs": "not supplied within authorized scope",
       "configuration_lifecycle": "unqualified",
-      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
       "served_tls": "unqualified"
     },
     "reference/nfv-advertise_on_slo_vip": {
       "disposition": "missing_isolated_appliance_prerequisite",
       "target_namespace_nfv_service_count": 0,
       "inventory_http": 200,
+      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
       "appliance_and_site_inputs": "not supplied within authorized scope",
       "configuration_lifecycle": "unqualified",
-      "inventory_sha256": "24cd8499585aba1882a2e29a63dc694d60511c224fe7ca9738ee1847244d1b73",
       "served_tls": "unqualified"
     }
   },
-  "unclassified_results": 0,
-  "reference_api_failures": 3
+  "reference_api_failures": 3,
+  "reference_lifecycle_failures": 4,
+  "unclassified_results": 0
 }

@@ -8,16 +8,16 @@
       "binary_sha256": "sha256:00a240950f88f51a03ad90975f1647737e40ddcd5df30a703fd840aa07dccced"
     },
     "provider": {
-      "version": "15.8.2",
-      "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
-      "archive_sha256": "sha256:d703452bd56ac7c89e9c7c9cafe6c7d79796c76dede5d2b785912f7195d05d59",
-      "binary_sha256": "sha256:bccdbd86e71f7603bda5b59a9e740969846abde1c680130617301e93386b53a3"
+      "version": "15.8.3",
+      "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+      "archive_sha256": "sha256:285b827ed27e7b59d2026724efa6bd0920fd839e2df99fb488f5b3e91b54f2bd",
+      "binary_sha256": "sha256:986377888674fe867053d4f59c79d89cb0b36e97ad7578a40edbdc530688cc7a"
     },
     "xcsh": {
-      "version": "23.4.1",
-      "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
-      "archive_sha256": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5",
-      "binary_sha256": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5"
+      "version": "23.4.2",
+      "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+      "archive_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785",
+      "binary_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785"
     }
   },
   "qualification": "served named and inline HTTPS before and after renewal",
@@ -30,7 +30,7 @@
       "strict_trust_hostname": true,
       "fingerprint_match": true,
       "https": 200,
-      "served_sha256": "c8161bf18f04fa336d87c6d0eeac870382a34c0a60dc37e86333576ec487e207"
+      "served_sha256": "76e65102793b0e7e4a535da0f2047639d7032cd572d2a0673be889b8b8fd0543"
     },
     "named_renewal_plan": 0,
     "named_renewal_apply": 0,
@@ -39,7 +39,7 @@
       "strict_trust_hostname": true,
       "fingerprint_match": true,
       "https": 200,
-      "served_sha256": "e0fb060be6b4d7646a612c56441997a2599c44fb75e1851dbf78579395526038"
+      "served_sha256": "b19e00f68c486ad35325d5b03e82ff1468d7fb60849683e1458191e4bb3f9611"
     },
     "named_destroy_plan": 0,
     "named_destroy": 0,
@@ -51,7 +51,7 @@
       "strict_trust_hostname": true,
       "fingerprint_match": true,
       "https": 200,
-      "served_sha256": "e310e231497e4012d789c8bab4a0ec5931314823886272a81b8954c1d471cab7"
+      "served_sha256": "48376da9f0a0c78821c5310334e8503a51556e0415865e761447b3da60e96f53"
     },
     "inline_renewal_plan": 0,
     "inline_renewal_apply": 0,
@@ -60,7 +60,7 @@
       "strict_trust_hostname": true,
       "fingerprint_match": true,
       "https": 200,
-      "served_sha256": "4fb6a34f2310a6beeb791f36ebf77890b903d7673dc0e935a602c8ec14c776f4"
+      "served_sha256": "f7d3981966daa4a67b63e2588437dbc3cfdc1bc9e233e02a6f1e1a7cacce8e9f"
     },
     "inline_destroy_plan": 0,
     "inline_destroy": 0,

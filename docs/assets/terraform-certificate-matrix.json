@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "node_count": 25,
   "resource_type_count": 14,
   "nodes": [
@@ -165,7 +165,7 @@
     {
       "node": "xcsh_network_connector.enable_forward_proxy.tls_intercept.custom_certificate",
       "schema_serialization": "unqualified",
-      "configuration_lifecycle": "unqualified",
+      "configuration_lifecycle": "failed",
       "served_tls": "unqualified",
       "prerequisite": "api drops certificate configuration",
       "example": "reference/connector-intercept",
@@ -497,5 +497,7 @@
       "receipt": "current-restrictions.json"
     }
   ],
-  "current_artifacts_receipt": "current-artifacts.json"
+  "current_artifacts_receipt": "current-artifacts.json",
+  "qualified_provider": "15.8.3",
+  "qualified_xcsh": "23.4.2"
 }

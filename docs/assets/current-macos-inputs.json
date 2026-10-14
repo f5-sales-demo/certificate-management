@@ -8,16 +8,16 @@
       "binary_sha256": "sha256:27b7113783a1f7d71b711339bd235104961f7bcfe92dc6a9924206ee0eb75937"
     },
     "provider": {
-      "version": "15.8.2",
-      "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
-      "archive_sha256": "sha256:2a5c0d64e546a666d676c1ef4b0ee5f2ad2ca47fa0234f6db26840873dc88063",
-      "binary_sha256": "sha256:1943873f59c9f4395ec3f4b7a42c77c2ca218f567511c72ed98c15c2eacceb85"
+      "version": "15.8.3",
+      "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+      "archive_sha256": "sha256:214d4caaf444aba81e509e7164547baf4a4c4477403be43e018ccd930fec147f",
+      "binary_sha256": "sha256:e7ca59cda79d503068b8dee96a0341ab0706f0d5176068c7773eccecedead8af"
     },
     "xcsh": {
-      "version": "23.4.1",
-      "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
-      "archive_sha256": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087",
-      "binary_sha256": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087"
+      "version": "23.4.2",
+      "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+      "archive_sha256": "sha256:fc87f87258b2b90093ca56ca1a03b4df9476c7a32b31aee00f256bccb165c341",
+      "binary_sha256": "sha256:fc87f87258b2b90093ca56ca1a03b4df9476c7a32b31aee00f256bccb165c341"
     }
   },
   "native_runtime_cli_independence": true,
