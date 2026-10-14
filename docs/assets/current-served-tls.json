@@ -1,0 +1,72 @@
+{
+  "artifacts": {
+    "platform": "linux_amd64",
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+      "archive_sha256": "sha256:38034b38d03096399a7a1264a14561a8029b2b496fd1f169452656e53968f1b7",
+      "binary_sha256": "sha256:00a240950f88f51a03ad90975f1647737e40ddcd5df30a703fd840aa07dccced"
+    },
+    "provider": {
+      "version": "15.8.2",
+      "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
+      "archive_sha256": "sha256:d703452bd56ac7c89e9c7c9cafe6c7d79796c76dede5d2b785912f7195d05d59",
+      "binary_sha256": "sha256:bccdbd86e71f7603bda5b59a9e740969846abde1c680130617301e93386b53a3"
+    },
+    "xcsh": {
+      "version": "23.4.1",
+      "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
+      "archive_sha256": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5",
+      "binary_sha256": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5"
+    }
+  },
+  "qualification": "served named and inline HTTPS before and after renewal",
+  "gates": {
+    "named_init": 0,
+    "named_initial_plan": 0,
+    "named_initial_apply": 0,
+    "named_initial_empty": 0,
+    "initial_named": {
+      "strict_trust_hostname": true,
+      "fingerprint_match": true,
+      "https": 200,
+      "served_sha256": "c8161bf18f04fa336d87c6d0eeac870382a34c0a60dc37e86333576ec487e207"
+    },
+    "named_renewal_plan": 0,
+    "named_renewal_apply": 0,
+    "named_renewal_empty": 0,
+    "renewal_named": {
+      "strict_trust_hostname": true,
+      "fingerprint_match": true,
+      "https": 200,
+      "served_sha256": "e0fb060be6b4d7646a612c56441997a2599c44fb75e1851dbf78579395526038"
+    },
+    "named_destroy_plan": 0,
+    "named_destroy": 0,
+    "inline_init": 0,
+    "inline_initial_plan": 0,
+    "inline_initial_apply": 0,
+    "inline_initial_empty": 0,
+    "initial_inline": {
+      "strict_trust_hostname": true,
+      "fingerprint_match": true,
+      "https": 200,
+      "served_sha256": "e310e231497e4012d789c8bab4a0ec5931314823886272a81b8954c1d471cab7"
+    },
+    "inline_renewal_plan": 0,
+    "inline_renewal_apply": 0,
+    "inline_renewal_empty": 0,
+    "renewal_inline": {
+      "strict_trust_hostname": true,
+      "fingerprint_match": true,
+      "https": 200,
+      "served_sha256": "4fb6a34f2310a6beeb791f36ebf77890b903d7673dc0e935a602c8ec14c776f4"
+    },
+    "inline_destroy_plan": 0,
+    "inline_destroy": 0,
+    "destroy_plan": 0,
+    "destroy": 0
+  },
+  "cleanup_http": 404,
+  "typed_absence_passes": 2
+}

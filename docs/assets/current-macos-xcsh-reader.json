@@ -1,0 +1,101 @@
+{
+  "tool": "xcsh",
+  "platform": "darwin",
+  "artifacts": {
+    "platform": "darwin_arm64",
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+      "archive_sha256": "sha256:85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd",
+      "binary_sha256": "sha256:27b7113783a1f7d71b711339bd235104961f7bcfe92dc6a9924206ee0eb75937"
+    },
+    "provider": {
+      "version": "15.8.2",
+      "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
+      "archive_sha256": "sha256:2a5c0d64e546a666d676c1ef4b0ee5f2ad2ca47fa0234f6db26840873dc88063",
+      "binary_sha256": "sha256:1943873f59c9f4395ec3f4b7a42c77c2ca218f567511c72ed98c15c2eacceb85"
+    },
+    "xcsh": {
+      "version": "23.4.1",
+      "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
+      "archive_sha256": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087",
+      "binary_sha256": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087"
+    }
+  },
+  "reader_source": "candidate source downloads",
+  "commands": [
+    {
+      "label": "xcsh-0",
+      "source_sha256": "7016c1131fd24da5fd43940c887c526d9448eb8314965c0803d30e2dfaf7c4f9",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-1",
+      "source_sha256": "6cb3b668fe70a815562d79ac8caf5165293807815f44d6e914224d00827ce3a3",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-2",
+      "source_sha256": "0b93b24ad551ed3fe5fd9795c3fd442a0e81cb514084627dd65155835ce34fd2",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-3",
+      "source_sha256": "3b595b35f5f48f2ababfe43603989765a89ecd5d1a1f4df4b0afdcf5941e961a",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-4",
+      "source_sha256": "d5c66e7d1ce89e5656369147a35b1e488dc51861735e6a765295648d9abc8f2b",
+      "exit": 0
+    },
+    {
+      "label": "prerequisite-https",
+      "source_sha256": "b698dc7a38eb7a37befa8353619c0a4aa8aae59b449c68e88c8dda7e37080fa7",
+      "exit": 0
+    },
+    {
+      "label": "prerequisite-http",
+      "source_sha256": "a5cc6a072a2315c5b777ee31a889fbf5eaa387849dc2de2b899454c5679b6e72",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-proof-initial-1",
+      "source_sha256": "40a67b923085542bae2dc95fcc940c3004700ee89102561da13dded2bf8389ba",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-input-0",
+      "source_sha256": "fe0fd271e2e781a11c14834057118abc868759342e34c956d010a16bfe1b0fea",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-input-1",
+      "source_sha256": "39b5fe4f2f13a9a418cbd0ddee0fe0b17ef9890389d1009e9fe6e909e431b06e",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-input-2",
+      "source_sha256": "6b1bf4668b9caa15dd0b21b89481f1cbdb0cc4a198b22d7d1809e5e5609ae1e1",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-5",
+      "source_sha256": "2dfe98c3f3d183013124c07ef57076d8a0d14ad6b96d8c8923da5d8176eed9fb",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-6",
+      "source_sha256": "335dfbc20a1a72dd276494dd3337997c371c50a39e6aab7e753f370476890fbc",
+      "exit": 0
+    },
+    {
+      "label": "xcsh-proof-renewed-2",
+      "source_sha256": "40a67b923085542bae2dc95fcc940c3004700ee89102561da13dded2bf8389ba",
+      "exit": 0
+    }
+  ],
+  "cleanup": "typed_absence_twice",
+  "owning_tenant_and_resource_identity_verified": true,
+  "served_fingerprints_and_trusted_hostnames": true
+}

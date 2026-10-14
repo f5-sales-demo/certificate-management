@@ -30,3 +30,13 @@ variable "description" {
 data "xcsh_namespace" "existing" {
   name = var.namespace
 }
+
+variable "origin_hostname" {
+  type        = string
+  description = "Existing TCP backend DNS name."
+}
+variable "origin_port" {
+  type        = number
+  description = "Existing backend TCP port."
+  default     = 8080
+}

@@ -13,8 +13,9 @@ Deploy a named certificate and HTTPS load balancer with native provider encrypti
 
 ## Prerequisites
 
-Allow about 20 minutes plus certificate propagation. Install Terraform **1.11 or later**; this walkthrough is qualified with **1.16.3** and
-**`f5-sales-demo/xcsh` 15.7.2**. Provide an existing namespace, certificate permissions, load-balancer capacity, and a hostname in a tenant-managed
+Allow about 20 minutes plus certificate propagation. Install the current published Terraform and
+**`f5-sales-demo/xcsh` provider** artifacts. The examples allow native-provider releases starting at 15.6.1; qualification resolves and installs the current publication. The provider supports Terraform 1.11 or later for write-only inputs.
+See the [current qualification receipt](../../assets/current-artifacts.json) for resolved versions, digests, source commits, and the status of live gates. Provide an existing namespace, certificate permissions, load-balancer capacity, and a hostname in a tenant-managed
 DNS zone. Terraform reads the namespace as a data source and never owns it.
 
 Set `<XCSH_API_URL>` to your tenant console URL and supply a session credential. These are **provider environment settings**, independent of the xcsh command-line interface (CLI).
@@ -68,7 +69,7 @@ Use these same local files in a separately owned xcsh example if needed. Each to
 
 ## Review a saved plan
 
-Copy the pinned configuration into the private deployment directory. The provider uses `blindfold.certificate_file` and `blindfold.private_key_file`,
+Copy the configuration into the private deployment directory. The provider uses `blindfold.certificate_file` and `blindfold.private_key_file`,
 retrieves the tenant public key and default `shared/ves-io-allow-volterra` policy, and computes the encrypted key location. Leave `certificate_url`,
 `private_key`, and `blindfold.encrypted_location` unset.
 
@@ -85,7 +86,7 @@ for file in versions.tf variables.tf main.tf outputs.tf; do
     "https://f5-sales-demo.github.io/certificate-management/_data/terraform/named-certificate/$file" \
     --output "$XCSH_WORKDIR/deployment/$file"
 done
-terraform -chdir="$XCSH_WORKDIR/deployment" init
+terraform -chdir="$XCSH_WORKDIR/deployment" init -upgrade
 terraform -chdir="$XCSH_WORKDIR/deployment" validate
 terraform -chdir="$XCSH_WORKDIR/deployment" plan \
   -out="$XCSH_WORKDIR/deployment/create.plan"

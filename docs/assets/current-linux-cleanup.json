@@ -1,0 +1,7 @@
+{
+  "qualification": "all attempted run-owned objects reconstructed from saved plans",
+  "disposable_object_count": 37,
+  "typed_absence_passes": 2,
+  "retained_namespace_ownership_unchanged": true,
+  "no_sweeps_or_prefix_deletes": true
+}

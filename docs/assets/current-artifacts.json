@@ -1,0 +1,271 @@
+{
+  "schema_version": 1,
+  "qualified_at": "2026-10-14T17:43:29.198148+00:00",
+  "artifacts": {
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b"
+    },
+    "provider": {
+      "version": "15.8.2",
+      "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
+      "assets": {
+        "terraform-provider-xcsh_15.8.2_darwin_amd64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_darwin_amd64.zip",
+          "digest": "sha256:24fe9496940657a4c4b08526fcb233908695686ce424e1ab7c7a92fd021eeebd"
+        },
+        "terraform-provider-xcsh_15.8.2_darwin_arm64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_darwin_arm64.zip",
+          "digest": "sha256:2a5c0d64e546a666d676c1ef4b0ee5f2ad2ca47fa0234f6db26840873dc88063"
+        },
+        "terraform-provider-xcsh_15.8.2_freebsd_386.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_freebsd_386.zip",
+          "digest": "sha256:cd52f9f16586409a0c6a3fe2c2708f7fae722210675007f0bb6f3a09131fb471"
+        },
+        "terraform-provider-xcsh_15.8.2_freebsd_amd64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_freebsd_amd64.zip",
+          "digest": "sha256:a17c65f248b26dbb912c8836e8a74c16775406b7f64134a97310467b72a6beb0"
+        },
+        "terraform-provider-xcsh_15.8.2_linux_386.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_linux_386.zip",
+          "digest": "sha256:9da543e253f6897d8923c9acfb06af85629c3b333238355b10eb53476afd245f"
+        },
+        "terraform-provider-xcsh_15.8.2_linux_amd64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_linux_amd64.zip",
+          "digest": "sha256:d703452bd56ac7c89e9c7c9cafe6c7d79796c76dede5d2b785912f7195d05d59"
+        },
+        "terraform-provider-xcsh_15.8.2_linux_arm.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_linux_arm.zip",
+          "digest": "sha256:c344f79f5243ca772bb6576ee972b4f70f94e4dc95a9c6156d1c5df0125640ee"
+        },
+        "terraform-provider-xcsh_15.8.2_linux_arm64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_linux_arm64.zip",
+          "digest": "sha256:78499b1bd038713a4442eccadf1a1bb9b6aa9f394b7c6cb7fe151644a27fc866"
+        },
+        "terraform-provider-xcsh_15.8.2_manifest.json": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_manifest.json",
+          "digest": "sha256:95513584b227b9c7923e641aae986935821077b1eb4116845b5312ac412bbc72"
+        },
+        "terraform-provider-xcsh_15.8.2_SHA256SUMS": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_SHA256SUMS",
+          "digest": "sha256:422f22969c11391b52fb923d5dc455e98d8cf9e1549cd347f58ff7e5c12c38d6"
+        },
+        "terraform-provider-xcsh_15.8.2_SHA256SUMS.sig": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_SHA256SUMS.sig",
+          "digest": "sha256:ed322d0930700daf98b3a725f96018686e39d6521c3a3ec15a6b57d4e006a086"
+        },
+        "terraform-provider-xcsh_15.8.2_windows_386.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_windows_386.zip",
+          "digest": "sha256:a5b602c105388c3dbb6f17ecd4b088ebb0161b8054284b5833cc1b02d21e5195"
+        },
+        "terraform-provider-xcsh_15.8.2_windows_amd64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.8.2/terraform-provider-xcsh_15.8.2_windows_amd64.zip",
+          "digest": "sha256:0259e79d6184ab6402a723d860aa169789693fccd40eb5e02b56c61a9ce829b2"
+        }
+      }
+    },
+    "xcsh": {
+      "version": "23.4.1",
+      "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
+      "assets": {
+        "pi_natives.darwin-arm64.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.darwin-arm64.node",
+          "digest": "sha256:b6ae843d77ad1d40c01e013beda4c959717484786664f6573c9a09a88ab0ab40"
+        },
+        "pi_natives.darwin-x64-baseline.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.darwin-x64-baseline.node",
+          "digest": "sha256:85f1ab08de9647b3a58805563502b05311827bb49ca8c43b788df8107a2e14bd"
+        },
+        "pi_natives.darwin-x64-modern.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.darwin-x64-modern.node",
+          "digest": "sha256:83c7c970c18848efba3b4e9fa1e4f1357affc23a35a0f6a625cd02be4970e93e"
+        },
+        "pi_natives.linux-arm64.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.linux-arm64.node",
+          "digest": "sha256:a435dddef240b5ff9d087b93bd288d225f31155d085a7fdc009c4b5f425a0192"
+        },
+        "pi_natives.linux-arm64.node.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.linux-arm64.node.sha256",
+          "digest": "sha256:2a3ff41ef4b78ef9a2744498b6eb7e12d4467ebce4c1284f91a002001a040d9f"
+        },
+        "pi_natives.linux-x64-baseline.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.linux-x64-baseline.node",
+          "digest": "sha256:fd96401b26287c35bc1c8fd2a052159f95a190c3cd3a772d0311d3845df92449"
+        },
+        "pi_natives.linux-x64-baseline.node.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.linux-x64-baseline.node.sha256",
+          "digest": "sha256:6178d054bc0caeadc03f84abf652f68052c4b1b166e02be74d4fddc2f1aea95d"
+        },
+        "pi_natives.linux-x64-modern.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.linux-x64-modern.node",
+          "digest": "sha256:d8a7b68dd55142adba6dfbe63da1b7a9c51633696b5ede8682e789b7c6a97819"
+        },
+        "pi_natives.linux-x64-modern.node.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.linux-x64-modern.node.sha256",
+          "digest": "sha256:ed72f54d4e41ed44fcd82be1d31ae4523d9235e927fad72b4010eddc959fccdf"
+        },
+        "pi_natives.win32-x64-baseline.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.win32-x64-baseline.node",
+          "digest": "sha256:028a43f725781e0fc2a83499f0f5f666517b08233b937db7dc4daea079bed503"
+        },
+        "pi_natives.win32-x64-modern.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/pi_natives.win32-x64-modern.node",
+          "digest": "sha256:99bfcf47ab7c20889e50225cd2b957c6131eabcc4a284e870bcd1eec4122c1ba"
+        },
+        "xcsh-darwin-arm64": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-darwin-arm64",
+          "digest": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087"
+        },
+        "xcsh-darwin-arm64.pkg": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-darwin-arm64.pkg",
+          "digest": "sha256:d263c74f09e15063549cbf150368d476fdedc2a526cc89627ba6557cfc53fbb2"
+        },
+        "xcsh-darwin-arm64.provenance.json": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-darwin-arm64.provenance.json",
+          "digest": "sha256:3866c31aff722292719b484c2d1127ebea29a9195a0c1273207df6cc95f6c3fb"
+        },
+        "xcsh-darwin-arm64.zip": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-darwin-arm64.zip",
+          "digest": "sha256:62df92ecb6c7f5333a110497f9f9d3bc8bbba007b2f585236de3325b8bc04861"
+        },
+        "xcsh-darwin-x64": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-darwin-x64",
+          "digest": "sha256:ffc471262d2fee725581f7660f6d595491dd89d32ca938010e8129e5fb4f4898"
+        },
+        "xcsh-darwin-x64.pkg": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-darwin-x64.pkg",
+          "digest": "sha256:7e675f79a88108376b610ffdc47aca27b9bedc510ad49ae6aa57f3f4efc14c43"
+        },
+        "xcsh-darwin-x64.provenance.json": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-darwin-x64.provenance.json",
+          "digest": "sha256:b2374fbe4b5297cca775211e269170b3c9f7fc0120b2382dd3b7f4767db6c282"
+        },
+        "xcsh-darwin-x64.zip": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-darwin-x64.zip",
+          "digest": "sha256:ce2db0f162ddb8c6670847975003da32c930bed3027d266c290f85f3a10fe9d2"
+        },
+        "xcsh-linux-arm64": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-linux-arm64",
+          "digest": "sha256:c67009c4a8045c9c5a84f6ebdfb4b26a2aa9b9da765e0bdbf1aa213bd13b0329"
+        },
+        "xcsh-linux-arm64.provenance.json": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-linux-arm64.provenance.json",
+          "digest": "sha256:a1b4341a839709ed0bc214f556231f159372b41b9d7c9b708bef119111885f87"
+        },
+        "xcsh-linux-arm64.provenance.json.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-linux-arm64.provenance.json.sha256",
+          "digest": "sha256:44298e7ae58e620c41e3f0bf51bcbe9df54d5622bdfda4676051ad9f4ac5a4c5"
+        },
+        "xcsh-linux-arm64.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-linux-arm64.sha256",
+          "digest": "sha256:4512abc97c9284771518ec5bd447c599052edb04a345fa3c76a59cf9f3757f1a"
+        },
+        "xcsh-linux-x64": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-linux-x64",
+          "digest": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5"
+        },
+        "xcsh-linux-x64.provenance.json": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-linux-x64.provenance.json",
+          "digest": "sha256:3ebf92eded04943c307ae2521f35af6fb03a3889d320d11a52f03c975902642a"
+        },
+        "xcsh-linux-x64.provenance.json.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-linux-x64.provenance.json.sha256",
+          "digest": "sha256:e5962adc4bbb68f3628656cd09177a983bc2f9302f94162dc4a9677e8d4ced90"
+        },
+        "xcsh-linux-x64.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-linux-x64.sha256",
+          "digest": "sha256:72dd8831e60314731768a004de05420de8812cad08d9c31af61de8a3a6152233"
+        },
+        "xcsh-windows-x64.exe": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.4.1/xcsh-windows-x64.exe",
+          "digest": "sha256:e7673b58d81230f1ea97c19fcea5672a49f2ab1e7b298bbeacd333d4c885d35a"
+        }
+      }
+    },
+    "builder": {
+      "image": "ghcr.io/f5-sales-demo/docs-builder@sha256:89053335284a8ab5da2fff75549e16d5f2c7c7aa388aadb3ed68bfe7967ae2f7",
+      "version": "1.10.1",
+      "source_commit": "3770a67ba071e2888ab88427f5cb5e27c382e0b7",
+      "publication_run": "https://github.com/f5-sales-demo/docs-builder/actions/runs/38541101132"
+    }
+  },
+  "installed_platforms": {
+    "linux": {
+      "platform": "linux_amd64",
+      "terraform": {
+        "version": "1.16.6",
+        "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+        "archive_sha256": "sha256:38034b38d03096399a7a1264a14561a8029b2b496fd1f169452656e53968f1b7",
+        "binary_sha256": "sha256:00a240950f88f51a03ad90975f1647737e40ddcd5df30a703fd840aa07dccced"
+      },
+      "provider": {
+        "version": "15.8.2",
+        "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
+        "archive_sha256": "sha256:d703452bd56ac7c89e9c7c9cafe6c7d79796c76dede5d2b785912f7195d05d59",
+        "binary_sha256": "sha256:bccdbd86e71f7603bda5b59a9e740969846abde1c680130617301e93386b53a3"
+      },
+      "xcsh": {
+        "version": "23.4.1",
+        "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
+        "archive_sha256": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5",
+        "binary_sha256": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5"
+      }
+    },
+    "macos": {
+      "platform": "darwin_arm64",
+      "terraform": {
+        "version": "1.16.6",
+        "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+        "archive_sha256": "sha256:85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd",
+        "binary_sha256": "sha256:27b7113783a1f7d71b711339bd235104961f7bcfe92dc6a9924206ee0eb75937"
+      },
+      "provider": {
+        "version": "15.8.2",
+        "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
+        "archive_sha256": "sha256:2a5c0d64e546a666d676c1ef4b0ee5f2ad2ca47fa0234f6db26840873dc88063",
+        "binary_sha256": "sha256:1943873f59c9f4395ec3f4b7a42c77c2ca218f567511c72ed98c15c2eacceb85"
+      },
+      "xcsh": {
+        "version": "23.4.1",
+        "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
+        "archive_sha256": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087",
+        "binary_sha256": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087"
+      }
+    }
+  },
+  "schema_configurations_per_platform": 25,
+  "supported_cases_per_platform": 16,
+  "restricted_cases": 9,
+  "reference_api_failures": 3,
+  "supported_case_failures": 0,
+  "unclassified_results": 0,
+  "schema_validation": "credential-free; does not establish encryption or served TLS",
+  "live_qualification": "private session credentials; encrypted readback, lifecycle and typed cleanup",
+  "receipts": {
+    "linux": {
+      "schema": "current-linux-configurations.json",
+      "lifecycle": "current-linux-qualification.json",
+      "reader": "current-linux-reader.json",
+      "xcsh_reader": "current-linux-xcsh-reader.json",
+      "cleanup": "current-linux-cleanup.json",
+      "native_inputs": "current-linux-inputs.json"
+    },
+    "macos": {
+      "schema": "current-macos-configurations.json",
+      "lifecycle": "current-macos-qualification.json",
+      "reader": "current-macos-reader.json",
+      "xcsh_reader": "current-macos-xcsh-reader.json",
+      "cleanup": "current-macos-cleanup.json",
+      "native_inputs": "current-macos-inputs.json"
+    }
+  },
+  "restrictions_receipt": "current-restrictions.json",
+  "retained_receipt": "current-retained.json",
+  "endpoint_receipt": "current-endpoints.json",
+  "customization_receipt": "current-customization.json",
+  "served_tls_receipt": "current-served-tls.json",
+  "served_origin_mtls_receipt": "current-served-mtls.json",
+  "schema_inventory_receipt": "current-schema-inventory.json",
+  "qualification_limit": "Three stateful reference attempts return HTTP 500 and remain failed; no capability skip or live promotion.",
+  "native_input_families_per_platform": 4
+}

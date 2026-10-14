@@ -1,0 +1,71 @@
+{
+  "tool": "terraform",
+  "platform": "darwin",
+  "artifacts": {
+    "platform": "darwin_arm64",
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+      "archive_sha256": "sha256:85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd",
+      "binary_sha256": "sha256:27b7113783a1f7d71b711339bd235104961f7bcfe92dc6a9924206ee0eb75937"
+    },
+    "provider": {
+      "version": "15.8.2",
+      "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
+      "archive_sha256": "sha256:2a5c0d64e546a666d676c1ef4b0ee5f2ad2ca47fa0234f6db26840873dc88063",
+      "binary_sha256": "sha256:1943873f59c9f4395ec3f4b7a42c77c2ca218f567511c72ed98c15c2eacceb85"
+    },
+    "xcsh": {
+      "version": "23.4.1",
+      "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
+      "archive_sha256": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087",
+      "binary_sha256": "sha256:c9bc0adc8cc300fdcc09a475dfe88996f6b7698b93f70bb63996fa257c3a9087"
+    }
+  },
+  "reader_source": "candidate source downloads",
+  "commands": [
+    {
+      "label": "terraform-0",
+      "source_sha256": "1f7500a047cc32137907dc01c103d4b5377a4b2509eac5678eb81b31f5add286",
+      "exit": 0
+    },
+    {
+      "label": "terraform-1",
+      "source_sha256": "7d6fbec7594ac228835ab726159965d536ce7aaf7e4fe62cbff76febc18bd612",
+      "exit": 0
+    },
+    {
+      "label": "terraform-2",
+      "source_sha256": "47b4acb70cc66cdf7f663d54823720609536aa633dbfd494e58d64205b6efcc7",
+      "exit": 0
+    },
+    {
+      "label": "terraform-3",
+      "source_sha256": "d3281466833971d31a736f4022f71cb0ac46ea11931a5b07647eeabbca2eb5c7",
+      "exit": 0
+    },
+    {
+      "label": "terraform-proof-initial-1",
+      "source_sha256": "34d4230fb0b8eb91460db7be98ba1af042e41c2e81bfb776db0ea120cb39322b",
+      "exit": 0
+    },
+    {
+      "label": "terraform-renew",
+      "source_sha256": "3bb53791a68133ec463ea4ba1562c4585fab8a4cf5ab7a768cd4457bb40687b6",
+      "exit": 0
+    },
+    {
+      "label": "terraform-proof-renewed-1",
+      "source_sha256": "34d4230fb0b8eb91460db7be98ba1af042e41c2e81bfb776db0ea120cb39322b",
+      "exit": 0
+    },
+    {
+      "label": "terraform-cleanup",
+      "source_sha256": "7c9c1630a5a4e2860d046abd58715a2381a05e33a46a8ec34938d19bb86ec753",
+      "exit": 0
+    }
+  ],
+  "cleanup": "typed_absence_twice",
+  "saved_plan_and_state_secret_containment": true,
+  "served_fingerprints_and_trusted_hostnames": true
+}
