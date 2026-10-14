@@ -1,0 +1,841 @@
+{
+  "initial_failed_attempts": 2,
+  "initial_failures_remain_failed": true,
+  "failed_phase": "initial apply; unresolved Blindfold write outcome",
+  "typed_cleanup_before_fresh_replay": true,
+  "terminal_replay_supported_case_failures": 0,
+  "attempts": {
+    "linux": {
+      "initial": {
+        "artifacts": {
+          "platform": "linux_amd64",
+          "terraform": {
+            "version": "1.16.6",
+            "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+            "archive_sha256": "sha256:38034b38d03096399a7a1264a14561a8029b2b496fd1f169452656e53968f1b7",
+            "binary_sha256": "sha256:00a240950f88f51a03ad90975f1647737e40ddcd5df30a703fd840aa07dccced"
+          },
+          "provider": {
+            "version": "15.8.3",
+            "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+            "archive_sha256": "sha256:285b827ed27e7b59d2026724efa6bd0920fd839e2df99fb488f5b3e91b54f2bd",
+            "binary_sha256": "sha256:986377888674fe867053d4f59c79d89cb0b36e97ad7578a40edbdc530688cc7a"
+          },
+          "xcsh": {
+            "version": "23.4.2",
+            "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+            "archive_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785",
+            "binary_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785"
+          }
+        },
+        "qualification": "encrypted configuration lifecycles; served TLS requires separate proof",
+        "run": "cert-q-389e309396",
+        "examples": {
+          "advertise-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "53e166ce9ed95c0917841aabf062e32e47e422b628aeabb4c7fce8267564e202",
+              "variables.tf": "19877d48389830609196c72e5a9be83f58c4d7e7c6c3b2ad197e8a4fef6fc5b5",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "cdn-origin-mtls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "ea1efe490bf93485b35230fda4db218a8975c5dc0c782a60dd7acfde3105f384",
+              "variables.tf": "6c7583d1983968f12fe61af0e9e153e5baef783f71695f71d3a38e0ce32652bf",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "cdn-server-tls": {
+            "configuration_lifecycle": "failed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "68a4e4b2300695fb144a355d3afcb9c52f6957d7475cdc712eec4aeb9bc807ca",
+              "variables.tf": "6fa895f712f2da41bce25822fdd81084716c1e2b6d61428b153b5624804c230e",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "failure": "initial-apply: exit 1"
+          },
+          "cluster-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "464587d1bb46ed19aa5bebf7306112c9c3c944cca588c48b72f509b34ce9e136",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "http-origin-mtls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "c2c6088fc8e4ed2ca601953dd05f3d0cc65231a9a617486700137a59d8a40dab",
+              "variables.tf": "6c7583d1983968f12fe61af0e9e153e5baef783f71695f71d3a38e0ce32652bf",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "inline-server-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "e23cadc1d8bfb42076be74e2c5ab3f5d5678a10aa8086803c3cb095151133185",
+              "variables.tf": "ec61292ffed1d980351d49da9f08c98c26b9ee2ca53994d188744295922a6caa",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "insert": "passed",
+            "reorder": "passed",
+            "remove": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "named-certificate": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "f679271f4b47d6bc58b0240b59577fbb7c8247fc65fa5c5b5daaf736ef607c40",
+              "outputs.tf": "86b5ae8e682f38e5a7df25ccd0ae2c9cdef0489533c74aa98dc3763272838c2d",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "origin-mtls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "63ee1c82603118e083c9469611a72a4356c00ed920221e93b5c73d5c3d72a51c",
+              "variables.tf": "204feff483cf0868ba0ba82d2b505312879097e2a128cd6676e809df18c20dfc",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "proxy-intercept": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "154a7c76cb1c01554ee725b8527a8f32b70d68d300dc18485b1e147ce41399d1",
+              "variables.tf": "19877d48389830609196c72e5a9be83f58c4d7e7c6c3b2ad197e8a4fef6fc5b5",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "proxy-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "7bf8c884def90d7061c6ed4292230414bb2416e5d36fc506d1c920cba6e5132c",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "secret-access-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "0887c4e66eb9ca5103a550ff434dc16c784ea0b4ba50ebf7a62ae3cad094d772",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "tcp-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "0f6bfff9375514dee3e89acaf287a2270feeeaf6913e01547b3ff551f8d477ac",
+              "variables.tf": "0d1211accb3f5c97c7f3b5ae46748dffda84c99e2e249e9a5b94e5d5a2f89e80",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "virtual-host-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "999241e42a943e0260c0f8e1a9148ee9d3ec5b1184761797662a360ba0c49488",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "workload-service-custom": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "e7098872d7236f99bd7f7af04f6cd24d990725e4c3838875de327a21c087b068",
+              "variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "workload-service-public-multi": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "ec4c060f7422844bbf222fe2b992cf7dfa01e2e6ac7cc5340feff23253a08ab3",
+              "variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "workload-service-public-single": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "4016fb6f1730852842fb38952a2df9c018c29b0d0a71a88ed608c97764d4cef2",
+              "variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          }
+        }
+      },
+      "cdn_diagnostic_replay": {
+        "artifacts": {
+          "platform": "linux_amd64",
+          "terraform": {
+            "version": "1.16.6",
+            "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+            "archive_sha256": "sha256:38034b38d03096399a7a1264a14561a8029b2b496fd1f169452656e53968f1b7",
+            "binary_sha256": "sha256:00a240950f88f51a03ad90975f1647737e40ddcd5df30a703fd840aa07dccced"
+          },
+          "provider": {
+            "version": "15.8.3",
+            "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+            "archive_sha256": "sha256:285b827ed27e7b59d2026724efa6bd0920fd839e2df99fb488f5b3e91b54f2bd",
+            "binary_sha256": "sha256:986377888674fe867053d4f59c79d89cb0b36e97ad7578a40edbdc530688cc7a"
+          },
+          "xcsh": {
+            "version": "23.4.2",
+            "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+            "archive_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785",
+            "binary_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785"
+          }
+        },
+        "qualification": "encrypted configuration lifecycles; served TLS requires separate proof",
+        "run": "cert-q-88d66449bf",
+        "examples": {
+          "cdn-origin-mtls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "ea1efe490bf93485b35230fda4db218a8975c5dc0c782a60dd7acfde3105f384",
+              "variables.tf": "6c7583d1983968f12fe61af0e9e153e5baef783f71695f71d3a38e0ce32652bf",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "cdn-server-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "68a4e4b2300695fb144a355d3afcb9c52f6957d7475cdc712eec4aeb9bc807ca",
+              "variables.tf": "6fa895f712f2da41bce25822fdd81084716c1e2b6d61428b153b5624804c230e",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          }
+        }
+      }
+    },
+    "macos": {
+      "initial": {
+        "artifacts": {
+          "platform": "darwin_arm64",
+          "terraform": {
+            "version": "1.16.6",
+            "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+            "archive_sha256": "sha256:85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd",
+            "binary_sha256": "sha256:27b7113783a1f7d71b711339bd235104961f7bcfe92dc6a9924206ee0eb75937"
+          },
+          "provider": {
+            "version": "15.8.3",
+            "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+            "archive_sha256": "sha256:214d4caaf444aba81e509e7164547baf4a4c4477403be43e018ccd930fec147f",
+            "binary_sha256": "sha256:e7ca59cda79d503068b8dee96a0341ab0706f0d5176068c7773eccecedead8af"
+          },
+          "xcsh": {
+            "version": "23.4.2",
+            "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+            "archive_sha256": "sha256:fc87f87258b2b90093ca56ca1a03b4df9476c7a32b31aee00f256bccb165c341",
+            "binary_sha256": "sha256:fc87f87258b2b90093ca56ca1a03b4df9476c7a32b31aee00f256bccb165c341"
+          }
+        },
+        "qualification": "encrypted configuration lifecycles; served TLS requires separate proof",
+        "run": "cert-q-b50cf27fde",
+        "examples": {
+          "advertise-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "53e166ce9ed95c0917841aabf062e32e47e422b628aeabb4c7fce8267564e202",
+              "variables.tf": "19877d48389830609196c72e5a9be83f58c4d7e7c6c3b2ad197e8a4fef6fc5b5",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "cdn-origin-mtls": {
+            "configuration_lifecycle": "failed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "ea1efe490bf93485b35230fda4db218a8975c5dc0c782a60dd7acfde3105f384",
+              "variables.tf": "6c7583d1983968f12fe61af0e9e153e5baef783f71695f71d3a38e0ce32652bf",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "failure": "initial-apply: exit 1"
+          },
+          "cdn-server-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "68a4e4b2300695fb144a355d3afcb9c52f6957d7475cdc712eec4aeb9bc807ca",
+              "variables.tf": "6fa895f712f2da41bce25822fdd81084716c1e2b6d61428b153b5624804c230e",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "cluster-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "464587d1bb46ed19aa5bebf7306112c9c3c944cca588c48b72f509b34ce9e136",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "http-origin-mtls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "c2c6088fc8e4ed2ca601953dd05f3d0cc65231a9a617486700137a59d8a40dab",
+              "variables.tf": "6c7583d1983968f12fe61af0e9e153e5baef783f71695f71d3a38e0ce32652bf",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "inline-server-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "e23cadc1d8bfb42076be74e2c5ab3f5d5678a10aa8086803c3cb095151133185",
+              "variables.tf": "ec61292ffed1d980351d49da9f08c98c26b9ee2ca53994d188744295922a6caa",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "insert": "passed",
+            "reorder": "passed",
+            "remove": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "named-certificate": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "f679271f4b47d6bc58b0240b59577fbb7c8247fc65fa5c5b5daaf736ef607c40",
+              "outputs.tf": "86b5ae8e682f38e5a7df25ccd0ae2c9cdef0489533c74aa98dc3763272838c2d",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "origin-mtls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "63ee1c82603118e083c9469611a72a4356c00ed920221e93b5c73d5c3d72a51c",
+              "variables.tf": "204feff483cf0868ba0ba82d2b505312879097e2a128cd6676e809df18c20dfc",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "proxy-intercept": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "154a7c76cb1c01554ee725b8527a8f32b70d68d300dc18485b1e147ce41399d1",
+              "variables.tf": "19877d48389830609196c72e5a9be83f58c4d7e7c6c3b2ad197e8a4fef6fc5b5",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "proxy-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "7bf8c884def90d7061c6ed4292230414bb2416e5d36fc506d1c920cba6e5132c",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "secret-access-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "0887c4e66eb9ca5103a550ff434dc16c784ea0b4ba50ebf7a62ae3cad094d772",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "tcp-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "0f6bfff9375514dee3e89acaf287a2270feeeaf6913e01547b3ff551f8d477ac",
+              "variables.tf": "0d1211accb3f5c97c7f3b5ae46748dffda84c99e2e249e9a5b94e5d5a2f89e80",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "virtual-host-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "999241e42a943e0260c0f8e1a9148ee9d3ec5b1184761797662a360ba0c49488",
+              "variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "workload-service-custom": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "e7098872d7236f99bd7f7af04f6cd24d990725e4c3838875de327a21c087b068",
+              "variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "workload-service-public-multi": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "ec4c060f7422844bbf222fe2b992cf7dfa01e2e6ac7cc5340feff23253a08ab3",
+              "variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "workload-service-public-single": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "4016fb6f1730852842fb38952a2df9c018c29b0d0a71a88ed608c97764d4cef2",
+              "variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          }
+        }
+      },
+      "cdn_diagnostic_replay": {
+        "artifacts": {
+          "platform": "darwin_arm64",
+          "terraform": {
+            "version": "1.16.6",
+            "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+            "archive_sha256": "sha256:85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd",
+            "binary_sha256": "sha256:27b7113783a1f7d71b711339bd235104961f7bcfe92dc6a9924206ee0eb75937"
+          },
+          "provider": {
+            "version": "15.8.3",
+            "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+            "archive_sha256": "sha256:214d4caaf444aba81e509e7164547baf4a4c4477403be43e018ccd930fec147f",
+            "binary_sha256": "sha256:e7ca59cda79d503068b8dee96a0341ab0706f0d5176068c7773eccecedead8af"
+          },
+          "xcsh": {
+            "version": "23.4.2",
+            "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+            "archive_sha256": "sha256:fc87f87258b2b90093ca56ca1a03b4df9476c7a32b31aee00f256bccb165c341",
+            "binary_sha256": "sha256:fc87f87258b2b90093ca56ca1a03b4df9476c7a32b31aee00f256bccb165c341"
+          }
+        },
+        "qualification": "encrypted configuration lifecycles; served TLS requires separate proof",
+        "run": "cert-q-c4b9174fe6",
+        "examples": {
+          "cdn-origin-mtls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "ea1efe490bf93485b35230fda4db218a8975c5dc0c782a60dd7acfde3105f384",
+              "variables.tf": "6c7583d1983968f12fe61af0e9e153e5baef783f71695f71d3a38e0ce32652bf",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          },
+          "cdn-server-tls": {
+            "configuration_lifecycle": "passed",
+            "cleanup": "typed_absence_twice",
+            "served_tls": "not_exercised",
+            "source_sha256": {
+              "main.tf": "68a4e4b2300695fb144a355d3afcb9c52f6957d7475cdc712eec4aeb9bc807ca",
+              "variables.tf": "6fa895f712f2da41bce25822fdd81084716c1e2b6d61428b153b5624804c230e",
+              "versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca"
+            },
+            "qualification_adaptations": [
+              "No public advertisement or DNS registration",
+              "Run-owned names and labels",
+              "Empty CE selector for workload lifecycle only"
+            ],
+            "initial": "passed",
+            "metadata": "passed",
+            "renewal": "passed",
+            "encryption_readback": "passed",
+            "secret_containment": "passed"
+          }
+        }
+      }
+    }
+  }
+}

@@ -10,19 +10,19 @@
       "binary_sha256": "sha256:00a240950f88f51a03ad90975f1647737e40ddcd5df30a703fd840aa07dccced"
     },
     "provider": {
-      "version": "15.8.2",
-      "source_commit": "e1999b8fdbe70df4c8bd46dd276366bf601f49e1",
-      "archive_sha256": "sha256:d703452bd56ac7c89e9c7c9cafe6c7d79796c76dede5d2b785912f7195d05d59",
-      "binary_sha256": "sha256:bccdbd86e71f7603bda5b59a9e740969846abde1c680130617301e93386b53a3"
+      "version": "15.8.3",
+      "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+      "archive_sha256": "sha256:285b827ed27e7b59d2026724efa6bd0920fd839e2df99fb488f5b3e91b54f2bd",
+      "binary_sha256": "sha256:986377888674fe867053d4f59c79d89cb0b36e97ad7578a40edbdc530688cc7a"
     },
     "xcsh": {
-      "version": "23.4.1",
-      "source_commit": "ed25d2e997b6b18719bbd78315b01eb84b252b98",
-      "archive_sha256": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5",
-      "binary_sha256": "sha256:3249b320b29aede404dae2abb0e6b3a3ad7be676b3f54aff0e6bf2a32595b0f5"
+      "version": "23.4.2",
+      "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+      "archive_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785",
+      "binary_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785"
     }
   },
-  "reader_source": "candidate source downloads",
+  "reader_source": "published downloads",
   "commands": [
     {
       "label": "xcsh-0",

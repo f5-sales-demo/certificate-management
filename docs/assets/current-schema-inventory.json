@@ -2,6 +2,7 @@
   "node_count": 25,
   "resource_type_count": 14,
   "installed_schema_sha256": "ac383326a810e64074d102efb150c746ea375a232c1748dd56591a241f9346ad",
+  "identical_installed_platform_schemas": ["linux_amd64", "darwin_arm64"],
   "nodes": [
     "xcsh_advertise_policy.tls_parameters.common_params.tls_certificates",
     "xcsh_bigip_http_proxy.proxy_config.https.tls_parameters.tls_certificates",
@@ -28,5 +29,7 @@
     "xcsh_workload.stateful_service.advertise_options.advertise_custom.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
     "xcsh_workload.stateful_service.advertise_options.advertise_on_public.multi_ports.ports.http_loadbalancer.https.tls_parameters.tls_certificates",
     "xcsh_workload.stateful_service.advertise_options.advertise_on_public.port.http_loadbalancer.https.tls_parameters.tls_certificates"
-  ]
+  ],
+  "provider": "15.8.3",
+  "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7"
 }

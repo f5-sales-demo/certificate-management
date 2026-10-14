@@ -1,7 +1,30 @@
 {
-  "qualification": "all attempted run-owned objects reconstructed from saved plans",
-  "disposable_object_count": 37,
+  "qualification": "Every disposable saved plan and typed ownership journal; historical attempts included",
+  "artifacts": {
+    "platform": "linux_amd64",
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+      "archive_sha256": "sha256:38034b38d03096399a7a1264a14561a8029b2b496fd1f169452656e53968f1b7",
+      "binary_sha256": "sha256:00a240950f88f51a03ad90975f1647737e40ddcd5df30a703fd840aa07dccced"
+    },
+    "provider": {
+      "version": "15.8.3",
+      "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+      "archive_sha256": "sha256:285b827ed27e7b59d2026724efa6bd0920fd839e2df99fb488f5b3e91b54f2bd",
+      "binary_sha256": "sha256:986377888674fe867053d4f59c79d89cb0b36e97ad7578a40edbdc530688cc7a"
+    },
+    "xcsh": {
+      "version": "23.4.2",
+      "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+      "archive_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785",
+      "binary_sha256": "sha256:73b0dd3e588c3b54eed5fb3c5889a95dd7e05d521b0dd754a91afadb244f7785"
+    }
+  },
+  "disposable_object_count": 44,
+  "saved_plan_count": 108,
+  "saved_plans_secret_containment": true,
   "typed_absence_passes": 2,
-  "retained_namespace_ownership_unchanged": true,
-  "no_sweeps_or_prefix_deletes": true
+  "no_sweeps_or_prefix_deletes": true,
+  "retained_resources_excluded": true
 }

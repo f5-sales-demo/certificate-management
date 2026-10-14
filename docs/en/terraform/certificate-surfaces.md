@@ -24,7 +24,7 @@ The [machine matrix](../../../assets/terraform-certificate-matrix.json) separate
 | `xcsh_cluster.tls_parameters.common_params.tls_certificates` | Passed | Passed | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/cluster-tls) Concrete consumer/advertisement required for serving. |
 | `xcsh_http_loadbalancer.default_pool.use_tls.use_mtls.tls_certificates` | Passed | Passed | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/http-origin-mtls) Existing origin with client authentication and trusted server chain. |
 | `xcsh_http_loadbalancer.https.tls_parameters.tls_certificates` | Passed | Passed | Passed | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/inline-server-tls) Existing namespace and tenant-managed hostname. |
-| `xcsh_network_connector.enable_forward_proxy.tls_intercept.custom_certificate` | Passed | Unqualified | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/connector-intercept) API accepts system object but drops interception TLS configuration |
+| `xcsh_network_connector.enable_forward_proxy.tls_intercept.custom_certificate` | Passed | Failed | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/connector-intercept) API accepts system object but drops interception TLS configuration |
 | `xcsh_nfv_service.https_management.advertise_on_sli_vip.tls_certificates` | Passed | Unqualified | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/nfv-advertise_on_sli_vip) Isolated NFV service and managed cloud appliance prerequisites unavailable |
 | `xcsh_nfv_service.https_management.advertise_on_slo_internet_vip.tls_certificates` | Passed | Unqualified | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/nfv-advertise_on_slo_internet_vip) Isolated NFV service and managed cloud appliance prerequisites unavailable |
 | `xcsh_nfv_service.https_management.advertise_on_slo_sli.tls_certificates` | Passed | Unqualified | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/nfv-advertise_on_slo_sli) Isolated NFV service and managed cloud appliance prerequisites unavailable |
@@ -110,7 +110,7 @@ Files under [`terraform/reference`](https://github.com/f5-sales-demo/certificate
 - BIG-IP HTTP proxy returned HTTP **501 Not Implemented** in the demo tenant.
 - Stateful workloads’ public single-port, public multi-port, and custom advertisement paths were **rejected by the API**.
 - Network function virtualization (NFV) certificates need a separately managed appliance and isolated site. All four nodes remain unqualified live.
-- Network connectors require the **`system` namespace**. Current certificate-specific readback shows that the API accepts the object but drops interception TLS settings, so the encrypted lifecycle remains unqualified even there.
+- Network connectors require the **`system` namespace**. Current certificate-specific readback shows that the API accepts the object but drops interception TLS settings, so the current provider fails the write when encrypted readback is missing. The path remains restricted even there.
 
 These limitations and unqualified served paths remain explicit even when schema validation passes. Provider [#2539](https://github.com/f5-sales-demo/terraform-provider-xcsh/issues/2539) scheduled acceptance failures are outside this documentation’s claims.
 
@@ -118,8 +118,14 @@ These limitations and unqualified served paths remain explicit even when schema 
 
 The current artifact receipt links two-platform schema validation and all 16 supported encrypted lifecycles.
 Named and inline HTTPS and named-origin mutual TLS have separate served traffic receipts. Generic HTTP
-acceptance does not qualify a certificate path. The API drops the tested connector certificate settings.
+acceptance does not qualify a certificate path. The API drops the tested connector certificate settings, and the current provider fails the write when encrypted readback is missing.
 Stateful advertisement attempts return HTTP 500, including a control without TLS; these remain failed tests.
 BIG-IP proxy reads return HTTP 501. NFV paths remain reference fragments because no isolated managed-appliance
 and site inputs were supplied in the authorized target namespace. These nine restrictions remain explicit in
 the current matrix.
+
+The current receipt includes every initial attempt. Two initial CDN applies failed with an unresolved write outcome;
+typed cleanup completed before fresh diagnostic replays passed. These attempts remain failures in the receipt. The
+[earlier artifact
+receipt](https://github.com/f5-sales-demo/certificate-management/blob/a40b25f8ade9ffe956c7307d8423221c19c78290/docs/assets/current-artifacts.json)
+and its evidence remain unchanged.

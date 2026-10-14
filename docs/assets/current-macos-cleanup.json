@@ -1,7 +1,30 @@
 {
-  "qualification": "all attempted run-owned objects reconstructed from saved plans",
-  "disposable_object_count": 25,
+  "qualification": "Every disposable saved plan and typed ownership journal; historical attempts included",
+  "artifacts": {
+    "platform": "darwin_arm64",
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b",
+      "archive_sha256": "sha256:85e1bc78ab45bdc5f82a7bac3929e37d072834a584d22583a2498dc67bb624cd",
+      "binary_sha256": "sha256:27b7113783a1f7d71b711339bd235104961f7bcfe92dc6a9924206ee0eb75937"
+    },
+    "provider": {
+      "version": "15.8.3",
+      "source_commit": "b223fb285bf256ead2c8f5ecb7df53b4562329c7",
+      "archive_sha256": "sha256:214d4caaf444aba81e509e7164547baf4a4c4477403be43e018ccd930fec147f",
+      "binary_sha256": "sha256:e7ca59cda79d503068b8dee96a0341ab0706f0d5176068c7773eccecedead8af"
+    },
+    "xcsh": {
+      "version": "23.4.2",
+      "source_commit": "cec283d4ac4b7a1500b1b846104ea61b73e13461",
+      "archive_sha256": "sha256:fc87f87258b2b90093ca56ca1a03b4df9476c7a32b31aee00f256bccb165c341",
+      "binary_sha256": "sha256:fc87f87258b2b90093ca56ca1a03b4df9476c7a32b31aee00f256bccb165c341"
+    }
+  },
+  "disposable_object_count": 33,
+  "saved_plan_count": 93,
+  "saved_plans_secret_containment": true,
   "typed_absence_passes": 2,
-  "retained_namespace_ownership_unchanged": true,
-  "no_sweeps_or_prefix_deletes": true
+  "no_sweeps_or_prefix_deletes": true,
+  "retained_resources_excluded": true
 }
