@@ -14,6 +14,43 @@ import threading
 from pathlib import Path
 
 
+def build_published_image(docker: str, image: str, content: Path, output: Path) -> None:
+    """Copy public inputs and outputs through Docker's API across runner boundaries."""
+    container = subprocess.check_output(
+        [
+            docker,
+            "create",
+            "--user",
+            "0:0",
+            "-e",
+            "CONTENT_DIR=/content",
+            "-e",
+            "GITHUB_REPOSITORY=f5-sales-demo/certificate-management",
+            "-e",
+            "GITHUB_REPOSITORY_OWNER=f5-sales-demo",
+            "-e",
+            "DOCS_SITE=https://f5-sales-demo.github.io",
+            "-e",
+            "DOCS_BASE=/certificate-management",
+            image,
+        ],
+        text=True,
+    ).strip()
+    if not container:
+        message = "Docker did not return a task-owned container identity"
+        raise ValueError(message)
+    try:
+        subprocess.run(
+            [docker, "cp", str(content), container + ":/content"], check=True
+        )
+        subprocess.run([docker, "start", "-a", container], check=True)
+        subprocess.run(
+            [docker, "cp", container + ":/app/dist/.", str(output)], check=True
+        )
+    finally:
+        subprocess.run([docker, "rm", "-f", container], check=True)
+
+
 def main() -> None:
     """Exercise the current image against source, downloads and browser controls."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -47,29 +84,7 @@ def main() -> None:
     image = frozen["builder"]["image"]
     docker = shutil.which("docker")
     assert docker
-    subprocess.run(
-        [
-            docker,
-            "run",
-            "--rm",
-            "--user",
-            "0:0",
-            "-e",
-            "GITHUB_REPOSITORY=f5-sales-demo/certificate-management",
-            "-e",
-            "GITHUB_REPOSITORY_OWNER=f5-sales-demo",
-            "-e",
-            "DOCS_SITE=https://f5-sales-demo.github.io",
-            "-e",
-            "DOCS_BASE=/certificate-management",
-            "-v",
-            str(content) + ":/content/docs:ro",
-            "-v",
-            str(build) + ":/output",
-            image,
-        ],
-        check=True,
-    )
+    build_published_image(docker, image, content, build)
     preview = work / "preview"
     preview.mkdir()
     (preview / "certificate-management").symlink_to(build, target_is_directory=True)
