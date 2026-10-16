@@ -43,20 +43,25 @@ func (w wingman) request(ctx context.Context, method, path string, body []byte) 
 	}
 	resp, err := w.client.Do(req)
 	if err != nil {
-		return nil, errors.New("Wingman unavailable")
+		return nil, fmt.Errorf("Wingman %s unavailable", path)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		return nil, wingmanStatusError(resp.StatusCode)
 	}
 	data, err := io.ReadAll(io.LimitReader(resp.Body, maxMaterial+1))
-	if err != nil || len(data) > maxMaterial {
-		return nil, errors.New("invalid Wingman response size")
+	if err != nil {
+		return nil, fmt.Errorf("Wingman %s response read failed", path)
+	}
+	if len(data) > maxMaterial {
+		return nil, fmt.Errorf("Wingman %s response exceeds material limit", path)
 	}
 	return data, nil
 }
 
 func (w wingman) ready(ctx context.Context) error {
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
 	data, err := w.request(ctx, http.MethodGet, "/status", nil)
 	if err != nil {
 		return err
@@ -160,7 +165,7 @@ func run(ctx context.Context) error {
 		return errors.New("TLS_HOSTNAME is required")
 	}
 	w := wingman{"http://127.0.0.1:8070", &http.Client{
-		Timeout:       5 * time.Second,
+		Timeout:       30 * time.Second,
 		Transport:     &http.Transport{Proxy: nil},
 		CheckRedirect: func(*http.Request, []*http.Request) error { return errors.New("Wingman redirect rejected") },
 	}}
@@ -180,7 +185,7 @@ func run(ctx context.Context) error {
 	server := &http.Server{
 		Addr: ":8443", Handler: handler(w, fingerprint),
 		TLSConfig:         &tls.Config{MinVersion: tls.VersionTLS12, Certificates: []tls.Certificate{pair}},
-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 10 * time.Second, IdleTimeout: 30 * time.Second,
+		ReadHeaderTimeout: 30 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 10 * time.Second, IdleTimeout: 30 * time.Second,
 	}
 	go func() {
 		<-ctx.Done()
