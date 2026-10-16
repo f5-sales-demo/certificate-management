@@ -76,7 +76,20 @@
       "selected_site": "tr2-tor"
     },
     "cross_tool_ciphertext": "both separately prepared locations unsealed successfully before and after runtime restart",
-    "customization": "72 desktop/mobile clipboard checks, 31 form fields, canonical downloads and source hashes passed against the current published builder",
+    "customization": {
+      "status": "passed",
+      "builder_image": "ghcr.io/f5-sales-demo/docs-builder@sha256:c5b045a4b0a7c69d79141270169d55366a5a28f7f84ef6f6b63e3076a9c36280",
+      "desktop_mobile_clipboard_checks": 74,
+      "catalog_fields": 31,
+      "source_downloads_verified": 93,
+      "reader_workflows": {
+        "session_credentials": true,
+        "reset_clear": true,
+        "storage_disabled": true,
+        "canonical_downloads_unchanged": true,
+        "historical_exclusion": true
+      }
+    },
     "image": {
       "status": "passed",
       "application": {
