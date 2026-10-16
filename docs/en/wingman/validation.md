@@ -11,7 +11,7 @@ identifiable HTTPS response and its public certificate fingerprint at `/wingman/
 only a public certificate and encrypted locations; the decrypted key stays in memory.
 
 The retained [Wingman HTTPS endpoint](https://certificate-management-terraform.f5-sales-demo.com/wingman/get)
-is qualified against the current published artifacts. Fresh probes unsealed Terraform- and
+is qualified against the published artifacts recorded below. Fresh probes unsealed Terraform- and
 xcsh-prepared ciphertext, and an unselected pod received HTTP 403. A runtime restart produced fresh
 trusted platform identities while preserving the application certificate and both existing endpoints.
 The [delivery record](../../../assets/wingman-acceptance.json) captures versions, digests, ownership,
@@ -27,10 +27,16 @@ empty plans, and credential revocation. The application image, providers, certif
 and resource ownership remain unchanged. Earlier records preserve their qualified versions.
 
 The [provider 15.10.0 follow-up record](../../../assets/wingman-provider-15.10.0-requalification.json)
-qualifies the current published provider with Secret Policy CRUD, import, metadata stability, and
+qualifies provider 15.10.0 with Secret Policy CRUD, import, metadata stability, and
 empty plans. All 25 schemas and 16 supported certificate lifecycles passed on Ubuntu and macOS.
 Fresh Terraform-planned probes verified authorized unseal, HTTP 403 denial, trusted TLS, and cleanup.
 Earlier records preserve their qualified versions.
+
+The [provider 15.10.2 follow-up record](../../../assets/wingman-provider-15.10.2-requalification.json)
+qualifies published provider 15.10.2 with Secret Policy CRUD, import, metadata stability, and
+empty plans. All 25 schemas and 16 supported certificate lifecycles passed on Ubuntu and macOS.
+Fresh Terraform-planned probes verified authorized unseal, HTTP 403 denial, trusted TLS, and cleanup.
+The human walkthrough and shared substitution fields remain consistent across use cases.
 
 Use F5's [Wingman how-to](https://docs.cloud.f5.com/docs-v2/multi-cloud-network-connect/how-tos/secret-mgmt/pp-secrets-using-wingman)
 and [API reference](https://docs.cloud.f5.com/docs-v2/platform/reference/wingman-api-reference) for
