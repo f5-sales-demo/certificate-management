@@ -59,7 +59,7 @@
   "reader": {
     "form_fields": 31,
     "guide_routes": 9,
-    "desktop_mobile_clipboard_comparisons": 88,
+    "desktop_mobile_clipboard_comparisons": 90,
     "source_download_comparisons": 96,
     "shared_values_across_routes": true,
     "shell_syntax": true,
@@ -69,11 +69,7 @@
     "session_only_credentials": true
   },
   "terraform": {
-    "schema_roots": [
-      "bootstrap",
-      "runtime",
-      "qualification"
-    ],
+    "schema_roots": ["bootstrap", "runtime", "qualification"],
     "disposable_runs": 2,
     "planned_resources_per_run": 3,
     "create_and_destroy_plans": "saved, reviewed and hashed privately",

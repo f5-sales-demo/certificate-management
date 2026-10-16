@@ -48,7 +48,7 @@ standalone manifest to apply. The [application source](../../_data/wingman/app/m
 specification](../../_data/wingman/runtime/main.tf) contain the complete implementation and mount
 configuration.
 
-<div data-xcsh-context="json">
+<div data-xcsh-context="json" data-xcsh-fields="XCSH_WINGMAN_NAME XCSH_WINGMAN_IMAGE XCSH_DOMAINNAME">
 
 ```json
 {
@@ -87,9 +87,13 @@ The actual pod must contain both `application` and an injected Wingman container
 
 Wingman's loopback API listens on port 8070. The application first requests `/status` and requires the response body to be `READY`; HTTP 200 alone is insufficient. It sends the encrypted location to `/secret/unseal` as a Blindfold request, decodes the Base64 response in memory, and validates the certificate/key pair, hostname, and validity period before listening on TLS port 8443.
 
+<div data-xcsh-context="json" data-xcsh-fields="">
+
 ```json
 {"type":"blindfold","location":"<ENCRYPTED_LOCATION>"}
 ```
+
+</div>
 
 This request shape is explanatory. Use the application implementation instead of printing a raw unseal response in a terminal: the response contains private key material. The [probe source](../../_data/wingman/app/probe.go) exercises the same in-memory path and emits only public fingerprints or denial status. Keep port 8070 local to the pod; publish only the application's TLS service.
 

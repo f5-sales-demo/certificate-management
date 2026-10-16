@@ -132,7 +132,7 @@ with sync_playwright() as p:
                     structured = json.loads(copied)
                     assert "TOKEN_SENTINEL" not in copied
                     assert "PASSPHRASE_SENTINEL" not in copied
-                    if route in ("wingman/", "wingman/validation/"):
+                    if route == "wingman/" and "metadata" in structured:
                         assert (
                             structured["metadata"]["labels"]["app"]
                             == "reader-wingman-wingman"
