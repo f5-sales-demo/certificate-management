@@ -53,5 +53,24 @@ class ProbeOwnershipTests(unittest.TestCase):
             )
 
 
+class ScopedRawURITest(unittest.TestCase):
+    def test_scoped_server_path_is_preserved(self):
+        assert (
+            module.raw_resource_uri(
+                "https://example.test/api/vk8s/namespaces/demo/demo-wingman",
+                "/api/v1/namespaces/demo/pods/probe",
+            )
+            == "/api/vk8s/namespaces/demo/demo-wingman/api/v1/namespaces/demo/pods/probe"
+        )
+        assert (
+            module.raw_resource_uri("https://example.test/", "/apis/apps/v1")
+            == "/apis/apps/v1"
+        )
+
+    def test_ambiguous_server_is_rejected(self):
+        with self.assertRaises(ValueError):
+            module.raw_resource_uri("https://example.test/?token=opaque", "/api/v1")
+
+
 if __name__ == "__main__":
     unittest.main()

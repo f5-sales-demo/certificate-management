@@ -171,10 +171,10 @@ terraform -chdir="$XCSH_WORKDIR/wingman/runtime" plan -detailed-exitcode
 
 </div>
 
-`qualify.py` creates three disposable Jobs whose generated pods use real injection: one for each authorized encrypted
+`qualify.py` creates three disposable Deployments whose generated pods use real injection: one for each authorized encrypted
 location and one unselected pod that must receive HTTP 403. Probe mode validates both platform
 identity chains and the application key pair, emitting only public fingerprints and denial status.
-It journals exact Job and pod UIDs before cleanup, deletes with UID preconditions, and verifies absence twice.
+It journals exact Deployment and pod UIDs before cleanup, deletes with UID preconditions, and verifies absence twice.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_WORKDIR XCSH_KUBECONFIG_FILE XCSH_KUBECONFIG_CONTEXT XCSH_NAMESPACE XCSH_WINGMAN_NAME XCSH_WINGMAN_IMAGE XCSH_DOMAINNAME">
 
