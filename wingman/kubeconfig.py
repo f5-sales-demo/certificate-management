@@ -12,8 +12,8 @@ import urllib.request
 import uuid
 from datetime import UTC, datetime, timedelta
 from email.message import Message
-from http.client import HTTPResponse
 from pathlib import Path
+from typing import IO
 
 
 class RejectRedirects(urllib.request.HTTPRedirectHandler):
@@ -22,7 +22,7 @@ class RejectRedirects(urllib.request.HTTPRedirectHandler):
     def redirect_request(
         self,
         req: urllib.request.Request,
-        fp: HTTPResponse,
+        fp: IO[bytes],
         code: int,
         msg: str,
         headers: Message,
@@ -64,6 +64,8 @@ def request(base: str, token: str, path: str, body: dict | None = None) -> dict:
         raise RuntimeError(msg) from None
 
 
+# The issue/revoke lifecycle stays sequential so the exact journal governs every mutation.
+# pylint: disable=too-many-statements
 def main() -> None:
     """Issue or revoke one journaled scoped credential without storing it in state."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -75,13 +77,8 @@ def main() -> None:
     base = os.environ["XCSH_API_URL"].rstrip("/").removesuffix("/api")
     token = os.environ["XCSH_API_TOKEN"]
     parsed = urllib.parse.urlsplit(base)
-    if (
-        parsed.scheme != "https"
-        or parsed.username
-        or parsed.password
-        or parsed.query
-        or parsed.fragment
-        or parsed.path
+    if parsed.scheme != "https" or any(
+        (parsed.username, parsed.password, parsed.query, parsed.fragment, parsed.path)
     ):
         msg = "Use an HTTPS tenant console origin"
         raise ValueError(msg)

@@ -8,6 +8,8 @@ from pathlib import Path
 spec = importlib.util.spec_from_file_location(
     "wingman_qualification", Path(__file__).parents[1] / "wingman/qualify.py"
 )
+assert spec is not None
+assert spec.loader is not None
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 

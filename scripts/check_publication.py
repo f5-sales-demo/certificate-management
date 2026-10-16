@@ -110,8 +110,8 @@ def downloads(root: Path, base: str) -> dict:
     sources = []
     for line in (root / "docs/_imports").read_text().splitlines():
         if line.strip() and not line.lstrip().startswith("#"):
-            source, destination = line.split(" -> ")
-            sources.append((root / source, destination))
+            source_relative, destination = line.split(" -> ")
+            sources.append((root / source_relative, destination))
     for source, relative in sorted(sources):
         with urllib.request.urlopen(  # noqa: S310 -- Scheme checked and repository-owned relative path.
             base.rstrip("/") + "/_data/" + relative, timeout=30

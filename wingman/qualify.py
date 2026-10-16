@@ -9,6 +9,7 @@ import sys
 import time
 import uuid
 from pathlib import Path
+from typing import Any
 
 DIGEST_LENGTH = 64
 HTTP_FORBIDDEN = 403
@@ -20,9 +21,12 @@ def require_owner(pod: dict, name: str, namespace: str, run: str, uid: str = "")
     meta = pod.get("metadata", {})
     actual = meta.get("uid", "")
     if (
-        meta.get("name") != name
-        or meta.get("namespace") != namespace
-        or meta.get("labels", {}).get("qualification-run") != run
+        (
+            meta.get("name"),
+            meta.get("namespace"),
+            meta.get("labels", {}).get("qualification-run"),
+        )
+        != (name, namespace, run)
         or not actual
         or (uid and actual != uid)
     ):
@@ -31,6 +35,8 @@ def require_owner(pod: dict, name: str, namespace: str, run: str, uid: str = "")
     return actual
 
 
+# Preserve sequential qualification and reverse cleanup in one visible ownership transaction.
+# pylint: disable=too-many-locals,too-many-branches,too-many-statements
 def main() -> None:
     """Run scoped probes and verify their exact owned cleanup."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -143,7 +149,12 @@ def main() -> None:
         )
         for mode, source in cases:
             name = run + "-" + str(len(journal))
-            entry = {"name": name, "namespace": args.namespace, "uid": "", "pods": {}}
+            entry: dict[str, Any] = {
+                "name": name,
+                "namespace": args.namespace,
+                "uid": "",
+                "pods": {},
+            }
             journal.append(entry)
             save()  # Journal intent before one create; reconcile an ambiguous result by exact GET.
             app = (
@@ -151,7 +162,7 @@ def main() -> None:
                 if mode == "probe-authorized"
                 else name
             )
-            manifest = {
+            manifest: dict[str, Any] = {
                 "apiVersion": "v1",
                 "kind": "Pod",
                 "metadata": {

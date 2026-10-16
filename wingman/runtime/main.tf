@@ -52,8 +52,9 @@ resource "kubernetes_deployment_v1" "application" {
       }
       spec {
         container {
-          name  = "application"
-          image = var.application_image
+          name              = "application"
+          image             = "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:${split("@sha256:", var.application_image)[1]}"
+          image_pull_policy = "Always"
           port {
             name           = "https"
             container_port = local.contract.backend_port
@@ -89,6 +90,13 @@ resource "kubernetes_deployment_v1" "application" {
             period_seconds    = 5
             timeout_seconds   = 6
             failure_threshold = 30
+          }
+          liveness_probe {
+            tcp_socket {
+              port = "https"
+            }
+            period_seconds    = 10
+            failure_threshold = 3
           }
           readiness_probe {
             http_get {
