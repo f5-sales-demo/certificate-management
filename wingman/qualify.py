@@ -316,6 +316,14 @@ def main() -> None:
                 )
                 if terminated:
                     if terminated.get("exitCode") != 0 or not injected:
+                        failure = command(
+                            "logs", pod_name, "-c", "application", "--previous"
+                        )
+                        if failure.returncode:
+                            failure = command("logs", pod_name, "-c", "application")
+                        diagnostic = args.private_directory / (name + "-failure.log")
+                        diagnostic.write_text(failure.stdout + failure.stderr)
+                        diagnostic.chmod(0o600)
                         msg = "Real injected Wingman probe failed"
                         raise RuntimeError(msg)
                     break
