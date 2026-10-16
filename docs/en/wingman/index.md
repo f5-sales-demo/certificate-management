@@ -84,7 +84,7 @@ export TF_CLI_CONFIG_FILE="$XCSH_WORKDIR/wingman/tools/frozen.tfrc"
 
 Run artifact resolution from the verified source checkout. Freeze its commit alongside the provider,
 Kubernetes provider, xcsh, Terraform, builder, and application image. Use the resulting private
-provider installation configuration. Review the version pins and save provider lock files. Recheck
+provider installation configuration. Review the version pins and save provider lockfiles. Recheck
 publications with `--check --wingman` before delivery; repeat affected qualification after any change.
 Image CI triggers on application changes, while receipt updates preserve the same image identity.
 
@@ -144,7 +144,7 @@ terraform -chdir="$XCSH_WORKDIR/wingman/runtime" plan -detailed-exitcode
 
 Runtime prepares a separate Wingman-policy encrypted location. It never plans encryption before
 bootstrap exists. The application requires the status body `READY`, calls `/secret/unseal`, decodes
-the returned Base64, verifies the key/certificate pair, and listens on TLS port 8443. The Service
+the returned base64, verifies the key/certificate pair, and listens on TLS port 8443. The Service
 publishes only 8443. Readiness requires Wingman's current status; API error bodies and key material
 are never returned or logged.
 
@@ -174,6 +174,8 @@ terraform -chdir="$XCSH_WORKDIR/wingman/runtime" plan -detailed-exitcode
 `qualify.py` creates three disposable Deployments whose generated pods use real injection: one for each authorized encrypted
 location and one unselected pod that must receive HTTP 403. Probe mode validates both platform
 identity chains and the application key pair, emitting only public fingerprints and denial status.
+It allows up to ten minutes for pod startup, then gives each running probe a fixed three-minute
+execution deadline. The application retains its two-minute startup limit and bounded API requests.
 It journals exact Deployment and pod UIDs before cleanup, deletes with UID preconditions, and verifies absence twice.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_WORKDIR XCSH_KUBECONFIG_FILE XCSH_KUBECONFIG_CONTEXT XCSH_NAMESPACE XCSH_WINGMAN_NAME XCSH_WINGMAN_IMAGE XCSH_DOMAINNAME">

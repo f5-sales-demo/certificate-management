@@ -4,6 +4,8 @@
 import importlib.util
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import Mock
 
 spec = importlib.util.spec_from_file_location(
     "wingman_qualification", Path(__file__).parents[1] / "wingman/qualify.py"
@@ -70,6 +72,87 @@ class ScopedRawURITest(unittest.TestCase):
     def test_ambiguous_server_is_rejected(self):
         with self.assertRaises(ValueError):
             module.raw_resource_uri("https://example.test/?token=opaque", "/api/v1")
+
+
+class ProbeDeadlineTests(unittest.TestCase):
+    def test_late_pod_start_gets_a_full_execution_window(self):
+        waiting = {
+            "status": {
+                "containerStatuses": [
+                    {
+                        "name": "application",
+                        "state": {"waiting": {"reason": "ContainerCreating"}},
+                    }
+                ]
+            }
+        }
+        assert module.probe_deadline(waiting, 250, 600, None) == (600, None)
+        running = {
+            "status": {
+                "containerStatuses": [
+                    {
+                        "name": "application",
+                        "state": {"running": {"startedAt": "observed"}},
+                    }
+                ]
+            }
+        }
+        assert module.probe_deadline(running, 590, 600, None) == (770, 770)
+        assert module.probe_deadline(running, 700, 600, 770) == (770, 770)
+
+    def test_sidecar_start_does_not_start_application_deadline(self):
+        pod = {
+            "status": {
+                "containerStatuses": [
+                    {"name": "wingman", "state": {"running": {"startedAt": "observed"}}}
+                ]
+            }
+        }
+        assert module.probe_deadline(pod, 590, 600, None) == (600, None)
+
+    def test_completed_application_counts_as_started(self):
+        pod = {
+            "status": {
+                "containerStatuses": [
+                    {
+                        "name": "application",
+                        "lastState": {"terminated": {"exitCode": 0}},
+                    }
+                ]
+            }
+        }
+        assert module.probe_deadline(pod, 500, 600, None) == (680, 680)
+
+
+class ProbeLogTests(unittest.TestCase):
+    def test_empty_current_log_reads_completed_previous_container(self):
+        command = Mock(
+            side_effect=[
+                module.subprocess.CompletedProcess([], 0, "", ""),
+                module.subprocess.CompletedProcess(
+                    [], 0, '{"denied":true,"http_status":403}', ""
+                ),
+            ]
+        )
+        with TemporaryDirectory() as directory:
+            output = Path(directory) / "probe.log"
+            assert module.read_probe_output(command, "probe", False, output) == {
+                "denied": True,
+                "http_status": 403,
+            }
+            assert "--previous" in command.call_args_list[1].args
+            assert output.read_text().strip() == '{"denied":true,"http_status":403}'
+
+    def test_malformed_nonempty_log_is_preserved_and_rejected(self):
+        command = Mock(
+            return_value=module.subprocess.CompletedProcess([], 0, "invalid", "")
+        )
+        with TemporaryDirectory() as directory:
+            output = Path(directory) / "probe.log"
+            with self.assertRaises(ValueError):
+                module.read_probe_output(command, "probe", False, output)
+            assert output.read_text() == "invalid"
+            assert command.call_count == 1
 
 
 if __name__ == "__main__":
