@@ -26,6 +26,12 @@ records the current CLI artifact, copied encryption command, fresh live unseal, 
 empty plans, and credential revocation. The application image, providers, certificates, shared key,
 and resource ownership remain unchanged. Earlier records preserve their qualified versions.
 
+The [provider 15.10.0 follow-up record](../../../assets/wingman-provider-15.10.0-requalification.json)
+qualifies the current published provider with Secret Policy CRUD, import, metadata stability, and
+empty plans. All 25 schemas and 16 supported certificate lifecycles passed on Ubuntu and macOS.
+Fresh Terraform-planned probes verified authorized unseal, HTTP 403 denial, trusted TLS, and cleanup.
+Earlier records preserve their qualified versions.
+
 Use F5's [Wingman how-to](https://docs.cloud.f5.com/docs-v2/multi-cloud-network-connect/how-tos/secret-mgmt/pp-secrets-using-wingman)
 and [API reference](https://docs.cloud.f5.com/docs-v2/platform/reference/wingman-api-reference) for
 concepts and protocol details. This operator page supports the [human walkthrough](../). Terraform plans make the validation infrastructure reviewable and reproducible. The walkthrough demonstrates the application workflow, while these separate states provision and qualify its supporting resources.
@@ -67,7 +73,7 @@ deployments must supply their own matching certificate chain and trust CA.
 Use a verified source checkout or [download the scaffold](https://github.com/f5-sales-demo/certificate-management/tree/main/wingman).
 Preserve `wingman/contract.json` beside `bootstrap/`, `runtime/`, and `qualification/`. Keep state and session credentials
 outside Git with directory mode 0700 and file mode 0600. Install Python 3, Terraform 1.11 or later,
-kubectl, and jq. Bootstrap and runtime pin the qualified xcsh provider 15.9.0. Runtime pins Kubernetes provider 3.3.0.
+kubectl, and jq. Bootstrap and runtime pin the qualified xcsh provider 15.10.0. Runtime pins Kubernetes provider 3.3.0.
 
 Choose `<XCSH_WINGMAN_NAME>`, `<XCSH_WINGMAN_SITE_SELECTOR>`, `<XCSH_KUBECONFIG_FILE>`, and
 `<XCSH_KUBECONFIG_CONTEXT>` independently. Unknown identities remain placeholders. Supply the
