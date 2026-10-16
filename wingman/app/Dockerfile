@@ -1,6 +1,6 @@
 # CI supplies a digest-frozen Go build image; never compile from a floating tag.
 ARG GO_IMAGE
-FROM ${GO_IMAGE} AS build
+FROM --platform=$BUILDPLATFORM ${GO_IMAGE} AS build
 WORKDIR /src
 COPY go.mod main.go probe.go ./
 ARG TARGETOS=linux
