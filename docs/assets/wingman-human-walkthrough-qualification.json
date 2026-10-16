@@ -1,0 +1,129 @@
+{
+  "qualification": "fresh live human walkthrough with Terraform-planned validation infrastructure",
+  "status": "passed",
+  "qualified_at": "2026-10-16T17:51:05.940747+00:00",
+  "issue": "https://github.com/f5-sales-demo/certificate-management/issues/78",
+  "artifacts": {
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b"
+    },
+    "provider": {
+      "version": "15.9.0",
+      "source_commit": "35cce9b33b3037b3ef4b4883dd9ced22542f20e3"
+    },
+    "xcsh": {
+      "version": "23.5.2",
+      "source_commit": "efc7dad0b376a2cb71bf58c2977ce2e0432fa59e"
+    },
+    "builder": {
+      "version": "1.11.1",
+      "source_commit": "687218da176e2e86cea4583a2809541f0065ecd7",
+      "image": "ghcr.io/f5-sales-demo/docs-builder@sha256:8fcc5e4171f6b4cb44133e44619aaca352d168b5a34e0c95a5715041d721bcda"
+    },
+    "kubernetes_provider": {
+      "version": "3.3.0",
+      "source_commit": "a612b9cfce0fd1321cf2d25084b07b8fccd79737"
+    },
+    "application": {
+      "source_commit": "7557a4d93e23e0ad32eb97e5de79d82f6aef2beb",
+      "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:841b968fd5e8fc5076ef806605932f16f412e52a42080ab01958626ac5b880d0"
+    }
+  },
+  "walkthrough": {
+    "copied_commands": 4,
+    "structured_fragment_matches_live_template": true,
+    "command_hashes": [
+      {
+        "block": 0,
+        "clipboard_sha256": "43dc86b1b9d83aec3051e7c4491fb00a8138046ccd90c190aa9cfc14e6dfb4a5",
+        "exit_code": 0
+      },
+      {
+        "block": 1,
+        "clipboard_sha256": "7e65abc9a8b85884f40e8dd63e37964c48aecf1df4e166bfb34a1b2ebf67351e",
+        "exit_code": 0
+      },
+      {
+        "block": 2,
+        "clipboard_sha256": "4a54c17ad641c592040af6432ae442631cabfde59ece5235b1e24add2defa650",
+        "exit_code": 0
+      },
+      {
+        "block": 3,
+        "clipboard_sha256": "c1882d7f9ca6a552a065a53eb95f720507e0ec721507cd1c4190abc6468a1ff0",
+        "exit_code": 0
+      }
+    ]
+  },
+  "reader": {
+    "form_fields": 31,
+    "guide_routes": 9,
+    "desktop_mobile_clipboard_comparisons": 90,
+    "source_download_comparisons": 96,
+    "shared_values_across_routes": true,
+    "shell_syntax": true,
+    "structured_json_parsing": true,
+    "canonical_downloads_unchanged": true,
+    "historical_evidence_excluded": true,
+    "session_only_credentials": true
+  },
+  "terraform": {
+    "schema_roots": ["bootstrap", "runtime", "qualification"],
+    "disposable_runs": 2,
+    "planned_resources_per_run": 3,
+    "create_and_destroy_plans": "saved, reviewed and hashed privately",
+    "qualification_followup_plans": "empty before destroy",
+    "retained_followup_plans": {
+      "bootstrap": "empty",
+      "runtime": "empty",
+      "existing_owner": "empty"
+    },
+    "destroyed_qualification_states": "empty",
+    "cleanup": "Deployment, pod and ReplicaSet absence verified twice per run",
+    "runtime_material_update": "planned ConfigMap ciphertext update and application material-hash rollout only",
+    "ownership": "retained state owners preserved"
+  },
+  "live": {
+    "authorized_provider_ciphertext": "passed",
+    "authorized_copied_xcsh_ciphertext": "passed",
+    "denied_http_status": 403,
+    "real_sidecar_injection": true,
+    "READY_body": true,
+    "trusted_platform_identity_chains": true,
+    "trusted_backend_tls": true,
+    "fresh_platform_identities_after_material_rollout": true,
+    "application_certificate_unchanged": true,
+    "existing_endpoints_and_redirects": "unchanged",
+    "public_and_application_fingerprints": {
+      "qualification": "public TLS and response health only; fresh unseal not exercised",
+      "public_certificate_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+      "application_certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde"
+    }
+  },
+  "credential_cleanup": {
+    "status": "passed",
+    "scope": "one-day vK8s credential",
+    "revocation": "independently inactive or absent twice",
+    "payloads": "removed",
+    "sanitized_journal": "retained"
+  },
+  "secret_audit": {
+    "status": "passed",
+    "files_checked": 378,
+    "scope": "repository, private command logs, saved plans and owned Terraform states",
+    "key_and_credential_payloads": "absent"
+  },
+  "focused_tests": 17,
+  "qualification_security_checks": {
+    "passed": 27,
+    "failed": 0,
+    "skipped": 0
+  },
+  "historical_receipt_sha256": {
+    "wingman-acceptance.json": "10491651abec507900117cd7f0b56e794d20f99c7f035d6839d44fc56a51638b",
+    "wingman-builder-requalification.json": "97714efcb4ebdb47e2dd0768cc482e5eea11d541c2382ab2f067fb12e06e7855",
+    "wingman-builder-1.11.1-requalification.json": "5c2cdba95fb684beee2ea3bd6e0302cd92771d7d24942f0acb4950d48e24cd2c",
+    "wingman-xcsh-23.5.2-requalification.json": "bfa9699a80759b0bc7d6bb7a1877a5d8767f9cf5bfaedcbf2e0365312c61a856"
+  }
+}

@@ -55,6 +55,106 @@ class ProbeOwnershipTests(unittest.TestCase):
             )
 
 
+class TerraformInventoryTests(unittest.TestCase):
+    def inventory(self):
+        run = "wingman-q-012345abcdef"
+        return {
+            "run": run,
+            "entries": [
+                {
+                    "name": run + "-" + str(i),
+                    "namespace": "demo",
+                    "uid": "owned-" + str(i),
+                    "kind": "deployment",
+                    "mode": mode,
+                    "source": source,
+                }
+                for i, (mode, source) in enumerate(
+                    [
+                        ("probe-authorized", "encrypted-location"),
+                        ("probe-authorized", "encrypted-location-xcsh"),
+                        ("probe-denied", "encrypted-location"),
+                    ]
+                )
+            ],
+        }
+
+    def test_exact_terraform_inventory_is_accepted(self):
+        document = self.inventory()
+        run, entries = module.terraform_inventory(document, "demo")
+        assert run == document["run"]
+        assert len(entries) == 3
+        assert all(entry["pods"] == {} for entry in entries)
+
+    def test_partial_foreign_and_mislabelled_inventory_is_rejected(self):
+        for key, value in [
+            ("namespace", "other"),
+            ("uid", ""),
+            ("name", "retained"),
+            ("mode", "probe-authorized"),
+            ("kind", "job"),
+        ]:
+            document = self.inventory()
+            document["entries"][2][key] = value
+            with self.assertRaises(ValueError):
+                module.terraform_inventory(document, "demo")
+        document = self.inventory()
+        document["entries"].pop()
+        with self.assertRaises(ValueError):
+            module.terraform_inventory(document, "demo")
+
+
+class ProbeContractTests(unittest.TestCase):
+    def pod(self):
+        return {
+            "metadata": {"labels": {"app": "demo-wingman"}},
+            "spec": {
+                "containers": [
+                    {
+                        "name": "application",
+                        "image": "image@sha256:digest",
+                        "command": ["/wingman-app", "probe-authorized"],
+                        "env": [
+                            {"name": "TLS_HOSTNAME", "value": "demo.example.com"},
+                            {
+                                "name": "PROBE_LOCATION_FILE",
+                                "value": "/material/encrypted-location",
+                            },
+                        ],
+                    }
+                ]
+            },
+        }
+
+    def check(self, pod):
+        module.require_probe_contract(
+            pod,
+            "probe-authorized",
+            "encrypted-location",
+            "image@sha256:digest",
+            "demo.example.com",
+            {"app": "demo-wingman"},
+        )
+
+    def test_live_probe_matches_expected_invocation(self):
+        self.check(self.pod())
+
+    def test_changed_source_image_command_or_policy_label_is_rejected(self):
+        for key, value in [
+            ("image", "other@sha256:digest"),
+            ("command", ["/wingman-app", "probe-denied"]),
+            ("env", [{"name": "PROBE_LOCATION_FILE", "value": "/material/other"}]),
+        ]:
+            pod = self.pod()
+            pod["spec"]["containers"][0][key] = value
+            with self.assertRaises(ValueError):
+                self.check(pod)
+        pod = self.pod()
+        pod["metadata"]["labels"]["app"] = "unselected"
+        with self.assertRaises(ValueError):
+            self.check(pod)
+
+
 class ScopedRawURITest(unittest.TestCase):
     def test_scoped_server_path_is_preserved(self):
         assert (
