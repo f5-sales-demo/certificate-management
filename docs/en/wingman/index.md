@@ -21,7 +21,10 @@ response does not replace fresh unseal qualification.
 The [builder 1.11.1 requalification record](../../assets/wingman-builder-1.11.1-requalification.json)
 verifies the current documentation image. The earlier
 [builder 1.11.0 record](../../assets/wingman-builder-requalification.json) remains available.
-The runtime artifacts and live acceptance remain unchanged.
+The [xcsh 23.5.2 follow-up record](../../assets/wingman-xcsh-23.5.2-requalification.json)
+records the current CLI artifact, copied encryption command, fresh live unseal, HTTP 403 denial,
+empty plans, and credential revocation. The application image, providers, certificates, shared key,
+and resource ownership remain unchanged. Earlier records preserve their qualified versions.
 
 Use F5's [Wingman how-to](https://docs.cloud.f5.com/docs-v2/multi-cloud-network-connect/how-tos/secret-mgmt/pp-secrets-using-wingman)
 and [API reference](https://docs.cloud.f5.com/docs-v2/platform/reference/wingman-api-reference) for
