@@ -1,0 +1,86 @@
+{
+  "status": "provider and certificate qualification passed; image and fresh live Wingman gates pending",
+  "demo_issue": "https://github.com/f5-sales-demo/certificate-management/issues/58",
+  "scaffold_pr": "https://github.com/f5-sales-demo/certificate-management/pull/52",
+  "credential_fix_pr": "https://github.com/f5-sales-demo/certificate-management/pull/55",
+  "provider_pr": "https://github.com/f5-sales-demo/terraform-provider-xcsh/pull/2578",
+  "governance_pr": "https://github.com/f5-sales-demo/docs-control/pull/2509",
+  "planned_endpoint": "https://certificate-management-terraform.f5-sales-demo.com/wingman/get",
+  "artifacts": {
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b"
+    },
+    "provider": {
+      "version": "15.9.0",
+      "source_commit": "35cce9b33b3037b3ef4b4883dd9ced22542f20e3"
+    },
+    "xcsh": {
+      "version": "23.5.1",
+      "source_commit": "753953842ba2d889b9715000534874e67c152a98"
+    },
+    "builder": {
+      "version": "1.11.0",
+      "source_commit": "e573c4d0ca766bd440ba56adfbdb7500ed67116b",
+      "image": "ghcr.io/f5-sales-demo/docs-builder@sha256:c5b045a4b0a7c69d79141270169d55366a5a28f7f84ef6f6b63e3076a9c36280"
+    }
+  },
+  "contract_sha256": "5559e9fd69c0c9d3124ecbd702e058b37827b677090eb6d16e4978eb1365add2",
+  "checks": {
+    "published_policy": {
+      "status": "passed",
+      "combining_algorithm": "FIRST_MATCH",
+      "checks": {
+        "init": 0,
+        "version": 0,
+        "create-plan": 0,
+        "create": 0,
+        "create-empty": 0,
+        "metadata-plan": 0,
+        "metadata": 0,
+        "metadata-empty": 0,
+        "forget-for-import": 0,
+        "import": 0,
+        "import-empty": 0,
+        "destroy-plan": 0,
+        "destroy": 0,
+        "cleanup-absence-1": 404,
+        "cleanup-absence-2": 404,
+        "destroy-empty": 0
+      }
+    },
+    "existing_certificate_schema": {
+      "ubuntu": 25,
+      "macos": 25,
+      "qualification": "schema only"
+    },
+    "existing_certificate_lifecycles": {
+      "ubuntu": 16,
+      "macos": 16,
+      "cleanup": "typed absence twice on both hosts",
+      "served_tls": "separate retained endpoint checks"
+    },
+    "bootstrap": {
+      "status": "applied",
+      "followup_plan": "empty",
+      "selected_sites": 1,
+      "selected_site": "tr2-tor"
+    },
+    "cross_tool_ciphertext": "prepared separately with the published xcsh artifact; unseal pending",
+    "customization": "72 desktop/mobile clipboard checks, 31 form fields, canonical downloads and source hashes passed against the current published builder"
+  },
+  "live_gates": {
+    "application_publication": "pending",
+    "authorized_unseal": "pending",
+    "denied_unseal": "pending",
+    "injected_sidecar": "pending",
+    "trusted_fresh_pod_identity": "pending",
+    "backend_tls": "pending",
+    "public_tls_and_marker": "pending",
+    "restart_identity": "pending",
+    "empty_followup_plans": "pending",
+    "probe_cleanup_twice": "pending",
+    "credential_revocation": "pending"
+  },
+  "historical_receipts_changed": false
+}
