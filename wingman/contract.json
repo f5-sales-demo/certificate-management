@@ -17,27 +17,9 @@
   "route_prefix": "/wingman/",
   "backend_port": 8443,
   "owners": {
-    "existing_xcsh": [
-      "existing certificate",
-      "existing load balancers",
-      "existing origin pool"
-    ],
-    "existing_terraform": [
-      "existing certificate",
-      "existing load balancers",
-      "origin_pool",
-      "route_prefix"
-    ],
-    "bootstrap": [
-      "policy",
-      "virtual_site",
-      "virtual_k8s"
-    ],
-    "runtime": [
-      "certificate",
-      "application",
-      "service",
-      "material"
-    ]
+    "existing_xcsh": ["existing certificate", "existing load balancers", "existing origin pool"],
+    "existing_terraform": ["existing certificate", "existing load balancers", "origin_pool", "route_prefix"],
+    "bootstrap": ["policy", "virtual_site", "virtual_k8s"],
+    "runtime": ["certificate", "application", "service", "material"]
   }
 }
