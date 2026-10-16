@@ -8,12 +8,28 @@ import subprocess
 import sys
 import time
 import uuid
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 DIGEST_LENGTH = 64
 HTTP_FORBIDDEN = 403
 PROBE_COUNT = 3
+
+
+def raw_resource_uri(server: str, path: str) -> str:
+    """Keep the scoped vK8s server prefix when kubectl uses a raw URI."""
+    parsed = urlsplit(server)
+    if (
+        parsed.scheme != "https"
+        or parsed.query
+        or parsed.fragment
+        or not path.startswith("/")
+    ):
+        message = "Unsafe scoped Kubernetes resource URI"
+        raise ValueError(message)
+    return parsed.path.rstrip("/") + path
 
 
 def require_owner(pod: dict, name: str, namespace: str, run: str, uid: str = "") -> str:
@@ -33,6 +49,71 @@ def require_owner(pod: dict, name: str, namespace: str, run: str, uid: str = "")
         msg = "Probe ownership changed; cleanup refused"
         raise ValueError(msg)
     return actual
+
+
+def probe_deadline(
+    pod: dict, now: float, startup_deadline: float, execution_deadline: float | None
+) -> tuple[float, float | None]:
+    """Give container creation a separate bound without extending a running probe."""
+    started = any(
+        c.get("name") == "application"
+        and (
+            c.get("started")
+            or c.get("state", {}).get("running")
+            or c.get("state", {}).get("terminated")
+            or c.get("lastState", {}).get("terminated")
+        )
+        for c in pod.get("status", {}).get("containerStatuses", [])
+    )
+    if started and execution_deadline is None:
+        execution_deadline = now + 180
+    return (
+        startup_deadline if execution_deadline is None else execution_deadline,
+        execution_deadline,
+    )
+
+
+def read_probe_output(
+    command: Callable[..., subprocess.CompletedProcess],
+    pod_name: str,
+    previous: bool,
+    output_file: Path,
+) -> dict:
+    """Collect completed container logs across a restart without invoking the probe."""
+    choices = (previous, not previous)
+    deadline = time.monotonic() + 10
+    while True:
+        errors = 0
+        for use_previous in choices:
+            options = ["--previous"] if use_previous else []
+            log = command("logs", pod_name, "-c", "application", *options)
+            output_file.write_text(log.stdout + log.stderr)
+            output_file.chmod(0o600)
+            if log.returncode:
+                errors += 1
+            elif log.stdout.strip():
+                return json.loads(log.stdout)
+        if errors == len(choices) or time.monotonic() >= deadline:
+            message = "Completed probe output unavailable; private diagnostics retained"
+            raise RuntimeError(message)
+        time.sleep(0.5)
+
+
+def probe_timeout(
+    directory: Path, name: str, pod: dict, execution_deadline: float | None
+) -> str:
+    """Retain private phase diagnostics before exact owned cleanup."""
+    phase = "pod startup" if execution_deadline is None else "probe execution"
+    diagnostic = directory / (name + "-timeout.json")
+    diagnostic.write_text(
+        json.dumps({"phase": phase, "status": pod.get("status", {})}, indent=2) + "\n"
+    )
+    diagnostic.chmod(0o600)
+    return (
+        "Probe pod did not start before startup deadline"
+        if execution_deadline is None
+        else "Real Wingman probe did not finish before execution deadline"
+    )
 
 
 # Preserve sequential qualification and reverse cleanup in one visible ownership transaction.
@@ -110,17 +191,27 @@ def main() -> None:
             [*kubectl, *argv], capture_output=True, text=True, timeout=30, check=False
         )
 
-    def get(name: str, kind: str = "job") -> dict | None:
+    config = command("config", "view", "--minify", "-o", "json")
+    if config.returncode:
+        message = "Explicit kubeconfig server could not be verified"
+        raise RuntimeError(message)
+    clusters = json.loads(config.stdout)["clusters"]
+    if len(clusters) != 1:
+        message = "Explicit kubeconfig must select one cluster"
+        raise ValueError(message)
+    server = clusters[0]["cluster"]["server"]
+
+    def get(name: str, kind: str = "deployment") -> dict | None:
         result = command("get", kind, name, "--ignore-not-found", "-o", "json")
         if result.returncode:
             msg = "Probe read failed; permission or transport errors are not absence"
             raise RuntimeError(msg)
         return json.loads(result.stdout) if result.stdout.strip() else None
 
-    def pods(entry: dict) -> list[dict]:
+    def pods(entry: dict, kind: str = "pods") -> list[dict]:
         result = command(
             "get",
-            "pods",
+            kind,
             "-l",
             "qualification-run=" + run + ",qualification-probe=" + entry["name"],
             "-o",
@@ -135,6 +226,15 @@ def main() -> None:
         path = args.private_directory / "journal.json"
         path.write_text(json.dumps({"run": run, "entries": journal}, indent=2) + "\n")
         path.chmod(0o600)
+
+    def retain_failure(name: str, pod_name: str) -> None:
+        """Save failed application logs privately before cleanup."""
+        failure = command("logs", pod_name, "-c", "application", "--previous")
+        if failure.returncode:
+            failure = command("logs", pod_name, "-c", "application")
+        diagnostic = args.private_directory / (name + "-failure.log")
+        diagnostic.write_text(failure.stdout + failure.stderr)
+        diagnostic.chmod(0o600)
 
     succeeded = False
     try:
@@ -153,6 +253,7 @@ def main() -> None:
                 "name": name,
                 "namespace": args.namespace,
                 "uid": "",
+                "kind": "deployment",
                 "pods": {},
             }
             journal.append(entry)
@@ -176,7 +277,7 @@ def main() -> None:
                     "annotations": {"ves.io/wingman-injection-mode": "enable"},
                 },
                 "spec": {
-                    "restartPolicy": "Never",
+                    "restartPolicy": "Always",
                     "containers": [
                         {
                             "name": "application",
@@ -212,17 +313,18 @@ def main() -> None:
                     ],
                 },
             }
-            # vK8s supports Job creation; direct Pod creation is read/delete-only.
+            # Use Deployments: observed Job pods disable Wingman injection.
             manifest = {
-                "apiVersion": "batch/v1",
-                "kind": "Job",
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
                 "metadata": {
                     "name": name,
                     "namespace": args.namespace,
                     "labels": manifest["metadata"]["labels"],
                 },
                 "spec": {
-                    "backoffLimit": 0,
+                    "replicas": 1,
+                    "selector": {"matchLabels": manifest["metadata"]["labels"]},
                     "template": {
                         "metadata": {
                             "labels": manifest["metadata"]["labels"],
@@ -244,7 +346,9 @@ def main() -> None:
             if created.returncode:
                 msg = "Probe create outcome was ambiguous; owned readback journaled for cleanup"
                 raise RuntimeError(msg)
-            deadline = time.monotonic() + 180
+            startup_deadline = time.monotonic() + 600
+            execution_deadline = None
+            deadline = startup_deadline
             while True:
                 job = get(name)
                 if job is None:
@@ -253,11 +357,16 @@ def main() -> None:
                 require_owner(job, name, args.namespace, run, entry["uid"])
                 observed = pods(entry)
                 if len(observed) > 1:
-                    message = "Probe Job produced more than one pod; site cardinality is unqualified"
+                    message = (
+                        "Probe Deployment produced more than one pod; "
+                        "site cardinality is unqualified"
+                    )
                     raise RuntimeError(message)
                 if not observed:
                     if time.monotonic() >= deadline:
-                        message = "Probe Job did not produce a pod before deadline"
+                        message = (
+                            "Probe Deployment did not produce a pod before deadline"
+                        )
                         raise RuntimeError(message)
                     time.sleep(2)
                     continue
@@ -268,6 +377,9 @@ def main() -> None:
                 )
                 entry["pods"][pod_name] = pod_uid
                 save()
+                deadline, execution_deadline = probe_deadline(
+                    pod, time.monotonic(), startup_deadline, execution_deadline
+                )
                 injected = [
                     c
                     for c in pod.get("spec", {}).get("containers", [])
@@ -276,7 +388,10 @@ def main() -> None:
                 ]
                 terminated = next(
                     (
-                        c.get("state", {}).get("terminated")
+                        (
+                            c.get("state", {}).get("terminated")
+                            or c.get("lastState", {}).get("terminated")
+                        )
                         for c in pod.get("status", {}).get("containerStatuses", [])
                         if c.get("name") == "application"
                     ),
@@ -284,18 +399,27 @@ def main() -> None:
                 )
                 if terminated:
                     if terminated.get("exitCode") != 0 or not injected:
+                        retain_failure(name, pod_name)
                         msg = "Real injected Wingman probe failed"
                         raise RuntimeError(msg)
                     break
                 if time.monotonic() >= deadline:
-                    msg = "Real Wingman probe did not finish before deadline"
+                    msg = probe_timeout(
+                        args.private_directory, name, pod, execution_deadline
+                    )
                     raise RuntimeError(msg)
                 time.sleep(2)
-            log = command("logs", pod_name, "-c", "application")
-            if log.returncode:
-                msg = "Probe evidence read failed"
-                raise RuntimeError(msg)
-            evidence = json.loads(log.stdout)
+            container_status = next(
+                c
+                for c in pod["status"]["containerStatuses"]
+                if c["name"] == "application"
+            )
+            evidence = read_probe_output(
+                command,
+                pod_name,
+                not bool(container_status.get("state", {}).get("terminated")),
+                args.private_directory / (name + "-output.log"),
+            )
             if (
                 mode == "probe-authorized"
                 and evidence.get("certificate_sha256") != args.fingerprint
@@ -323,7 +447,7 @@ def main() -> None:
         succeeded = True
     finally:
         for entry in reversed(journal):
-            pod = get(entry["name"])
+            pod = get(entry["name"], entry.get("kind", "job"))
             if pod is not None:
                 uid = require_owner(
                     pod, entry["name"], args.namespace, run, entry["uid"]
@@ -338,16 +462,28 @@ def main() -> None:
                             "apiVersion": "v1",
                             "kind": "DeleteOptions",
                             "preconditions": {"uid": uid},
+                            "propagationPolicy": "Background",
                         }
                     )
                 )
                 deleted = command(
                     "delete",
                     "--raw",
-                    "/apis/batch/v1/namespaces/"
-                    + args.namespace
-                    + "/jobs/"
-                    + entry["name"],
+                    raw_resource_uri(
+                        server,
+                        (
+                            "/apis/apps/v1/namespaces/"
+                            if entry.get("kind") == "deployment"
+                            else "/apis/batch/v1/namespaces/"
+                        )
+                        + args.namespace
+                        + (
+                            "/deployments/"
+                            if entry.get("kind") == "deployment"
+                            else "/jobs/"
+                        )
+                        + entry["name"],
+                    ),
                     "-f",
                     str(options),
                 )
@@ -378,7 +514,13 @@ def main() -> None:
                 deleted = command(
                     "delete",
                     "--raw",
-                    "/api/v1/namespaces/" + args.namespace + "/pods/" + generated_name,
+                    raw_resource_uri(
+                        server,
+                        "/api/v1/namespaces/"
+                        + args.namespace
+                        + "/pods/"
+                        + generated_name,
+                    ),
                     "-f",
                     str(options),
                 )
@@ -388,7 +530,10 @@ def main() -> None:
         for check in range(2):
             deadline = time.monotonic() + 90
             while any(
-                get(entry["name"]) is not None or pods(entry) for entry in journal
+                get(entry["name"], entry.get("kind", "job")) is not None
+                or pods(entry)
+                or (entry.get("kind") == "deployment" and pods(entry, "replicasets"))
+                for entry in journal
             ):
                 if time.monotonic() >= deadline:
                     msg = "Probe cleanup absence not verified"
@@ -407,7 +552,10 @@ def main() -> None:
     sys.stdout.write(
         "Owned cleanup verified twice. Receipt is in private session storage.\n"
         if args.cleanup_only
-        else "Fresh Wingman probes passed; cleanup verified twice. Receipt is in private session storage.\n"
+        else (
+            "Fresh Wingman probes passed; cleanup verified twice. "
+            "Receipt is in private session storage.\n"
+        )
     )
 
 

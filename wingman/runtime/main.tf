@@ -47,8 +47,11 @@ resource "kubernetes_deployment_v1" "application" {
     }
     template {
       metadata {
-        labels      = local.selector
-        annotations = { "ves.io/wingman-injection-mode" = "enable" }
+        labels = local.selector
+        annotations = {
+          "ves.io/wingman-injection-mode"          = "enable"
+          "certificate-management/material-sha256" = sha256(jsonencode(kubernetes_config_map_v1.material.data))
+        }
       }
       spec {
         container {
@@ -67,9 +70,9 @@ resource "kubernetes_deployment_v1" "application" {
             requests = { cpu = "50m", memory = "32Mi" }
             limits   = { cpu = "250m", memory = "128Mi" }
           }
+          # vK8s forbids RunAsUser; the immutable image declares USER 65532:65532.
           security_context {
             run_as_non_root            = true
-            run_as_user                = 65532
             allow_privilege_escalation = false
             read_only_root_filesystem  = true
             capabilities {

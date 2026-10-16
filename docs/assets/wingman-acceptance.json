@@ -1,0 +1,406 @@
+{
+  "status": "passed",
+  "demo_issue": "https://github.com/f5-sales-demo/certificate-management/issues/58",
+  "scaffold_pr": "https://github.com/f5-sales-demo/certificate-management/pull/52",
+  "credential_fix_pr": "https://github.com/f5-sales-demo/certificate-management/pull/55",
+  "provider_pr": "https://github.com/f5-sales-demo/terraform-provider-xcsh/pull/2578",
+  "governance_pr": "https://github.com/f5-sales-demo/docs-control/pull/2509",
+  "artifacts": {
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b"
+    },
+    "provider": {
+      "version": "15.9.0",
+      "source_commit": "35cce9b33b3037b3ef4b4883dd9ced22542f20e3"
+    },
+    "xcsh": {
+      "version": "23.5.1",
+      "source_commit": "753953842ba2d889b9715000534874e67c152a98"
+    },
+    "builder": {
+      "image": "ghcr.io/f5-sales-demo/docs-builder@sha256:c5b045a4b0a7c69d79141270169d55366a5a28f7f84ef6f6b63e3076a9c36280",
+      "version": "1.11.0",
+      "source_commit": "e573c4d0ca766bd440ba56adfbdb7500ed67116b",
+      "publication_run": "https://github.com/f5-sales-demo/docs-builder/actions/runs/38884306953"
+    },
+    "kubernetes_provider": {
+      "version": "3.3.0",
+      "source_commit": "a612b9cfce0fd1321cf2d25084b07b8fccd79737"
+    },
+    "application": {
+      "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:841b968fd5e8fc5076ef806605932f16f412e52a42080ab01958626ac5b880d0",
+      "source_commit": "7557a4d93e23e0ad32eb97e5de79d82f6aef2beb",
+      "publication_run": "https://github.com/f5-sales-demo/certificate-management/actions/runs/38892143890"
+    }
+  },
+  "contract_sha256": "5559e9fd69c0c9d3124ecbd702e058b37827b677090eb6d16e4978eb1365add2",
+  "checks": {
+    "published_policy": {
+      "status": "passed",
+      "combining_algorithm": "FIRST_MATCH",
+      "checks": {
+        "init": 0,
+        "version": 0,
+        "create-plan": 0,
+        "create": 0,
+        "create-empty": 0,
+        "metadata-plan": 0,
+        "metadata": 0,
+        "metadata-empty": 0,
+        "forget-for-import": 0,
+        "import": 0,
+        "import-empty": 0,
+        "destroy-plan": 0,
+        "destroy": 0,
+        "cleanup-absence-1": 404,
+        "cleanup-absence-2": 404,
+        "destroy-empty": 0
+      }
+    },
+    "existing_certificate_schema": {
+      "ubuntu": 25,
+      "macos": 25,
+      "qualification": "schema only"
+    },
+    "existing_certificate_lifecycles": {
+      "ubuntu": 16,
+      "macos": 16,
+      "cleanup": "typed absence twice on both hosts",
+      "served_tls": "separate retained endpoint checks"
+    },
+    "bootstrap": {
+      "status": "applied",
+      "followup_plan": "empty",
+      "selected_sites": 1,
+      "selected_site": "tr2-tor"
+    },
+    "cross_tool_ciphertext": "both separately prepared locations unsealed successfully before and after runtime restart",
+    "customization": {
+      "status": "passed",
+      "builder_image": "ghcr.io/f5-sales-demo/docs-builder@sha256:c5b045a4b0a7c69d79141270169d55366a5a28f7f84ef6f6b63e3076a9c36280",
+      "desktop_mobile_clipboard_checks": 74,
+      "catalog_fields": 31,
+      "source_downloads_verified": 93,
+      "reader_workflows": {
+        "session_credentials": true,
+        "reset_clear": true,
+        "storage_disabled": true,
+        "canonical_downloads_unchanged": true,
+        "historical_exclusion": true
+      }
+    },
+    "image": {
+      "status": "passed",
+      "application": {
+        "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:841b968fd5e8fc5076ef806605932f16f412e52a42080ab01958626ac5b880d0",
+        "source_commit": "7557a4d93e23e0ad32eb97e5de79d82f6aef2beb",
+        "publication_run": "https://github.com/f5-sales-demo/certificate-management/actions/runs/38892143890"
+      },
+      "public_anonymous_registry_pull": true,
+      "publication_receipt_digest": "verified",
+      "platforms": {
+        "amd64": {
+          "digest": "sha256:46bea98edd39d98415049cd03ba01b25fde4d1854466616d22658e997dda7148",
+          "source_labels": "verified",
+          "attestations": ["https://spdx.dev/Document", "https://slsa.dev/provenance/v1"],
+          "image_user": "65532:65532",
+          "all_layer_bytes": "verified"
+        },
+        "arm64": {
+          "digest": "sha256:4ca041b83e4212fe80c958f98edfb29911c28619335670ad5bda14b03d383151",
+          "source_labels": "verified",
+          "attestations": ["https://spdx.dev/Document", "https://slsa.dev/provenance/v1"],
+          "image_user": "65532:65532",
+          "all_layer_bytes": "verified"
+        }
+      }
+    },
+    "traffic": {
+      "terraform": {
+        "certificate_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+        "response": {
+          "example": "terraform-certificate",
+          "native_blindfold": true
+        },
+        "redirect_status": 301,
+        "redirect_url": "https://certificate-management-terraform.f5-sales-demo.com/get"
+      },
+      "wingman": {
+        "certificate_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+        "response": {
+          "example": "wingman-certificate",
+          "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde"
+        },
+        "redirect_status": 301
+      },
+      "xcsh": {
+        "certificate_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+        "response": {
+          "args": {},
+          "url": "https://httpbin.org/get",
+          "original_authority": "certificate-management.f5-sales-demo.com"
+        },
+        "redirect_status": 301,
+        "redirect_url": "https://certificate-management.f5-sales-demo.com:443/get"
+      }
+    },
+    "runtime": {
+      "running_image_id": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:46bea98edd39d98415049cd03ba01b25fde4d1854466616d22658e997dda7148",
+      "application_image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:841b968fd5e8fc5076ef806605932f16f412e52a42080ab01958626ac5b880d0",
+      "status": "passed",
+      "platform_identities": {
+        "client_identity_sha256": "42058dda85259cf75198c40e588f308b88ff6c0603f74c932520798e03ac7b80",
+        "server_identity_sha256": "6db9706a11df5c52fd832866b22939b75d085b53c056fd638af886c79a2f7bb4"
+      },
+      "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+      "backend_tls": {
+        "verified": true,
+        "hostname": "certificate-management-terraform.f5-sales-demo.com",
+        "protocol": "TLSv1.3",
+        "marker": "wingman-certificate",
+        "readiness": "READY"
+      },
+      "sidecar_injected": true,
+      "container_restart_counts": {
+        "application": 0,
+        "wingman": 0
+      },
+      "restart_fresh_identity": true
+    },
+    "fresh_probe_runs": [
+      {
+        "stage": "before restart",
+        "status": "passed",
+        "probes": [
+          {
+            "mode": "probe-authorized",
+            "source": "encrypted-location",
+            "evidence": {
+              "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+              "identities": {
+                "client_identity_sha256": "e07d5ca17f628fac9333a9596dd674bf182f37ad5930423159917d6db50558bc",
+                "server_identity_sha256": "4af93004d5b5548a7d3deb0a64f331ec7676efc50d07261d6086019f6038a59d"
+              }
+            },
+            "sidecar_injected": true
+          },
+          {
+            "mode": "probe-authorized",
+            "source": "encrypted-location-xcsh",
+            "evidence": {
+              "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+              "identities": {
+                "client_identity_sha256": "6545b386003713dcdcca0b45d9892b6157afeaf3d5ac0bf017137fc3ee8592ef",
+                "server_identity_sha256": "fdda34d4d26f1b12804fa7cd23edff13e3044f76e1f5c49b370b5ff8ec3fbc40"
+              }
+            },
+            "sidecar_injected": true
+          },
+          {
+            "mode": "probe-denied",
+            "source": "encrypted-location",
+            "evidence": {
+              "denied": true,
+              "http_status": 403,
+              "identities": {
+                "client_identity_sha256": "46a51ca9782b6b7f762f3aee187d23711abbc6b23ed66b5ea17362675d7bce32",
+                "server_identity_sha256": "7370ff28a5cc28635fd411cac5c867f721bae93a7b69c47201bb4f26dab13f9f"
+              }
+            },
+            "sidecar_injected": true
+          }
+        ],
+        "cleanup_pass_1": "typed absence",
+        "cleanup_pass_2": "typed absence"
+      },
+      {
+        "stage": "after restart",
+        "status": "passed",
+        "probes": [
+          {
+            "mode": "probe-authorized",
+            "source": "encrypted-location",
+            "evidence": {
+              "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+              "identities": {
+                "client_identity_sha256": "312db0569156bf9be046f3eaead18a4df4b2d9f2352f5284b94bb7009d3bd7a8",
+                "server_identity_sha256": "aa44f35f0488889451121e3b514f4835536b25612ff8e8e3f5f8f0bffd773dda"
+              }
+            },
+            "sidecar_injected": true
+          },
+          {
+            "mode": "probe-authorized",
+            "source": "encrypted-location-xcsh",
+            "evidence": {
+              "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+              "identities": {
+                "client_identity_sha256": "ea7da08ef2da093738a05197e3ffc783978ba5225b246fb36a562a4922512fd6",
+                "server_identity_sha256": "ebb342ecf8d23840306f904b8b0c93f21a7a894cc8f5954b576c9e73f3fcc134"
+              }
+            },
+            "sidecar_injected": true
+          },
+          {
+            "mode": "probe-denied",
+            "source": "encrypted-location",
+            "evidence": {
+              "denied": true,
+              "http_status": 403,
+              "identities": {
+                "client_identity_sha256": "01420dc059295a72e1ab0ccf639dc558e7b0d2ca87e22022862a461a44af4aac",
+                "server_identity_sha256": "cf9abfa7de8a8062b016a99eac4bbb7e5480ca02e47c4479de5e378fe8259dba"
+              }
+            },
+            "sidecar_injected": true
+          }
+        ],
+        "cleanup_pass_1": "typed absence",
+        "cleanup_pass_2": "typed absence"
+      }
+    ],
+    "qualifier_source": {
+      "source_commit": "2e5e674f333bdfc90838795c45d7aa511ccd8b62",
+      "qualifier_sha256": "c329bc95e171133cef3bf4725fa1191da59d05e38609b9cbf928a2e31ee1467c"
+    },
+    "wingman_ca": {
+      "status": "passed",
+      "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+      "ca_sha256": "cafa4cd3735ae7fcbd1112f3478105ea321993b7680ec75a0291743c47366ad7",
+      "shared_private_key": "unchanged; new certificate uses the original shared public key",
+      "verified_hostname": "certificate-management-terraform.f5-sales-demo.com",
+      "verified_purpose": "sslserver",
+      "certificate_validity": ["notBefore=Oct 16 11:56:00 2026 GMT", "notAfter=Oct 16 11:56:00 2027 GMT"],
+      "ca_validity": ["notBefore=Oct 16 11:56:00 2026 GMT", "notAfter=Oct 13 11:56:00 2036 GMT"],
+      "scope_authorization": "separate CA-signed Wingman certificate; both existing certificates remain unchanged"
+    },
+    "ownership": {
+      "status": "passed",
+      "retained_uids": "unchanged",
+      "retained_certificates_and_ciphertext": "unchanged",
+      "wingman_certificate": "authorized separate CA-signed leaf; original shared key unchanged",
+      "xcsh_load_balancers_and_origin_pools": "unchanged",
+      "terraform_http_and_dns_owner": "unchanged",
+      "terraform_https_change": "one Wingman route added; existing routes and other spec fields unchanged",
+      "new_origin_pool": "certificate-management-wingman"
+    },
+    "material": {
+      "status": "passed",
+      "certificate_file": "unchanged",
+      "private_key_file": "unchanged",
+      "retained_public_fingerprint": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+      "wingman_application_fingerprint": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde"
+    },
+    "plans": {
+      "bootstrap": "empty; detailed exit 0",
+      "runtime": "empty; detailed exit 0",
+      "existing Terraform owner": "empty; detailed exit 0"
+    },
+    "credential": {
+      "status": "passed",
+      "one_day_scoped_credential": "revoked; independently inactive or absent twice",
+      "orphan_credential": "revoked; independently inactive or absent twice",
+      "initial_issuance_intent": "exact requested name and prefix absent twice; no successful issuance observed, no revocation claimed",
+      "session_payload_cleanup": "task-owned kubeconfig, issuance and credential readback payloads removed; sanitized journals retained"
+    },
+    "secret_audit": {
+      "status": "passed",
+      "files_checked": 1332,
+      "retained_private_key_absent": true,
+      "wingman_ca_private_key_absent": true,
+      "session_api_token_absent": true,
+      "scope": "Terraform plans/state, manifests, source and qualification logs; explicit session credential payloads excluded"
+    }
+  },
+  "live_gates": {
+    "application_publication": "passed",
+    "authorized_unseal": "passed",
+    "denied_unseal": "passed",
+    "injected_sidecar": "passed",
+    "trusted_fresh_pod_identity": "passed",
+    "backend_tls": "passed",
+    "public_tls_and_marker": "passed",
+    "restart_identity": "passed",
+    "empty_followup_plans": "passed",
+    "probe_cleanup_twice": "passed",
+    "credential_revocation": "passed"
+  },
+  "historical_receipts_changed": false,
+  "qualification": "published artifacts and fresh live Wingman runtime; CI and Pages tracked by the linked delivery PR",
+  "qualified_at": "2026-10-16T12:22:50.913414+00:00",
+  "delivery_pr": "https://github.com/f5-sales-demo/certificate-management/pull/61",
+  "application_fix_pr": "https://github.com/f5-sales-demo/certificate-management/pull/65",
+  "endpoint": "https://certificate-management-terraform.f5-sales-demo.com/wingman/get",
+  "scope_adjustment": {
+    "authorization": "separate CA-signed Wingman certificate",
+    "reason": "origin pool rejected CA:FALSE application certificate as root CA trust input",
+    "original_self_signed_runtime": "real unseal and verified backend TLS passed; origin-pool trust rejected",
+    "retained_material": "both existing certificates and ciphertext preserved; shared private key unchanged",
+    "fingerprints": "public TLS retains original certificate; Wingman response and backend TLS use separate CA-signed leaf"
+  },
+  "first_runtime_failures": {
+    "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:7dc66c923d47a5bf9a91af44324f72c8ad811c56c3881a7504687acce36fc8f5",
+    "application_fix_pr": "https://github.com/f5-sales-demo/certificate-management/pull/65",
+    "runs": [
+      {
+        "run": "probes-first",
+        "status": "failed",
+        "completed_probes": 0,
+        "cleanup_pass_1": "typed absence",
+        "cleanup_pass_2": "typed absence"
+      },
+      {
+        "run": "probes-deployments",
+        "status": "failed",
+        "completed_probes": 1,
+        "cleanup_pass_1": "typed absence",
+        "cleanup_pass_2": "typed absence"
+      },
+      {
+        "run": "probes-diagnostic",
+        "status": "failed",
+        "completed_probes": 0,
+        "cleanup_pass_1": "typed absence",
+        "cleanup_pass_2": "typed absence"
+      }
+    ],
+    "job_injection": {
+      "annotation": "disable",
+      "sidecar_count": 0,
+      "recovery": "disposable Deployment probes"
+    },
+    "http_read_failure": {
+      "observed": "invalid Wingman response size",
+      "diagnostic_limit": "old error combined read errors and size limits; timeout cause remains unproven"
+    },
+    "followup_qualification_failures": [
+      {
+        "stage": "after restart",
+        "status": "failed",
+        "phase": "pod startup",
+        "cleanup": "typed absence twice"
+      },
+      {
+        "stage": "after restart",
+        "status": "failed",
+        "phase": "completed container log collection",
+        "cleanup": "typed absence twice"
+      }
+    ],
+    "original_origin_pool_trust": {
+      "status": "failed",
+      "http_status": 400,
+      "validation": "trusted_ca_url truststore_url; original certificate CA:FALSE",
+      "retained_specs_and_uids": "unchanged after rejected apply",
+      "recovery": "new separately reviewed CA trust plan; failed saved plan never replayed"
+    },
+    "ca_pool_protocol_default": {
+      "status": "failed",
+      "provider_error": "origin_servers[0].k8s_service.protocol null became PROTOCOL_TCP after creation",
+      "f5_ca_trust": "accepted",
+      "recovery": "explicit protocol; inspected created pool untainted and preserved; new route-only plan",
+      "failed_plan_replayed": false
+    }
+  }
+}

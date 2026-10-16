@@ -30,7 +30,7 @@ variable "application_image" {
 }
 variable "certificate_file" {
   type        = string
-  description = "Absolute private path to the existing public PEM chain."
+  description = "Absolute private path to the Wingman public PEM chain; retained certificate files remain separate."
 }
 variable "private_key_file" {
   type        = string
@@ -39,7 +39,7 @@ variable "private_key_file" {
 variable "domain" {
   type        = string
   default     = "certificate-management-terraform.f5-sales-demo.com"
-  description = "Existing application hostname covered by the shared certificate."
+  description = "Existing application hostname covered by the Wingman certificate."
 }
 
 variable "xcsh_encrypted_location_file" {

@@ -17,6 +17,7 @@ PAGES = [
     "terraform/",
     "terraform/input-lifecycle/",
     "terraform/certificate-surfaces/",
+    "wingman/",
     "xcsh/",
     "xcsh/input-workflows/",
     "xcsh/command-reference/",
@@ -76,6 +77,12 @@ with sync_playwright() as p:
             "XCSH_CERT_ID": sentinel,
             "XCSH_API_TOKEN": "TOKEN_SENTINEL",
             "XCSH_TLS_INPUT_PASSWORD": "PASSPHRASE_SENTINEL",
+            "XCSH_WINGMAN_NAME": "reader-wingman",
+            "XCSH_WINGMAN_IMAGE": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:"
+            + "a" * 64,
+            "XCSH_KUBECONFIG_FILE": "/private/reader kubeconfig",
+            "XCSH_KUBECONFIG_CONTEXT": "reader-context",
+            "XCSH_WINGMAN_SITE_SELECTOR": "ves.io/siteName=reader-site",
         }
         for name, value in values.items():
             page.locator("#ph-" + name).fill(value)
@@ -83,6 +90,8 @@ with sync_playwright() as p:
         canonical_urls = [
             BASE + "/certificate-management/_data/terraform/named-certificate/main.tf",
             BASE + "/certificate-management/assets/certificate-management.pem",
+            BASE + "/certificate-management/_data/wingman/contract.json",
+            BASE + "/certificate-management/_data/wingman/runtime/main.tf",
         ]
         downloads = {
             url: hashlib.sha256(context.request.get(url).body()).hexdigest()
@@ -116,6 +125,18 @@ with sync_playwright() as p:
                         "clipboard_sha256": hashlib.sha256(copied.encode()).hexdigest(),
                     }
                 )
+            if route == "wingman/":
+                assert (
+                    page.locator("#ph-XCSH_WINGMAN_NAME").input_value()
+                    == "reader-wingman"
+                )
+                assert (
+                    page.locator("#ph-XCSH_KUBECONFIG_CONTEXT").input_value()
+                    == "reader-context"
+                )
+                rendered = page.locator("[data-xcsh-context]").all_text_contents()
+                assert any("reader-wingman" in text for text in rendered)
+                assert any("reader-context" in text for text in rendered)
             assert not errors, errors
         visit("xcsh/")
         historical = page.locator('[data-personalize="off"]').text_content()

@@ -74,7 +74,7 @@ def endpoints(certificate: Path) -> dict:
     return results
 
 
-def wingman_endpoint(certificate: Path) -> dict:
+def wingman_endpoint(certificate: Path, application_certificate: Path) -> dict:
     """Public health is separate from fresh pod identity and unseal evidence."""
     host = "certificate-management-terraform.f5-sales-demo.com"
     context = ssl.create_default_context(cafile=str(certificate))
@@ -88,7 +88,9 @@ def wingman_endpoint(certificate: Path) -> dict:
     response = connection.getresponse()
     body = json.loads(response.read())
     connection.close()
-    fingerprint = hashlib.sha256(expected).hexdigest()
+    leaf = application_certificate.read_text().split("-----END CERTIFICATE-----", 1)[0]
+    application_der = ssl.PEM_cert_to_DER_cert(leaf + "-----END CERTIFICATE-----\n")
+    fingerprint = hashlib.sha256(application_der).hexdigest()
     if response.status != 200 or body != {
         "example": "wingman-certificate",
         "certificate_sha256": fingerprint,
@@ -97,7 +99,8 @@ def wingman_endpoint(certificate: Path) -> dict:
         raise ValueError(msg)
     return {
         "qualification": "public TLS and response health only; fresh unseal not exercised",
-        "certificate_sha256": fingerprint,
+        "public_certificate_sha256": hashlib.sha256(expected).hexdigest(),
+        "application_certificate_sha256": fingerprint,
     }
 
 
@@ -111,10 +114,14 @@ def downloads(root: Path, base: str) -> dict:
     for line in (root / "docs/_imports").read_text().splitlines():
         if line.strip() and not line.lstrip().startswith("#"):
             source_relative, destination = line.split(" -> ")
-            sources.append((root / source_relative, destination))
+            sources.append((root / source_relative, "_data/" + destination))
+    sources.extend(
+        (root / "docs/assets" / name, "assets/" + name)
+        for name in ("wingman-ca.pem", "wingman-certificate.pem")
+    )
     for source, relative in sorted(sources):
-        with urllib.request.urlopen(  # noqa: S310 -- Scheme checked and repository-owned relative path.
-            base.rstrip("/") + "/_data/" + relative, timeout=30
+        with urllib.request.urlopen(  # noqa: S310 -- Validated repository-owned URL.
+            base.rstrip("/") + "/" + relative, timeout=30
         ) as response:
             data = response.read()
         if data != source.read_bytes():
@@ -145,7 +152,8 @@ def main() -> None:
     }
     if args.wingman:
         receipt["wingman"] = wingman_endpoint(
-            root / "docs/assets/certificate-management.pem"
+            root / "docs/assets/certificate-management.pem",
+            root / "docs/assets/wingman-certificate.pem",
         )
     if not args.skip_downloads:
         receipt["downloads"] = downloads(root, args.base)

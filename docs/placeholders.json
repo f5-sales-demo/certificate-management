@@ -26,7 +26,12 @@
     "XCSH_INTERCEPTION_KEY_FILE",
     "XCSH_VIRTUAL_SITE_NAME",
     "XCSH_VIRTUAL_SITE_NAMESPACE",
-    "XCSH_CONTAINER_IMAGE"
+    "XCSH_CONTAINER_IMAGE",
+    "XCSH_WINGMAN_NAME",
+    "XCSH_KUBECONFIG_FILE",
+    "XCSH_KUBECONFIG_CONTEXT",
+    "XCSH_WINGMAN_SITE_SELECTOR",
+    "XCSH_WINGMAN_IMAGE"
   ],
   "groups": [
     {
@@ -67,6 +72,16 @@
         "XCSH_VIRTUAL_SITE_NAME",
         "XCSH_VIRTUAL_SITE_NAMESPACE",
         "XCSH_CONTAINER_IMAGE"
+      ]
+    },
+    {
+      "label": "Wingman runtime",
+      "keys": [
+        "XCSH_WINGMAN_NAME",
+        "XCSH_KUBECONFIG_FILE",
+        "XCSH_KUBECONFIG_CONTEXT",
+        "XCSH_WINGMAN_SITE_SELECTOR",
+        "XCSH_WINGMAN_IMAGE"
       ]
     }
   ],
