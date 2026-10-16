@@ -75,7 +75,7 @@ func probe(ctx context.Context, mode string) error {
 	}
 	ctx, cancel := context.WithTimeout(ctx, 2*time.Minute)
 	defer cancel()
-	w := wingman{"http://127.0.0.1:8070", &http.Client{Timeout: 5 * time.Second, Transport: &http.Transport{Proxy: nil}, CheckRedirect: func(*http.Request, []*http.Request) error { return errors.New("Wingman redirect rejected") }}}
+	w := wingman{"http://127.0.0.1:8070", &http.Client{Timeout: 30 * time.Second, Transport: &http.Transport{Proxy: nil}, CheckRedirect: func(*http.Request, []*http.Request) error { return errors.New("Wingman redirect rejected") }}}
 	for w.ready(ctx) != nil {
 		select {
 		case <-ctx.Done():
