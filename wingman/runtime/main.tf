@@ -47,8 +47,11 @@ resource "kubernetes_deployment_v1" "application" {
     }
     template {
       metadata {
-        labels      = local.selector
-        annotations = { "ves.io/wingman-injection-mode" = "enable" }
+        labels = local.selector
+        annotations = {
+          "ves.io/wingman-injection-mode"          = "enable"
+          "certificate-management/material-sha256" = sha256(jsonencode(kubernetes_config_map_v1.material.data))
+        }
       }
       spec {
         container {

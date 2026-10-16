@@ -3,6 +3,7 @@ variable "wingman" {
   type = object({
     name              = string
     virtual_site_name = string
+    trusted_ca_file   = optional(string)
   })
   default     = null
   description = "Runtime owner_integration output, after authorized unseal and denial qualification."
@@ -22,6 +23,7 @@ resource "xcsh_origin_pool" "wingman" {
   port      = local.wingman_contract.backend_port
   origin_servers {
     k8s_service {
+      protocol      = "PROTOCOL_TCP"
       service_name  = "${var.wingman.name}${local.wingman_contract.suffixes.service}.${var.namespace}"
       vk8s_networks = {}
       site_locator {
@@ -39,7 +41,7 @@ resource "xcsh_origin_pool" "wingman" {
       default_security = {}
     }
     use_server_verification {
-      trusted_ca_url = "string:///${filebase64(var.certificate_file)}"
+      trusted_ca_url = "string:///${filebase64(var.wingman.trusted_ca_file == null ? var.certificate_file : var.wingman.trusted_ca_file)}"
     }
   }
 }

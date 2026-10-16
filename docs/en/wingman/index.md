@@ -10,11 +10,13 @@ Wingman lets the application unseal its TLS key inside a vK8s pod. The applicati
 identifiable HTTPS response and its public certificate fingerprint at `/wingman/get`. It mounts
 only a public certificate and encrypted locations; the decrypted key stays in memory.
 
-The published provider and certificate lifecycles are qualified on Ubuntu and macOS. Image publication and fresh Wingman runtime qualification remain pending. The
-[delivery record](../../assets/wingman-acceptance.json) distinguishes local checks from
-pending live gates. The intended retained endpoint is
-[Wingman HTTPS](https://certificate-management-terraform.f5-sales-demo.com/wingman/get).
-A successful public response checks health; it does not prove fresh unsealing.
+The retained [Wingman HTTPS endpoint](https://certificate-management-terraform.f5-sales-demo.com/wingman/get)
+is qualified against the current published artifacts. Fresh probes unsealed Terraform- and
+xcsh-prepared ciphertext, and an unselected pod received HTTP 403. A runtime restart produced fresh
+trusted platform identities while preserving the application certificate and both existing endpoints.
+The [delivery record](../../assets/wingman-acceptance.json) captures versions, digests, ownership,
+empty plans, cleanup, credential revocation, and preserved first-run failures. A public health
+response does not replace fresh unseal qualification.
 
 Use F5's [Wingman how-to](https://docs.cloud.f5.com/docs-v2/multi-cloud-network-connect/how-tos/secret-mgmt/pp-secrets-using-wingman)
 and [API reference](https://docs.cloud.f5.com/docs-v2/platform/reference/wingman-api-reference) for
@@ -36,15 +38,23 @@ part of this demo. Application TLS material and platform-issued pod identities h
 
 The retained namespace and naming base are explicitly supplied as `certificate-management`. The reusable contract defaults to `demo-app` and assigns
 `-wingman-policy`, `-wingman-sites`, and `-wingman` suffixes. Select an independent base for a
-reader deployment. Reuse the existing private certificate/key files. Do not regenerate retained
-material, change existing ciphertext, or adopt existing objects into either new state.
+reader deployment. Keep both retained certificate/key files and their ciphertext unchanged. Wingman uses a separate
+CA-signed application certificate with the original shared public key. Its private key remains the
+existing matching key. Do not adopt existing objects into either new state.
+
+Wingman also works with self-signed application certificates; the real runtime qualification passed
+with the original certificate. The origin pool rejected that certificate as its root CA trust input
+because it has `CA:FALSE`. The retained topology therefore uses a separate demo root CA and a
+CA-signed Wingman leaf. The [public CA](../../assets/wingman-ca.pem) and
+[Wingman certificate chain](../../assets/wingman-certificate.pem) contain no private keys. Reader
+deployments must supply their own matching certificate chain and trust CA.
 
 ## Freeze sources and artifacts
 
 Use a verified source checkout or [download the scaffold](https://github.com/f5-sales-demo/certificate-management/tree/main/wingman).
 Preserve `wingman/contract.json` beside `bootstrap/` and `runtime/`. Keep state and session credentials
 outside Git with directory mode 0700 and file mode 0600. Install Python 3, Terraform 1.11 or later,
-and kubectl. Bootstrap and runtime pin the qualified xcsh provider 15.9.0. Runtime pins Kubernetes provider 3.3.0.
+kubectl, and jq. Bootstrap and runtime pin the qualified xcsh provider 15.9.0. Runtime pins Kubernetes provider 3.3.0.
 
 Choose `<XCSH_WINGMAN_NAME>`, `<XCSH_WINGMAN_SITE_SELECTOR>`, `<XCSH_KUBECONFIG_FILE>`, and
 `<XCSH_KUBECONFIG_CONTEXT>` independently. Unknown identities remain placeholders. Supply the
@@ -123,13 +133,13 @@ and requests a 30-second decrypt cache. The published CRUD schema does not expos
 write field; the provider verifies `algo: FIRST_MATCH` using the full policy readback. Qualify the runtime
 allow and denial behavior before retaining the deployment.
 
-<div data-xcsh-context="shell" data-xcsh-fields="XCSH_KUBECONFIG_FILE XCSH_KUBECONFIG_CONTEXT XCSH_WINGMAN_IMAGE XCSH_CERT_FILE XCSH_KEY_FILE XCSH_DOMAINNAME XCSH_WORKDIR">
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_KUBECONFIG_FILE XCSH_KUBECONFIG_CONTEXT XCSH_WINGMAN_IMAGE XCSH_RENEWED_CERT_FILE XCSH_KEY_FILE XCSH_DOMAINNAME XCSH_WORKDIR">
 
 ```bash
 export TF_VAR_kubeconfig_file="$XCSH_KUBECONFIG_FILE"
 export TF_VAR_kubeconfig_context="$XCSH_KUBECONFIG_CONTEXT"
 export TF_VAR_application_image="$XCSH_WINGMAN_IMAGE"
-export TF_VAR_certificate_file="$XCSH_CERT_FILE"
+export TF_VAR_certificate_file="$XCSH_RENEWED_CERT_FILE"
 export TF_VAR_private_key_file="$XCSH_KEY_FILE"
 export TF_VAR_domain="$XCSH_DOMAINNAME"
 terraform -chdir="$XCSH_WORKDIR/wingman/runtime" init
@@ -176,7 +186,9 @@ location and one unselected pod that must receive HTTP 403. Probe mode validates
 identity chains and the application key pair, emitting only public fingerprints and denial status.
 It allows up to ten minutes for pod startup, then gives each running probe a fixed three-minute
 execution deadline. The application retains its two-minute startup limit and bounded API requests.
-It journals exact Deployment and pod UIDs before cleanup, deletes with UID preconditions, and verifies absence twice.
+It collects completed current or previous container logs across a restart, preserves nonempty invalid
+output as a failure, and never invokes another probe to recover logs. It journals exact Deployment
+and pod UIDs before cleanup, deletes with UID preconditions, and verifies absence twice.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_WORKDIR XCSH_KUBECONFIG_FILE XCSH_KUBECONFIG_CONTEXT XCSH_NAMESPACE XCSH_WINGMAN_NAME XCSH_WINGMAN_IMAGE XCSH_DOMAINNAME">
 
@@ -191,20 +203,57 @@ python3 "$XCSH_WORKDIR/wingman/qualify.py" \
 
 </div>
 
-Next verify backend TLS through a private port-forward with the shared trust certificate and existing
+Next verify backend TLS through a private port-forward with the Wingman root CA and existing
 hostname. Restart the runtime pod through its exact UID and repeat the probes; require fresh platform
 identity hashes and unchanged application fingerprint. Keep each probe run's directory distinct.
 Only then enable the route in the **existing Terraform owner state** using runtime's `owner_integration`
 output and an explicit `wingman_contract_file` path. The opt-in `wingman` variable defaults to null.
 The existing `/get` route, certificate addresses, HTTP redirect, and DNS owner remain in that state.
 
-The new pool uses vK8s service discovery, SNI for the existing hostname, and the shared certificate
-as its trust input. Require backend TLS verification, the public Wingman marker, fingerprint equality,
+Use the existing private `deployment/` directory from the named-certificate guide. Review the full
+plan: it must create one Wingman pool and add one HTTPS route, with no certificate or HTTP changes.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_WORKDIR XCSH_LB_NAME XCSH_NAMESPACE XCSH_DOMAINNAME XCSH_CERT_FILE XCSH_KEY_FILE XCSH_ORIGIN_CA_FILE">
+
+```bash
+export TF_VAR_namespace="$XCSH_NAMESPACE"
+export TF_VAR_name="$XCSH_LB_NAME"
+export TF_VAR_domain="$XCSH_DOMAINNAME"
+export TF_VAR_certificate_file="$XCSH_CERT_FILE"
+export TF_VAR_private_key_file="$XCSH_KEY_FILE"
+curl --silent --show-error --fail \
+  "https://f5-sales-demo.github.io/certificate-management/_data/terraform/named-certificate/wingman.tf" \
+  --output "$XCSH_WORKDIR/deployment/wingman.tf"
+terraform -chdir="$XCSH_WORKDIR/wingman/runtime" output -json owner_integration \
+  > "$XCSH_WORKDIR/wingman/owner-integration.json"
+jq -n --slurpfile wingman "$XCSH_WORKDIR/wingman/owner-integration.json" \
+  --arg contract "$XCSH_WORKDIR/wingman/contract.json" \
+  --arg ca "$XCSH_ORIGIN_CA_FILE" \
+  '{wingman: ($wingman[0] + {trusted_ca_file: $ca}), wingman_contract_file: $contract}' \
+  > "$XCSH_WORKDIR/deployment/wingman.auto.tfvars.json"
+terraform -chdir="$XCSH_WORKDIR/deployment" plan -out=wingman.plan
+terraform -chdir="$XCSH_WORKDIR/deployment" show wingman.plan
+terraform -chdir="$XCSH_WORKDIR/deployment" apply wingman.plan
+terraform -chdir="$XCSH_WORKDIR/deployment" plan -detailed-exitcode
+```
+
+</div>
+
+The new pool uses vK8s service discovery, SNI for the existing hostname, and the Wingman root CA
+as its trust input. Set `XCSH_RENEWED_CERT_FILE` to the Wingman leaf chain and
+`XCSH_ORIGIN_CA_FILE` to its root CA; keep `XCSH_CERT_FILE` pointed at the original public load-balancer
+certificate. Require backend TLS verification and the public Wingman marker. Its response fingerprint
+must equal the backend Wingman leaf fingerprint; public TLS must retain the original certificate. Also verify
 both original `/get` responses, both redirects, and empty plans in all three Terraform states.
 Credential-free CI checks schemas and public health separately from fresh live unseal evidence.
 Wingman is reported separately from the existing 25-node certificate matrix and its 16 qualified lifecycles.
 
 ## Rollback and recovery
+
+The retained origin pool declares `PROTOCOL_TCP` explicitly. The first CA-trusted pool create
+succeeded in F5, but Terraform reported an inconsistent result when the API supplied that default.
+Recovery verified the created pool UID and spec, cleared only its Terraform taint, and applied a new
+route-only plan. The pool was preserved. Keep the failed apply evidence; never replay its saved plan.
 
 Set the existing owner's `wingman` input back to null, review the plan, and apply it to remove only
 the Wingman route and pool. Verify both original endpoints and redirects. Then destroy runtime,

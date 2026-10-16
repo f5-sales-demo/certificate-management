@@ -6,8 +6,11 @@ and runtime have independent private Terraform states. The existing named-certif
 alone owns the opt-in pool and route.
 
 The published provider 15.9.0 and existing certificate lifecycles are qualified on Ubuntu and macOS.
-Immutable application publication and fresh Wingman runtime qualification remain pending;
-[the qualification record](../docs/assets/wingman-acceptance.json) records each gate.
+The immutable application passed fresh sidecar injection, both authorized ciphertext sources, HTTP 403
+denial, trusted identities, backend and public TLS, and restart checks. All three owner states have
+empty follow-up plans; probes were absent twice and the scoped credential was revoked.
+[The qualification record](../docs/assets/wingman-acceptance.json) records the selected artifacts and
+preserves first-run failures alongside the passing runs.
 Application tests use protocol fixtures; they do not substitute for a real Wingman sidecar.
 
 Run `go test -race ./...` and `go vet ./...` from `app/`. Governed CI uses the Go image digest in
