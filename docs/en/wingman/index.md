@@ -18,9 +18,10 @@ The [delivery record](../../assets/wingman-acceptance.json) captures versions, d
 empty plans, cleanup, credential revocation, and preserved first-run failures. A public health
 response does not replace fresh unseal qualification.
 
-The [builder requalification record](../../assets/wingman-builder-requalification.json) verifies the
-current documentation image after its immutable publication changed. The runtime artifacts and live
-acceptance remain unchanged.
+The [builder 1.11.1 requalification record](../../assets/wingman-builder-1.11.1-requalification.json)
+verifies the current documentation image. The earlier
+[builder 1.11.0 record](../../assets/wingman-builder-requalification.json) remains available.
+The runtime artifacts and live acceptance remain unchanged.
 
 Use F5's [Wingman how-to](https://docs.cloud.f5.com/docs-v2/multi-cloud-network-connect/how-tos/secret-mgmt/pp-secrets-using-wingman)
 and [API reference](https://docs.cloud.f5.com/docs-v2/platform/reference/wingman-api-reference) for
