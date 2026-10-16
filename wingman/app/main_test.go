@@ -131,3 +131,32 @@ func TestUnsealFailures(t *testing.T) {
 		})
 	}
 }
+
+func TestResponseReadFailureDoesNotExposeBody(t *testing.T) {
+	sidecar := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Length", "100")
+		_, _ = w.Write([]byte("PRIVATE RESPONSE"))
+		w.(http.Flusher).Flush()
+		<-r.Context().Done()
+	}))
+	defer sidecar.Close()
+	client := sidecar.Client()
+	client.Timeout = 50 * time.Millisecond
+	w := wingman{sidecar.URL, client}
+	_, err := w.request(context.Background(), "GET", "/trust/pki/client_ca", nil)
+	if err == nil || err.Error() != "Wingman /trust/pki/client_ca response read failed" {
+		t.Fatalf("read failure was not distinguished safely: %v", err)
+	}
+}
+
+func TestResponseMaterialLimitIsDistinct(t *testing.T) {
+	sidecar := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte(strings.Repeat("x", maxMaterial+1)))
+	}))
+	defer sidecar.Close()
+	w := wingman{sidecar.URL, sidecar.Client()}
+	_, err := w.request(context.Background(), "POST", "/secret/unseal", nil)
+	if err == nil || err.Error() != "Wingman /secret/unseal response exceeds material limit" {
+		t.Fatalf("material limit was not distinguished safely: %v", err)
+	}
+}
