@@ -1,0 +1,69 @@
+{
+  "qualification": "Published builder requalification; live runtime acceptance remains in wingman-acceptance.json",
+  "qualified_at": "2026-10-16T14:21:58.179666+00:00",
+  "builder": {
+    "image": "ghcr.io/f5-sales-demo/docs-builder@sha256:8fcc5e4171f6b4cb44133e44619aaca352d168b5a34e0c95a5715041d721bcda",
+    "version": "1.11.1",
+    "source_commit": "687218da176e2e86cea4583a2809541f0065ecd7",
+    "publication_run": "https://github.com/f5-sales-demo/docs-builder/actions/runs/38903282596"
+  },
+  "platforms": [
+    {
+      "mediaType": "application/vnd.oci.image.manifest.v1+json",
+      "digest": "sha256:5e3088a6a7d8d8c697ffdbb7f0d69ee75349c2507d6f8b7108f6823cb95bb5a5",
+      "size": 3717,
+      "platform": {
+        "architecture": "amd64",
+        "os": "linux"
+      }
+    },
+    {
+      "mediaType": "application/vnd.oci.image.manifest.v1+json",
+      "digest": "sha256:856abc119445dec4d310045218af104cdc9600cbd23444edbbfd44bc4377764c",
+      "size": 3717,
+      "platform": {
+        "architecture": "arm64",
+        "os": "linux"
+      }
+    }
+  ],
+  "publication": {
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "687218da176e2e86cea4583a2809541f0065ecd7"
+  },
+  "checks": {
+    "desktop_mobile_clipboard_comparisons": 74,
+    "source_download_comparisons": 93,
+    "session_credentials": true,
+    "reset_clear": true,
+    "storage_disabled": true,
+    "canonical_downloads_unchanged": true,
+    "historical_exclusion": true
+  },
+  "unchanged_runtime_artifacts": {
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b"
+    },
+    "provider": {
+      "version": "15.9.0",
+      "source_commit": "35cce9b33b3037b3ef4b4883dd9ced22542f20e3"
+    },
+    "xcsh": {
+      "version": "23.5.1",
+      "source_commit": "753953842ba2d889b9715000534874e67c152a98"
+    },
+    "kubernetes_provider": {
+      "version": "3.3.0",
+      "source_commit": "a612b9cfce0fd1321cf2d25084b07b8fccd79737"
+    },
+    "application": {
+      "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:841b968fd5e8fc5076ef806605932f16f412e52a42080ab01958626ac5b880d0",
+      "source_commit": "7557a4d93e23e0ad32eb97e5de79d82f6aef2beb",
+      "publication_run": "https://github.com/f5-sales-demo/certificate-management/actions/runs/38892143890"
+    }
+  },
+  "governed_selection": "https://github.com/f5-sales-demo/docs-control/pull/2518",
+  "live_acceptance_receipt": "wingman-acceptance.json"
+}
