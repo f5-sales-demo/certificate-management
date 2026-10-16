@@ -89,3 +89,6 @@ wingman/app/build-image.txt -> wingman/app/build-image.txt
 wingman/qualify.py -> wingman/qualify.py
 wingman/kubeconfig.py -> wingman/kubeconfig.py
 scripts/resolve_current_artifacts.py -> scripts/resolve_current_artifacts.py
+wingman/qualification/main.tf -> wingman/qualification/main.tf
+wingman/qualification/variables.tf -> wingman/qualification/variables.tf
+wingman/qualification/versions.tf -> wingman/qualification/versions.tf

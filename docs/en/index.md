@@ -11,7 +11,7 @@ Use Customize examples to select your tenant, application, certificate paths, an
 Credentials stay in this tab's session. Leave them empty to use shell environment values or private prompts. Reset shared values restores noncredential defaults; Clear credentials removes tokens and passphrases. Enter only paths for private files. Published HCL, scripts, public certificates, and historical evidence remain canonical downloads.
 
 - [Terraform](./terraform/) deploys a certificate and HTTPS endpoint using native provider Blindfold preparation, without installing xcsh.
-- [Wingman](./wingman/) runs an application that unseals its TLS key through the injected sidecar; publication and live qualification are pending.
+- [Wingman](./wingman/) shows how an application authorizes and unseals its TLS key through the injected sidecar, with a live HTTPS example.
 - [xcsh](./xcsh/) prepares certificate manifests and reconciles certificate resources through the CLI.
 
-Both retained demonstrations use the same [public certificate](../assets/certificate-management.pem). Private keys, rollback material, credentials, and Terraform state remain in private owner storage.
+The retained Terraform and xcsh endpoints use the same [public load-balancer certificate](../assets/certificate-management.pem). Wingman serves behind the Terraform endpoint with a separate [application certificate chain](../assets/wingman-certificate.pem). Private keys, rollback material, credentials, and Terraform state remain in private owner storage.

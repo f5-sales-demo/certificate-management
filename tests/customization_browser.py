@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import shutil
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -18,6 +19,7 @@ PAGES = [
     "terraform/input-lifecycle/",
     "terraform/certificate-surfaces/",
     "wingman/",
+    "wingman/validation/",
     "xcsh/",
     "xcsh/input-workflows/",
     "xcsh/command-reference/",
@@ -92,6 +94,7 @@ with sync_playwright() as p:
             BASE + "/certificate-management/assets/certificate-management.pem",
             BASE + "/certificate-management/_data/wingman/contract.json",
             BASE + "/certificate-management/_data/wingman/runtime/main.tf",
+            BASE + "/certificate-management/_data/wingman/qualification/main.tf",
         ]
         downloads = {
             url: hashlib.sha256(context.request.get(url).body()).hexdigest()
@@ -99,7 +102,8 @@ with sync_playwright() as p:
         }
         for route in PAGES:
             visit(route)
-            assert page.locator("#ph-XCSH_NAMESPACE").input_value() == sentinel
+            for name, value in values.items():
+                assert page.locator("#ph-" + name).input_value() == value, (route, name)
             assert (
                 page.locator("#ph-XCSH_TLS_INPUT_PASSWORD").input_value()
                 == "PASSPHRASE_SENTINEL"
@@ -115,6 +119,28 @@ with sync_playwright() as p:
                 context_name = block.locator("xpath=..").get_attribute(
                     "data-xcsh-context"
                 )
+                if context_name == "shell":
+                    syntax = subprocess.run(
+                        ["/bin/bash", "-n"],
+                        input=copied,
+                        text=True,
+                        capture_output=True,
+                        check=False,
+                    )
+                    assert syntax.returncode == 0, (route, syntax.stderr)
+                if context_name == "json":
+                    structured = json.loads(copied)
+                    assert "TOKEN_SENTINEL" not in copied
+                    assert "PASSPHRASE_SENTINEL" not in copied
+                    if route in ("wingman/", "wingman/validation/"):
+                        assert (
+                            structured["metadata"]["labels"]["app"]
+                            == "reader-wingman-wingman"
+                        )
+                        assert (
+                            structured["spec"]["containers"][0]["env"][0]["value"]
+                            == "reader.example.com"
+                        )
                 if context_name == "hcl":
                     assert "PASSPHRASE_SENTINEL" not in copied
                     assert "TOKEN_SENTINEL" not in copied
@@ -125,7 +151,7 @@ with sync_playwright() as p:
                         "clipboard_sha256": hashlib.sha256(copied.encode()).hexdigest(),
                     }
                 )
-            if route == "wingman/":
+            if route in ("wingman/", "wingman/validation/"):
                 assert (
                     page.locator("#ph-XCSH_WINGMAN_NAME").input_value()
                     == "reader-wingman"
@@ -212,6 +238,9 @@ with sync_playwright() as p:
         "storage_disabled": True,
         "canonical_downloads_unchanged": True,
         "historical_exclusion": True,
+        "shared_fields_across_all_routes": True,
+        "copied_shell_syntax": True,
+        "structured_json_parsing": True,
     }
     (ARTIFACTS / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
     sys.stdout.write(

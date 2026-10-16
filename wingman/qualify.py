@@ -1,4 +1,4 @@
-"""Qualify real injected Wingman probe pods and delete only this run's exact UIDs."""
+"""Observe Terraform-owned Wingman probes; preserve legacy exact-UID cleanup."""
 
 import argparse
 import json
@@ -7,10 +7,8 @@ import re
 import subprocess
 import sys
 import time
-import uuid
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any
 from urllib.parse import urlsplit
 
 DIGEST_LENGTH = 64
@@ -49,6 +47,60 @@ def require_owner(pod: dict, name: str, namespace: str, run: str, uid: str = "")
         msg = "Probe ownership changed; cleanup refused"
         raise ValueError(msg)
     return actual
+
+
+def terraform_inventory(document: dict, namespace: str) -> tuple[str, list[dict]]:
+    """Accept only the three exact Deployment identities exported by Terraform."""
+    run = document.get("run", "")
+    entries = document.get("entries", [])
+    expected = [
+        ("probe-authorized", "encrypted-location"),
+        ("probe-authorized", "encrypted-location-xcsh"),
+        ("probe-denied", "encrypted-location"),
+    ]
+    if not re.fullmatch(r"wingman-q-[a-f0-9]{12}", run) or len(entries) != PROBE_COUNT:
+        message = "Invalid Terraform qualification inventory"
+        raise ValueError(message)
+    for index, (entry, case) in enumerate(zip(entries, expected, strict=True)):
+        if (
+            entry.get("name") != run + "-" + str(index)
+            or entry.get("namespace") != namespace
+            or entry.get("kind") != "deployment"
+            or not entry.get("uid")
+            or (entry.get("mode"), entry.get("source")) != case
+        ):
+            message = "Terraform inventory identity or probe case differs"
+            raise ValueError(message)
+        entry.setdefault("pods", {})
+    return run, entries
+
+
+def require_probe_contract(
+    pod: dict, mode: str, source: str, image: str, domain: str, selector: dict
+) -> None:
+    """Reject a changed image, probe invocation, material source, or policy label."""
+    containers = [
+        item
+        for item in pod.get("spec", {}).get("containers", [])
+        if item.get("name") == "application"
+    ]
+    if len(containers) != 1:
+        message = "Expected one application probe container"
+        raise ValueError(message)
+    container = containers[0]
+    environment = {item["name"]: item.get("value") for item in container.get("env", [])}
+    if (
+        container.get("image") != image
+        or container.get("command") != ["/wingman-app", mode]
+        or environment.get("TLS_HOSTNAME") != domain
+        or environment.get("PROBE_LOCATION_FILE") != "/material/" + source
+        or any(
+            pod.get("metadata", {}).get("labels", {}).get(key) != value
+            for key, value in selector.items()
+        )
+    ):
+        message = "Live probe differs from the planned qualification contract"
+        raise ValueError(message)
 
 
 def probe_deadline(
@@ -124,6 +176,19 @@ def main() -> None:
     parser.add_argument("--kubeconfig", type=Path, required=True)
     parser.add_argument("--context", required=True)
     parser.add_argument("--namespace", required=True)
+    parser.add_argument(
+        "--inventory", type=Path, help="Terraform output -json probe_inventory"
+    )
+    parser.add_argument(
+        "--verify-owned",
+        action="store_true",
+        help="Read-only UID check before a saved destroy plan",
+    )
+    parser.add_argument(
+        "--verify-cleanup",
+        action="store_true",
+        help="Read-only absence check after Terraform destroy",
+    )
     parser.add_argument("--name")
     parser.add_argument("--image")
     parser.add_argument("--domain")
@@ -135,13 +200,18 @@ def main() -> None:
         help="Resume exact-UID cleanup from the existing private journal",
     )
     args = parser.parse_args()
-    if not args.cleanup_only and not all(
-        (args.name, args.image, args.domain, args.fingerprint)
-    ):
+    observe = not (args.cleanup_only or args.verify_cleanup or args.verify_owned)
+    if sum((args.cleanup_only, args.verify_cleanup, args.verify_owned)) > 1:
+        parser.error("Select only one recovery or verification mode")
+    if not args.cleanup_only and args.inventory is None:
+        parser.error(
+            "Terraform --inventory is required; this tool does not create probes"
+        )
+    if observe and not all((args.name, args.image, args.domain, args.fingerprint)):
         parser.error(
             "qualification requires --name, --image, --domain and --fingerprint"
         )
-    if not args.cleanup_only and not re.fullmatch(r"[a-f0-9]{64}", args.fingerprint):
+    if observe and not re.fullmatch(r"[a-f0-9]{64}", args.fingerprint):
         parser.error("fingerprint must be a SHA-256 hex digest")
     if not args.kubeconfig.is_absolute() or not args.kubeconfig.is_file():
         msg = "An explicit private kubeconfig file is required"
@@ -149,29 +219,43 @@ def main() -> None:
     contract = json.loads((Path(__file__).parent / "contract.json").read_text())
     image_prefix = "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:"
     digest = (args.image or "").removeprefix(image_prefix)
-    if not args.cleanup_only and (
+    if observe and (
         not (args.image or "").startswith(image_prefix)
         or len(digest) != DIGEST_LENGTH
         or any(c not in "0123456789abcdef" for c in digest)
     ):
         msg = "An immutable governed application image is required"
         raise ValueError(msg)
-    if args.cleanup_only:
+    if args.cleanup_only or args.verify_cleanup or args.verify_owned:
         document = json.loads((args.private_directory / "journal.json").read_text())
         run, journal = document["run"], document["entries"]
+        if args.inventory:
+            inventory_run, inventory_entries = terraform_inventory(
+                json.loads(args.inventory.read_text()), args.namespace
+            )
+            if inventory_run != run or [e["uid"] for e in inventory_entries] != [
+                e["uid"] for e in journal
+            ]:
+                message = "Terraform inventory differs from observation journal"
+                raise ValueError(message)
         if not re.fullmatch(r"wingman-q-[a-f0-9]{12}", run):
-            msg_0 = "Invalid run-owned cleanup journal"
-            raise ValueError(msg_0)
+            message = "Invalid run-owned cleanup journal"
+            raise ValueError(message)
         if any(entry.get("namespace") != args.namespace for entry in journal):
-            msg_0 = "Cleanup namespace differs from private journal"
-            raise ValueError(msg_0)
+            message = "Cleanup namespace differs from private journal"
+            raise ValueError(message)
+        if args.cleanup_only and document.get("ownership") == "terraform":
+            parser.error(
+                "Terraform-owned probes require a saved destroy plan, then --verify-cleanup"
+            )
     else:
+        run, journal = terraform_inventory(
+            json.loads(args.inventory.read_text()), args.namespace
+        )
         args.private_directory.mkdir(mode=0o700, parents=True, exist_ok=False)
-        run = "wingman-q-" + uuid.uuid4().hex[:12]
-        journal = []
     results: dict = {
         "qualification": "cleanup only; unseal not exercised"
-        if args.cleanup_only
+        if not observe
         else "fresh live Wingman unseal",
         "run": run,
         "probes": [],
@@ -224,7 +308,17 @@ def main() -> None:
 
     def save() -> None:
         path = args.private_directory / "journal.json"
-        path.write_text(json.dumps({"run": run, "entries": journal}, indent=2) + "\n")
+        path.write_text(
+            json.dumps(
+                {
+                    "run": run,
+                    "entries": journal,
+                    "ownership": "legacy" if args.cleanup_only else "terraform",
+                },
+                indent=2,
+            )
+            + "\n"
+        )
         path.chmod(0o600)
 
     def retain_failure(name: str, pod_name: str) -> None:
@@ -238,114 +332,29 @@ def main() -> None:
 
     succeeded = False
     try:
-        cases = (
-            []
-            if args.cleanup_only
-            else [
-                ("probe-authorized", "encrypted-location"),
-                ("probe-authorized", "encrypted-location-xcsh"),
-                ("probe-denied", "encrypted-location"),
-            ]
-        )
-        for mode, source in cases:
-            name = run + "-" + str(len(journal))
-            entry: dict[str, Any] = {
-                "name": name,
-                "namespace": args.namespace,
-                "uid": "",
-                "kind": "deployment",
-                "pods": {},
-            }
-            journal.append(entry)
-            save()  # Journal intent before one create; reconcile an ambiguous result by exact GET.
-            app = (
-                args.name + contract["suffixes"]["application"]
-                if mode == "probe-authorized"
-                else name
-            )
-            manifest: dict[str, Any] = {
-                "apiVersion": "v1",
-                "kind": "Pod",
-                "metadata": {
-                    "name": name,
-                    "namespace": args.namespace,
-                    "labels": {
-                        contract["app_label"]: app,
-                        "qualification-run": run,
-                        "qualification-probe": name,
-                    },
-                    "annotations": {"ves.io/wingman-injection-mode": "enable"},
-                },
-                "spec": {
-                    "restartPolicy": "Always",
-                    "containers": [
-                        {
-                            "name": "application",
-                            "image": args.image,
-                            "command": ["/wingman-app", mode],
-                            "resources": {
-                                "requests": {"cpu": "50m", "memory": "32Mi"},
-                                "limits": {"cpu": "250m", "memory": "128Mi"},
-                            },
-                            "env": [
-                                {"name": "TLS_HOSTNAME", "value": args.domain},
-                                {
-                                    "name": "PROBE_LOCATION_FILE",
-                                    "value": "/material/" + source,
-                                },
-                            ],
-                            "volumeMounts": [
-                                {
-                                    "name": "material",
-                                    "mountPath": "/material",
-                                    "readOnly": True,
-                                }
-                            ],
-                        }
-                    ],
-                    "volumes": [
-                        {
-                            "name": "material",
-                            "configMap": {
-                                "name": args.name + contract["suffixes"]["material"]
-                            },
-                        }
-                    ],
-                },
-            }
-            # Use Deployments: observed Job pods disable Wingman injection.
-            manifest = {
-                "apiVersion": "apps/v1",
-                "kind": "Deployment",
-                "metadata": {
-                    "name": name,
-                    "namespace": args.namespace,
-                    "labels": manifest["metadata"]["labels"],
-                },
-                "spec": {
-                    "replicas": 1,
-                    "selector": {"matchLabels": manifest["metadata"]["labels"]},
-                    "template": {
-                        "metadata": {
-                            "labels": manifest["metadata"]["labels"],
-                            "annotations": manifest["metadata"]["annotations"],
-                        },
-                        "spec": manifest["spec"],
-                    },
-                },
-            }
-            path = args.private_directory / (name + ".json")
-            path.write_text(json.dumps(manifest))
-            created = command("create", "-f", str(path), "-o", "json")
-            pod = get(name)
-            if pod is None:
-                msg = "Probe create has no named readback; no replay occurred"
-                raise RuntimeError(msg)
-            entry["uid"] = require_owner(pod, name, args.namespace, run)
-            save()
-            if created.returncode:
-                msg = "Probe create outcome was ambiguous; owned readback journaled for cleanup"
-                raise RuntimeError(msg)
+        save()
+        if args.verify_owned:
+            for entry in journal:
+                deployed = get(entry["name"])
+                if deployed is None:
+                    message = "Terraform-owned Deployment disappeared before destroy"
+                    raise RuntimeError(message)
+                require_owner(
+                    deployed, entry["name"], args.namespace, run, entry["uid"]
+                )
+                for generated in pods(entry):
+                    if generated["metadata"]["name"] not in entry["pods"]:
+                        message = "Probe pod identity changed before destroy"
+                        raise RuntimeError(message)
+                    require_owner(
+                        generated,
+                        generated["metadata"]["name"],
+                        args.namespace,
+                        run,
+                        entry["pods"].get(generated["metadata"]["name"], ""),
+                    )
+        for entry in journal if observe else []:
+            name, mode, source = entry["name"], entry["mode"], entry["source"]
             startup_deadline = time.monotonic() + 600
             execution_deadline = None
             deadline = startup_deadline
@@ -371,6 +380,19 @@ def main() -> None:
                     time.sleep(2)
                     continue
                 pod = observed[0]
+                require_probe_contract(
+                    pod,
+                    mode,
+                    source,
+                    args.image,
+                    args.domain,
+                    {
+                        contract["app_label"]: args.name
+                        + contract["suffixes"]["application"]
+                        if mode == "probe-authorized"
+                        else name
+                    },
+                )
                 pod_name = pod["metadata"]["name"]
                 pod_uid = require_owner(
                     pod, pod_name, args.namespace, run, entry["pods"].get(pod_name, "")
@@ -446,11 +468,11 @@ def main() -> None:
             )
         succeeded = True
     finally:
-        for entry in reversed(journal):
-            pod = get(entry["name"], entry.get("kind", "job"))
-            if pod is not None:
+        for entry in reversed(journal) if args.cleanup_only else []:
+            legacy_workload = get(entry["name"], entry.get("kind", "job"))
+            if legacy_workload is not None:
                 uid = require_owner(
-                    pod, entry["name"], args.namespace, run, entry["uid"]
+                    legacy_workload, entry["name"], args.namespace, run, entry["uid"]
                 )
                 entry["uid"] = uid
                 save()
@@ -527,7 +549,7 @@ def main() -> None:
                 if deleted.returncode and get(generated_name, "pod") is not None:
                     message = "Generated probe pod cleanup failed"
                     raise RuntimeError(message)
-        for check in range(2):
+        for check in range(2) if args.cleanup_only or args.verify_cleanup else []:
             deadline = time.monotonic() + 90
             while any(
                 get(entry["name"], entry.get("kind", "job")) is not None
@@ -542,20 +564,23 @@ def main() -> None:
             results["cleanup_pass_" + str(check + 1)] = "typed absence"
         results["status"] = "passed" if succeeded else "failed"
         output = args.private_directory / (
-            "cleanup-result.json" if args.cleanup_only else "result.json"
+            "cleanup-result.json"
+            if args.cleanup_only or args.verify_cleanup
+            else "ownership-result.json"
+            if args.verify_owned
+            else "result.json"
         )
         output.write_text(json.dumps(results, indent=2) + "\n")
         output.chmod(0o600)
-    if not args.cleanup_only and len(results["probes"]) != PROBE_COUNT:
+    if observe and len(results["probes"]) != PROBE_COUNT:
         msg = "Fresh qualification incomplete"
         raise RuntimeError(msg)
     sys.stdout.write(
         "Owned cleanup verified twice. Receipt is in private session storage.\n"
-        if args.cleanup_only
-        else (
-            "Fresh Wingman probes passed; cleanup verified twice. "
-            "Receipt is in private session storage.\n"
-        )
+        if args.cleanup_only or args.verify_cleanup
+        else "Terraform-owned identities verified.\n"
+        if args.verify_owned
+        else "Fresh Wingman probes passed. Destroy through the saved Terraform plan, then verify cleanup.\n"
     )
 
 

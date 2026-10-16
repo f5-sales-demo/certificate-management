@@ -37,7 +37,7 @@ def main() -> None:
         "artifacts": installed,
         "roots": {},
     }
-    for name in ("bootstrap", "runtime"):
+    for name in ("bootstrap", "runtime", "qualification"):
         directory = work / "wingman" / name
         for command in (
             ["init", "-backend=false", "-input=false"],
@@ -73,11 +73,23 @@ def main() -> None:
             )
         )
         if (
-            versions["provider_selections"]["registry.terraform.io/f5-sales-demo/xcsh"]
+            name != "qualification"
+            and versions["provider_selections"][
+                "registry.terraform.io/f5-sales-demo/xcsh"
+            ]
             != installed["provider"]["version"]
         ):
             msg = "Wingman source provider pin differs from frozen published selection"
             raise ValueError(msg)
+        if (
+            name != "bootstrap"
+            and versions["provider_selections"][
+                "registry.terraform.io/hashicorp/kubernetes"
+            ]
+            != "3.3.0"
+        ):
+            message = "Kubernetes provider differs from frozen published selection"
+            raise ValueError(message)
         result["roots"][name] = "valid"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
