@@ -50,13 +50,7 @@
     },
     {
       "label": "Certificate inputs",
-      "keys": [
-        "XCSH_WORKDIR",
-        "XCSH_CERT_NAME",
-        "XCSH_CERT_ID",
-        "XCSH_CERT_FILE",
-        "XCSH_KEY_FILE"
-      ]
+      "keys": ["XCSH_WORKDIR", "XCSH_CERT_NAME", "XCSH_CERT_ID", "XCSH_CERT_FILE", "XCSH_KEY_FILE"]
     },
     {
       "label": "Renewal and protected inputs",
