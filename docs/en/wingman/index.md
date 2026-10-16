@@ -24,7 +24,7 @@ concepts and protocol details. This page describes ownership, deployment order, 
 
 ## Ownership and topology
 
-[The naming contract](../../../_data/wingman/contract.json) drives both Terraform roots and the
+[The naming contract](../../_data/wingman/contract.json) drives both Terraform roots and the
 opt-in route. Bootstrap selects exactly one existing Toronto RE by the observed site label; verify
 the selector and effective vK8s quota before applying. No new appliance or cloud infrastructure is
 part of this demo. Application TLS material and platform-issued pod identities have separate roles.
