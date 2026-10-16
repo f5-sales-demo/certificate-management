@@ -132,12 +132,15 @@ def main() -> None:
         record["uid"] = observed.get("system_metadata", {}).get("uid")
         journal.write_text(json.dumps(record, indent=2) + "\n")
         if (
-            metadata.get("name") != actual_name
-            or metadata.get("namespace") != "system"
+            (
+                metadata.get("name"),
+                metadata.get("namespace"),
+                spec.get("type"),
+                spec.get("virtual_k8s_name"),
+                spec.get("virtual_k8s_namespace"),
+            )
+            != (actual_name, "system", "KUBE_CONFIG", args.vk8s, args.namespace)
             or not record["uid"]
-            or spec.get("type") != "KUBE_CONFIG"
-            or spec.get("virtual_k8s_name") != args.vk8s
-            or spec.get("virtual_k8s_namespace") != args.namespace
             or spec.get("active") is not True
             or response.get("active") is not True
         ):
@@ -215,13 +218,19 @@ def main() -> None:
             spec = revoked_observed.get("spec", {}).get("gc_spec", {})
             metadata = revoked_observed.get("metadata", {})
             if (
-                metadata.get("name") != record["name"]
-                or metadata.get("namespace") != "system"
-                or revoked_observed.get("system_metadata", {}).get("uid")
-                != record["uid"]
-                or spec.get("type") != "KUBE_CONFIG"
-                or spec.get("virtual_k8s_name") != record["vk8s"]
-                or spec.get("virtual_k8s_namespace") != record["namespace"]
+                metadata.get("name"),
+                metadata.get("namespace"),
+                revoked_observed.get("system_metadata", {}).get("uid"),
+                spec.get("type"),
+                spec.get("virtual_k8s_name"),
+                spec.get("virtual_k8s_namespace"),
+            ) != (
+                record["name"],
+                "system",
+                record["uid"],
+                "KUBE_CONFIG",
+                record["vk8s"],
+                record["namespace"],
             ):
                 msg_0 = "Credential identity or scope differs from private journal; revocation refused"
                 raise ValueError(msg_0)
