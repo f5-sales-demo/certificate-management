@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "namespace": "demo-app",
+  "base_name": "demo-app",
+  "suffixes": {
+    "policy": "-wingman-policy",
+    "virtual_site": "-wingman-sites",
+    "virtual_k8s": "-wingman",
+    "certificate": "-wingman-certificate",
+    "application": "-wingman",
+    "service": "-wingman",
+    "material": "-wingman-material",
+    "origin_pool": "-wingman"
+  },
+  "app_label": "app",
+  "site_selector": "ves.io/siteName=ves-io-tr2-tor",
+  "route_prefix": "/wingman/",
+  "backend_port": 8443,
+  "owners": {
+    "existing_xcsh": [
+      "existing certificate",
+      "existing load balancers",
+      "existing origin pool"
+    ],
+    "existing_terraform": [
+      "existing certificate",
+      "existing load balancers",
+      "origin_pool",
+      "route_prefix"
+    ],
+    "bootstrap": [
+      "policy",
+      "virtual_site",
+      "virtual_k8s"
+    ],
+    "runtime": [
+      "certificate",
+      "application",
+      "service",
+      "material"
+    ]
+  }
+}

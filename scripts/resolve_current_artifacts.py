@@ -44,7 +44,67 @@ def require_same_set(frozen: dict, current: dict) -> None:
         raise ValueError(message)
 
 
-def resolve() -> dict:
+def registry_manifest(repository: str, reference: str) -> tuple[bytes, str]:
+    """Fetch and verify one public immutable application manifest."""
+    token = json.loads(
+        fetch("https://ghcr.io/token?scope=repository:" + repository + ":pull")
+    )["token"]
+    request = urllib.request.Request(
+        "https://ghcr.io/v2/" + repository + "/manifests/" + reference,
+        headers={
+            "Authorization": "Bearer " + token,
+            "Accept": "application/vnd.oci.image.index.v1+json, application/vnd.docker.distribution.manifest.list.v2+json",
+        },
+    )
+    with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310 -- Fixed public GHCR origin.
+        data, digest = response.read(), response.headers["Docker-Content-Digest"]
+    verify_digest(data, digest)
+    return data, digest
+
+
+def resolve_wingman() -> dict:
+    """Require a successful governed image publication and freeze Kubernetes too."""
+    kubernetes = json.loads(
+        fetch("https://registry.terraform.io/v1/providers/hashicorp/kubernetes")
+    )["version"]
+    runs = gh(
+        "repos/f5-sales-demo/certificate-management/actions/workflows/certificate-wingman-image.yml/runs?status=success&branch=main&event=push&per_page=1"
+    )["workflow_runs"]
+    if not runs:
+        msg = "No successful Wingman application publication; live qualification remains pending"
+        raise ValueError(msg)
+    publication = runs[0]
+    commit = publication["head_sha"]
+    manifest, digest = registry_manifest(
+        "f5-sales-demo/certificate-management-wingman", "sha-" + commit
+    )
+    platforms = json.loads(manifest).get("manifests", [])
+    expected = {
+        (
+            item.get("platform", {}).get("os"),
+            item.get("platform", {}).get("architecture"),
+        )
+        for item in platforms
+    }
+    if not {("linux", "amd64"), ("linux", "arm64")}.issubset(expected):
+        msg = "Wingman publication lacks required Linux architectures"
+        raise ValueError(msg)
+    return {
+        "kubernetes_provider": {
+            "version": kubernetes,
+            "source_commit": gh(
+                "repos/hashicorp/terraform-provider-kubernetes/commits/v" + kubernetes
+            )["sha"],
+        },
+        "application": {
+            "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@" + digest,
+            "source_commit": commit,
+            "publication_run": publication["html_url"],
+        },
+    }
+
+
+def resolve(include_wingman: bool = False) -> dict:
     """Resolve immutable identities from current publications."""
     result = {}
     version = json.loads(
@@ -121,6 +181,8 @@ def resolve() -> dict:
         "source_commit": publication["head_sha"],
         "publication_run": publication["html_url"],
     }
+    if include_wingman:
+        result.update(resolve_wingman())
     return result
 
 
@@ -226,15 +288,21 @@ def main() -> None:
         action="store_true",
         help="Install existing frozen selection without re-resolving",
     )
+    parser.add_argument(
+        "--wingman",
+        action="store_true",
+        help="Require the published application image and freeze Kubernetes",
+    )
     args = parser.parse_args()
     if args.check:
-        require_same_set(json.loads(args.output.read_text()), resolve())
+        frozen = json.loads(args.output.read_text())
+        require_same_set(frozen, resolve(args.wingman or "application" in frozen))
     elif args.frozen:
         if not args.install:
             parser.error("--frozen requires --install")
         install(json.loads(args.output.read_text()), args.install)
     else:
-        frozen = resolve()
+        frozen = resolve(args.wingman)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(frozen, indent=2) + "\n")
         if args.install:
