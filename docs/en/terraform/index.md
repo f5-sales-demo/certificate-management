@@ -81,7 +81,7 @@ export TF_VAR_name="$XCSH_LB_NAME"
 export TF_VAR_domain="$XCSH_DOMAINNAME"
 export TF_VAR_certificate_file="$XCSH_CERT_FILE"
 export TF_VAR_private_key_file="$XCSH_KEY_FILE"
-for file in versions.tf variables.tf main.tf outputs.tf; do
+for file in versions.tf variables.tf main.tf outputs.tf wingman.tf; do
   curl --silent --show-error --fail \
     "https://f5-sales-demo.github.io/certificate-management/_data/terraform/named-certificate/$file" \
     --output "$XCSH_WORKDIR/deployment/$file"

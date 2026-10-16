@@ -74,16 +74,45 @@ def endpoints(certificate: Path) -> dict:
     return results
 
 
+def wingman_endpoint(certificate: Path) -> dict:
+    """Public health is separate from fresh pod identity and unseal evidence."""
+    host = "certificate-management-terraform.f5-sales-demo.com"
+    context = ssl.create_default_context(cafile=str(certificate))
+    expected = ssl.PEM_cert_to_DER_cert(certificate.read_text())
+    connection = http.client.HTTPSConnection(host, context=context, timeout=30)
+    connection.connect()
+    if connection.sock.getpeercert(binary_form=True) != expected:
+        msg = "Wingman public certificate differs from shared material"
+        raise ValueError(msg)
+    connection.request("GET", "/wingman/get")
+    response = connection.getresponse()
+    body = json.loads(response.read())
+    connection.close()
+    fingerprint = hashlib.sha256(expected).hexdigest()
+    if response.status != 200 or body != {
+        "example": "wingman-certificate",
+        "certificate_sha256": fingerprint,
+    }:
+        msg = "Wingman public response or backend fingerprint mismatch"
+        raise ValueError(msg)
+    return {
+        "qualification": "public TLS and response health only; fresh unseal not exercised",
+        "certificate_sha256": fingerprint,
+    }
+
+
 def downloads(root: Path, base: str) -> dict:
     """Compare all published Terraform downloads with source bytes."""
     if urllib.parse.urlsplit(base).scheme not in ("http", "https"):
         message = "Publication URL must use HTTP or HTTPS"
         raise ValueError(message)
     results = {}
-    for source in sorted((root / "terraform").rglob("*.tf*")):
-        if source.suffix not in (".tf", ".example"):
-            continue
-        relative = source.relative_to(root).as_posix()
+    sources = []
+    for line in (root / "docs/_imports").read_text().splitlines():
+        if line.strip() and not line.lstrip().startswith("#"):
+            source_relative, destination = line.split(" -> ")
+            sources.append((root / source_relative, destination))
+    for source, relative in sorted(sources):
         with urllib.request.urlopen(  # noqa: S310 -- Scheme checked and repository-owned relative path.
             base.rstrip("/") + "/_data/" + relative, timeout=30
         ) as response:
@@ -103,12 +132,21 @@ def main() -> None:
         "--base", default="https://f5-sales-demo.github.io/certificate-management"
     )
     parser.add_argument("--skip-downloads", action="store_true")
+    parser.add_argument(
+        "--wingman",
+        action="store_true",
+        help="Check public Wingman health; does not prove fresh unsealing",
+    )
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     receipt = {
         "qualification": "credential-free published endpoints and source/download consistency",
         "endpoints": endpoints(root / "docs/assets/certificate-management.pem"),
     }
+    if args.wingman:
+        receipt["wingman"] = wingman_endpoint(
+            root / "docs/assets/certificate-management.pem"
+        )
     if not args.skip_downloads:
         receipt["downloads"] = downloads(root, args.base)
     args.output.parent.mkdir(parents=True, exist_ok=True)

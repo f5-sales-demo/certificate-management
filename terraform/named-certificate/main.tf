@@ -46,6 +46,27 @@ resource "xcsh_http_loadbalancer" "https" {
       }
     }
   }
+  dynamic "routes" {
+    for_each = var.wingman == null ? [] : [var.wingman]
+    content {
+      simple_route {
+        http_method          = "GET"
+        disable_host_rewrite = {}
+        path {
+          prefix = local.wingman_contract.route_prefix
+        }
+        origin_pools {
+          weight   = 1
+          priority = 1
+          pool {
+            name      = xcsh_origin_pool.wingman[0].name
+            namespace = data.xcsh_namespace.existing.name
+          }
+        }
+      }
+    }
+  }
+
 }
 
 resource "xcsh_http_loadbalancer" "http" {
