@@ -238,10 +238,7 @@
     "import": "passed",
     "followup_plans": "empty",
     "delete": "404 without retained tombstone",
-    "cleanup": [
-      "typed_404",
-      "typed_404"
-    ],
+    "cleanup": ["typed_404", "typed_404"],
     "state": "empty",
     "destroy_followup": "empty",
     "preserved_verifier_failures": [
@@ -251,10 +248,7 @@
     ]
   },
   "wingman": {
-    "fresh_authorized_sources": [
-      "published-provider ciphertext",
-      "xcsh ciphertext"
-    ],
+    "fresh_authorized_sources": ["published-provider ciphertext", "xcsh ciphertext"],
     "injection": "passed",
     "status_body": "READY",
     "trusted_platform_identity_chains": "passed",
@@ -319,10 +313,7 @@
   "credential_cleanup": {
     "status": "passed",
     "journal_status": "revoked-absent-collection-twice",
-    "independent_checks": [
-      "absent",
-      "absent"
-    ],
+    "independent_checks": ["absent", "absent"],
     "local_payloads_removed": true
   },
   "reader_validation": {
