@@ -65,7 +65,7 @@ def request(base: str, token: str, path: str, body: dict | None = None) -> dict:
 
 
 # The issue/revoke lifecycle stays sequential so the exact journal governs every mutation.
-# pylint: disable=too-many-statements
+# pylint: disable=too-many-statements,too-many-locals,too-many-branches
 def main() -> None:
     """Issue or revoke one journaled scoped credential without storing it in state."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -90,7 +90,7 @@ def main() -> None:
         if not args.namespace or not args.vk8s:
             parser.error("issue requires --namespace and --vk8s")
         args.private_directory.mkdir(mode=0o700, parents=True, exist_ok=False)
-        name = "wingman-session-" + uuid.uuid4().hex[:16]
+        name = "wingman-session-" + uuid.uuid4().hex[:12]
         record = {
             "api_origin": base,
             "name": name,
@@ -114,7 +114,33 @@ def main() -> None:
                 },
             },
         )
-        if response.get("name") != name or response.get("active") is not True:
+        (args.private_directory / "issuance-response-private.json").write_text(
+            json.dumps(response)
+        )
+        actual_name = response.get("name", "")
+        record.update(name=actual_name, requested_name=name, status="issuance-observed")
+        journal.write_text(json.dumps(record, indent=2) + "\n")
+        if not re.fullmatch(re.escape(name) + r"(?:-[a-z0-9]+)?", actual_name):
+            msg_0 = "Credential response name is outside the journaled request"
+            raise RuntimeError(msg_0)
+        observed = request(
+            base, token, "/api/web/namespaces/system/api_credentials/" + actual_name
+        )
+        observed = observed.get("object", observed)
+        metadata = observed.get("metadata", {})
+        spec = observed.get("spec", {}).get("gc_spec", {})
+        record["uid"] = observed.get("system_metadata", {}).get("uid")
+        journal.write_text(json.dumps(record, indent=2) + "\n")
+        if (
+            metadata.get("name") != actual_name
+            or metadata.get("namespace") != "system"
+            or not record["uid"]
+            or spec.get("type") != "KUBE_CONFIG"
+            or spec.get("virtual_k8s_name") != args.vk8s
+            or spec.get("virtual_k8s_namespace") != args.namespace
+            or spec.get("active") is not True
+            or response.get("active") is not True
+        ):
             msg = "Credential issuance identity or activation not verified; preserve journal"
             raise RuntimeError(msg)
         expiry = datetime.fromisoformat(response["expiration_timestamp"])
@@ -141,46 +167,93 @@ def main() -> None:
         )
     else:
         record = json.loads(journal.read_text())
-        if not re.fullmatch(r"wingman-session-[a-f0-9]{16}", record.get("name", "")):
+        requested_name = record.get("requested_name", "")
+        if (
+            not re.fullmatch(r"wingman-session-[a-f0-9]{12}", requested_name)
+            or not re.fullmatch(
+                re.escape(requested_name) + r"(?:-[a-z0-9]+)?", record.get("name", "")
+            )
+            or not record.get("uid")
+        ):
             msg = "Refusing revocation outside the run-owned credential journal"
             raise ValueError(msg)
         if record.get("api_origin") != base:
             msg = "Credential journal belongs to another tenant origin"
             raise ValueError(msg)
-        observed = request(
-            base, token, "/api/web/namespaces/system/api_credentials/" + record["name"]
+
+        def readback() -> dict | None:
+            try:
+                value = request(
+                    base,
+                    token,
+                    "/api/web/namespaces/system/api_credentials/" + record["name"],
+                )
+                return value.get("object", value)
+            except RuntimeError:
+                if record.get("status") != "revocation-requested":
+                    raise
+                # This API returns HTTP 500 for a deleted entry. Only a successful
+                # collection read can qualify its exact identity as absent.
+                for _ in range(2):
+                    listing = request(
+                        base, token, "/api/web/namespaces/system/api_credentials"
+                    )
+                    if not isinstance(listing.get("items"), list):
+                        msg_0 = "Credential absence collection is invalid"
+                        raise TypeError(msg_0) from None
+                    if any(
+                        item.get("name") == record["name"]
+                        or item.get("uid") == record["uid"]
+                        for item in listing["items"]
+                    ):
+                        msg_0 = "Credential remains in collection; preserve journal"
+                        raise RuntimeError(msg_0) from None
+                return None
+
+        revoked_observed = readback()
+        if revoked_observed is not None:
+            spec = revoked_observed.get("spec", {}).get("gc_spec", {})
+            metadata = revoked_observed.get("metadata", {})
+            if (
+                metadata.get("name") != record["name"]
+                or metadata.get("namespace") != "system"
+                or revoked_observed.get("system_metadata", {}).get("uid")
+                != record["uid"]
+                or spec.get("type") != "KUBE_CONFIG"
+                or spec.get("virtual_k8s_name") != record["vk8s"]
+                or spec.get("virtual_k8s_namespace") != record["namespace"]
+            ):
+                msg_0 = "Credential identity or scope differs from private journal; revocation refused"
+                raise ValueError(msg_0)
+            if spec.get("active") is not False:
+                record["status"] = "revocation-requested"
+                journal.write_text(json.dumps(record, indent=2) + "\n")
+                request(
+                    base,
+                    token,
+                    "/api/web/namespaces/system/revoke/api_credentials",
+                    {"name": record["name"], "namespace": "system"},
+                )
+                revoked_observed = readback()
+            if (
+                revoked_observed is not None
+                and revoked_observed.get("spec", {}).get("gc_spec", {}).get("active")
+                is not False
+            ):
+                msg_0 = "Credential revocation readback is active; keep private storage"
+                raise RuntimeError(msg_0)
+        record["status"] = (
+            "revoked-absent-collection-twice"
+            if revoked_observed is None
+            else "revoked-inactive-readback"
         )
-        spec = observed.get("spec", {}).get("gc_spec", {})
-        metadata = observed.get("metadata", {})
-        if (
-            metadata.get("name") != record["name"]
-            or spec.get("type") != "KUBE_CONFIG"
-            or spec.get("virtual_k8s_name") != record["vk8s"]
-            or spec.get("virtual_k8s_namespace") != record["namespace"]
-        ):
-            msg = "Credential identity or scope differs from private journal; revocation refused"
-            raise ValueError(msg)
-        if spec.get("active") is not False:
-            request(
-                base,
-                token,
-                "/api/web/namespaces/system/revoke/api_credentials",
-                {"name": record["name"], "namespace": "system"},
-            )
-            observed = request(
-                base,
-                token,
-                "/api/web/namespaces/system/api_credentials/" + record["name"],
-            )
-            spec = observed.get("spec", {}).get("gc_spec", {})
-        if spec.get("active") is not False:
-            msg = "Credential revocation readback is not inactive; keep private storage"
-            raise RuntimeError(msg)
-        record["status"] = "revoked-inactive-readback"
         journal.write_text(json.dumps(record, indent=2) + "\n")
         (args.private_directory / "kubeconfig").unlink(missing_ok=True)
+        (args.private_directory / "issuance-response-private.json").unlink(
+            missing_ok=True
+        )
         sys.stdout.write(
-            "Credential revocation verified by inactive readback; local kubeconfig removed.\n"
+            "Credential revocation verified; local credential material removed.\n"
         )
 
 
