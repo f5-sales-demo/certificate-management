@@ -3,7 +3,7 @@ terraform {
   required_providers {
     xcsh = {
       source  = "f5-sales-demo/xcsh"
-      version = "= 15.8.3"
+      version = "= 15.9.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
