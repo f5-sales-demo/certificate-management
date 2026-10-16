@@ -1,0 +1,901 @@
+{
+  "schema_version": 1,
+  "qualified_at": "2026-10-16T18:38:50.632867+00:00",
+  "scope": "Installed published provider 15.10.0 follow-up; Wingman remains separate from the 25-configuration matrix",
+  "source_base": "6df5da025fa8b3a5fec58063a43fb1d7031f949e",
+  "artifacts": {
+    "terraform": {
+      "version": "1.16.6",
+      "source_commit": "7b8f1669b95119ac6021e05c9d10eae7cf75f60b"
+    },
+    "provider": {
+      "version": "15.10.0",
+      "source_commit": "b46becca0c97b437f74e35bcd770ca387d95829c",
+      "assets": {
+        "terraform-provider-xcsh_15.10.0_darwin_amd64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_darwin_amd64.zip",
+          "digest": "sha256:0d3e37e916eec247df016699412b1622d4b700d095d3dec3839212d36d57ce3f"
+        },
+        "terraform-provider-xcsh_15.10.0_darwin_arm64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_darwin_arm64.zip",
+          "digest": "sha256:26de9cb8a0c98f197401a65423dbe2cbc580e05c1ee8c0040e04db25380173cb"
+        },
+        "terraform-provider-xcsh_15.10.0_freebsd_386.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_freebsd_386.zip",
+          "digest": "sha256:7216b03040865c8b244b3d6d49a00747333ddd2c1a1151e926b3389876d22a9f"
+        },
+        "terraform-provider-xcsh_15.10.0_freebsd_amd64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_freebsd_amd64.zip",
+          "digest": "sha256:965e2daf147a2a1fc7838a9327dbd591eba8561d363e83caff6eca6a4c15addd"
+        },
+        "terraform-provider-xcsh_15.10.0_linux_386.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_linux_386.zip",
+          "digest": "sha256:413071ff03c8cbffa674ab19ca41202b67940adeaa1e1da1b19eea18b98a7e72"
+        },
+        "terraform-provider-xcsh_15.10.0_linux_amd64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_linux_amd64.zip",
+          "digest": "sha256:93fc483782dfbf1874b80750423380e1ca73682e50e89f66ce2ffb5645be5b71"
+        },
+        "terraform-provider-xcsh_15.10.0_linux_arm.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_linux_arm.zip",
+          "digest": "sha256:24ab502e0443b676ad0ee1d22c196dabbd9bbdfd2d29cdcb68a99aa54c4dad6e"
+        },
+        "terraform-provider-xcsh_15.10.0_linux_arm64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_linux_arm64.zip",
+          "digest": "sha256:36b016e18aa9e034e5e3fb546d64f616c68e423f712a182cbd6202d5812aa2f3"
+        },
+        "terraform-provider-xcsh_15.10.0_manifest.json": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_manifest.json",
+          "digest": "sha256:95513584b227b9c7923e641aae986935821077b1eb4116845b5312ac412bbc72"
+        },
+        "terraform-provider-xcsh_15.10.0_SHA256SUMS": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_SHA256SUMS",
+          "digest": "sha256:14fff49774f885c8a3888ec86748f88602361fc88291e91de008daf45986b185"
+        },
+        "terraform-provider-xcsh_15.10.0_SHA256SUMS.sig": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_SHA256SUMS.sig",
+          "digest": "sha256:2180a2a377101d0c8a8ba3b8fa0f956f497a3555e3d1ce99f2a08385d8ee142f"
+        },
+        "terraform-provider-xcsh_15.10.0_windows_386.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_windows_386.zip",
+          "digest": "sha256:b78bff44c3812f413b84f03490e58fc5938189c76be50c9f96da733732907cab"
+        },
+        "terraform-provider-xcsh_15.10.0_windows_amd64.zip": {
+          "url": "https://github.com/f5-sales-demo/terraform-provider-xcsh/releases/download/v15.10.0/terraform-provider-xcsh_15.10.0_windows_amd64.zip",
+          "digest": "sha256:68a8982dc9b86492d84d25d3b8cdc2296bb231527df59fd97c9bc426505a1c49"
+        }
+      }
+    },
+    "xcsh": {
+      "version": "23.5.2",
+      "source_commit": "efc7dad0b376a2cb71bf58c2977ce2e0432fa59e",
+      "assets": {
+        "pi_natives.darwin-arm64.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.darwin-arm64.node",
+          "digest": "sha256:daca5d4e6426bab84e6abc4a68138875723469f8bf173395153eeda1f34da275"
+        },
+        "pi_natives.darwin-x64-baseline.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.darwin-x64-baseline.node",
+          "digest": "sha256:b6895bf9e8228d1f309aeaf034839c9193bd093ea8f09ec67309e56aeaef94ed"
+        },
+        "pi_natives.darwin-x64-modern.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.darwin-x64-modern.node",
+          "digest": "sha256:f1cfc00773f622617d43cf22fd201f4b4b13f9b36955a4072e9b09ec17c74abe"
+        },
+        "pi_natives.linux-arm64.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.linux-arm64.node",
+          "digest": "sha256:44b6d05408d0af008167c379fa31fdf4adac6d0c88e6fa658f15be2271d52fe9"
+        },
+        "pi_natives.linux-arm64.node.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.linux-arm64.node.sha256",
+          "digest": "sha256:6ea34e411b2d41a0c9015d941f980c3d0d018e18c2f6c445c16206b26da35793"
+        },
+        "pi_natives.linux-x64-baseline.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.linux-x64-baseline.node",
+          "digest": "sha256:8e7c7a2a828c1aeab0fd1b7f2c8296122b4b2c4a5cf3e253dfb5688c5308fa2e"
+        },
+        "pi_natives.linux-x64-baseline.node.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.linux-x64-baseline.node.sha256",
+          "digest": "sha256:34ea06e8f2adf8e1a2aaa66ee90ff153a61e08eabc002bfbe4a2814339f0bfd0"
+        },
+        "pi_natives.linux-x64-modern.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.linux-x64-modern.node",
+          "digest": "sha256:b697020a9909f5bcecf329e146fc62670a0d8ac260bd654566726716f581b28d"
+        },
+        "pi_natives.linux-x64-modern.node.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.linux-x64-modern.node.sha256",
+          "digest": "sha256:74327efa36d3f5490aff59a4f4b999b4ea2fdb1aff6ea96480667be386c6097c"
+        },
+        "pi_natives.win32-x64-baseline.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.win32-x64-baseline.node",
+          "digest": "sha256:f32d9f538972c11f6bd8b974c4ea0947092c6424a3a052d9986c0d095ea6d116"
+        },
+        "pi_natives.win32-x64-modern.node": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/pi_natives.win32-x64-modern.node",
+          "digest": "sha256:a980bd309fdb974d1e0451f293a9ecb653a45d30bf0915bcd06d2d1d65613b40"
+        },
+        "xcsh-darwin-arm64": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-darwin-arm64",
+          "digest": "sha256:86594bcdd66df859be91f08eaefa4e5562918174000365b8a690b1e7025e0165"
+        },
+        "xcsh-darwin-arm64.pkg": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-darwin-arm64.pkg",
+          "digest": "sha256:f25e0cb2398f75d602b809f7414dc55d101e04ec4bf9e640941505a3a1f57df0"
+        },
+        "xcsh-darwin-arm64.provenance.json": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-darwin-arm64.provenance.json",
+          "digest": "sha256:c2d8e7148d738aaf81588ca75814f8e442f69242c312615add28cf8e4f9679d7"
+        },
+        "xcsh-darwin-arm64.zip": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-darwin-arm64.zip",
+          "digest": "sha256:9a82419c519dc6cf8bd9872086b3d445234924636fff7c34d7cc61908c43a0e9"
+        },
+        "xcsh-darwin-x64": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-darwin-x64",
+          "digest": "sha256:819b7e8e70c5e4d94d3c36d8b08a07ace601e4b5b1120f55268146c744bc23cf"
+        },
+        "xcsh-darwin-x64.pkg": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-darwin-x64.pkg",
+          "digest": "sha256:85ba4b98b1321e626293a2b846134146900417e6080295a5ccc07c7b38659de2"
+        },
+        "xcsh-darwin-x64.provenance.json": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-darwin-x64.provenance.json",
+          "digest": "sha256:46661b53b158a4c8d1f9f67dafee3060b4fea9fb073b457b0970ea9e85d116a3"
+        },
+        "xcsh-darwin-x64.zip": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-darwin-x64.zip",
+          "digest": "sha256:198e7103103cd76dad103170057f74099498bf7f8029359c9ea509f06553944f"
+        },
+        "xcsh-linux-arm64": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-linux-arm64",
+          "digest": "sha256:11bfb5b4b9a0c06bb0f03ba97d18318647d47b8098dc32314c0c587dff9a55d8"
+        },
+        "xcsh-linux-arm64.provenance.json": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-linux-arm64.provenance.json",
+          "digest": "sha256:3093300082c41ebf7c7d2308d8f809d9c490e04fbb961f2e14ab7592bbd6b6f9"
+        },
+        "xcsh-linux-arm64.provenance.json.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-linux-arm64.provenance.json.sha256",
+          "digest": "sha256:7e641c5abdae8c75747e2b5e1808ad31da9810fd0120167caa82624e1e8befb8"
+        },
+        "xcsh-linux-arm64.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-linux-arm64.sha256",
+          "digest": "sha256:cca6770fcf00c29db4415a115d33ef0c0f294cf35dbe1158426357cc34a98287"
+        },
+        "xcsh-linux-x64": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-linux-x64",
+          "digest": "sha256:91e2dd18d331d1193df4da630b02d1ecfec73848dbc58cba33c206cb696a1bfa"
+        },
+        "xcsh-linux-x64.provenance.json": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-linux-x64.provenance.json",
+          "digest": "sha256:95d5750a28aae91ce77b9f91401dfdb3798438cb59582fdfdc985b40ff7de102"
+        },
+        "xcsh-linux-x64.provenance.json.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-linux-x64.provenance.json.sha256",
+          "digest": "sha256:1f0084bceafcda0f6e84ee2e3f100a2a0fb1ac73bd6dee02a7515ef65b468a0a"
+        },
+        "xcsh-linux-x64.sha256": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-linux-x64.sha256",
+          "digest": "sha256:e7d1f4cea19763c67ec5738fc2010bc3ca3847c4295dabc7c976f9ccac7189a9"
+        },
+        "xcsh-windows-x64.exe": {
+          "url": "https://github.com/f5-sales-demo/xcsh/releases/download/v23.5.2/xcsh-windows-x64.exe",
+          "digest": "sha256:147944ec0ca9b716c5a495d285e339518a411c2735165084451e60007d203990"
+        }
+      }
+    },
+    "builder": {
+      "image": "ghcr.io/f5-sales-demo/docs-builder@sha256:8fcc5e4171f6b4cb44133e44619aaca352d168b5a34e0c95a5715041d721bcda",
+      "version": "1.11.1",
+      "source_commit": "687218da176e2e86cea4583a2809541f0065ecd7",
+      "publication_run": "https://github.com/f5-sales-demo/docs-builder/actions/runs/38903282596"
+    },
+    "kubernetes_provider": {
+      "version": "3.3.0",
+      "source_commit": "a612b9cfce0fd1321cf2d25084b07b8fccd79737"
+    },
+    "application": {
+      "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:841b968fd5e8fc5076ef806605932f16f412e52a42080ab01958626ac5b880d0",
+      "source_commit": "7557a4d93e23e0ad32eb97e5de79d82f6aef2beb",
+      "publication_run": "https://github.com/f5-sales-demo/certificate-management/actions/runs/38892143890"
+    }
+  },
+  "schema_validation": {
+    "ubuntu": {
+      "configurations": 25,
+      "wingman_roots": 3,
+      "status": "passed"
+    },
+    "macos": {
+      "configurations": 25,
+      "wingman_roots": 3,
+      "status": "passed"
+    }
+  },
+  "certificate_lifecycles": {
+    "ubuntu": {
+      "supported": 16,
+      "passed": 16,
+      "cleanup": "typed absence twice; no Terraform cleanup fallback"
+    },
+    "macos": {
+      "supported": 16,
+      "passed": 16,
+      "cleanup": "typed absence twice; no Terraform cleanup fallback",
+      "initial_failure": {
+        "example": "workload-service-custom",
+        "cause": "TLS connection EOF during API read",
+        "cleanup": "typed absence twice"
+      },
+      "fresh_single_case_retry": "passed"
+    }
+  },
+  "secret_policy": {
+    "provider": "15.10.0",
+    "create": "passed",
+    "read_normalization": "FIRST_MATCH; ordered ALLOW/DENY via full rule_list; allow_f5xc",
+    "metadata_uid_stability": "passed",
+    "import": "passed",
+    "followup_plans": "empty",
+    "delete": "404 without retained tombstone",
+    "cleanup": ["typed_404", "typed_404"],
+    "state": "empty",
+    "destroy_followup": "empty",
+    "preserved_verifier_failures": [
+      "read full system_metadata UID",
+      "normalize full rule_list",
+      "use destroy follow-up after deletion"
+    ]
+  },
+  "wingman": {
+    "fresh_authorized_sources": ["published-provider ciphertext", "xcsh ciphertext"],
+    "injection": "passed",
+    "status_body": "READY",
+    "trusted_platform_identity_chains": "passed",
+    "unselected_unseal_http_status": 403,
+    "provisioning": "three disposable typed Deployments from reviewed saved Terraform plans",
+    "cleanup": "Deployment/pod/ReplicaSet absence twice; disposable state empty",
+    "backend_tls": "verified with CA and hostname",
+    "public_tls": "verified; original certificate fingerprint preserved",
+    "application_certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+    "public_certificate_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac"
+  },
+  "retained_preservation": {
+    "status": "passed",
+    "resources": 10,
+    "resource_uids_and_specs": "unchanged",
+    "public_certificate_fingerprint": "unchanged",
+    "wingman_certificate_fingerprint": "unchanged"
+  },
+  "retained_upgrade": {
+    "bootstrap": {
+      "saved_plan_sha256": "a2d0f654d9cb455b9e92ba1a1eac41887a8c47ecb3b2151e58034503d48f6fe6",
+      "applied": true,
+      "followup": "empty",
+      "followup_plan_sha256": "8c9c84120965792592a8d0818ee97e2705229de088aed0de8095b91dfd48d194"
+    },
+    "runtime": {
+      "saved_plan_sha256": "2054169d9894f63db3e30d12f57061304cdd6c52bb896c11df4fd8580abe5b1d",
+      "applied": true,
+      "followup": "empty",
+      "followup_plan_sha256": "6d39ceb28b28b27864fd5b24c5256e9e5b885015771b0d038d21ba3f44e26648"
+    },
+    "owner": {
+      "saved_plan_sha256": "de42acae2d3428d779ca95ac515a547d50ea4928ce4538c49f852d514d94c787",
+      "applied": true,
+      "followup": "empty",
+      "followup_plan_sha256": "84292df145544e69b883c4376bc3316ecf34da73f62cbb8d2225f0a630073f46"
+    }
+  },
+  "final_plans": {
+    "bootstrap": {
+      "status": "empty",
+      "sha256": "75f32f4104ee26d0ef40befc3bf9d2e0e77fb1dba6c077f21fd00c5cefa88be2"
+    },
+    "runtime": {
+      "status": "empty",
+      "sha256": "5d940bf8ca02e50b5d2989de8ed80a8238d057b1416e3f7218d2fefe9c2461f7"
+    },
+    "owner": {
+      "status": "empty",
+      "sha256": "0773e424048742f95f3f62db06c229f4ac25a4df9d6c1e7b95816d8c77771a2b"
+    }
+  },
+  "secret_containment": {
+    "status": "passed",
+    "files_checked": 971,
+    "retained_key_absent": true,
+    "ca_key_absent": true,
+    "api_token_absent": true,
+    "scoped_credential_payload_absent": true,
+    "scope": "Task source, manifests, logs, plans and states; private issued credential directory excluded"
+  },
+  "credential_cleanup": {
+    "status": "passed",
+    "journal_status": "revoked-absent-collection-twice",
+    "independent_checks": ["absent", "absent"],
+    "local_payloads_removed": true
+  },
+  "reader_validation": {
+    "builder_image": "ghcr.io/f5-sales-demo/docs-builder@sha256:8fcc5e4171f6b4cb44133e44619aaca352d168b5a34e0c95a5715041d721bcda",
+    "browser": {
+      "desktop_mobile_clipboards": [
+        {
+          "width": 1440,
+          "route": "terraform/",
+          "clipboard_sha256": "66b2344d7a448ac1f4d11d7ba6ef6cba734bf8fb340c0a40072d7cf78c8ef8fc"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/",
+          "clipboard_sha256": "682d72f7ebad97f977dd2e068d0edd00b7bb14d633b61eed7e989940878a0b97"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/",
+          "clipboard_sha256": "9fcbc590473ed831f90db13b1800ce9f0bf29b607c8557c8830d1b538a6372ba"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/",
+          "clipboard_sha256": "43273a10e154ffbaf5794a6999ba5e1c18c7b133276a41861134869245dbcc23"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/",
+          "clipboard_sha256": "1fe79723e68adb7c33a487a4d8f8cae5de404f52d2d42242a93c158dbb371255"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/",
+          "clipboard_sha256": "29399b66fd9f6a2a986a67ab42373be02f1619531c8252cb6448b9cf6aae9634"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/",
+          "clipboard_sha256": "e51d75c0cab718d37790d19473a9b38c0cb70e9ba2a05050a26465dff3fd7aed"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "de8be442451062f949770e2e5ea69891a8a6899766819b22e6751587d5228a21"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "1ee787d450b978972658cfb49e8871dbea5969ba1f97938ae8bbcb66d0f31ca1"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "918cad800eab87d39a84c2384dc788cf528cc186044193b2ac2a9e1cd13da8be"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "1f92e8c4b243a134f41f641e04988f7dd2dba83265bde82a51210a1e57f547e4"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "672baa2386f7d41fe3bc4a76a796567b89aa74ff79637225642faeb34d781864"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "e8a77ad7c19ff55cbcc95d998545ab2a3bdeb52f2ac63be8531025f5083d52f3"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "64fc5c1766dec3c5550d4934e4eab183a0d0a1d6fb3b60a04440d14650b8911b"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "e1431b70d680ca19c2814adcf2448aa07a1cb5feedc383014bb27df460dd33a9"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "5871960f128f3b37b3e730431c4eff0b64126415427108775885e3efe4c201e7"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/certificate-surfaces/",
+          "clipboard_sha256": "e19d370ecc0e9f7da1b0bf547507d0774bc3394e25b2fe8da7585e634797ac15"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/certificate-surfaces/",
+          "clipboard_sha256": "1e930f0d616ea7f574cca949a190d21612788b0ae7215268999003fb255bda35"
+        },
+        {
+          "width": 1440,
+          "route": "terraform/certificate-surfaces/",
+          "clipboard_sha256": "0963b9867bd3ead5b9c5ecdfef81dc427af6e2a2feae2c899c6f56eae205ff1d"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/",
+          "clipboard_sha256": "433b72e4f2973aecac89beb85c28fe93f52aadd0b1418ea93407db97eb1ded84"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/",
+          "clipboard_sha256": "3d60ee14d6edcb209cdd187daeb02b9de0904ee90d8738b6a0bc647533af0496"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/",
+          "clipboard_sha256": "695e2d606a9cde31470c673a03f96ae4d4d02ead603a4cc9382b6ee9660396bf"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/",
+          "clipboard_sha256": "e85cc1f85325fc7cd1ad34d961c102b28b38396d3dac0b03d532c96c754597b2"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/",
+          "clipboard_sha256": "e61d0fcbe97c9b70ad332d07be35c096afc1221166a27491cd3abea71812075e"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/",
+          "clipboard_sha256": "e7723d2500aaafd5eea5c79ccf5a8a99974997da6478b9a054f7d6c6d8b1516e"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "4d567d436ce21454d2f2807cd483eabf206d9cad645978448b1852359cb132de"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "588dfdb20f3b8d091948fa855e9cbad94192627168966989e61160845b7a57eb"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "12110d9845819c4fef0d8542a62e88fe4db9b42473e2a39da938776d58433eaf"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "2df9bcabf875eaa1812ba248f9c10750644d84509394e61b18dc38f4c83c26a4"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "5b574e948d5ba92d38279897d410da5c05be76c5eea09743ee616475903387e0"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "ffb210c5ff5dc9d4a4e8c462c855cdbb30ec0db049abd4372cc642f939d7a6f6"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "93382d53ab83f9a26852ff7f5d1e0ccef8c7691f8349dd5596770e84cd9af772"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "c515d9e8ed4b92069006dbfa0313e8391fad6289b11c8968a217d3e704c8a180"
+        },
+        {
+          "width": 1440,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "4d02c8cd39f848c3992c65f107ed629bae6cb0b683b29a37b24010722075360d"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/",
+          "clipboard_sha256": "88c99a4ad6e0229b13b89f57ea930a0c09c1a2c8b1559d8555277f7aa6bd7747"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/",
+          "clipboard_sha256": "f8895a586cfef2b41891a3a3aff391e53017cc715adebfb65a8a7faf9974beaa"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/",
+          "clipboard_sha256": "ff52a039782a2bda3ede6ad52b49f58eda51523055187fc59d4286485645a00e"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/",
+          "clipboard_sha256": "6cbc768526a35ff7bcea94f529e4cd01eb6d55cdd567b9ec7efb86c309a3f875"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/",
+          "clipboard_sha256": "5b56a4895d3d423f3f00aeb277ae3e92ea9da116f2f3fce21bc738544be8bd9d"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/",
+          "clipboard_sha256": "47d7b58d5a7b0baf83effdd810dc09579ef3e02189fd7168d6393505ad6ab5e0"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/",
+          "clipboard_sha256": "0068eb843d2b26b693d0dfd8f6003dbf0e6a274b1cce7c85fa726444b2c2aa66"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/",
+          "clipboard_sha256": "722d923dd688085b1b0ab33849d6961ea3ac82741379a9cb64d0854c90dcab0b"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/input-workflows/",
+          "clipboard_sha256": "c2a58f67f481efbcfd27f3e21282ab6f6d7dd4aa9cfd933c6a2134fb50b313b9"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/input-workflows/",
+          "clipboard_sha256": "fcafe7a78a283e5f8ad8ed7069388c2e3ac360489a5545cfbe81d17651a90550"
+        },
+        {
+          "width": 1440,
+          "route": "xcsh/input-workflows/",
+          "clipboard_sha256": "eab4ca034c990da85885aa9c06569ad672b7c511238d5d15a0ba9dcdd4f73fc7"
+        },
+        {
+          "width": 390,
+          "route": "terraform/",
+          "clipboard_sha256": "66b2344d7a448ac1f4d11d7ba6ef6cba734bf8fb340c0a40072d7cf78c8ef8fc"
+        },
+        {
+          "width": 390,
+          "route": "terraform/",
+          "clipboard_sha256": "682d72f7ebad97f977dd2e068d0edd00b7bb14d633b61eed7e989940878a0b97"
+        },
+        {
+          "width": 390,
+          "route": "terraform/",
+          "clipboard_sha256": "9fcbc590473ed831f90db13b1800ce9f0bf29b607c8557c8830d1b538a6372ba"
+        },
+        {
+          "width": 390,
+          "route": "terraform/",
+          "clipboard_sha256": "43273a10e154ffbaf5794a6999ba5e1c18c7b133276a41861134869245dbcc23"
+        },
+        {
+          "width": 390,
+          "route": "terraform/",
+          "clipboard_sha256": "1fe79723e68adb7c33a487a4d8f8cae5de404f52d2d42242a93c158dbb371255"
+        },
+        {
+          "width": 390,
+          "route": "terraform/",
+          "clipboard_sha256": "29399b66fd9f6a2a986a67ab42373be02f1619531c8252cb6448b9cf6aae9634"
+        },
+        {
+          "width": 390,
+          "route": "terraform/",
+          "clipboard_sha256": "e51d75c0cab718d37790d19473a9b38c0cb70e9ba2a05050a26465dff3fd7aed"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "de8be442451062f949770e2e5ea69891a8a6899766819b22e6751587d5228a21"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "1ee787d450b978972658cfb49e8871dbea5969ba1f97938ae8bbcb66d0f31ca1"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "918cad800eab87d39a84c2384dc788cf528cc186044193b2ac2a9e1cd13da8be"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "1f92e8c4b243a134f41f641e04988f7dd2dba83265bde82a51210a1e57f547e4"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "672baa2386f7d41fe3bc4a76a796567b89aa74ff79637225642faeb34d781864"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "e8a77ad7c19ff55cbcc95d998545ab2a3bdeb52f2ac63be8531025f5083d52f3"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "64fc5c1766dec3c5550d4934e4eab183a0d0a1d6fb3b60a04440d14650b8911b"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "e1431b70d680ca19c2814adcf2448aa07a1cb5feedc383014bb27df460dd33a9"
+        },
+        {
+          "width": 390,
+          "route": "terraform/input-lifecycle/",
+          "clipboard_sha256": "5871960f128f3b37b3e730431c4eff0b64126415427108775885e3efe4c201e7"
+        },
+        {
+          "width": 390,
+          "route": "terraform/certificate-surfaces/",
+          "clipboard_sha256": "e19d370ecc0e9f7da1b0bf547507d0774bc3394e25b2fe8da7585e634797ac15"
+        },
+        {
+          "width": 390,
+          "route": "terraform/certificate-surfaces/",
+          "clipboard_sha256": "1e930f0d616ea7f574cca949a190d21612788b0ae7215268999003fb255bda35"
+        },
+        {
+          "width": 390,
+          "route": "terraform/certificate-surfaces/",
+          "clipboard_sha256": "0963b9867bd3ead5b9c5ecdfef81dc427af6e2a2feae2c899c6f56eae205ff1d"
+        },
+        {
+          "width": 390,
+          "route": "wingman/",
+          "clipboard_sha256": "433b72e4f2973aecac89beb85c28fe93f52aadd0b1418ea93407db97eb1ded84"
+        },
+        {
+          "width": 390,
+          "route": "wingman/",
+          "clipboard_sha256": "3d60ee14d6edcb209cdd187daeb02b9de0904ee90d8738b6a0bc647533af0496"
+        },
+        {
+          "width": 390,
+          "route": "wingman/",
+          "clipboard_sha256": "695e2d606a9cde31470c673a03f96ae4d4d02ead603a4cc9382b6ee9660396bf"
+        },
+        {
+          "width": 390,
+          "route": "wingman/",
+          "clipboard_sha256": "e85cc1f85325fc7cd1ad34d961c102b28b38396d3dac0b03d532c96c754597b2"
+        },
+        {
+          "width": 390,
+          "route": "wingman/",
+          "clipboard_sha256": "e61d0fcbe97c9b70ad332d07be35c096afc1221166a27491cd3abea71812075e"
+        },
+        {
+          "width": 390,
+          "route": "wingman/",
+          "clipboard_sha256": "e7723d2500aaafd5eea5c79ccf5a8a99974997da6478b9a054f7d6c6d8b1516e"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "4d567d436ce21454d2f2807cd483eabf206d9cad645978448b1852359cb132de"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "588dfdb20f3b8d091948fa855e9cbad94192627168966989e61160845b7a57eb"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "12110d9845819c4fef0d8542a62e88fe4db9b42473e2a39da938776d58433eaf"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "2df9bcabf875eaa1812ba248f9c10750644d84509394e61b18dc38f4c83c26a4"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "5b574e948d5ba92d38279897d410da5c05be76c5eea09743ee616475903387e0"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "ffb210c5ff5dc9d4a4e8c462c855cdbb30ec0db049abd4372cc642f939d7a6f6"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "93382d53ab83f9a26852ff7f5d1e0ccef8c7691f8349dd5596770e84cd9af772"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "c515d9e8ed4b92069006dbfa0313e8391fad6289b11c8968a217d3e704c8a180"
+        },
+        {
+          "width": 390,
+          "route": "wingman/validation/",
+          "clipboard_sha256": "4d02c8cd39f848c3992c65f107ed629bae6cb0b683b29a37b24010722075360d"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/",
+          "clipboard_sha256": "88c99a4ad6e0229b13b89f57ea930a0c09c1a2c8b1559d8555277f7aa6bd7747"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/",
+          "clipboard_sha256": "f8895a586cfef2b41891a3a3aff391e53017cc715adebfb65a8a7faf9974beaa"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/",
+          "clipboard_sha256": "ff52a039782a2bda3ede6ad52b49f58eda51523055187fc59d4286485645a00e"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/",
+          "clipboard_sha256": "6cbc768526a35ff7bcea94f529e4cd01eb6d55cdd567b9ec7efb86c309a3f875"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/",
+          "clipboard_sha256": "5b56a4895d3d423f3f00aeb277ae3e92ea9da116f2f3fce21bc738544be8bd9d"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/",
+          "clipboard_sha256": "47d7b58d5a7b0baf83effdd810dc09579ef3e02189fd7168d6393505ad6ab5e0"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/",
+          "clipboard_sha256": "0068eb843d2b26b693d0dfd8f6003dbf0e6a274b1cce7c85fa726444b2c2aa66"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/",
+          "clipboard_sha256": "722d923dd688085b1b0ab33849d6961ea3ac82741379a9cb64d0854c90dcab0b"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/input-workflows/",
+          "clipboard_sha256": "c2a58f67f481efbcfd27f3e21282ab6f6d7dd4aa9cfd933c6a2134fb50b313b9"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/input-workflows/",
+          "clipboard_sha256": "fcafe7a78a283e5f8ad8ed7069388c2e3ac360489a5545cfbe81d17651a90550"
+        },
+        {
+          "width": 390,
+          "route": "xcsh/input-workflows/",
+          "clipboard_sha256": "eab4ca034c990da85885aa9c06569ad672b7c511238d5d15a0ba9dcdd4f73fc7"
+        }
+      ],
+      "session_credentials": true,
+      "reset_clear": true,
+      "storage_disabled": true,
+      "canonical_downloads_unchanged": true,
+      "historical_exclusion": true,
+      "shared_fields_across_all_routes": true,
+      "copied_shell_syntax": true,
+      "structured_json_parsing": true
+    },
+    "publication": {
+      "qualification": "credential-free published endpoints and source/download consistency",
+      "endpoints": {
+        "certificate-management.f5-sales-demo.com": {
+          "trusted_hostname": true,
+          "served_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+          "expected_response": true,
+          "http_redirect": 301
+        },
+        "certificate-management-terraform.f5-sales-demo.com": {
+          "trusted_hostname": true,
+          "served_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+          "expected_response": true,
+          "http_redirect": 301
+        }
+      },
+      "downloads": {
+        "assets/wingman-ca.pem": "60b835c64d002af47a4d3be21a6fc215f6a01bd287fae2391008da23a0f2012e",
+        "assets/wingman-certificate.pem": "95748b40edc40d20657f7b5953e3b05b6c75b77927fc2aa4201263406aa82e4c",
+        "_data/scripts/resolve_current_artifacts.py": "789a127429e9a53fcd1aa835a3df17330c8469a388068e0d83b929e92b1eacee",
+        "_data/terraform/advertise-tls/main.tf": "53e166ce9ed95c0917841aabf062e32e47e422b628aeabb4c7fce8267564e202",
+        "_data/terraform/advertise-tls/variables.tf": "19877d48389830609196c72e5a9be83f58c4d7e7c6c3b2ad197e8a4fef6fc5b5",
+        "_data/terraform/advertise-tls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/cdn-origin-mtls/main.tf": "ea1efe490bf93485b35230fda4db218a8975c5dc0c782a60dd7acfde3105f384",
+        "_data/terraform/cdn-origin-mtls/variables.tf": "6c7583d1983968f12fe61af0e9e153e5baef783f71695f71d3a38e0ce32652bf",
+        "_data/terraform/cdn-origin-mtls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/cdn-server-tls/main.tf": "68a4e4b2300695fb144a355d3afcb9c52f6957d7475cdc712eec4aeb9bc807ca",
+        "_data/terraform/cdn-server-tls/variables.tf": "6fa895f712f2da41bce25822fdd81084716c1e2b6d61428b153b5624804c230e",
+        "_data/terraform/cdn-server-tls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/cluster-tls/main.tf": "464587d1bb46ed19aa5bebf7306112c9c3c944cca588c48b72f509b34ce9e136",
+        "_data/terraform/cluster-tls/variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/cluster-tls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/http-origin-mtls/main.tf": "c2c6088fc8e4ed2ca601953dd05f3d0cc65231a9a617486700137a59d8a40dab",
+        "_data/terraform/http-origin-mtls/variables.tf": "6c7583d1983968f12fe61af0e9e153e5baef783f71695f71d3a38e0ce32652bf",
+        "_data/terraform/http-origin-mtls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/inline-server-tls/main.tf": "e23cadc1d8bfb42076be74e2c5ab3f5d5678a10aa8086803c3cb095151133185",
+        "_data/terraform/inline-server-tls/variables.tf": "ec61292ffed1d980351d49da9f08c98c26b9ee2ca53994d188744295922a6caa",
+        "_data/terraform/inline-server-tls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/named-certificate/main.tf": "83e07448d0cf334f537fea61c8a7670b57d58c63b14bab2b37262f149ab75054",
+        "_data/terraform/named-certificate/outputs.tf": "86b5ae8e682f38e5a7df25ccd0ae2c9cdef0489533c74aa98dc3763272838c2d",
+        "_data/terraform/named-certificate/variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/named-certificate/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/named-certificate/wingman.tf": "dbe0728ef2c982c32be17ee6462e657f7401b527bf8d3110e75ea630b5965ce1",
+        "_data/terraform/origin-mtls/main.tf": "63ee1c82603118e083c9469611a72a4356c00ed920221e93b5c73d5c3d72a51c",
+        "_data/terraform/origin-mtls/variables.tf": "204feff483cf0868ba0ba82d2b505312879097e2a128cd6676e809df18c20dfc",
+        "_data/terraform/origin-mtls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/proxy-intercept/main.tf": "154a7c76cb1c01554ee725b8527a8f32b70d68d300dc18485b1e147ce41399d1",
+        "_data/terraform/proxy-intercept/variables.tf": "19877d48389830609196c72e5a9be83f58c4d7e7c6c3b2ad197e8a4fef6fc5b5",
+        "_data/terraform/proxy-intercept/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/proxy-tls/main.tf": "7bf8c884def90d7061c6ed4292230414bb2416e5d36fc506d1c920cba6e5132c",
+        "_data/terraform/proxy-tls/variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/proxy-tls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/bigip-server-tls/main.tf.example": "ff2fb59cb0f91d9e4e92d964f581447052c9e43ed297904083d465d2f57862b8",
+        "_data/terraform/reference/bigip-server-tls/variables.tf.example": "6fa895f712f2da41bce25822fdd81084716c1e2b6d61428b153b5624804c230e",
+        "_data/terraform/reference/bigip-server-tls/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/connector-intercept/main.tf.example": "9b071790fc20ebf137577172aea480edc97177ee21fc45b4b26d11cf347f1c50",
+        "_data/terraform/reference/connector-intercept/variables.tf.example": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/reference/connector-intercept/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/nfv-advertise_on_sli_vip/main.tf.example": "677ff5961ce8fb6c6667227f28e36266648a0f8eb48d266ebff193b57ab24b5d",
+        "_data/terraform/reference/nfv-advertise_on_sli_vip/variables.tf.example": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/reference/nfv-advertise_on_sli_vip/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/nfv-advertise_on_slo_internet_vip/main.tf.example": "94a9404ceebf4dc37df09397f4d8552dd34a1e1c56492ad00c05075d23d6b2fd",
+        "_data/terraform/reference/nfv-advertise_on_slo_internet_vip/variables.tf.example": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/reference/nfv-advertise_on_slo_internet_vip/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/nfv-advertise_on_slo_sli/main.tf.example": "5e87aba8dd50e937362f380af23f81aa59c7f1e58b0d3d7ed105a312eae1aa68",
+        "_data/terraform/reference/nfv-advertise_on_slo_sli/variables.tf.example": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/reference/nfv-advertise_on_slo_sli/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/nfv-advertise_on_slo_vip/main.tf.example": "bfebce14925fe3a6f6c7641f9bafc3289ba8f9eb8a1cda5028300d9278b20798",
+        "_data/terraform/reference/nfv-advertise_on_slo_vip/variables.tf.example": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/reference/nfv-advertise_on_slo_vip/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/workload-stateful_service-custom/main.tf.example": "6bcd63c8d5ea4bd45cae4b0c77648f4300e0ad14243a98309c3beb87759226d9",
+        "_data/terraform/reference/workload-stateful_service-custom/variables.tf.example": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+        "_data/terraform/reference/workload-stateful_service-custom/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/workload-stateful_service-public-multi/main.tf.example": "d59324d01961a7dd05bfe5bbf3fbd34de0cb1fd7d3cf75cdf41258b5f5b8a16c",
+        "_data/terraform/reference/workload-stateful_service-public-multi/variables.tf.example": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+        "_data/terraform/reference/workload-stateful_service-public-multi/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/reference/workload-stateful_service-public-single/main.tf.example": "a5abf43ecabd3b25123bf220858aa30f6e6d475f1be594ae4dd05af73bac0e9e",
+        "_data/terraform/reference/workload-stateful_service-public-single/variables.tf.example": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+        "_data/terraform/reference/workload-stateful_service-public-single/versions.tf.example": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/secret-access-tls/main.tf": "0887c4e66eb9ca5103a550ff434dc16c784ea0b4ba50ebf7a62ae3cad094d772",
+        "_data/terraform/secret-access-tls/variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/secret-access-tls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/tcp-tls/main.tf": "0f6bfff9375514dee3e89acaf287a2270feeeaf6913e01547b3ff551f8d477ac",
+        "_data/terraform/tcp-tls/variables.tf": "0d1211accb3f5c97c7f3b5ae46748dffda84c99e2e249e9a5b94e5d5a2f89e80",
+        "_data/terraform/tcp-tls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/virtual-host-tls/main.tf": "999241e42a943e0260c0f8e1a9148ee9d3ec5b1184761797662a360ba0c49488",
+        "_data/terraform/virtual-host-tls/variables.tf": "3e9a79a9f283b683fdf8fc9289292ad06138b300d1979f84398f3a3430481284",
+        "_data/terraform/virtual-host-tls/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/workload-service-custom/main.tf": "e7098872d7236f99bd7f7af04f6cd24d990725e4c3838875de327a21c087b068",
+        "_data/terraform/workload-service-custom/variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+        "_data/terraform/workload-service-custom/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/workload-service-public-multi/main.tf": "ec4c060f7422844bbf222fe2b992cf7dfa01e2e6ac7cc5340feff23253a08ab3",
+        "_data/terraform/workload-service-public-multi/variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+        "_data/terraform/workload-service-public-multi/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/terraform/workload-service-public-single/main.tf": "4016fb6f1730852842fb38952a2df9c018c29b0d0a71a88ed608c97764d4cef2",
+        "_data/terraform/workload-service-public-single/variables.tf": "bb1d48d0b5350cab47d82385128f5d23e68bc64b9eb9ba42e3755410e7168b8a",
+        "_data/terraform/workload-service-public-single/versions.tf": "dbaab607d2d8145d3b9afe4f337bcee01e8de31cc30578ebebe88386e5063bca",
+        "_data/wingman/app/Dockerfile": "36f275efd30fcf9e349a476b8ad176752d2c56f3c1ae94c51d371b1b362d1ab9",
+        "_data/wingman/app/build-image.txt": "038a62af790fb9587dc22c4f73a18ef7794be5ee7cb60effc50a00b6955e5307",
+        "_data/wingman/app/go.mod": "7b514ea0f23d54d64586342f76917c4542c662c537f68bbc145cbc7be6845cf3",
+        "_data/wingman/app/main.go": "98b406a95862591e2b308de3319297027d540098b6cfd60f16879ba21cd7b604",
+        "_data/wingman/app/probe.go": "7bb56a3cfe10e4c757ef7b754d868db642c68f760f13430e09d47335e2fe8997",
+        "_data/wingman/bootstrap/main.tf": "2ec08f6aa7c765ac3f5dfa4f80a7ff58dede18be7901bf783baed99aae34cc86",
+        "_data/wingman/bootstrap/versions.tf": "df73688410cc9d9789cd7e5aacc3cfb803324e07e0cec43734287399ed7e855b",
+        "_data/wingman/contract.json": "5559e9fd69c0c9d3124ecbd702e058b37827b677090eb6d16e4978eb1365add2",
+        "_data/wingman/kubeconfig.py": "7c5a3f3d95c4799ba1703ddf1388fb5c5a6620912006bd6d030eeed00054a200",
+        "_data/wingman/qualification/main.tf": "c103da7fb34e2e2bda6f5d781e6750d4db64b6f9a6cb8c6d5949876d07184565",
+        "_data/wingman/qualification/variables.tf": "5bfb5d875648d4679a8d7b888575919733c9abf8b1b8e3d09a7c7336d11e6c81",
+        "_data/wingman/qualification/versions.tf": "fbcc361565105b359325a4665147aecea45e6b2bcae64f379d95c66fef59ea19",
+        "_data/wingman/qualify.py": "ceb5888109de40269f7bc5378649f141dd302df49905d2ca2cc9cf036ea07739",
+        "_data/wingman/runtime/main.tf": "ea5a0acc5542632692626b761ddf9a6212dc6037a00b5444a354e052e5262695",
+        "_data/wingman/runtime/variables.tf": "41274a2485fb722c3d631717c052884c5270639d75749f5c4b6461f37bd129e3",
+        "_data/wingman/runtime/versions.tf": "37ba7210775eb93ff06000131ec378ff89c1f6356ec1301bc098c2264a22b050"
+      }
+    }
+  },
+  "historical_receipts": "unchanged; earlier artifacts remain qualified by their original records",
+  "shared_form_followup": "Older fleet catalogs dropped the working-directory field; canonical builder 1.11.1 selection and published cross-use-case verification tracked separately in docs-control issue 2520"
+}
