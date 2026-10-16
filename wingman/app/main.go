@@ -185,7 +185,7 @@ func run(ctx context.Context) error {
 	server := &http.Server{
 		Addr: ":8443", Handler: handler(w, fingerprint),
 		TLSConfig:         &tls.Config{MinVersion: tls.VersionTLS12, Certificates: []tls.Certificate{pair}},
-		ReadHeaderTimeout: 30 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 10 * time.Second, IdleTimeout: 30 * time.Second,
+		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 10 * time.Second, WriteTimeout: 10 * time.Second, IdleTimeout: 30 * time.Second,
 	}
 	go func() {
 		<-ctx.Done()
