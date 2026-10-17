@@ -1,0 +1,62 @@
+{
+  "status": "incomplete-platform-blocker",
+  "issue": "https://github.com/f5-sales-demo/certificate-management/issues/109",
+  "implementation_pr": "https://github.com/f5-sales-demo/certificate-management/pull/110",
+  "builder_pr": "https://github.com/f5-sales-demo/docs-builder/pull/1589",
+  "provider_version": "15.10.5",
+  "enum_preflight": {
+    "string_input": ["XFCC_CERT", "XFCC_CHAIN"],
+    "numeric_input": [1, 2],
+    "both_accepted": true,
+    "readback": ["XFCC_CERT", "XFCC_CHAIN"],
+    "provider_repair_required": false
+  },
+  "isolated_policy": {
+    "methods": ["POST", "PUT", "PATCH"],
+    "trusted_client_status": 200,
+    "no_client_status": 403,
+    "forged_xfcc_status": 403,
+    "duplicate_xfcc_status": 403,
+    "crl_attached": false,
+    "cleanup": "all probe resources deleted"
+  },
+  "crl_publication": {
+    "byte_equality": true,
+    "signature_verified": true,
+    "refresh_hours": 6,
+    "download_timeout_seconds": 10,
+    "retained_object_created": true,
+    "edge_attachment_accepted": false,
+    "api_error": "Validation failed: CRL is not allowed on regional edge sites",
+    "live_revocation_qualified": false
+  },
+  "rollback": {
+    "reviewed_plan_sha256": "83a456446502f8a72ccd42f279adc1741fda79dc66604b3b01e9e60eef31db56",
+    "removed": ["xcsh_crl.client[\"a-initial\"]"],
+    "restored": ["xcsh_http_loadbalancer.http"],
+    "followup_plan_exit": 0,
+    "retained_resource_ids_unchanged": true,
+    "public_server_certificate_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+    "get_body": {
+      "example": "terraform-certificate",
+      "native_blindfold": true
+    },
+    "wingman_body": {
+      "example": "wingman-certificate",
+      "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde"
+    },
+    "removed_crl_route_http_status": 301
+  },
+  "pending": [
+    "CRL-capable topology decision",
+    "published builder and governed caller convergence",
+    "changed Wingman image live acceptance",
+    "fresh client fingerprints through origin",
+    "untrusted and expired certificate rejection",
+    "copied complete valid XFCC spoof denial",
+    "live renewal revocation and CA overlap/removal",
+    "isolated Terraform removal",
+    "published desktop/mobile and both host readers",
+    "merged delivery and task cleanup"
+  ]
+}
