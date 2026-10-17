@@ -388,3 +388,8 @@ class ProbeLogTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class ImmutableIndexIdentityTests(unittest.TestCase):
+    def test_probe_accepts_planned_index_or_platform_digest(self):
+        source = (Path(__file__).parents[1] / "wingman/qualify.py").read_text()
+        assert 'for digest in [*platform_digests, resolved_image.split("@", 1)[1]]' in source

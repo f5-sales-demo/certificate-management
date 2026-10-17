@@ -533,6 +533,7 @@ variable "wingman" {
     name              = string
     virtual_site_name = string
     trusted_ca_file   = optional(string)
+    origin_pool_name  = optional(string)
   })
   default     = null
   description = "Runtime owner_integration output, after authorized unseal and denial qualification."
@@ -547,7 +548,7 @@ locals {
 }
 resource "xcsh_origin_pool" "wingman" {
   count     = var.wingman == null ? 0 : 1
-  name      = "${var.wingman.name}${local.wingman_contract.suffixes.origin_pool}"
+  name      = var.wingman.origin_pool_name == null ? "${var.wingman.name}${local.wingman_contract.suffixes.origin_pool}" : var.wingman.origin_pool_name
   namespace = data.xcsh_namespace.existing.name
   port      = local.wingman_contract.backend_port
   origin_servers {
