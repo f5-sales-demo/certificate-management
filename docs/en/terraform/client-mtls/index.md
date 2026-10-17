@@ -11,6 +11,10 @@ Complete the [server certificate workflow](../) and [Wingman runtime](../../wing
 named-certificate owner state and Wingman pool. [Origin mTLS](../certificate-surfaces/origin-mtls/) authenticates the
 load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
 
+The retained Regional Edge endpoint cannot attach a CRL: live XC validation returned `CRL is not allowed on regional
+edge sites`. Keep client mTLS disabled there until a CRL-capable CE topology is selected and qualified. The
+configuration below is an unqualified implementation for that topology; it does not establish retained edge revocation.
+
 Use Python 3 and OpenSSL 3 on Ubuntu or macOS. Store the synthetic CA database, CA key, client keys and plans in an
 owner-only directory outside Git. Only public CA certificates and signed PEM CRLs enter Terraform state. Select client
 file paths produced below; never reuse server, origin or Wingman key inputs.
