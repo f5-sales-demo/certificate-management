@@ -8,21 +8,6 @@
       "trusted_ca_url": "string:///<BASE64_CLIENT_CA_BUNDLE>"
     }
   },
-  "crl": {
-    "metadata": {
-      "name": "<XCSH_LB_NAME>-client-<XCSH_CLIENT_CRL_REVISION>",
-      "namespace": "<XCSH_NAMESPACE>"
-    },
-    "spec": {
-      "server_address": "<XCSH_DOMAINNAME>",
-      "server_port": 80,
-      "refresh_interval": 6,
-      "timeout": 10,
-      "http_access": {
-        "path": "/mtls/crl/<XCSH_CLIENT_CRL_REVISION>.pem"
-      }
-    }
-  },
   "service_policy": {
     "metadata": {
       "name": "<XCSH_LB_NAME>-client-write",
@@ -79,10 +64,7 @@
         "namespace": "<XCSH_NAMESPACE>"
       },
       "client_certificate_optional": true,
-      "crl": {
-        "name": "<XCSH_LB_NAME>-client-<XCSH_CLIENT_CRL_REVISION>",
-        "namespace": "<XCSH_NAMESPACE>"
-      },
+      "no_crl": {},
       "xfcc_options": {
         "xfcc_header_elements": ["XFCC_CERT", "XFCC_CHAIN"]
       }

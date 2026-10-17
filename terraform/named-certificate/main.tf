@@ -48,10 +48,7 @@ resource "xcsh_http_loadbalancer" "https" {
             name      = xcsh_trusted_ca_list.client[0].name
             namespace = data.xcsh_namespace.existing.name
           }
-          crl {
-            name      = xcsh_crl.client[use_mtls.value.active_crl_revision].name
-            namespace = data.xcsh_namespace.existing.name
-          }
+          no_crl = {}
           xfcc_options {
             xfcc_header_elements = ["XFCC_CERT", "XFCC_CHAIN"]
           }

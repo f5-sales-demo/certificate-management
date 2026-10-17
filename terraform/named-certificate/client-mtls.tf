@@ -27,22 +27,6 @@ resource "xcsh_trusted_ca_list" "client" {
   trusted_ca_url = "string:///${filebase64(var.client_mtls.trusted_ca_file)}"
 }
 
-# The HTTP revision must already be downloadable before XC creates the CRL.
-# Publication and activation are separate deployment/traffic acceptance gates.
-resource "xcsh_crl" "client" {
-  for_each         = local.client_crls
-  name             = "${var.name}-client-${each.key}"
-  namespace        = data.xcsh_namespace.existing.name
-  server_address   = var.domain
-  server_port      = 80
-  refresh_interval = 6
-  timeout          = 10
-  http_access {
-    path = "/mtls/crl/${each.key}.pem"
-  }
-  depends_on = [xcsh_http_loadbalancer.http]
-}
-
 resource "xcsh_service_policy" "client_write" {
   count      = var.client_mtls == null ? 0 : 1
   name       = "${var.name}-client-write"
@@ -89,12 +73,13 @@ resource "xcsh_service_policy" "client_write" {
 output "client_mtls_inventory" {
   value = var.client_mtls == null ? null : {
     owner                    = "named-certificate"
-    resource_addresses       = concat(["xcsh_trusted_ca_list.client[0]", "xcsh_service_policy.client_write[0]"], [for revision in sort(keys(local.client_crls)) : "xcsh_crl.client[\"${revision}\"]"])
+    resource_addresses       = ["xcsh_trusted_ca_list.client[0]", "xcsh_service_policy.client_write[0]"]
     certificate_roles        = { frontend = "xcsh_certificate.server", client_trust = "xcsh_trusted_ca_list.client[0]", origin = "xcsh_origin_pool.wingman[0]" }
     endpoints                = { identity = "https://${var.domain}/mtls/identity", write = "https://${var.domain}/mtls/write" }
     trusted_ca_bundle_sha256 = filesha256(var.client_mtls.trusted_ca_file)
-    active_crl_revision      = var.client_mtls.active_crl_revision
+    published_crl_revision   = var.client_mtls.active_crl_revision
+    edge_revocation          = "unsupported on Regional Edges; no_crl selected"
     crls                     = { for revision, path in local.client_crls : revision => { url = "http://${var.domain}/mtls/crl/${revision}.pem", sha256 = filesha256(path) } }
-    acceptance               = "Requires separate live authorization, revocation and CA-rotation receipts."
+    acceptance               = "Requires separate live authorization and CA-rotation receipts; Regional Edge CRL revocation is excluded."
   }
 }

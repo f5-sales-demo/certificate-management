@@ -37,19 +37,6 @@ def generate(schema: dict) -> None:
             },
             "spec": {"trusted_ca_url": "string:///<BASE64_CLIENT_CA_BUNDLE>"},
         },
-        "crl": {
-            "metadata": {
-                "name": "<XCSH_LB_NAME>-client-<XCSH_CLIENT_CRL_REVISION>",
-                "namespace": "<XCSH_NAMESPACE>",
-            },
-            "spec": {
-                "server_address": "<XCSH_DOMAINNAME>",
-                "server_port": 80,
-                "refresh_interval": 6,
-                "timeout": 10,
-                "http_access": {"path": "/mtls/crl/<XCSH_CLIENT_CRL_REVISION>.pem"},
-            },
-        },
         "service_policy": {"metadata": metadata, "spec": rendered},
         "https_tls_cert_params_extension": {
             "use_mtls": {
@@ -58,10 +45,7 @@ def generate(schema: dict) -> None:
                     "namespace": "<XCSH_NAMESPACE>",
                 },
                 "client_certificate_optional": True,
-                "crl": {
-                    "name": "<XCSH_LB_NAME>-client-<XCSH_CLIENT_CRL_REVISION>",
-                    "namespace": "<XCSH_NAMESPACE>",
-                },
+                "no_crl": {},
                 "xfcc_options": {"xfcc_header_elements": ["XFCC_CERT", "XFCC_CHAIN"]},
             }
         },
@@ -145,7 +129,7 @@ sidebar:
 
 Complete the [server certificate workflow](../) and [Wingman runtime](../../wingman/). Use the existing named-certificate owner state and Wingman pool. [Origin mTLS](../certificate-surfaces/origin-mtls/) authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
 
-The retained Regional Edge endpoint cannot attach a CRL: live XC validation returned `CRL is not allowed on regional edge sites`. Keep client mTLS disabled there until a CRL-capable CE topology is selected and qualified. The configuration below is an unqualified implementation for that topology; it does not establish retained edge revocation.
+The retained Regional Edge endpoint uses optional client authentication with `no_crl`. Live XC validation rejects CRLs on Regional Edges. Edge CRL revocation is excluded from this workflow. Signed CRLs remain public downloadable lifecycle material; downloading one does not revoke a client at the edge.
 
 Use Python 3 and OpenSSL 3 on Ubuntu or macOS. Store the synthetic CA database, CA key, client keys and plans in an owner-only directory outside Git. Only public CA certificates and signed PEM CRLs enter Terraform state. Select client file paths produced below; never reuse server, origin or Wingman key inputs.
 
@@ -173,7 +157,7 @@ Initialize a new private synthetic CA directory once, then issue a client certif
         + "\n"
         + fence("bash", variables)
         + """
-Deploy in stages: first publish the new exact HTTP CRL route, then verify its bytes and signature, then create its XC CRL object and verify successful download/activation. Only then attach trust, active CRL and Service Policy to HTTPS. Review and hash a fresh saved plan for every stage. Preserve earlier revisions during transitions. Reject unrelated changes and retained-resource replacement. A target plan is a staging aid; finish with a full zero-change plan.
+Deploy the qualified Wingman image first. Publish the exact public CRL route and verify its bytes and signature, then enable optional client trust and the ordered Service Policy with `no_crl`. No XC CRL object is created. Review and hash fresh saved plans and reject unrelated changes or retained-resource replacement. Finish with a full zero-change plan.
 
 The policy denies POST, PUT and PATCH on exact `/mtls/write` when XFCC is absent, then allows other traffic. Qualification must prove the edge sanitizes client-supplied XFCC before policy evaluation. The origin parser alone cannot establish edge trust. A header bypass fails acceptance and requires rollback.
 
@@ -186,7 +170,7 @@ Use a new cURL process and unique challenge for every probe. Keep server verific
         + "\n"
         + fence("bash", forged)
         + """
-Expect public identity HTTP 200 with an empty client fingerprint, trusted writes HTTP 200, and certificate-free or forged-header writes HTTP 403. Require duplicate and malformed header denial, including a copied complete valid XFCC value presented without a client certificate. Presented untrusted, expired and revoked certificates must fail TLS before the handler returns a challenge. Do not infer revocation from an XC object or download alone.
+Expect public identity HTTP 200 with an empty client fingerprint, trusted writes HTTP 200, and certificate-free or forged-header writes HTTP 403. Require duplicate and malformed header denial, including a copied complete valid XFCC value presented without a client certificate. Presented untrusted and expired certificates must fail TLS before the handler returns a challenge. With `no_crl`, a locally revoked certificate remains accepted by the edge until it expires or its issuing CA loses trust. Prove and record that behavior explicitly; do not claim edge revocation.
 
 Recheck `/get`, `/wingman/get`, all HTTP redirects outside the exact CRL paths, server fingerprints, retained resource IDs and Default pool responses. Repeat Wingman injection, READY, authorized unseal, denial, identity chain, TLS, restart, cleanup and credential revocation after publishing its changed image. Record client acceptance separately from the historical certificate matrix.
 
@@ -202,13 +186,13 @@ python3 "$XCSH_WORKDIR/client_pki.py" revoke "$XCSH_CLIENT_CA_DIR" --client "$XC
 python3 "$XCSH_WORKDIR/client_pki.py" crl "$XCSH_CLIENT_CA_DIR" --revision "$XCSH_CLIENT_CRL_REVISION-next"''',
         )
         + """
-Add the newly signed CRL to `crl_revisions`, publish and verify its exact HTTP path, create and verify activation, then select its revision through a fresh reviewed plan. With fresh connections, prove the old serial is rejected and only the renewed client succeeds.
+Add the newly signed CRL to `crl_revisions` and publish and verify its exact HTTP path through a fresh reviewed plan. The CRL documents local revocation only. With fresh connections, verify the old and renewed clients still work at the edge while their CA remains trusted. Renewal and local revocation do not invalidate an individual client at this Regional Edge listener.
 
-For CA rotation, initialize a separate private CA database and client. Concatenate the two public CA certificates into the trusted bundle and both issuers' signed PEM CRLs into a new CRL revision. Verify each CRL signature against its issuer and both validity windows. Qualify XC support for the two-issuer bundle before overlap; object creation is insufficient. Preserve `xcsh_trusted_ca_list.client[0]` identity while adding new trust. Prove both clients work during overlap, then remove old CA trust through a reviewed update and prove old clients fail while new clients work. Retain prior public revisions until the transition is verified.
+For CA rotation, initialize a separate private CA database and client. Concatenate the two public CA certificates into the trusted bundle. You may publish both issuers' signed PEM CRLs as a public bundle; verify each signature and validity window independently. The edge does not consume this CRL bundle. Preserve `xcsh_trusted_ca_list.client[0]` identity while adding new trust. Prove both clients work during overlap, then remove old CA trust through a reviewed update and prove old clients fail while new clients work. Retain prior public revisions until the transition is verified.
 
 ## Remove
 
-Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy, trust and CRL additions while preserving the server certificate, load balancers, Wingman and Default pool additions. Verify public reads and redirects, unchanged server fingerprints and zero-change refresh. Exercise full destroy separately on an isolated deployment of this same configuration; never destroy the retained owner to test removal.
+Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy, trust and public CRL routes while preserving the server certificate, load balancers, Wingman and Default pool additions. Verify public reads and redirects, unchanged server fingerprints and zero-change refresh. Exercise full destroy separately on an isolated deployment of this same configuration; never destroy the retained owner to test removal.
 """
     )
     page = ROOT / "docs/en/terraform/client-mtls/index.md"
@@ -218,7 +202,11 @@ Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy
     for line in text.splitlines():
         if line.startswith("```"):
             fenced = not fenced
-        if not fenced and len(line) > PROSE_WRAP_THRESHOLD and not line.startswith(("<", "```")):
+        if (
+            not fenced
+            and len(line) > PROSE_WRAP_THRESHOLD
+            and not line.startswith(("<", "```"))
+        ):
             lines.extend(
                 textwrap.wrap(
                     line, width=120, break_long_words=False, break_on_hyphens=False

@@ -14,9 +14,9 @@ class ClientMTLSTests(unittest.TestCase):
             "contains(keys(var.client_mtls.crl_revisions), var.client_mtls.active_crl_revision)"
             in text
         )
-        assert "refresh_interval = 6" in text
-        assert "timeout          = 10" in text
-        assert "depends_on = [xcsh_http_loadbalancer.http]" in text
+        assert 'resource "xcsh_crl"' not in text
+        main = (ROOT / "terraform/named-certificate/main.tf").read_text()
+        assert "no_crl = {}" in main
 
     def test_policy_has_exact_path_and_deny_before_allow(self):
         text = (ROOT / "terraform/named-certificate/client-mtls.tf").read_text()
