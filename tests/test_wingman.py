@@ -76,7 +76,10 @@ class RegistryImageTests(unittest.TestCase):
 class ApplicationImageTests(unittest.TestCase):
     def test_public_deployment_uses_kubernetes_probe_ports(self):
         document = json.loads(
-            (Path(__file__).parents[1] / "docs/assets/configurations/wingman-deployment.json").read_text()
+            (
+                Path(__file__).parents[1]
+                / "docs/assets/configurations/wingman-deployment.json"
+            ).read_text()
         )
         application = document["spec"]["template"]["spec"]["containers"][0]
         assert application["ports"][0]["containerPort"] == 8443
