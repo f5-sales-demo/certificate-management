@@ -1,5 +1,9 @@
 """Check frontend client trust, exact policy scope, and CRL publication ordering."""
 
+import json
+import re
+import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -33,6 +37,31 @@ class ClientMTLSTests(unittest.TestCase):
         assert 'path = "/mtls/crl/${routes.key}.pem"' in text
         assert "name      = xcsh_certificate.server.name" in text
         assert 'xfcc_header_elements = ["XFCC_CERT", "XFCC_CHAIN"]' in text
+
+    def test_documented_python_configuration_executes(self):
+        page = (ROOT / "docs/en/terraform/client-mtls/index.md").read_text()
+        match = re.search(r"<<'PY'\n([\s\S]*?)\nPY", page)
+        assert match is not None
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "client.json"
+            subprocess.run(
+                [
+                    "python3",
+                    "-",
+                    str(path),
+                    "/private/ca.pem",
+                    "/private/crl.pem",
+                    "revision",
+                ],
+                input=match[1],
+                text=True,
+                check=True,
+            )
+            result = json.loads(path.read_text())
+            assert result["client_mtls"]["active_crl_revision"] == "revision"
+            assert result["client_mtls"]["crl_revisions"] == {
+                "revision": "/private/crl.pem"
+            }
 
 
 if __name__ == "__main__":
