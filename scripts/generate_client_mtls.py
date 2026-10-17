@@ -12,6 +12,7 @@ import hcl2
 from generate_administration import fence, public, public_json
 
 ROOT = Path(__file__).resolve().parents[1]
+PROSE_WRAP_THRESHOLD = 180
 
 
 def generate(schema: dict) -> None:
@@ -215,7 +216,7 @@ Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy
     for line in text.splitlines():
         if line.startswith("```"):
             fenced = not fenced
-        if not fenced and len(line) > 180 and not line.startswith(("<", "```")):
+        if not fenced and len(line) > PROSE_WRAP_THRESHOLD and not line.startswith(("<", "```")):
             lines.extend(
                 textwrap.wrap(
                     line, width=120, break_long_words=False, break_on_hyphens=False
