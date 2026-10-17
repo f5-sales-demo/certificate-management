@@ -135,6 +135,10 @@ func handler(w wingman, fingerprint string) http.Handler {
 			Fingerprint string `json:"certificate_sha256"`
 		}{"wingman-certificate", fingerprint})
 	})
+	mux.HandleFunc("GET /mtls/identity", clientIdentityHandler(w, fingerprint, false))
+	for _, method := range []string{"POST", "PUT", "PATCH"} {
+		mux.HandleFunc(method+" /mtls/write", clientIdentityHandler(w, fingerprint, true))
+	}
 	return mux
 }
 
