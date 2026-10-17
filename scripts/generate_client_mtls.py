@@ -5,7 +5,9 @@
 
 # ruff: noqa: S608 -- Markdown command generation; no SQL execution.
 import textwrap
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import hcl2
 
@@ -13,7 +15,12 @@ ROOT = Path(__file__).resolve().parents[1]
 PROSE_WRAP_THRESHOLD = 180
 
 
-def generate(schema: dict, public, public_json, fence) -> None:
+def generate(
+    schema: dict,
+    public: Callable[[dict, dict], dict],
+    public_json: Callable[[Any], str],
+    fence: Callable[[str, str], str],
+) -> None:
     # pylint: disable=too-many-locals -- Complete canonical guide rendering.
     """Render the six-stage client workflow and its exact source downloads."""
     directory = ROOT / "terraform/named-certificate"
@@ -61,7 +68,9 @@ openssl crl -in "$XCSH_CLIENT_CRL_FILE" -noout -verify -CAfile "$XCSH_CLIENT_CA_
     variables = '''python3 - "$configuration/client.auto.tfvars.json" "$XCSH_CLIENT_CA_FILE" "$XCSH_CLIENT_CRL_FILE" "$XCSH_CLIENT_CRL_REVISION" <<'PY'
 # ruff: noqa: S608 -- Markdown command generation; no SQL execution.
 import json
-import textwrap, os, sys
+import textwrap
+from collections.abc import Callable
+from typing import Any, os, sys
 os.umask(0o077)
 path, ca, crl, revision = sys.argv[1:]
 with open(path, "x") as stream:
