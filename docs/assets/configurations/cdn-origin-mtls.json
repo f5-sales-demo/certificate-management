@@ -9,9 +9,7 @@
       }
     },
     "spec": {
-      "domains": [
-        "<XCSH_DOMAINNAME>"
-      ],
+      "domains": ["<XCSH_DOMAINNAME>"],
       "no_service_policies": {},
       "disable_waf": {},
       "disable_api_definition": {},

@@ -94,10 +94,9 @@ def main() -> None:
         source = page.read_text()
         hcl = "\n".join(p.read_text().rstrip() for p in sorted(directory.glob("*.tf")))
         assert "```hcl\n" + hcl + "\n```" in source, name
-        documents = json.loads(
-            (DOCS / "assets/configurations" / (name + ".json")).read_text()
-        )
-        assert "```json\n" + json.dumps(documents, indent=2) + "\n```" in source, name
+        public_source = (DOCS / "assets/configurations" / (name + ".json")).read_text()
+        documents = json.loads(public_source)
+        assert "```json\n" + public_source.rstrip() + "\n```" in source, name
         assert all("metadata" in d and "spec" in d for d in documents)
         assert all(
             heading in source

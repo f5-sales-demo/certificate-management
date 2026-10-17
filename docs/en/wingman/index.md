@@ -88,9 +88,7 @@ Set `XCSH_APPLICATION_CERT_FILE` to the application leaf-first chain, `XCSH_CERT
               "allowPrivilegeEscalation": false,
               "readOnlyRootFilesystem": true,
               "capabilities": {
-                "drop": [
-                  "ALL"
-                ]
+                "drop": ["ALL"]
               }
             },
             "volumeMounts": [

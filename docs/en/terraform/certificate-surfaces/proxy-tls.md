@@ -35,9 +35,7 @@ The JSON below shows the complete public configuration resulting from native enc
       "no_forward_proxy_policy": {},
       "no_interception": {},
       "dynamic_proxy": {
-        "domains": [
-          "<XCSH_DOMAINNAME>"
-        ],
+        "domains": ["<XCSH_DOMAINNAME>"],
         "disable_dns_masquerade": {},
         "https_proxy": {
           "tls_params": {

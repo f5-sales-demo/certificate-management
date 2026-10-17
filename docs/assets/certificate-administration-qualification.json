@@ -1788,10 +1788,7 @@
   "rendered_reader": {
     "builder_image": "ghcr.io/f5-sales-demo/docs-builder@sha256:e44440510cf1da36d4b9d95a5173238b33cff15ce18834f31dc310939ca36149",
     "pages": 24,
-    "viewports": [
-      1440,
-      390
-    ],
+    "viewports": [1440, 390],
     "clipboard_blocks": 318,
     "navigation": "Desktop and mobile labels fit, stay within three words, and use distinct parent/child labels; all 15 alternatives appear in the expected order.",
     "screenshots": {

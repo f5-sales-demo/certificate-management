@@ -38,9 +38,7 @@ The JSON below shows the complete public configuration resulting from native enc
       "disable_rate_limit": {},
       "disable_ip_reputation": {},
       "disable_malicious_user_detection": {},
-      "domains": [
-        "<XCSH_DOMAINNAME>"
-      ],
+      "domains": ["<XCSH_DOMAINNAME>"],
       "advertise_on_public_default_vip": {},
       "https": {
         "port": 443,

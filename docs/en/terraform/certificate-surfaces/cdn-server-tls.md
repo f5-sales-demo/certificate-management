@@ -30,9 +30,7 @@ The JSON below shows the complete public configuration resulting from native enc
       }
     },
     "spec": {
-      "domains": [
-        "<XCSH_DOMAINNAME>"
-      ],
+      "domains": ["<XCSH_DOMAINNAME>"],
       "no_service_policies": {},
       "disable_waf": {},
       "disable_api_definition": {},

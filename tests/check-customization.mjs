@@ -49,9 +49,5 @@ assert.equal(fields.size, 32);
 assert.equal(manifest.behavior.environmentCredentials, true);
 assert.equal(manifest.behavior.fallbackToDefaults, true);
 console.log(
-  'Customization audit passed: English pages, ' +
-    blocks +
-    ' annotated blocks, ' +
-    fields.size +
-    ' catalog fields.',
+  'Customization audit passed: English pages, ' + blocks + ' annotated blocks, ' + fields.size + ' catalog fields.',
 );

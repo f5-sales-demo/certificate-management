@@ -76,9 +76,7 @@ The JSON below shows the complete public configuration resulting from native enc
       }
     },
     "spec": {
-      "domains": [
-        "<XCSH_DOMAINNAME>"
-      ],
+      "domains": ["<XCSH_DOMAINNAME>"],
       "advertise_on_public_default_vip": {},
       "disable_waf": {},
       "no_service_policies": {},
@@ -129,9 +127,7 @@ The JSON below shows the complete public configuration resulting from native enc
       }
     },
     "spec": {
-      "domains": [
-        "<XCSH_DOMAINNAME>"
-      ],
+      "domains": ["<XCSH_DOMAINNAME>"],
       "advertise_on_public_default_vip": {},
       "disable_waf": {},
       "no_service_policies": {},

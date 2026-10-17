@@ -30,9 +30,7 @@ The JSON below shows the complete public configuration resulting from native enc
       }
     },
     "spec": {
-      "domains": [
-        "<XCSH_DOMAINNAME>"
-      ],
+      "domains": ["<XCSH_DOMAINNAME>"],
       "listen_port": 443,
       "do_not_advertise": {},
       "no_sni": {},

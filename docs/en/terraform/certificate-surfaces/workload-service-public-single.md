@@ -65,9 +65,7 @@ The JSON below shows the complete public configuration resulting from native enc
                 }
               },
               "http_loadbalancer": {
-                "domains": [
-                  "<XCSH_DOMAINNAME>"
-                ],
+                "domains": ["<XCSH_DOMAINNAME>"],
                 "default_route": {
                   "disable_host_rewrite": {}
                 },

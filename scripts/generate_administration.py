@@ -1,7 +1,7 @@
 # /// script
 # dependencies = ["python-hcl2==7.3.1"]
 # ///
-"""Generate administration examples from HCL and published provider schema shapes."""
+"""Generate examples from HCL and schemas; Terraform and Biome must be on PATH."""
 
 import argparse
 import base64
@@ -15,6 +15,24 @@ from typing import Any
 import hcl2
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def public_json(value: Any) -> str:
+    """Use the repository formatter for generated public configuration downloads."""
+    return subprocess.run(
+        [  # noqa: S607 -- Fixed repository formatter.
+            "biome",
+            "format",
+            "--stdin-file-path=docs/assets/configurations/generated.json",
+        ],
+        input=json.dumps(value, indent=2),
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=True,
+    ).stdout
+
+
 CHOICES = {
     "advertise-tls": "Advertise TLS",
     "cdn-origin-mtls": "CDN origin mTLS",
@@ -185,7 +203,7 @@ def generate(schema: dict) -> None:
                     )
         artifact = ROOT / "docs/assets/configurations" / (name + ".json")
         artifact.parent.mkdir(parents=True, exist_ok=True)
-        artifact.write_text(json.dumps(documents, indent=2) + "\n")
+        artifact.write_text(public_json(documents))
         hcl = "\n".join(p.read_text().rstrip() for p in sorted(directory.glob("*.tf")))
         commands = [
             "umask 077",
@@ -228,7 +246,7 @@ def generate(schema: dict) -> None:
         section = (
             "The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.\n\n"
             f"[Download JSON]({'../../../../assets/' if name != 'named-certificate' else '../../assets/'}configurations/{name}.json).\n\n"
-            + fence("json", json.dumps(documents, indent=2))
+            + fence("json", public_json(documents))
             + "\n"
             + fence("hcl", hcl)
         )
@@ -377,13 +395,16 @@ def generate_inputs() -> None:
             "versions.tf": (base / "versions.tf").read_text(),
         }
         for filename, content in files.items():
-            files[filename] = subprocess.run(
-                ["terraform", "fmt", "-"],  # noqa: S607 -- Fixed repository formatter.
-                input=content,
-                text=True,
-                capture_output=True,
-                check=True,
-            ).stdout.rstrip() + "\n"
+            files[filename] = (
+                subprocess.run(
+                    ["terraform", "fmt", "-"],  # noqa: S607 -- Fixed repository formatter.
+                    input=content,
+                    text=True,
+                    capture_output=True,
+                    check=True,
+                ).stdout.rstrip()
+                + "\n"
+            )
         for filename, content in files.items():
             (directory / filename).write_text(content)
         setup = (
@@ -403,7 +424,8 @@ def generate_inputs() -> None:
             patch_version = 'python3 -c \'import json,os,re,sys; from pathlib import Path; p=Path(sys.argv[1]); p.write_text(re.sub(r"material_version\\s*=\\s*"+re.escape(json.dumps("1")), lambda _: "material_version = "+json.dumps(os.environ["XCSH_MATERIAL_VERSION"]), p.read_text()))\' "$configuration/main.tf"\n'
             setup = setup.replace(
                 'env -u XCSH_P12_FILE terraform -chdir="$configuration" init -upgrade',
-                patch_version + 'env -u XCSH_P12_FILE terraform -chdir="$configuration" init -upgrade',
+                patch_version
+                + 'env -u XCSH_P12_FILE terraform -chdir="$configuration" init -upgrade',
             )
         verification = 'env -u XCSH_P12_FILE terraform -chdir="$configuration" apply input.plan\nenv -u XCSH_P12_FILE terraform -chdir="$configuration" plan -detailed-exitcode\ncurl --silent --show-error --fail --header "Authorization: APIToken $XCSH_API_TOKEN" \\\n  "$XCSH_API_URL/api/config/namespaces/$XCSH_NAMESPACE/certificates/$TF_VAR_name?response_format=2" \\\n  --output "$configuration/readback.json"\nunset XCSH_TLS_INPUT_PASSWORD TF_VAR_private_key TF_VAR_pkcs12_base64 TF_VAR_passphrase'
         sections.append(
@@ -506,12 +528,12 @@ def generate_wingman() -> None:
 
     document = {"apiVersion": "apps/v1", "kind": "Deployment", **convert(body)}
     artifact = ROOT / "docs/assets/configurations/wingman-deployment.json"
-    artifact.write_text(json.dumps(document, indent=2) + "\n")
+    artifact.write_text(public_json(document))
     page = ROOT / "docs/en/wingman/index.md"
     text = page.read_text()
     text = re.sub(
         r'<div data-xcsh-context="json"[\s\S]*?</div>\n*',
-        lambda _: fence("json", json.dumps(document, indent=2)) + "\n",
+        lambda _: fence("json", public_json(document)) + "\n",
         text,
         count=1,
     )

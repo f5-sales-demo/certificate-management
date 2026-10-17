@@ -9,9 +9,7 @@
       }
     },
     "spec": {
-      "domains": [
-        "<XCSH_DOMAINNAME>"
-      ],
+      "domains": ["<XCSH_DOMAINNAME>"],
       "proxy": "SMA_PROXY",
       "no_authentication": {},
       "no_challenge": {},

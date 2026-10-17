@@ -58,9 +58,7 @@
               "allowPrivilegeEscalation": false,
               "readOnlyRootFilesystem": true,
               "capabilities": {
-                "drop": [
-                  "ALL"
-                ]
+                "drop": ["ALL"]
               }
             },
             "volumeMounts": [
