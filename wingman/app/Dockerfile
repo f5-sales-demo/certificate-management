@@ -2,7 +2,7 @@
 ARG GO_IMAGE
 FROM --platform=$BUILDPLATFORM ${GO_IMAGE} AS build
 WORKDIR /src
-COPY go.mod main.go probe.go ./
+COPY go.mod main.go probe.go client_mtls.go ./
 ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath -ldflags='-s -w' -o /wingman-app .
