@@ -5,6 +5,7 @@
 
 # ruff: noqa: S608 -- Markdown command generation; no SQL execution.
 import json
+import textwrap
 from pathlib import Path
 
 import hcl2
@@ -75,7 +76,8 @@ openssl verify -purpose sslclient -CAfile "$XCSH_CLIENT_CA_FILE" "$XCSH_CLIENT_C
 openssl crl -in "$XCSH_CLIENT_CRL_FILE" -noout -verify -CAfile "$XCSH_CLIENT_CA_FILE"'''
     variables = '''python3 - "$configuration/client.auto.tfvars.json" "$XCSH_CLIENT_CA_FILE" "$XCSH_CLIENT_CRL_FILE" "$XCSH_CLIENT_CRL_REVISION" <<'PY'
 # ruff: noqa: S608 -- Markdown command generation; no SQL execution.
-import json, os, sys
+import json
+import textwrap, os, sys
 os.umask(0o077)
 path, ca, crl, revision = sys.argv[1:]
 with open(path, "x") as stream:
@@ -174,7 +176,7 @@ The policy denies POST, PUT and PATCH on exact `/mtls/write` when XFCC is absent
 
 ## Verify
 
-Use a new curl process and unique challenge for every probe. Keep server verification enabled. Match the response challenge and `forwarded_client_certificate_sha256` to the client leaf fingerprint; `origin_server_certificate_sha256` identifies the Wingman server certificate separately. Synthetic acknowledgments store and echo no submitted data.
+Use a new cURL process and unique challenge for every probe. Keep server verification enabled. Match the response challenge and `forwarded_client_certificate_sha256` to the client leaf fingerprint; `origin_server_certificate_sha256` identifies the Wingman server certificate separately. Synthetic acknowledgments store and echo no submitted data.
 
 """
         + fence("bash", verify)
@@ -208,7 +210,20 @@ Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy
     )
     page = ROOT / "docs/en/terraform/client-mtls/index.md"
     page.parent.mkdir(parents=True, exist_ok=True)
-    page.write_text(text)
+    lines = []
+    fenced = False
+    for line in text.splitlines():
+        if line.startswith("```"):
+            fenced = not fenced
+        if not fenced and len(line) > 180 and not line.startswith(("<", "```")):
+            lines.extend(
+                textwrap.wrap(
+                    line, width=120, break_long_words=False, break_on_hyphens=False
+                )
+            )
+        else:
+            lines.append(line)
+    page.write_text("\n".join(lines) + "\n")
     imports = ROOT / "docs/_imports"
     lines = imports.read_text().splitlines()
     for path in [*sorted(directory.glob("*.tf")), ROOT / "scripts/client_pki.py"]:

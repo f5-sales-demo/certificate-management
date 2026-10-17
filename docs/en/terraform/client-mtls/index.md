@@ -7,13 +7,18 @@ sidebar:
 
 ## Prerequisites
 
-Complete the [server certificate workflow](../) and [Wingman runtime](../../wingman/). Use the existing named-certificate owner state and Wingman pool. [Origin mTLS](../certificate-surfaces/origin-mtls/) authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
+Complete the [server certificate workflow](../) and [Wingman runtime](../../wingman/). Use the existing
+named-certificate owner state and Wingman pool. [Origin mTLS](../certificate-surfaces/origin-mtls/) authenticates the
+load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
 
-Use Python 3 and OpenSSL 3 on Ubuntu or macOS. Store the synthetic CA database, CA key, client keys and plans in an owner-only directory outside Git. Only public CA certificates and signed PEM CRLs enter Terraform state. Select client file paths produced below; never reuse server, origin or Wingman key inputs.
+Use Python 3 and OpenSSL 3 on Ubuntu or macOS. Store the synthetic CA database, CA key, client keys and plans in an
+owner-only directory outside Git. Only public CA certificates and signed PEM CRLs enter Terraform state. Select client
+file paths produced below; never reuse server, origin or Wingman key inputs.
 
 ## Configuration
 
-Client mTLS is disabled when `client_mtls = null`. The complete HCL retains the named server certificate and existing routes. The public JSON describes the added resources and TLS extension; encoded-material placeholders are illustrative.
+Client mTLS is disabled when `client_mtls = null`. The complete HCL retains the named server certificate and existing
+routes. The public JSON describes the added resources and TLS extension; encoded-material placeholders are illustrative.
 
 [Download public JSON](../../../assets/configurations/client-mtls.json).
 
@@ -574,11 +579,14 @@ curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-m
 
 </div>
 
-The retained owner already has its Wingman contract and Default pool module dependencies. For an isolated deployment, download the same dependencies listed in the server workflow before initializing.
+The retained owner already has its Wingman contract and Default pool module dependencies. For an isolated deployment,
+download the same dependencies listed in the server workflow before initializing.
 
 ## Configure
 
-Initialize a new private synthetic CA directory once, then issue a client certificate with `clientAuth`. Set Client CA file to `ca.pem`, Client certificate/key files to `clients/<client>/certificate.pem` and `key.pem`, and Client CRL file to `crls/<revision>.pem` under that directory.
+Initialize a new private synthetic CA directory once, then issue a client certificate with `clientAuth`. Set Client CA
+file to `ca.pem`, Client certificate/key files to `clients/<client>/certificate.pem` and `key.pem`, and Client CRL file
+to `crls/<revision>.pem` under that directory.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_CLIENT_CA_DIR XCSH_CLIENT_CA_FILE XCSH_CLIENT_CERT_FILE XCSH_CLIENT_CRL_FILE XCSH_CLIENT_CRL_REVISION XCSH_CLIENT_NAME XCSH_WORKDIR">
 
@@ -599,7 +607,8 @@ openssl crl -in "$XCSH_CLIENT_CRL_FILE" -noout -verify -CAfile "$XCSH_CLIENT_CA_
 ```bash
 python3 - "$configuration/client.auto.tfvars.json" "$XCSH_CLIENT_CA_FILE" "$XCSH_CLIENT_CRL_FILE" "$XCSH_CLIENT_CRL_REVISION" <<'PY'
 # ruff: noqa: S608 -- Markdown command generation; no SQL execution.
-import json, os, sys
+import json
+import textwrap, os, sys
 os.umask(0o077)
 path, ca, crl, revision = sys.argv[1:]
 with open(path, "x") as stream:
@@ -614,13 +623,20 @@ shasum -a 256 "$configuration/client.plan"
 
 </div>
 
-Deploy in stages: first publish the new exact HTTP CRL route, then verify its bytes and signature, then create its XC CRL object and verify successful download/activation. Only then attach trust, active CRL and Service Policy to HTTPS. Review and hash a fresh saved plan for every stage. Preserve earlier revisions during transitions. Reject unrelated changes and retained-resource replacement. A target plan is a staging aid; finish with a full zero-change plan.
+Deploy in stages: first publish the new exact HTTP CRL route, then verify its bytes and signature, then create its XC
+CRL object and verify successful download/activation. Only then attach trust, active CRL and Service Policy to HTTPS.
+Review and hash a fresh saved plan for every stage. Preserve earlier revisions during transitions. Reject unrelated
+changes and retained-resource replacement. A target plan is a staging aid; finish with a full zero-change plan.
 
-The policy denies POST, PUT and PATCH on exact `/mtls/write` when XFCC is absent, then allows other traffic. Qualification must prove the edge sanitizes client-supplied XFCC before policy evaluation. The origin parser alone cannot establish edge trust. A header bypass fails acceptance and requires rollback.
+The policy denies POST, PUT and PATCH on exact `/mtls/write` when XFCC is absent, then allows other traffic.
+Qualification must prove the edge sanitizes client-supplied XFCC before policy evaluation. The origin parser alone
+cannot establish edge trust. A header bypass fails acceptance and requires rollback.
 
 ## Verify
 
-Use a new curl process and unique challenge for every probe. Keep server verification enabled. Match the response challenge and `forwarded_client_certificate_sha256` to the client leaf fingerprint; `origin_server_certificate_sha256` identifies the Wingman server certificate separately. Synthetic acknowledgments store and echo no submitted data.
+Use a new cURL process and unique challenge for every probe. Keep server verification enabled. Match the response
+challenge and `forwarded_client_certificate_sha256` to the client leaf fingerprint; `origin_server_certificate_sha256`
+identifies the Wingman server certificate separately. Synthetic acknowledgments store and echo no submitted data.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_CLIENT_CA_FILE XCSH_CLIENT_CERT_FILE XCSH_CLIENT_CRL_FILE XCSH_CLIENT_CRL_REVISION XCSH_CLIENT_KEY_FILE XCSH_DOMAINNAME XCSH_WORKDIR">
 
@@ -665,13 +681,20 @@ done
 
 </div>
 
-Expect public identity HTTP 200 with an empty client fingerprint, trusted writes HTTP 200, and certificate-free or forged-header writes HTTP 403. Require duplicate and malformed header denial, including a copied complete valid XFCC value presented without a client certificate. Presented untrusted, expired and revoked certificates must fail TLS before the handler returns a challenge. Do not infer revocation from an XC object or download alone.
+Expect public identity HTTP 200 with an empty client fingerprint, trusted writes HTTP 200, and certificate-free or
+forged-header writes HTTP 403. Require duplicate and malformed header denial, including a copied complete valid XFCC
+value presented without a client certificate. Presented untrusted, expired and revoked certificates must fail TLS before
+the handler returns a challenge. Do not infer revocation from an XC object or download alone.
 
-Recheck `/get`, `/wingman/get`, all HTTP redirects outside the exact CRL paths, server fingerprints, retained resource IDs and Default pool responses. Repeat Wingman injection, READY, authorized unseal, denial, identity chain, TLS, restart, cleanup and credential revocation after publishing its changed image. Record client acceptance separately from the historical certificate matrix.
+Recheck `/get`, `/wingman/get`, all HTTP redirects outside the exact CRL paths, server fingerprints, retained resource
+IDs and Default pool responses. Repeat Wingman injection, READY, authorized unseal, denial, identity chain, TLS,
+restart, cleanup and credential revocation after publishing its changed image. Record client acceptance separately from
+the historical certificate matrix.
 
 ## Maintain
 
-Renew by issuing another client under the same CA with a new issuance name. It has a new serial and fingerprint; both old and renewed certificates remain valid until explicit revocation.
+Renew by issuing another client under the same CA with a new issuance name. It has a new serial and fingerprint; both
+old and renewed certificates remain valid until explicit revocation.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_CLIENT_CA_DIR XCSH_CLIENT_CRL_REVISION XCSH_CLIENT_NAME XCSH_WORKDIR">
 
@@ -683,10 +706,20 @@ python3 "$XCSH_WORKDIR/client_pki.py" crl "$XCSH_CLIENT_CA_DIR" --revision "$XCS
 
 </div>
 
-Add the newly signed CRL to `crl_revisions`, publish and verify its exact HTTP path, create and verify activation, then select its revision through a fresh reviewed plan. With fresh connections, prove the old serial is rejected and only the renewed client succeeds.
+Add the newly signed CRL to `crl_revisions`, publish and verify its exact HTTP path, create and verify activation, then
+select its revision through a fresh reviewed plan. With fresh connections, prove the old serial is rejected and only the
+renewed client succeeds.
 
-For CA rotation, initialize a separate private CA database and client. Concatenate the two public CA certificates into the trusted bundle and both issuers' signed PEM CRLs into a new CRL revision. Verify each CRL signature against its issuer and both validity windows. Qualify XC support for the two-issuer bundle before overlap; object creation is insufficient. Preserve `xcsh_trusted_ca_list.client[0]` identity while adding new trust. Prove both clients work during overlap, then remove old CA trust through a reviewed update and prove old clients fail while new clients work. Retain prior public revisions until the transition is verified.
+For CA rotation, initialize a separate private CA database and client. Concatenate the two public CA certificates into
+the trusted bundle and both issuers' signed PEM CRLs into a new CRL revision. Verify each CRL signature against its
+issuer and both validity windows. Qualify XC support for the two-issuer bundle before overlap; object creation is
+insufficient. Preserve `xcsh_trusted_ca_list.client[0]` identity while adding new trust. Prove both clients work during
+overlap, then remove old CA trust through a reviewed update and prove old clients fail while new clients work. Retain
+prior public revisions until the transition is verified.
 
 ## Remove
 
-Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy, trust and CRL additions while preserving the server certificate, load balancers, Wingman and Default pool additions. Verify public reads and redirects, unchanged server fingerprints and zero-change refresh. Exercise full destroy separately on an isolated deployment of this same configuration; never destroy the retained owner to test removal.
+Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy, trust and CRL additions while
+preserving the server certificate, load balancers, Wingman and Default pool additions. Verify public reads and
+redirects, unchanged server fingerprints and zero-change refresh. Exercise full destroy separately on an isolated
+deployment of this same configuration; never destroy the retained owner to test removal.
