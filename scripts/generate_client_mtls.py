@@ -21,7 +21,8 @@ def generate(
     public_json: Callable[[Any], str],
     fence: Callable[[str, str], str],
 ) -> None:
-    # pylint: disable=too-many-locals -- Complete canonical guide rendering.
+    # Complete canonical guide rendering holds inputs and sections together.
+    # pylint: disable=too-many-locals
     """Render the six-stage client workflow and its exact source downloads."""
     directory = ROOT / "terraform/named-certificate"
     source = hcl2.loads((directory / "client-mtls.tf").read_text())
