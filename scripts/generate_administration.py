@@ -96,6 +96,7 @@ def value(text: Any) -> Any:
         "${var.serve ? {} : null}": None,
         "${var.serve ? True : null}": None,
     }
+    examples["${var.client_mtls == null ? {} : null}"] = {}
     if text in examples:
         return examples[text]
     if "base64encode(jsonencode(" in text:
@@ -123,6 +124,10 @@ def public_dynamic(dynamic: dict, shape: dict) -> dict:
     """Render canonical default branches and reject unsupported dynamic blocks."""
     result: dict[str, Any] = {}
     for name, definition in dynamic.items():
+        if "var.client_mtls" in str(definition.get("for_each", "")):
+            continue
+        if name == "active_service_policies":
+            continue
         if name == "tls_certificates":
             result[name] = [
                 {
@@ -596,6 +601,20 @@ def main() -> None:
     generate(schema)
     generate_inputs()
     generate_wingman()
+    from generate_client_mtls import generate as generate_client  # noqa: PLC0415 -- Shared render helpers need initialization first.
+
+    generate_client(schema)
+    named_page = ROOT / "docs/en/terraform/index.md"
+    page_text = named_page.read_text().replace(
+        "for file in versions.tf variables.tf main.tf outputs.tf wingman.tf; do",
+        "for file in "
+        + " ".join(
+            path.name
+            for path in sorted((ROOT / "terraform/named-certificate").glob("*.tf"))
+        )
+        + "; do",
+    )
+    named_page.write_text(page_text)
     for page in (ROOT / "docs/en").rglob("*.md"):
         page.write_text(re.sub(r"\n{3,}", "\n\n", page.read_text()))
     (ROOT / "verification/administration-source.json").write_text(

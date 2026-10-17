@@ -108,3 +108,5 @@ wingman/resolve_image.py -> wingman/resolve_image.py
 terraform/named-certificate/use-cases.tf -> terraform/named-certificate/use-cases.tf
 terraform/http-origin-mtls/outputs.tf -> terraform/http-origin-mtls/outputs.tf
 terraform/http-origin-mtls/dns.tf -> terraform/http-origin-mtls/dns.tf
+terraform/named-certificate/client-mtls.tf -> terraform/named-certificate/client-mtls.tf
+scripts/client_pki.py -> scripts/client_pki.py

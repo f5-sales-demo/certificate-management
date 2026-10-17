@@ -45,7 +45,7 @@ for (const file of walk(path.join(root, 'docs/en'))) {
       assert.ok(!/^\s*(xcsh|vesctl)\b/m.test(block[2]), file + ': external encryption CLI');
   }
 }
-assert.equal(fields.size, 32);
+assert.equal(fields.size, 39);
 assert.equal(manifest.behavior.environmentCredentials, true);
 assert.equal(manifest.behavior.fallbackToDefaults, true);
 console.log(
