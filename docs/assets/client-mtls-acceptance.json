@@ -1,5 +1,5 @@
 {
-  "status": "incomplete-platform-blocker",
+  "status": "implementation-under-live-qualification",
   "issue": "https://github.com/f5-sales-demo/certificate-management/issues/109",
   "implementation_pr": "https://github.com/f5-sales-demo/certificate-management/pull/110",
   "builder_pr": "https://github.com/f5-sales-demo/docs-builder/pull/1589",
@@ -48,15 +48,19 @@
     "removed_crl_route_http_status": 301
   },
   "pending": [
-    "CRL-capable topology decision",
-    "published builder and governed caller convergence",
-    "changed Wingman image live acceptance",
-    "fresh client fingerprints through origin",
+    "published changed Wingman image live acceptance",
+    "retained client identity and write traffic on both hosts",
     "untrusted and expired certificate rejection",
     "copied complete valid XFCC spoof denial",
-    "live renewal revocation and CA overlap/removal",
+    "renewal and CA overlap/trust-removal traffic",
     "isolated Terraform removal",
-    "published desktop/mobile and both host readers",
+    "published readers",
     "merged delivery and task cleanup"
-  ]
+  ],
+  "scope_revision": {
+    "regional_edges_preserved": true,
+    "edge_crl_revocation": "excluded by explicit user decision",
+    "client_mtls_mode": "optional, no_crl",
+    "public_crls": "local lifecycle material only"
+  }
 }
