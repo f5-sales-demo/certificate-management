@@ -65,7 +65,7 @@ A location contains one `string:///` prefix plus base64 encrypted bytes. Add tha
 
 ## Status and recovery
 
-Blindfold reports exclude private keys and encrypted payloads. `prepared` confirms local preparation; combined create/replace returns `accepted` when named readback matches the submitted certificate and encrypted key. Its `readiness: unverified` requires endpoint verification. Generic `apply` returns `created`, `updated`, or `unchanged` as described in [Certificate use](../#certificate-use).
+Blindfold reports exclude private keys and encrypted payloads. `prepared` confirms local preparation; combined create/replace returns `accepted` when named readback matches the submitted certificate and encrypted key. Its `readiness: unverified` requires endpoint verification. Generic `apply` returns `created`, `updated`, or `unchanged` as described in [Certificate use](../#configure).
 
 | Exit code | Meaning |
 | --- | --- |

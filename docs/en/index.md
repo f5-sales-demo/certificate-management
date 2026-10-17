@@ -4,14 +4,13 @@ sidebar:
   order: 1
 ---
 
-Prepare and encrypt certificate keys for F5 Distributed Cloud with independently owned resources.
+Manage certificates and encrypted private keys for F5 Distributed Cloud. Choose a workflow based on who owns the resource and where the key is used.
 
-Use Customize examples to select your tenant, application, certificate paths, and prerequisites. Noncredential edits follow matching fields across these workflows and other F5 guides, including CSD. Each field is independent; hostnames and paths are never inferred. Unknown paths and site identities remain visible placeholders until you supply them.
+- [xcsh](./xcsh/) prepares and applies named certificate manifests through the CLI.
+- [Terraform](./terraform/) owns a certificate and HTTPS service, with native key encryption.
+- [Wingman](./wingman/) authorizes an application to unseal its TLS key in memory.
+- [Certificate types](./terraform/certificate-surfaces/) covers inline TLS, origin authentication, interception, and workload configurations.
 
-Credentials stay in this tab's session. Leave them empty to use shell environment values or private prompts. Reset shared values restores noncredential defaults; Clear credentials removes tokens and passphrases. Enter only paths for private files. Published HCL, scripts, public certificates, and historical evidence remain canonical downloads.
+Use **Customize examples** to supply tenant settings and literal paths to local files. Matching fields carry across guides. Credentials remain in the tab session; leave them empty to use your shell environment or a private prompt. Reset restores noncredential defaults; Clear credentials removes tokens and passphrases.
 
-- [Terraform](./terraform/) deploys a certificate and HTTPS endpoint using native provider Blindfold preparation, without installing xcsh.
-- [Wingman](./wingman/) shows how an application authorizes and unseals its TLS key through the injected sidecar, with a live HTTPS example.
-- [xcsh](./xcsh/) prepares certificate manifests and reconciles certificate resources through the CLI.
-
-The retained Terraform and xcsh endpoints use the same [public load-balancer certificate](../assets/certificate-management.pem). Wingman serves behind the Terraform endpoint with a separate [application certificate chain](../assets/wingman-certificate.pem). Private keys, rollback material, credentials, and Terraform state remain in private owner storage.
+Keep keys, state, plans, and rollback material in private owner storage. Each tool must own separate resource names. The public endpoint certificate, Wingman application chain, and origin trust CA are separate inputs. [Qualification records](../assets/current-artifacts.json) report observed artifacts and results; they do not replace verification of your deployment.

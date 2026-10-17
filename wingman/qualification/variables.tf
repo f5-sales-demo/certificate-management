@@ -20,10 +20,10 @@ variable "kubeconfig_context" {
 }
 variable "application_image" {
   type        = string
-  description = "Published immutable Wingman application image."
+  description = "Published governed Wingman application image."
   validation {
-    condition     = can(regex("^ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:[a-f0-9]{64}$", var.application_image))
-    error_message = "Supply the governed application image by SHA-256 digest."
+    condition     = can(regex("^ghcr.io/f5-sales-demo/certificate-management-wingman(:latest|@sha256:[a-f0-9]{64})$", var.application_image))
+    error_message = "Supply the governed latest application image or an immutable SHA-256 reference."
   }
 }
 variable "domain" {

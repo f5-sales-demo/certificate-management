@@ -1,0 +1,402 @@
+{
+  "source_commit": "f37ad2557b31e861a795584f815d3ec974b56896",
+  "guidance": [
+    "https://learn.microsoft.com/en-us/style-guide/scannable-content/headings",
+    "https://learn.microsoft.com/en-us/style-guide/procedures-instructions/writing-step-by-step-instructions",
+    "https://learn.microsoft.com/en-us/style-guide/word-choice/use-simple-words-concise-sentences"
+  ],
+  "sections": [
+    {
+      "page": "docs/en/index.md",
+      "section": "Introduction",
+      "disposition": "rewrite",
+      "destination": "docs/en/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/certificate-surfaces.md",
+      "section": "Introduction",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/certificate-surfaces.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/certificate-surfaces.md",
+      "section": "Qualification matrix",
+      "disposition": "merge",
+      "destination": "docs/en/terraform/certificate-surfaces/",
+      "reason": "Group supported configuration choices and restrictions."
+    },
+    {
+      "page": "docs/en/terraform/certificate-surfaces.md",
+      "section": "Choose an example",
+      "disposition": "merge",
+      "destination": "docs/en/terraform/certificate-surfaces/",
+      "reason": "Group supported configuration choices and restrictions."
+    },
+    {
+      "page": "docs/en/terraform/certificate-surfaces.md",
+      "section": "Map prerequisite values",
+      "disposition": "merge",
+      "destination": "docs/en/terraform/certificate-surfaces/",
+      "reason": "Group supported configuration choices and restrictions."
+    },
+    {
+      "page": "docs/en/terraform/certificate-surfaces.md",
+      "section": "Restricted reference fragments",
+      "disposition": "merge",
+      "destination": "docs/en/terraform/certificate-surfaces/",
+      "reason": "Group supported configuration choices and restrictions."
+    },
+    {
+      "page": "docs/en/terraform/certificate-surfaces.md",
+      "section": "Current qualification",
+      "disposition": "remove",
+      "destination": "docs/en/terraform/certificate-surfaces.md",
+      "reason": "Historical receipts remain unchanged under docs/assets; omit deployment history from administration."
+    },
+    {
+      "page": "docs/en/terraform/index.md",
+      "section": "Introduction",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/index.md",
+      "section": "Prerequisites",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/index.md",
+      "section": "Local certificate inputs",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/index.md",
+      "section": "Review a saved plan",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/index.md",
+      "section": "Apply native preparation",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/index.md",
+      "section": "Verify",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/index.md",
+      "section": "Renew",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/index.md",
+      "section": "Clean up",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/input-lifecycle.md",
+      "section": "Introduction",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/input-lifecycle.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/input-lifecycle.md",
+      "section": "Input choices",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/input-lifecycle.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/input-lifecycle.md",
+      "section": "Stable inline identities",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/input-lifecycle.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/input-lifecycle.md",
+      "section": "Policy and context rotation",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/input-lifecycle.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/input-lifecycle.md",
+      "section": "Saved plans",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/input-lifecycle.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/input-lifecycle.md",
+      "section": "Drift and import",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/input-lifecycle.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/input-lifecycle.md",
+      "section": "RSA and EC cutovers",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/input-lifecycle.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/terraform/input-lifecycle.md",
+      "section": "Interception signing CA",
+      "disposition": "rewrite",
+      "destination": "docs/en/terraform/input-lifecycle.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/index.md",
+      "section": "Introduction",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/index.md",
+      "section": "Prerequisites",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/index.md",
+      "section": "Prepare an encrypted key",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/index.md",
+      "section": "Enable Wingman for your application",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/index.md",
+      "section": "Unseal inside the application",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/index.md",
+      "section": "Verify",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/index.md",
+      "section": "Clean up",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Introduction",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Prerequisites",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Ownership and topology",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Freeze sources and artifacts",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Bootstrap, then runtime",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Qualify and connect the existing owner",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Plan disposable qualification infrastructure",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Destroy and verify disposable infrastructure",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Verify",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/wingman/validation.md",
+      "section": "Clean up and recovery",
+      "disposition": "rewrite",
+      "destination": "docs/en/wingman/validation.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/xcsh/command-reference.md",
+      "section": "Introduction",
+      "disposition": "keep",
+      "destination": "docs/en/xcsh/command-reference.md",
+      "reason": "Retain factual command, format, limit, and error contracts."
+    },
+    {
+      "page": "docs/en/xcsh/command-reference.md",
+      "section": "Operations",
+      "disposition": "keep",
+      "destination": "docs/en/xcsh/command-reference.md",
+      "reason": "Retain factual command, format, limit, and error contracts."
+    },
+    {
+      "page": "docs/en/xcsh/command-reference.md",
+      "section": "Essential flags",
+      "disposition": "keep",
+      "destination": "docs/en/xcsh/command-reference.md",
+      "reason": "Retain factual command, format, limit, and error contracts."
+    },
+    {
+      "page": "docs/en/xcsh/command-reference.md",
+      "section": "Encodings and limits",
+      "disposition": "keep",
+      "destination": "docs/en/xcsh/command-reference.md",
+      "reason": "Retain factual command, format, limit, and error contracts."
+    },
+    {
+      "page": "docs/en/xcsh/command-reference.md",
+      "section": "Status and recovery",
+      "disposition": "keep",
+      "destination": "docs/en/xcsh/command-reference.md",
+      "reason": "Retain factual command, format, limit, and error contracts."
+    },
+    {
+      "page": "docs/en/xcsh/index.md",
+      "section": "Introduction",
+      "disposition": "rewrite",
+      "destination": "docs/en/xcsh/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/xcsh/index.md",
+      "section": "Private working directory",
+      "disposition": "rewrite",
+      "destination": "docs/en/xcsh/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/xcsh/index.md",
+      "section": "Public material",
+      "disposition": "move",
+      "destination": "docs/en/xcsh/input-workflows.md",
+      "reason": "Group raw and offline input procedures."
+    },
+    {
+      "page": "docs/en/xcsh/index.md",
+      "section": "Private-key encryption",
+      "disposition": "move",
+      "destination": "docs/en/xcsh/input-workflows.md",
+      "reason": "Group raw and offline input procedures."
+    },
+    {
+      "page": "docs/en/xcsh/index.md",
+      "section": "Certificate use",
+      "disposition": "rewrite",
+      "destination": "docs/en/xcsh/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/xcsh/index.md",
+      "section": "Proof",
+      "disposition": "rewrite",
+      "destination": "docs/en/xcsh/index.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/xcsh/index.md",
+      "section": "Retained showcase",
+      "disposition": "remove",
+      "destination": "docs/en/xcsh/index.md",
+      "reason": "Historical receipts remain unchanged under docs/assets; omit deployment history from administration."
+    },
+    {
+      "page": "docs/en/xcsh/input-workflows.md",
+      "section": "Introduction",
+      "disposition": "rewrite",
+      "destination": "docs/en/xcsh/input-workflows.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/xcsh/input-workflows.md",
+      "section": "Protected PEM",
+      "disposition": "rewrite",
+      "destination": "docs/en/xcsh/input-workflows.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/xcsh/input-workflows.md",
+      "section": "PKCS#12",
+      "disposition": "rewrite",
+      "destination": "docs/en/xcsh/input-workflows.md",
+      "reason": "Explain prerequisites, configuration, actions, verification, or recovery."
+    },
+    {
+      "page": "docs/en/xcsh/input-workflows.md",
+      "section": "Raw stdin",
+      "disposition": "move",
+      "destination": "docs/en/xcsh/input-workflows.md",
+      "reason": "Group raw and offline input procedures."
+    }
+  ]
+}

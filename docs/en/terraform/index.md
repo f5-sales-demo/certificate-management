@@ -2,7 +2,7 @@
 title: Terraform
 description: Prepare certificate keys with native Blindfold and deploy HTTPS using Terraform.
 sidebar:
-  label: Terraform
+  label: Certificate workflow
   order: 3
 tableOfContents:
   minHeadingLevel: 2
@@ -13,8 +13,8 @@ Deploy a named certificate and HTTPS load balancer with native provider encrypti
 
 ## Prerequisites
 
-Allow about 20 minutes plus certificate propagation. Install the current published Terraform and
-**`f5-sales-demo/xcsh` provider** artifacts. The examples allow native-provider releases starting at 15.6.1; qualification resolves and installs the current publication. The provider supports Terraform 1.11 or later for write-only inputs.
+Install the current published Terraform and
+**`f5-sales-demo/xcsh` provider** artifacts. The provider supports Terraform 1.11 or later for write-only inputs.
 See the [current qualification receipt](../../assets/current-artifacts.json) for resolved versions, digests, source commits, and the status of live gates. Provide an existing namespace, certificate permissions, load-balancer capacity, and a hostname in a tenant-managed
 DNS zone. Terraform reads the namespace as a data source and never owns it.
 
@@ -29,6 +29,7 @@ if [ -z "${XCSH_API_TOKEN:-}" ]; then
   read -r -s -p 'API token: ' XCSH_API_TOKEN
   printf '\n'
 fi
+export XCSH_API_URL="$XCSH_API_URL"
 export XCSH_API_TOKEN
 ```
 
@@ -36,7 +37,352 @@ export XCSH_API_TOKEN
 
 [HCL source](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/named-certificate) is authoritative. Use a dedicated private working directory and state for each example. Review the [certificate surfaces](./certificate-surfaces/) before selecting a prerequisite-bound configuration.
 
-## Local certificate inputs
+## Configuration
+
+<!-- generated-configuration -->
+The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.
+
+[Download JSON](../../assets/configurations/named-certificate.json).
+
+<div data-xcsh-context="json" data-xcsh-fields="XCSH_DOMAINNAME XCSH_LB_NAME XCSH_NAMESPACE">
+
+```json
+[
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+      "private_key": {
+        "blindfold_secret_info": {
+          "location": "string:///<ENCRYPTED_KEY>"
+        }
+      }
+    }
+  },
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "domains": [
+        "<XCSH_DOMAINNAME>"
+      ],
+      "advertise_on_public_default_vip": {},
+      "disable_waf": {},
+      "no_service_policies": {},
+      "disable_api_definition": {},
+      "disable_api_discovery": {},
+      "disable_bot_defense": {},
+      "disable_rate_limit": {},
+      "disable_ip_reputation": {},
+      "disable_malicious_user_detection": {},
+      "https": {
+        "port": 443,
+        "tls_cert_params": {
+          "no_mtls": {},
+          "tls_config": {
+            "default_security": {}
+          },
+          "certificates": [
+            {
+              "name": "<XCSH_LB_NAME>",
+              "namespace": "<XCSH_NAMESPACE>"
+            }
+          ]
+        }
+      },
+      "routes": [
+        {
+          "direct_response_route": {
+            "http_method": "GET",
+            "path": {
+              "path": "/get"
+            },
+            "route_direct_response": {
+              "response_code": 200,
+              "response_body_encoded": "string:///eyJleGFtcGxlIjoidGVycmFmb3JtLWNlcnRpZmljYXRlIiwibmF0aXZlX2JsaW5kZm9sZCI6dHJ1ZX0="
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>-http",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "domains": [
+        "<XCSH_DOMAINNAME>"
+      ],
+      "advertise_on_public_default_vip": {},
+      "disable_waf": {},
+      "no_service_policies": {},
+      "disable_api_definition": {},
+      "disable_api_discovery": {},
+      "disable_bot_defense": {},
+      "disable_rate_limit": {},
+      "disable_ip_reputation": {},
+      "disable_malicious_user_detection": {},
+      "http": {
+        "port": 80,
+        "dns_volterra_managed": true
+      },
+      "routes": [
+        {
+          "redirect_route": {
+            "http_method": "ANY",
+            "path": {
+              "prefix": "/"
+            },
+            "route_redirect": {
+              "proto_redirect": "https",
+              "host_redirect": "<XCSH_DOMAINNAME>",
+              "response_code": 301
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+</div>
+
+<div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
+
+```hcl
+resource "xcsh_certificate" "server" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  blindfold   = { certificate_file = var.certificate_file, private_key_file = var.private_key_file }
+}
+
+resource "xcsh_http_loadbalancer" "https" {
+  name                             = var.name
+  namespace                        = data.xcsh_namespace.existing.name
+  description                      = var.description
+  labels                           = { certificate-example = "terraform" }
+  domains                          = [var.domain]
+  advertise_on_public_default_vip  = {}
+  disable_waf                      = {}
+  no_service_policies              = {}
+  disable_api_definition           = {}
+  disable_api_discovery            = {}
+  disable_bot_defense              = {}
+  disable_rate_limit               = {}
+  disable_ip_reputation            = {}
+  disable_malicious_user_detection = {}
+  https {
+    port = 443
+    tls_cert_params {
+      no_mtls = {}
+      tls_config {
+        default_security = {}
+      }
+      certificates {
+        name      = xcsh_certificate.server.name
+        namespace = data.xcsh_namespace.existing.name
+      }
+    }
+  }
+  routes {
+    direct_response_route {
+      http_method = "GET"
+      path {
+        path = "/get"
+      }
+      route_direct_response {
+        response_code         = 200
+        response_body_encoded = "string:///${base64encode(jsonencode({ example = "terraform-certificate", native_blindfold = true }))}"
+      }
+    }
+  }
+  dynamic "routes" {
+    for_each = var.wingman == null ? [] : [var.wingman]
+    content {
+      simple_route {
+        http_method          = "GET"
+        disable_host_rewrite = {}
+        path {
+          prefix = local.wingman_contract.route_prefix
+        }
+        origin_pools {
+          weight   = 1
+          priority = 1
+          pool {
+            name      = xcsh_origin_pool.wingman[0].name
+            namespace = data.xcsh_namespace.existing.name
+          }
+        }
+      }
+    }
+  }
+
+}
+
+resource "xcsh_http_loadbalancer" "http" {
+  name                             = "${var.name}-http"
+  namespace                        = data.xcsh_namespace.existing.name
+  description                      = var.description
+  labels                           = { certificate-example = "terraform" }
+  domains                          = [var.domain]
+  advertise_on_public_default_vip  = {}
+  disable_waf                      = {}
+  no_service_policies              = {}
+  disable_api_definition           = {}
+  disable_api_discovery            = {}
+  disable_bot_defense              = {}
+  disable_rate_limit               = {}
+  disable_ip_reputation            = {}
+  disable_malicious_user_detection = {}
+  http {
+    port                 = 80
+    dns_volterra_managed = true
+  }
+  routes {
+    redirect_route {
+      http_method = "ANY"
+      path {
+        prefix = "/"
+      }
+      route_redirect {
+        proto_redirect = "https"
+        host_redirect  = var.domain
+        response_code  = 301
+      }
+    }
+  }
+}
+output "endpoint" {
+  value = "https://${var.domain}/get"
+}
+output "certificate_fingerprint" {
+  value = xcsh_certificate.server.blindfold.fingerprint
+}
+output "certificate_expiration" {
+  value = xcsh_certificate.server.blindfold.expires_at
+}
+output "encryption_context_digest" {
+  value = xcsh_certificate.server.blindfold.context_digest
+}
+variable "namespace" {
+  type        = string
+  description = "Existing namespace; this configuration never owns it."
+  default     = "demo-app"
+}
+variable "name" {
+  type        = string
+  description = "Unique name owned only by this Terraform state."
+  default     = "example-tls"
+}
+variable "domain" {
+  type        = string
+  description = "Application hostname covered by the server certificate SAN."
+  default     = "tls.example.com"
+}
+variable "certificate_file" {
+  type        = string
+  description = "Absolute path to a leaf-first PEM chain outside Git."
+}
+variable "private_key_file" {
+  type        = string
+  description = "Absolute path to the matching private PEM key outside Git."
+}
+variable "description" {
+  type        = string
+  description = "Operator-editable resource description."
+  default     = "Native Terraform Blindfold certificate example"
+}
+
+data "xcsh_namespace" "existing" {
+  name = var.namespace
+}
+terraform {
+  required_providers {
+    xcsh = {
+      source = "f5-sales-demo/xcsh"
+    }
+  }
+}
+
+# XCSH_API_URL and XCSH_API_TOKEN configure the provider, without a CLI.
+provider "xcsh" {}
+# Disabled by default. Enable only after real Wingman backend qualification.
+variable "wingman" {
+  type = object({
+    name              = string
+    virtual_site_name = string
+    trusted_ca_file   = optional(string)
+  })
+  default     = null
+  description = "Runtime owner_integration output, after authorized unseal and denial qualification."
+}
+variable "wingman_contract_file" {
+  type        = string
+  default     = null
+  description = "Optional explicit contract path when applying from a private owner directory."
+}
+locals {
+  wingman_contract = var.wingman == null ? null : jsondecode(file(var.wingman_contract_file == null ? "${path.module}/../../wingman/contract.json" : var.wingman_contract_file))
+}
+resource "xcsh_origin_pool" "wingman" {
+  count     = var.wingman == null ? 0 : 1
+  name      = "${var.wingman.name}${local.wingman_contract.suffixes.origin_pool}"
+  namespace = data.xcsh_namespace.existing.name
+  port      = local.wingman_contract.backend_port
+  origin_servers {
+    k8s_service {
+      protocol      = "PROTOCOL_TCP"
+      service_name  = "${var.wingman.name}${local.wingman_contract.suffixes.service}.${var.namespace}"
+      vk8s_networks = {}
+      site_locator {
+        virtual_site {
+          name      = var.wingman.virtual_site_name
+          namespace = data.xcsh_namespace.existing.name
+        }
+      }
+    }
+  }
+  use_tls {
+    sni     = var.domain
+    no_mtls = {}
+    tls_config {
+      default_security = {}
+    }
+    use_server_verification {
+      trusted_ca_url = "string:///${filebase64(var.wingman.trusted_ca_file == null ? var.certificate_file : var.wingman.trusted_ca_file)}"
+    }
+  }
+}
+output "wingman_endpoint" {
+  value = var.wingman == null ? null : "https://${var.domain}${local.wingman_contract.route_prefix}get"
+}
+```
+
+</div>
+
+<!-- /generated-configuration -->
 
 Select an existing leaf-first Privacy Enhanced Mail (PEM) chain and matching key, or generate demo material outside Git. The following recipe creates
 a Rivest–Shamir–Adleman (RSA) 2048-bit self-signed server certificate valid for 3650 days. Select `<XCSH_WORKDIR>`, `<XCSH_CERT_FILE>`, and `<XCSH_KEY_FILE>` as absolute paths outside Git. Create the parent directories for those files first. Replace `<XCSH_DOMAINNAME>` and `<XCSH_COMPANION_DOMAINNAME>` with names you own.
@@ -56,18 +402,15 @@ openssl req -x509 -newkey rsa:2048 -nodes -sha256 -days 3650 \
   -addext "subjectAltName=DNS:$XCSH_DOMAINNAME,DNS:$XCSH_COMPANION_DOMAINNAME" \
   -keyout "$XCSH_KEY_FILE" \
   -out "$XCSH_CERT_FILE"
-export TF_VAR_certificate_file="$XCSH_CERT_FILE"
-export TF_VAR_private_key_file="$XCSH_KEY_FILE"
-export TF_VAR_namespace="$XCSH_NAMESPACE"
-export TF_VAR_name="$XCSH_LB_NAME"
-export TF_VAR_domain="$XCSH_DOMAINNAME"
 ```
 
 </div>
 
 Use these same local files in a separately owned xcsh example if needed. Each tool must manage its own XC resource name and references. Shared material does not imply shared resource ownership. Interception requires a separate signing certificate authority (CA); use the [CA recipe](./input-lifecycle/#interception-signing-ca).
 
-## Review a saved plan
+## Configure
+
+### Review a saved plan
 
 Copy the configuration into the private deployment directory. The provider uses `blindfold.certificate_file` and `blindfold.private_key_file`,
 retrieves the tenant public key and default `shared/ves-io-allow-volterra` policy, and computes the encrypted key location. Leave `certificate_url`,
@@ -96,20 +439,15 @@ terraform -chdir="$XCSH_WORKDIR/deployment" show \
 
 </div>
 
-Expect one named certificate, one HTTPS load balancer, one HTTP DNS companion, and a namespace read. Confirm the names, hostname, references, and
+Hash the reviewed plan with `shasum -a 256 "$XCSH_WORKDIR/deployment/create.plan"`. Expect one named certificate, one HTTPS load balancer, one HTTP DNS companion, and a namespace read. Confirm the names, hostname, references, and
 ownership before applying. Protect the dependency lock file, saved plans, state, and logs. They contain encrypted material and local paths. Read
 [saved-plan input changes](./input-lifecycle/#saved-plans) before changing files after planning.
 
-## Apply native preparation
+### Apply the configuration
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_WORKDIR XCSH_API_URL XCSH_API_TOKEN XCSH_NAMESPACE XCSH_LB_NAME XCSH_DOMAINNAME XCSH_CERT_FILE XCSH_KEY_FILE">
 
 ```bash
-export TF_VAR_namespace="$XCSH_NAMESPACE"
-export TF_VAR_name="$XCSH_LB_NAME"
-export TF_VAR_domain="$XCSH_DOMAINNAME"
-export TF_VAR_certificate_file="$XCSH_CERT_FILE"
-export TF_VAR_private_key_file="$XCSH_KEY_FILE"
 terraform -chdir="$XCSH_WORKDIR/deployment" apply \
   "$XCSH_WORKDIR/deployment/create.plan"
 terraform -chdir="$XCSH_WORKDIR/deployment" output
@@ -126,11 +464,6 @@ Check trust, hostname, the served leaf fingerprint, HTTP status, and response co
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_DOMAINNAME XCSH_WORKDIR XCSH_CERT_FILE XCSH_API_URL XCSH_API_TOKEN XCSH_NAMESPACE XCSH_LB_NAME XCSH_KEY_FILE">
 
 ```bash
-export TF_VAR_namespace="$XCSH_NAMESPACE"
-export TF_VAR_name="$XCSH_LB_NAME"
-export TF_VAR_domain="$XCSH_DOMAINNAME"
-export TF_VAR_certificate_file="$XCSH_CERT_FILE"
-export TF_VAR_private_key_file="$XCSH_KEY_FILE"
 openssl s_client -connect "$XCSH_DOMAINNAME:443" \
   -servername "$XCSH_DOMAINNAME" -verify_hostname "$XCSH_DOMAINNAME" \
   -verify_return_error -CAfile "$XCSH_CERT_FILE" -showcerts \
@@ -153,22 +486,13 @@ terraform -chdir="$XCSH_WORKDIR/deployment" plan -detailed-exitcode
 
 Expect matching fingerprints, HTTP `200`, the identifying JSON object, and exit `0` with **No changes** after a new Terraform process. Exit `2` means a change; exit `1` means an error. Allow propagation and retry verification if a replacement has not reached the serving edge.
 
-The retained [Terraform endpoint](https://certificate-management-terraform.f5-sales-demo.com/get) and [xcsh
-endpoint](https://certificate-management.f5-sales-demo.com/get) serve the same [public trust certificate](../../assets/certificate-management.pem).
-[Showcase evidence](../../assets/terraform-showcase-acceptance.json) records its own measured gates. The [surface matrix](./certificate-surfaces/)
-separates historical lifecycle evidence from served TLS evidence. Provider issue
-[#2539](https://github.com/f5-sales-demo/terraform-provider-xcsh/issues/2539) tracks broader scheduled acceptance failures separately.
-
-## Renew
+## Maintain
 
 Keep the key algorithm unchanged when renewing a referenced certificate. Retain the old pair privately for rollback. Generate or obtain new matching material, validate it, then replace both configured inputs before making a new saved plan.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_WORKDIR XCSH_RENEWED_CERT_FILE XCSH_RENEWED_KEY_FILE XCSH_API_URL XCSH_API_TOKEN XCSH_NAMESPACE XCSH_LB_NAME XCSH_DOMAINNAME">
 
 ```bash
-export TF_VAR_namespace="$XCSH_NAMESPACE"
-export TF_VAR_name="$XCSH_LB_NAME"
-export TF_VAR_domain="$XCSH_DOMAINNAME"
 export TF_VAR_certificate_file="$XCSH_RENEWED_CERT_FILE"
 export TF_VAR_private_key_file="$XCSH_RENEWED_KEY_FILE"
 terraform -chdir="$XCSH_WORKDIR/deployment" plan \
@@ -186,18 +510,13 @@ Expect one material update followed by exit `0`. Select the renewed certificate 
 fingerprint. If xcsh uses the same inputs, rotate its separately owned certificate once after Terraform verification, preserving its metadata,
 options, name, and references. Keep its previous saved manifest privately.
 
-## Clean up
+## Remove
 
 Run cleanup only when you choose to retire your Terraform deployment. Review the saved destruction plan: it must contain only resources owned by this state, with no namespace or xcsh resource deletion.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_WORKDIR XCSH_API_URL XCSH_NAMESPACE XCSH_LB_NAME XCSH_DOMAINNAME XCSH_CERT_FILE XCSH_KEY_FILE">
 
 ```bash
-export TF_VAR_namespace="$XCSH_NAMESPACE"
-export TF_VAR_name="$XCSH_LB_NAME"
-export TF_VAR_domain="$XCSH_DOMAINNAME"
-export TF_VAR_certificate_file="$XCSH_CERT_FILE"
-export TF_VAR_private_key_file="$XCSH_KEY_FILE"
 terraform -chdir="$XCSH_WORKDIR/deployment" plan -destroy \
   -out="$XCSH_WORKDIR/deployment/destroy.plan"
 terraform -chdir="$XCSH_WORKDIR/deployment" show \
@@ -209,4 +528,4 @@ unset XCSH_API_TOKEN
 
 </div>
 
-The published showcase remains retained in private owner state. See the [input and lifecycle reference](./input-lifecycle/) for protected files, write-only values, import, drift, and key-algorithm cutovers.
+See the [input and lifecycle reference](./input-lifecycle/) for protected files, write-only values, import, drift, and key-algorithm cutovers.

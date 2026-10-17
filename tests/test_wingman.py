@@ -16,6 +16,21 @@ module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
 
+class ApplicationImageTests(unittest.TestCase):
+    def test_governed_latest_and_immutable_references(self):
+        prefix = "ghcr.io/f5-sales-demo/certificate-management-wingman"
+        module.require_image(prefix + ":latest")
+        module.require_image(prefix + "@sha256:" + "a" * 64)
+        for reference in [
+            prefix + ":dev",
+            prefix + "@sha256:" + "a" * 63,
+            "ghcr.io/other/application:latest",
+            prefix + ":latest@sha256:" + "a" * 64,
+        ]:
+            with self.assertRaises(ValueError):
+                module.require_image(reference)
+
+
 class ProbeOwnershipTests(unittest.TestCase):
     def test_exact_identity_is_required(self):
         pod = {
@@ -225,6 +240,27 @@ class ProbeDeadlineTests(unittest.TestCase):
 
 
 class ProbeLogTests(unittest.TestCase):
+    def test_cri_transport_error_with_exit_zero_uses_other_container_log(self):
+        command = Mock(
+            side_effect=[
+                module.subprocess.CompletedProcess(
+                    [], 0, "unable to retrieve container logs for cri-o://owned", ""
+                ),
+                module.subprocess.CompletedProcess(
+                    [], 0, '{"denied":true,"http_status":403}', ""
+                ),
+            ]
+        )
+        with TemporaryDirectory() as directory:
+            output = Path(directory) / "probe.log"
+            assert (
+                module.read_probe_output(command, "probe", True, output)["http_status"]
+                == 403
+            )
+            assert (
+                "cri-o://owned" in (Path(directory) / "probe-transport.log").read_text()
+            )
+
     def test_empty_current_log_reads_completed_previous_container(self):
         command = Mock(
             side_effect=[

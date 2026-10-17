@@ -37,7 +37,7 @@ resource "kubernetes_deployment_v1" "probe" {
         automount_service_account_token = false
         container {
           name              = "application"
-          image             = "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:${split("@sha256:", var.application_image)[1]}"
+          image             = var.application_image
           image_pull_policy = "Always"
           command           = ["/wingman-app", each.value.mode]
           env {

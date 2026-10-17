@@ -1,0 +1,63 @@
+[
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "domains": [
+        "<XCSH_DOMAINNAME>"
+      ],
+      "no_service_policies": {},
+      "disable_waf": {},
+      "disable_api_definition": {},
+      "disable_api_discovery": {},
+      "disable_rate_limit": {},
+      "disable_ip_reputation": {},
+      "disable_malicious_user_detection": {},
+      "disable_client_side_defense": {},
+      "disable_threat_mesh": {},
+      "no_challenge": {},
+      "system_default_timeouts": {},
+      "user_id_client_ip": {},
+      "default_sensitive_data_policy": {},
+      "l7_ddos_action_default": {},
+      "origin_pool": {
+        "origin_request_timeout": "60s",
+        "origin_servers": [
+          {
+            "port": 443,
+            "public_name": {
+              "dns_name": "<XCSH_ORIGIN_HOSTNAME>"
+            }
+          }
+        ],
+        "no_tls": {}
+      },
+      "https": {
+        "tls_cert_options": {
+          "tls_inline_params": {
+            "no_mtls": {},
+            "tls_config": {
+              "default_security": {}
+            },
+            "tls_certificates": [
+              {
+                "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+                "private_key": {
+                  "blindfold_secret_info": {
+                    "location": "string:///<ENCRYPTED_KEY>"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+]

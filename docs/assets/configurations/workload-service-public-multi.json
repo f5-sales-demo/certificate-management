@@ -1,0 +1,87 @@
+[
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "service": {
+        "num_replicas": 1,
+        "containers": [
+          {
+            "name": "synthetic",
+            "init_container": false,
+            "default_flavor": {},
+            "image": {
+              "name": "<XCSH_CONTAINER_IMAGE>",
+              "public": {},
+              "pull_policy": "IMAGE_PULL_POLICY_DEFAULT"
+            }
+          }
+        ],
+        "deploy_options": {
+          "deploy_ce_virtual_sites": {
+            "virtual_site": [
+              {
+                "name": "<XCSH_VIRTUAL_SITE_NAME>",
+                "namespace": "<XCSH_VIRTUAL_SITE_NAMESPACE>"
+              }
+            ]
+          }
+        },
+        "advertise_options": {
+          "advertise_on_public": {
+            "multi_ports": {
+              "ports": [
+                {
+                  "port": {
+                    "info": {
+                      "port": 443,
+                      "target_port": 8080,
+                      "protocol": "PROTOCOL_HTTP"
+                    },
+                    "name": "https"
+                  },
+                  "http_loadbalancer": {
+                    "domains": [
+                      "<XCSH_DOMAINNAME>"
+                    ],
+                    "default_route": {
+                      "disable_host_rewrite": {}
+                    },
+                    "https": {
+                      "port": 443,
+                      "default_header": {},
+                      "enable_path_normalize": {},
+                      "default_loadbalancer": {},
+                      "tls_parameters": {
+                        "no_mtls": {},
+                        "tls_config": {
+                          "default_security": {}
+                        },
+                        "tls_certificates": [
+                          {
+                            "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+                            "private_key": {
+                              "blindfold_secret_info": {
+                                "location": "string:///<ENCRYPTED_KEY>"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+]

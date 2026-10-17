@@ -15,6 +15,40 @@ spec.loader.exec_module(module)
 
 
 class OwnershipTests(unittest.TestCase):
+    def test_public_projection_accepts_defaults_and_encrypted_material(self):
+        module.require_public_projection(
+            {
+                "private_key": {
+                    "blindfold_secret_info": {"location": "string:///<ENCRYPTED_KEY>"}
+                }
+            },
+            {
+                "private_key": {
+                    "blindfold_secret_info": {"location": "string:///ciphertext"}
+                },
+                "api_default": True,
+            },
+        )
+
+    def test_public_projection_rejects_missing_encryption(self):
+        with self.assertRaises(ValueError):
+            module.require_public_projection(
+                {
+                    "private_key": {
+                        "blindfold_secret_info": {
+                            "location": "string:///<ENCRYPTED_KEY>"
+                        }
+                    }
+                },
+                {"private_key": {"clear_secret_info": {"url": "string:///plaintext"}}},
+            )
+
+    def test_public_projection_rejects_changed_reference(self):
+        with self.assertRaises(ValueError):
+            module.require_public_projection(
+                {"namespace": "owned"}, {"namespace": "foreign"}
+            )
+
     def test_retained_name_is_rejected(self):
         with self.assertRaises(ValueError):
             module.require_run_ownership(
