@@ -64,7 +64,8 @@ routes. The public JSON describes the added resources and TLS extension; encoded
               "headers": [
                 {
                   "name": "X-Forwarded-Client-Cert",
-                  "check_not_present": {}
+                  "check_not_present": {},
+                  "invert_matcher": false
                 }
               ],
               "waf_action": {
@@ -160,6 +161,7 @@ resource "xcsh_service_policy" "client_write" {
         headers {
           name              = "X-Forwarded-Client-Cert"
           check_not_present = {}
+          invert_matcher    = false
         }
         waf_action {
           none = {}
