@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 import hcl2
+from generate_client_mtls import generate as generate_client
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -601,9 +602,7 @@ def main() -> None:
     generate(schema)
     generate_inputs()
     generate_wingman()
-    from generate_client_mtls import generate as generate_client  # noqa: PLC0415 -- Shared render helpers need initialization first.
-
-    generate_client(schema)
+    generate_client(schema, public, public_json, fence)
     named_page = ROOT / "docs/en/terraform/index.md"
     page_text = named_page.read_text().replace(
         "for file in versions.tf variables.tf main.tf outputs.tf wingman.tf; do",

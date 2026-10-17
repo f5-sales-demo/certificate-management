@@ -111,7 +111,8 @@ with sync_playwright() as p:
         page.locator("#ph-XCSH_WORKDIR").focus()
         canonical_urls = [
             BASE + "/certificate-management/_data/terraform/named-certificate/main.tf",
-            BASE + "/certificate-management/_data/terraform/named-certificate/client-mtls.tf",
+            BASE
+            + "/certificate-management/_data/terraform/named-certificate/client-mtls.tf",
             BASE + "/certificate-management/_data/scripts/client_pki.py",
             BASE + "/certificate-management/assets/certificate-management.pem",
             BASE + "/certificate-management/_data/wingman/contract.json",

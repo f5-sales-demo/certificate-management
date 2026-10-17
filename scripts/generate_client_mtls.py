@@ -4,18 +4,17 @@
 """Generate client mTLS documentation and public policy JSON from canonical HCL."""
 
 # ruff: noqa: S608 -- Markdown command generation; no SQL execution.
-import json
 import textwrap
 from pathlib import Path
 
 import hcl2
-from generate_administration import fence, public, public_json
 
 ROOT = Path(__file__).resolve().parents[1]
 PROSE_WRAP_THRESHOLD = 180
 
 
-def generate(schema: dict) -> None:
+def generate(schema: dict, public, public_json, fence) -> None:
+    # pylint: disable=too-many-locals -- Complete canonical guide rendering.
     """Render the six-stage client workflow and its exact source downloads."""
     directory = ROOT / "terraform/named-certificate"
     source = hcl2.loads((directory / "client-mtls.tf").read_text())
@@ -223,15 +222,3 @@ Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy
         if line not in lines:
             lines.append(line)
     imports.write_text("\n".join(lines) + "\n")
-
-
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--schema", type=Path, required=True)
-    arguments = parser.parse_args()
-    schemas = json.loads(arguments.schema.read_text())["provider_schemas"][
-        "registry.terraform.io/f5-sales-demo/xcsh"
-    ]["resource_schemas"]
-    generate(schemas)
