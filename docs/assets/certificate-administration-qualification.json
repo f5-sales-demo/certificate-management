@@ -1826,5 +1826,33 @@
     "All 16 encrypted configuration lifecycles passed on both platforms, including separately preserved replays.",
     "25 schemas are valid; prerequisite-bound and restricted patterns do not gain served-traffic acceptance.",
     "Wingman latest passed in independent Terraform-owned infrastructure; retained endpoints and material were not updated."
-  ]
+  ],
+  "primary_xcsh_renewal": {
+    "macos": {
+      "platform": "darwin",
+      "status": "passed",
+      "qualification": "certificate configuration renewal; served TLS not exercised",
+      "prepare": "passed",
+      "preview": "no_tenant_write",
+      "reapply": "unchanged",
+      "renewal": "updated",
+      "stable_uid": true,
+      "public_certificate_changed": true,
+      "readback": "encrypted",
+      "cleanup": "typed_absence_twice"
+    },
+    "ubuntu": {
+      "platform": "linux",
+      "status": "passed",
+      "qualification": "certificate configuration renewal; served TLS not exercised",
+      "prepare": "passed",
+      "preview": "no_tenant_write",
+      "reapply": "unchanged",
+      "renewal": "updated",
+      "stable_uid": true,
+      "public_certificate_changed": true,
+      "readback": "encrypted",
+      "cleanup": "typed_absence_twice"
+    }
+  }
 }
