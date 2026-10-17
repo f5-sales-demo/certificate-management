@@ -577,9 +577,9 @@ openssl crl -in "$XCSH_CLIENT_CRL_FILE" -noout -verify -CAfile "$XCSH_CLIENT_CA_
 
 ```bash
 python3 - "$configuration/client.auto.tfvars.json" "$XCSH_CLIENT_CA_FILE" "$XCSH_CLIENT_CRL_FILE" "$XCSH_CLIENT_CRL_REVISION" <<'PY'
-# ruff: noqa: S608 -- Markdown command generation; no SQL execution.
 import json
-import textwrap, os, sys
+import os
+import sys
 os.umask(0o077)
 path, ca, crl, revision = sys.argv[1:]
 with open(path, "x") as stream:
