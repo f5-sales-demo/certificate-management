@@ -3,6 +3,7 @@
 import json
 import re
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -46,7 +47,7 @@ class ClientMTLSTests(unittest.TestCase):
             path = Path(temporary) / "client.json"
             subprocess.run(  # noqa: S603 -- Fixed Python and canonical documented snippet, no shell.
                 [
-                    "python3",
+                    sys.executable,
                     "-",
                     str(path),
                     "/private/ca.pem",
