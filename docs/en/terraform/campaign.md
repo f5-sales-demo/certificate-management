@@ -45,6 +45,8 @@ association in the tenant zone. The certificate under test authenticates the ups
 Prepare private client material before planning, then add this input to the existing owner root, replacing
 the example paths and hostnames with verified deployment values:
 
+<div data-xcsh-context="hcl" data-xcsh-fields="">
+
 ```hcl
 certificate_use_cases = {
   default-pool-mtls = {
@@ -64,9 +66,13 @@ certificate_use_cases = {
 }
 ```
 
+</div>
+
 ## Review and apply
 
 Apply the origin-server plan, verify its origin prerequisites, then apply the named-certificate plan. Run these commands on Ubuntu in each owner directory with its private provider environment. Review the complete plan and reject unrelated changes, replacement of retained identities, or changes to existing endpoints. Keep plans and readbacks in private storage.
+
+<div data-xcsh-context="shell" data-xcsh-fields="">
 
 ```bash
 terraform init -upgrade
@@ -78,11 +84,15 @@ terraform apply case.plan
 terraform plan -out=followup.plan -detailed-exitcode
 ```
 
+</div>
+
 Require exit `0` for the refresh-enabled follow-up plan. Read `certificate_use_case_inventory` to identify the certificate role, logical ID, resource address, URL, and dependencies. Read back the complete API object privately and compare that exact certificate node, public chain, encrypted location, and stable identity.
 
 ## Traffic and renewal
 
 Send a unique request to the public F5 listener without a client certificate on your laptop:
+
+<div data-xcsh-context="shell" data-xcsh-fields="">
 
 ```bash
 challenge="$(openssl rand -hex 16)"
@@ -91,6 +101,8 @@ curl --silent --show-error --fail \
   "https://certificate-default-pool.example.com/get?challenge=$challenge"
 openssl x509 -in /private/certificate-campaign/client.pem -noout -fingerprint -sha256
 ```
+
+</div>
 
 Require HTTP `200`, `example: certificate-origin`, the exact challenge, and `client_certificate_sha256` matching the configured client's SHA-256 fingerprint. The JSON fingerprint has lowercase hexadecimal without colons. The backend accepts only clients chaining to its configured public CA. A direct laptop handshake does not establish F5-originated mTLS.
 
