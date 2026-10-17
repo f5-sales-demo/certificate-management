@@ -13,7 +13,11 @@ Choose the input form for your existing certificate and key; use new artifact fi
 
 ## Protected PEM
 
+### Protected PEM configuration
+
 Supply `<XCSH_CERT_FILE>` and matching `<XCSH_PROTECTED_KEY_FILE>`; pass the name of the environment variable holding the input passphrase.
+
+### Configure protected PEM
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE XCSH_CERT_NAME XCSH_CERT_FILE XCSH_PROTECTED_KEY_FILE XCSH_TLS_INPUT_PASSWORD">
 
@@ -31,11 +35,29 @@ unset XCSH_TLS_INPUT_PASSWORD
 
 </div>
 
-Expect `prepared`; native preparation decrypts and normalizes the key before encryption. [Preview and apply](../#certificate-use) the saved manifest using its filename.
+Expect `prepared`; native preparation decrypts and normalizes the key before encryption. [Preview and apply](../#configure) the saved manifest using its filename.
+
+### Verify protected PEM
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE">
+
+```bash
+xcsh apply -f protected-certificate.json -n "$XCSH_NAMESPACE" --dry-run client -o json
+xcsh apply -f protected-certificate.json -n "$XCSH_NAMESPACE" -o json
+xcsh apply -f protected-certificate.json -n "$XCSH_NAMESPACE" -o json
+```
+
+</div>
+
+Review the preview before applying. Expect `created` for a new resource and `unchanged` on identical reapply. Check encrypted readback and, after attaching the certificate to an HTTPS service, [verify served TLS](../#verify).
 
 ## PKCS#12
 
+### PKCS#12 configuration
+
 Supply `<XCSH_P12_FILE>` containing one private key, its matching leaf certificate, and issuing chain.
+
+### Configure PKCS#12
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE XCSH_CERT_NAME XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
 
@@ -53,11 +75,60 @@ unset XCSH_TLS_INPUT_PASSWORD
 
 </div>
 
-Expect `prepared`; an incorrect password or multiple private keys fails. [Preview and apply](../#certificate-use) `bundle-certificate.json`.
+Expect `prepared`; an incorrect password or multiple private keys fails. [Preview and apply](../#configure) `bundle-certificate.json`.
 
-## Raw stdin
+### Verify PKCS#12
 
-Use the [paired public files](../#public-material) to encrypt redirected raw key bytes offline.
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE">
+
+```bash
+xcsh apply -f bundle-certificate.json -n "$XCSH_NAMESPACE" --dry-run client -o json
+xcsh apply -f bundle-certificate.json -n "$XCSH_NAMESPACE" -o json
+xcsh apply -f bundle-certificate.json -n "$XCSH_NAMESPACE" -o json
+```
+
+</div>
+
+Review the preview before applying. Expect `created` for a new resource and `unchanged` on identical reapply. Check encrypted readback and, after attaching the certificate to an HTTPS service, [verify served TLS](../#verify).
+
+## Raw and offline
+
+### Raw configuration
+
+The tenant public key and TLS secret policy provide the paired public material for local Blindfold encryption.
+
+<div data-xcsh-context="shell" data-xcsh-fields="">
+
+```bash
+umask 077
+xcsh blindfold public-key --output-file tenant-public-key.json \
+  > public-key-report.json 2> public-key.err
+xcsh blindfold policy --policy shared/ves-io-allow-volterra \
+  --output-file policy.json > policy-report.json 2> policy.err
+```
+
+</div>
+
+Expect two JSON documents for the same tenant; retrieve a fresh pair when its public key or policy changes.
+
+### Configure raw inputs
+
+Encrypt the existing `<XCSH_KEY_FILE>` using both files; paired documents select offline encryption.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_KEY_FILE">
+
+```bash
+xcsh blindfold encrypt --input "$XCSH_KEY_FILE" \
+  --public-key tenant-public-key.json --policy-document policy.json \
+  --encoding location --output-file key1.location \
+  > encrypt1-report.json 2> encrypt1.err
+```
+
+</div>
+
+Expect `prepared`; `key1.location` contains the `string:///` location used in `spec.private_key.blindfold_secret_info.location`.
+
+Use the [paired public files](#raw-and-offline) to encrypt redirected raw key bytes offline.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_KEY_FILE">
 
@@ -69,4 +140,16 @@ xcsh blindfold encrypt --public-key tenant-public-key.json \
 
 </div>
 
-Expect `prepared` and a `string:///` location. Raw encryption preserves input bytes; [native certificate preparation](../#certificate-use) validates and normalizes certificate inputs.
+Expect `prepared` and a `string:///` location. Raw encryption preserves input bytes; [native certificate preparation](../#configure) validates and normalizes certificate inputs.
+
+### Verify raw inputs
+
+<div data-xcsh-context="shell" data-xcsh-fields="">
+
+```bash
+python3 -c 'from pathlib import Path; import base64; value=Path("stdin.location").read_text().strip(); assert value.startswith("string:///"); assert base64.b64decode(value[10:],validate=True)'
+```
+
+</div>
+
+Expect a nonempty encoded envelope. This checks its format; raw encryption does not validate a certificate/key pair or prove TLS serving. Use native certificate preparation for certificate manifests.

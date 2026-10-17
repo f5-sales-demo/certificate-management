@@ -1,0 +1,21 @@
+{
+  "schema_sha256": "350eac14fe41ec47ff2eebe4700b1e4a0b38b66b7dbb5c3e6b19ce12ec50a3cd",
+  "examples": [
+    "named-certificate",
+    "advertise-tls",
+    "cdn-origin-mtls",
+    "cdn-server-tls",
+    "cluster-tls",
+    "http-origin-mtls",
+    "inline-server-tls",
+    "origin-mtls",
+    "proxy-intercept",
+    "proxy-tls",
+    "secret-access-tls",
+    "tcp-tls",
+    "virtual-host-tls",
+    "workload-service-custom",
+    "workload-service-public-multi",
+    "workload-service-public-single"
+  ]
+}

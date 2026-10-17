@@ -9,101 +9,435 @@ Native Blindfold preparation validates the matching key and leaf-first certifica
 
 ## Input choices
 
-| Input | Configuration | Handling |
-| --- | --- | --- |
-| Unprotected PEM | `certificate_file` plus `private_key_file` | Provider reads files directly; only paths and public/encrypted results enter state. |
-| Protected PEM | File inputs plus `passphrase_env` | Value names an environment variable containing the passphrase; its value is not stored. |
-| PKCS #12 (P12) | `pkcs12_file` plus `passphrase_env` if protected | Provider decodes the bundle natively; do not configure separate PEM inputs. |
-| Write-only PEM key | `certificate_pem` plus `private_key_wo` and `material_version` | Terraform 1.11+ ephemeral sensitive variable; secret is null in plan/state. |
-| Write-only P12 | `pkcs12_wo`, optional `passphrase_wo`, and `material_version` | Supply the bundle as base64 through ephemeral sensitive variables. |
+The bundle input field `XCSH_P12_FILE` also configures provider authentication. The input commands remove it from the Terraform process environment after copying the bundle path or contents to a dedicated input variable, so API token authentication stays independent.
 
-`certificate_pem` is public material. Never put a plaintext key or bundle into ordinary variables, `file()` attributes, outputs, or legacy `clear_secret_info`. `sensitive = true` hides a value from display but does not prevent storage.
+Use file inputs for unprotected PEM in the [certificate workflow](../). The alternatives below prepare the same public configuration shown there. `sensitive` hides display; only ephemeral write-only variables prevent private inputs from entering plans and state. Never put keys or bundles in ordinary variables.
 
-Enter a protected-file passphrase without echo, export it only for the session, and set `blindfold.passphrase_env = "XCSH_TLS_INPUT_PASSWORD"`. Unset it after Terraform exits. Avoid command-line passphrase arguments.
+### Protected PEM
 
-<div data-xcsh-context="shell" data-xcsh-fields="XCSH_TLS_INPUT_PASSWORD">
+Use a separate directory and state, an existing namespace, and an exclusively owned certificate name. This complete HCL owns only the named certificate. Attach it to a separately owned HTTPS consumer for served verification.
+
+<div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_TLS_INPUT_PASSWORD">
+
+```hcl
+resource "xcsh_certificate" "server" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  blindfold   = { certificate_file = var.certificate_file, private_key_file = var.private_key_file, passphrase_env = "XCSH_TLS_INPUT_PASSWORD" }
+}
+
+variable "namespace" {
+  type        = string
+  description = "Existing namespace; this configuration never owns it."
+  default     = "demo-app"
+}
+variable "name" {
+  type        = string
+  description = "Unique name owned only by this Terraform state."
+  default     = "example-tls"
+}
+
+variable "certificate_file" {
+  type        = string
+  description = "Absolute path to a leaf-first PEM chain outside Git."
+}
+variable "private_key_file" {
+  type        = string
+  description = "Absolute path to the matching private PEM key outside Git."
+}
+variable "description" {
+  type        = string
+  description = "Operator-editable resource description."
+  default     = "Native Terraform Blindfold certificate example"
+}
+
+data "xcsh_namespace" "existing" {
+  name = var.namespace
+}
+
+terraform {
+  required_version = null
+  required_providers {
+    xcsh = {
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
+    }
+  }
+}
+
+# XCSH_API_URL and XCSH_API_TOKEN configure the provider, without a CLI.
+provider "xcsh" {}
+```
+
+</div>
+
+Supply the selected input and review the saved plan.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_CERT_FILE XCSH_LB_NAME XCSH_NAMESPACE XCSH_P12_FILE XCSH_PROTECTED_KEY_FILE XCSH_TLS_INPUT_PASSWORD XCSH_WORKDIR">
 
 ```bash
+umask 077
+configuration="$XCSH_WORKDIR/input-protected-pem"
+mkdir -p "$configuration"
+export TF_VAR_namespace="$XCSH_NAMESPACE"
+export TF_VAR_name="$XCSH_LB_NAME"
 if [ -z "${XCSH_TLS_INPUT_PASSWORD:-}" ]; then
-  read -r -s -p 'Input passphrase: ' XCSH_TLS_INPUT_PASSWORD
-  printf '\n'
+  printf "Input passphrase: "
+  IFS= read -r -s XCSH_TLS_INPUT_PASSWORD
+  printf "\n"
 fi
 export XCSH_TLS_INPUT_PASSWORD
-```
-
-</div>
-
-These schema-checked fragments illustrate write-only input wiring; they are not complete deployment configurations:
-
-For a protected PEM input, map its path to the existing variable and add `passphrase_env = "XCSH_TLS_INPUT_PASSWORD"` to that resource's `blindfold` object. Keep the passphrase in the environment until both planning and applying finish, then unset it. The variable name is fixed; the passphrase value never enters HCL.
-
-<div data-xcsh-context="shell" data-xcsh-fields="XCSH_CERT_FILE XCSH_PROTECTED_KEY_FILE">
-
-```bash
 export TF_VAR_certificate_file="$XCSH_CERT_FILE"
 export TF_VAR_private_key_file="$XCSH_PROTECTED_KEY_FILE"
+for file in main.tf variables.tf versions.tf; do
+  curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/input-variants/protected-pem/$file" --output "$configuration/$file"
+done
+env -u XCSH_P12_FILE terraform -chdir="$configuration" init -upgrade
+env -u XCSH_P12_FILE terraform -chdir="$configuration" validate
+env -u XCSH_P12_FILE terraform -chdir="$configuration" plan -out=input.plan
+env -u XCSH_P12_FILE terraform -chdir="$configuration" show input.plan
+shasum -a 256 "$configuration/input.plan"
 ```
 
 </div>
 
-For a P12 variant in a separate private configuration, declare a string variable `pkcs12_file` and replace the PEM selectors with this object:
+Apply the reviewed plan and verify encrypted readback.
 
-<div data-xcsh-context="hcl" data-xcsh-fields="">
-
-```hcl
-blindfold = {
-  pkcs12_file    = var.pkcs12_file
-  passphrase_env = "XCSH_TLS_INPUT_PASSWORD"
-}
-```
-
-</div>
-
-<div data-xcsh-context="shell" data-xcsh-fields="XCSH_P12_FILE">
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
 
 ```bash
-export TF_VAR_pkcs12_file="$XCSH_P12_FILE"
+env -u XCSH_P12_FILE terraform -chdir="$configuration" apply input.plan
+env -u XCSH_P12_FILE terraform -chdir="$configuration" plan -detailed-exitcode
+curl --silent --show-error --fail --header "Authorization: APIToken $XCSH_API_TOKEN" \
+  "$XCSH_API_URL/api/config/namespaces/$XCSH_NAMESPACE/certificates/$TF_VAR_name?response_format=2" \
+  --output "$configuration/readback.json"
+unset XCSH_TLS_INPUT_PASSWORD TF_VAR_private_key TF_VAR_pkcs12_base64 TF_VAR_passphrase
 ```
 
 </div>
 
-<div data-xcsh-context="hcl" data-xcsh-fields="">
+Expect HTTP `200`, an encoded public chain, and an encrypted private-key location. Expect **No changes** and exit `0` in a new process. This result does not prove served TLS. Write-only inputs require the same ephemeral values at saved-plan apply and a new material version when inputs change. Keep secrets exported until verification finishes, then unset them.
+
+### PKCS#12
+
+Use a separate directory and state, an existing namespace, and an exclusively owned certificate name. This complete HCL owns only the named certificate. Attach it to a separately owned HTTPS consumer for served verification.
+
+<div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_TLS_INPUT_PASSWORD">
 
 ```hcl
+resource "xcsh_certificate" "server" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  blindfold   = { pkcs12_file = var.pkcs12_file, passphrase_env = "XCSH_TLS_INPUT_PASSWORD" }
+}
+
+variable "namespace" {
+  type        = string
+  description = "Existing namespace; this configuration never owns it."
+  default     = "demo-app"
+}
+variable "name" {
+  type        = string
+  description = "Unique name owned only by this Terraform state."
+  default     = "example-tls"
+}
+
+variable "description" {
+  type        = string
+  description = "Operator-editable resource description."
+  default     = "Native Terraform Blindfold certificate example"
+}
+
+data "xcsh_namespace" "existing" {
+  name = var.namespace
+}
+variable "pkcs12_file" {
+  type = string
+}
+
+terraform {
+  required_version = null
+  required_providers {
+    xcsh = {
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
+    }
+  }
+}
+
+# XCSH_API_URL and XCSH_API_TOKEN configure the provider, without a CLI.
+provider "xcsh" {}
+```
+
+</div>
+
+Supply the selected input and review the saved plan.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_LB_NAME XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD XCSH_WORKDIR">
+
+```bash
+umask 077
+configuration="$XCSH_WORKDIR/input-pkcs12"
+mkdir -p "$configuration"
+export TF_VAR_namespace="$XCSH_NAMESPACE"
+export TF_VAR_name="$XCSH_LB_NAME"
+if [ -z "${XCSH_TLS_INPUT_PASSWORD:-}" ]; then
+  printf "Input passphrase: "
+  IFS= read -r -s XCSH_TLS_INPUT_PASSWORD
+  printf "\n"
+fi
+export XCSH_TLS_INPUT_PASSWORD
+export TF_VAR_pkcs12_file="$XCSH_P12_FILE"
+for file in main.tf variables.tf versions.tf; do
+  curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/input-variants/pkcs12/$file" --output "$configuration/$file"
+done
+env -u XCSH_P12_FILE terraform -chdir="$configuration" init -upgrade
+env -u XCSH_P12_FILE terraform -chdir="$configuration" validate
+env -u XCSH_P12_FILE terraform -chdir="$configuration" plan -out=input.plan
+env -u XCSH_P12_FILE terraform -chdir="$configuration" show input.plan
+shasum -a 256 "$configuration/input.plan"
+```
+
+</div>
+
+Apply the reviewed plan and verify encrypted readback.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
+
+```bash
+env -u XCSH_P12_FILE terraform -chdir="$configuration" apply input.plan
+env -u XCSH_P12_FILE terraform -chdir="$configuration" plan -detailed-exitcode
+curl --silent --show-error --fail --header "Authorization: APIToken $XCSH_API_TOKEN" \
+  "$XCSH_API_URL/api/config/namespaces/$XCSH_NAMESPACE/certificates/$TF_VAR_name?response_format=2" \
+  --output "$configuration/readback.json"
+unset XCSH_TLS_INPUT_PASSWORD TF_VAR_private_key TF_VAR_pkcs12_base64 TF_VAR_passphrase
+```
+
+</div>
+
+Expect HTTP `200`, an encoded public chain, and an encrypted private-key location. Expect **No changes** and exit `0` in a new process. This result does not prove served TLS. Write-only inputs require the same ephemeral values at saved-plan apply and a new material version when inputs change. Keep secrets exported until verification finishes, then unset them.
+
+### Write-only PEM
+
+Use a separate directory and state, an existing namespace, and an exclusively owned certificate name. This complete HCL owns only the named certificate. Attach it to a separately owned HTTPS consumer for served verification.
+
+<div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
+
+```hcl
+resource "xcsh_certificate" "server" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  blindfold   = { certificate_file = var.certificate_file, private_key_wo = var.private_key, material_version = "1" }
+}
+
+variable "namespace" {
+  type        = string
+  description = "Existing namespace; this configuration never owns it."
+  default     = "demo-app"
+}
+variable "name" {
+  type        = string
+  description = "Unique name owned only by this Terraform state."
+  default     = "example-tls"
+}
+
+variable "certificate_file" {
+  type        = string
+  description = "Absolute path to a leaf-first PEM chain outside Git."
+}
+
+variable "description" {
+  type        = string
+  description = "Operator-editable resource description."
+  default     = "Native Terraform Blindfold certificate example"
+}
+
+data "xcsh_namespace" "existing" {
+  name = var.namespace
+}
 variable "private_key" {
   type      = string
   sensitive = true
   ephemeral = true
 }
-variable "material_version" {
-  type = string
+
+terraform {
+  required_version = null
+  required_providers {
+    xcsh = {
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
+    }
+  }
 }
-# Inside xcsh_certificate, or an inline certificate with a stable id:
-# blindfold = {
-#   certificate_pem = file(var.certificate_file)
-#   private_key_wo  = var.private_key
-#   material_version = var.material_version
-# }
+
+# XCSH_API_URL and XCSH_API_TOKEN configure the provider, without a CLI.
+provider "xcsh" {}
 ```
 
 </div>
 
-Map the write-only version to its native variable. To supply a write-only PEM key, read its file into the declared ephemeral sensitive variable in the shell; never save it in a variable file:
+Supply the selected input and review the saved plan.
 
-<div data-xcsh-context="shell" data-xcsh-fields="XCSH_MATERIAL_VERSION XCSH_KEY_FILE">
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_CERT_FILE XCSH_KEY_FILE XCSH_LB_NAME XCSH_MATERIAL_VERSION XCSH_NAMESPACE XCSH_P12_FILE XCSH_WORKDIR">
 
 ```bash
-export TF_VAR_material_version="$XCSH_MATERIAL_VERSION"
+umask 077
+configuration="$XCSH_WORKDIR/input-write-only-pem"
+mkdir -p "$configuration"
+export TF_VAR_namespace="$XCSH_NAMESPACE"
+export TF_VAR_name="$XCSH_LB_NAME"
+export TF_VAR_certificate_file="$XCSH_CERT_FILE"
 TF_VAR_private_key="$(cat "$XCSH_KEY_FILE")"
 export TF_VAR_private_key
+export XCSH_MATERIAL_VERSION
+for file in main.tf variables.tf versions.tf; do
+  curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/input-variants/write-only-pem/$file" --output "$configuration/$file"
+done
+python3 -c 'import json,os,re,sys; from pathlib import Path; p=Path(sys.argv[1]); p.write_text(re.sub(r"material_version\s*=\s*"+re.escape(json.dumps("1")), lambda _: "material_version = "+json.dumps(os.environ["XCSH_MATERIAL_VERSION"]), p.read_text()))' "$configuration/main.tf"
+env -u XCSH_P12_FILE terraform -chdir="$configuration" init -upgrade
+env -u XCSH_P12_FILE terraform -chdir="$configuration" validate
+env -u XCSH_P12_FILE terraform -chdir="$configuration" plan -out=input.plan
+env -u XCSH_P12_FILE terraform -chdir="$configuration" show input.plan
+shasum -a 256 "$configuration/input.plan"
 ```
 
 </div>
 
-For P12, use `pkcs12_wo = var.pkcs12_base64` and `passphrase_wo = var.passphrase` with both variables declared `sensitive` and `ephemeral`. Remove
-other key/certificate input selectors. Increase `material_version` whenever a write-only input changes; Terraform cannot derive a change from a value
-it deliberately does not persist. Reusing a version is a declaration that the material is unchanged. Supply ephemeral values again when applying a
-saved plan.
+Apply the reviewed plan and verify encrypted readback.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
+
+```bash
+env -u XCSH_P12_FILE terraform -chdir="$configuration" apply input.plan
+env -u XCSH_P12_FILE terraform -chdir="$configuration" plan -detailed-exitcode
+curl --silent --show-error --fail --header "Authorization: APIToken $XCSH_API_TOKEN" \
+  "$XCSH_API_URL/api/config/namespaces/$XCSH_NAMESPACE/certificates/$TF_VAR_name?response_format=2" \
+  --output "$configuration/readback.json"
+unset XCSH_TLS_INPUT_PASSWORD TF_VAR_private_key TF_VAR_pkcs12_base64 TF_VAR_passphrase
+```
+
+</div>
+
+Expect HTTP `200`, an encoded public chain, and an encrypted private-key location. Expect **No changes** and exit `0` in a new process. This result does not prove served TLS. Write-only inputs require the same ephemeral values at saved-plan apply and a new material version when inputs change. Keep secrets exported until verification finishes, then unset them.
+
+### Write-only PKCS#12
+
+Use a separate directory and state, an existing namespace, and an exclusively owned certificate name. This complete HCL owns only the named certificate. Attach it to a separately owned HTTPS consumer for served verification.
+
+<div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
+
+```hcl
+resource "xcsh_certificate" "server" {
+  name        = var.name
+  namespace   = data.xcsh_namespace.existing.name
+  description = var.description
+  labels      = { certificate-example = "terraform" }
+  blindfold   = { pkcs12_wo = var.pkcs12_base64, passphrase_wo = var.passphrase, material_version = "1" }
+}
+
+variable "namespace" {
+  type        = string
+  description = "Existing namespace; this configuration never owns it."
+  default     = "demo-app"
+}
+variable "name" {
+  type        = string
+  description = "Unique name owned only by this Terraform state."
+  default     = "example-tls"
+}
+
+variable "description" {
+  type        = string
+  description = "Operator-editable resource description."
+  default     = "Native Terraform Blindfold certificate example"
+}
+
+data "xcsh_namespace" "existing" {
+  name = var.namespace
+}
+variable "pkcs12_base64" {
+  type      = string
+  sensitive = true
+  ephemeral = true
+}
+variable "passphrase" {
+  type      = string
+  sensitive = true
+  ephemeral = true
+}
+
+terraform {
+  required_version = null
+  required_providers {
+    xcsh = {
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
+    }
+  }
+}
+
+# XCSH_API_URL and XCSH_API_TOKEN configure the provider, without a CLI.
+provider "xcsh" {}
+```
+
+</div>
+
+Supply the selected input and review the saved plan.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_LB_NAME XCSH_MATERIAL_VERSION XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD XCSH_WORKDIR">
+
+```bash
+umask 077
+configuration="$XCSH_WORKDIR/input-write-only-pkcs12"
+mkdir -p "$configuration"
+export TF_VAR_namespace="$XCSH_NAMESPACE"
+export TF_VAR_name="$XCSH_LB_NAME"
+if [ -z "${XCSH_TLS_INPUT_PASSWORD:-}" ]; then
+  printf "Input passphrase: "
+  IFS= read -r -s XCSH_TLS_INPUT_PASSWORD
+  printf "\n"
+fi
+export XCSH_TLS_INPUT_PASSWORD
+TF_VAR_pkcs12_base64="$(openssl base64 -A -in "$XCSH_P12_FILE")"
+export TF_VAR_pkcs12_base64
+export TF_VAR_passphrase="$XCSH_TLS_INPUT_PASSWORD"
+export XCSH_MATERIAL_VERSION
+for file in main.tf variables.tf versions.tf; do
+  curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/input-variants/write-only-pkcs12/$file" --output "$configuration/$file"
+done
+python3 -c 'import json,os,re,sys; from pathlib import Path; p=Path(sys.argv[1]); p.write_text(re.sub(r"material_version\s*=\s*"+re.escape(json.dumps("1")), lambda _: "material_version = "+json.dumps(os.environ["XCSH_MATERIAL_VERSION"]), p.read_text()))' "$configuration/main.tf"
+env -u XCSH_P12_FILE terraform -chdir="$configuration" init -upgrade
+env -u XCSH_P12_FILE terraform -chdir="$configuration" validate
+env -u XCSH_P12_FILE terraform -chdir="$configuration" plan -out=input.plan
+env -u XCSH_P12_FILE terraform -chdir="$configuration" show input.plan
+shasum -a 256 "$configuration/input.plan"
+```
+
+</div>
+
+Apply the reviewed plan and verify encrypted readback.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
+
+```bash
+env -u XCSH_P12_FILE terraform -chdir="$configuration" apply input.plan
+env -u XCSH_P12_FILE terraform -chdir="$configuration" plan -detailed-exitcode
+curl --silent --show-error --fail --header "Authorization: APIToken $XCSH_API_TOKEN" \
+  "$XCSH_API_URL/api/config/namespaces/$XCSH_NAMESPACE/certificates/$TF_VAR_name?response_format=2" \
+  --output "$configuration/readback.json"
+unset XCSH_TLS_INPUT_PASSWORD TF_VAR_private_key TF_VAR_pkcs12_base64 TF_VAR_passphrase
+```
+
+</div>
+
+Expect HTTP `200`, an encoded public chain, and an encrypted private-key location. Expect **No changes** and exit `0` in a new process. This result does not prove served TLS. Write-only inputs require the same ephemeral values at saved-plan apply and a new material version when inputs change. Keep secrets exported until verification finishes, then unset them.
 
 ## Stable inline identities
 
@@ -151,7 +485,7 @@ Run a normal refreshed plan after remote metadata, encrypted location, or proven
 
 Import a resource only into its exclusive owner state using the provider’s `namespace/name` identifier. Import retrieves public configuration and
 encrypted material; it cannot recover the private key or passphrase. Restore the original private files or provide new authorized material before
-native preparation can renew the certificate. Never adopt an xcsh-owned resource into the Terraform showcase state.
+native preparation can renew the certificate. Never adopt an xcsh-owned resource into the Terraform owner state.
 
 ## RSA and EC cutovers
 
@@ -162,7 +496,7 @@ serving for each intended client before retiring an entry.
 
 ## Interception signing CA
 
-Transport Layer Security (TLS) interception signs new leaf certificates. Generate a separate signing certificate authority (CA) and distribute only its public trust certificate to authorized clients. The showcase’s `CA:false` server certificate cannot act as this CA.
+Transport Layer Security (TLS) interception signs new leaf certificates. Generate a separate signing certificate authority (CA) and distribute only its public trust certificate to authorized clients. A `CA:false` server certificate cannot act as this CA.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_INTERCEPTION_CA_FILE XCSH_INTERCEPTION_KEY_FILE">
 

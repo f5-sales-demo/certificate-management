@@ -66,6 +66,9 @@ def main() -> None:
             [sys.executable, "-m", "playwright", "install", "chromium"], check=True
         )
     root = Path(__file__).resolve().parents[1]
+    subprocess.run(
+        [sys.executable, str(root / "tests/validate_administration.py")], check=True
+    )
     work = Path(tempfile.mkdtemp(prefix="certificate-current-builder-"))
     content = work / "content"
     shutil.copytree(root / "docs", content)

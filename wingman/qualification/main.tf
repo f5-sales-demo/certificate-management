@@ -1,3 +1,8 @@
+data "external" "application_image" {
+  program = ["python3", "${path.module}/../resolve_image.py"]
+  query   = { image = var.application_image }
+}
+
 locals {
   contract = jsondecode(file("${path.module}/../contract.json"))
   cases = [
@@ -37,7 +42,7 @@ resource "kubernetes_deployment_v1" "probe" {
         automount_service_account_token = false
         container {
           name              = "application"
-          image             = "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:${split("@sha256:", var.application_image)[1]}"
+          image             = "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:${split(":", data.external.application_image.result.digest)[1]}"
           image_pull_policy = "Always"
           command           = ["/wingman-app", each.value.mode]
           env {
@@ -93,7 +98,10 @@ resource "kubernetes_deployment_v1" "probe" {
 output "probe_inventory" {
   description = "Exact owned UIDs for read-only observation and pre-destroy checks. Keep private."
   value = {
-    run = var.run_id
+    run              = var.run_id
+    requested_image  = var.application_image
+    resolved_image   = data.external.application_image.result.image
+    platform_digests = split(",", data.external.application_image.result.platform_digests)
     entries = [for index, item in local.cases : {
       name      = kubernetes_deployment_v1.probe[tostring(index)].metadata[0].name
       namespace = var.namespace

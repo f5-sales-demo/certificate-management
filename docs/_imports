@@ -92,3 +92,16 @@ scripts/resolve_current_artifacts.py -> scripts/resolve_current_artifacts.py
 wingman/qualification/main.tf -> wingman/qualification/main.tf
 wingman/qualification/variables.tf -> wingman/qualification/variables.tf
 wingman/qualification/versions.tf -> wingman/qualification/versions.tf
+terraform/input-variants/protected-pem/main.tf -> terraform/input-variants/protected-pem/main.tf
+terraform/input-variants/protected-pem/variables.tf -> terraform/input-variants/protected-pem/variables.tf
+terraform/input-variants/protected-pem/versions.tf -> terraform/input-variants/protected-pem/versions.tf
+terraform/input-variants/pkcs12/main.tf -> terraform/input-variants/pkcs12/main.tf
+terraform/input-variants/pkcs12/variables.tf -> terraform/input-variants/pkcs12/variables.tf
+terraform/input-variants/pkcs12/versions.tf -> terraform/input-variants/pkcs12/versions.tf
+terraform/input-variants/write-only-pem/main.tf -> terraform/input-variants/write-only-pem/main.tf
+terraform/input-variants/write-only-pem/variables.tf -> terraform/input-variants/write-only-pem/variables.tf
+terraform/input-variants/write-only-pem/versions.tf -> terraform/input-variants/write-only-pem/versions.tf
+terraform/input-variants/write-only-pkcs12/main.tf -> terraform/input-variants/write-only-pkcs12/main.tf
+terraform/input-variants/write-only-pkcs12/variables.tf -> terraform/input-variants/write-only-pkcs12/variables.tf
+terraform/input-variants/write-only-pkcs12/versions.tf -> terraform/input-variants/write-only-pkcs12/versions.tf
+wingman/resolve_image.py -> wingman/resolve_image.py

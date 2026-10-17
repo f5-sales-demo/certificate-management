@@ -1,11 +1,14 @@
 """Guard probe cleanup against foreign or replaced Kubernetes resources."""
 
 # ruff: noqa: PT027 -- Repository unittest protocol tests.
+import hashlib
 import importlib.util
+import json
+import sys
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from unittest.mock import Mock
+from unittest.mock import MagicMock, Mock, patch
 
 spec = importlib.util.spec_from_file_location(
     "wingman_qualification", Path(__file__).parents[1] / "wingman/qualify.py"
@@ -14,6 +17,113 @@ assert spec is not None
 assert spec.loader is not None
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
+
+image_spec = importlib.util.spec_from_file_location(
+    "wingman_image", Path(__file__).parents[1] / "wingman/resolve_image.py"
+)
+assert image_spec is not None
+assert image_spec.loader is not None
+images = importlib.util.module_from_spec(image_spec)
+with patch.dict(sys.modules, {"qualify": module}):
+    image_spec.loader.exec_module(images)
+
+
+class RegistryImageTests(unittest.TestCase):
+    def test_latest_resolves_verified_index_and_linux_manifests(self):
+        body = json.dumps(
+            {
+                "manifests": [
+                    {"digest": "sha256:" + "a" * 64, "platform": {"os": "linux"}},
+                    {"digest": "sha256:" + "b" * 64, "platform": {"os": "unknown"}},
+                ]
+            }
+        ).encode()
+        digest = "sha256:" + hashlib.sha256(body).hexdigest()
+        with patch.object(images, "registry_get", return_value=(200, body, digest)):
+            result = images.resolve(images.PREFIX + ":latest")
+        assert result["image"] == images.PREFIX + "@" + digest
+        assert result["platform_digests"] == "sha256:" + "a" * 64
+
+    def test_registry_digest_mismatch_is_rejected(self):
+        with (
+            patch.object(
+                images, "registry_get", return_value=(200, b"{}", "sha256:" + "a" * 64)
+            ),
+            self.assertRaises(ValueError),
+        ):
+            images.resolve(images.PREFIX + ":latest")
+
+    def test_registry_transport_stays_on_https_ghcr(self):
+        connection = MagicMock()
+        response = connection.getresponse.return_value
+        response.status = 302
+        response.read.return_value = b""
+        response.getheader.return_value = None
+        with patch.object(
+            images.http.client, "HTTPSConnection", return_value=connection
+        ) as factory:
+            assert images.registry_get("/v2/example/manifests/latest", {}) == (
+                302,
+                b"",
+                None,
+            )
+        factory.assert_called_once_with("ghcr.io", timeout=30)
+        connection.request.assert_called_once_with(
+            "GET", "/v2/example/manifests/latest", headers={}
+        )
+        connection.close.assert_called_once()
+
+    def test_registry_redirect_is_rejected(self):
+        with (
+            patch.object(images, "registry_get", return_value=(302, b"", None)),
+            self.assertRaises(ValueError),
+        ):
+            images.resolve(images.PREFIX + ":latest")
+
+    def test_observation_rejects_mutable_or_foreign_planned_image(self):
+        selected = images.PREFIX + ":latest"
+        inventory = {
+            "requested_image": selected,
+            "resolved_image": selected,
+            "platform_digests": ["sha256:" + "a" * 64],
+        }
+        with self.assertRaises(ValueError):
+            module.planned_image(inventory, selected)
+        inventory["resolved_image"] = images.PREFIX + "@sha256:" + "b" * 64
+        with self.assertRaises(ValueError):
+            module.planned_image(inventory, images.PREFIX + "@sha256:" + "c" * 64)
+
+
+class ApplicationImageTests(unittest.TestCase):
+    def test_public_deployment_uses_kubernetes_probe_ports(self):
+        document = json.loads(
+            (
+                Path(__file__).parents[1]
+                / "docs/assets/configurations/wingman-deployment.json"
+            ).read_text()
+        )
+        application = document["spec"]["template"]["spec"]["containers"][0]
+        assert application["ports"][0]["containerPort"] == 8443
+        for probe, handler in [
+            ("startupProbe", "httpGet"),
+            ("readinessProbe", "httpGet"),
+            ("livenessProbe", "tcpSocket"),
+        ]:
+            assert application[probe][handler]["port"] == "https"
+            assert "ports" not in application[probe][handler]
+
+    def test_governed_latest_and_immutable_references(self):
+        prefix = "ghcr.io/f5-sales-demo/certificate-management-wingman"
+        module.require_image(prefix + ":latest")
+        module.require_image(prefix + "@sha256:" + "a" * 64)
+        for reference in [
+            prefix + ":dev",
+            prefix + "@sha256:" + "a" * 63,
+            "ghcr.io/other/application:latest",
+            prefix + ":latest@sha256:" + "a" * 64,
+        ]:
+            with self.assertRaises(ValueError):
+                module.require_image(reference)
 
 
 class ProbeOwnershipTests(unittest.TestCase):
@@ -225,6 +335,27 @@ class ProbeDeadlineTests(unittest.TestCase):
 
 
 class ProbeLogTests(unittest.TestCase):
+    def test_cri_transport_error_with_exit_zero_uses_other_container_log(self):
+        command = Mock(
+            side_effect=[
+                module.subprocess.CompletedProcess(
+                    [], 0, "unable to retrieve container logs for cri-o://owned", ""
+                ),
+                module.subprocess.CompletedProcess(
+                    [], 0, '{"denied":true,"http_status":403}', ""
+                ),
+            ]
+        )
+        with TemporaryDirectory() as directory:
+            output = Path(directory) / "probe.log"
+            assert (
+                module.read_probe_output(command, "probe", True, output)["http_status"]
+                == 403
+            )
+            assert (
+                "cri-o://owned" in (Path(directory) / "probe-transport.log").read_text()
+            )
+
     def test_empty_current_log_reads_completed_previous_container(self):
         command = Mock(
             side_effect=[

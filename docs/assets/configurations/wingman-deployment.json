@@ -1,0 +1,110 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "<XCSH_WINGMAN_NAME>-wingman",
+    "namespace": "<XCSH_NAMESPACE>",
+    "labels": {
+      "app": "<XCSH_WINGMAN_NAME>-wingman"
+    }
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "<XCSH_WINGMAN_NAME>-wingman"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "<XCSH_WINGMAN_NAME>-wingman"
+        },
+        "annotations": {
+          "ves.io/wingman-injection-mode": "enable",
+          "certificate-management/material-sha256": "<MATERIAL_SHA256>"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "application",
+            "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:<RESOLVED_IMAGE_DIGEST>",
+            "imagePullPolicy": "Always",
+            "ports": [
+              {
+                "name": "https",
+                "containerPort": 8443
+              }
+            ],
+            "env": [
+              {
+                "name": "TLS_HOSTNAME",
+                "value": "<XCSH_DOMAINNAME>"
+              }
+            ],
+            "resources": {
+              "requests": {
+                "cpu": "50m",
+                "memory": "32Mi"
+              },
+              "limits": {
+                "cpu": "250m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "runAsNonRoot": true,
+              "allowPrivilegeEscalation": false,
+              "readOnlyRootFilesystem": true,
+              "capabilities": {
+                "drop": ["ALL"]
+              }
+            },
+            "volumeMounts": [
+              {
+                "name": "material",
+                "mountPath": "/material",
+                "readOnly": true
+              }
+            ],
+            "startupProbe": {
+              "httpGet": {
+                "path": "/readyz",
+                "port": "https",
+                "scheme": "HTTPS"
+              },
+              "periodSeconds": 5,
+              "timeoutSeconds": 6,
+              "failureThreshold": 30
+            },
+            "livenessProbe": {
+              "tcpSocket": {
+                "port": "https"
+              },
+              "periodSeconds": 10,
+              "failureThreshold": 3
+            },
+            "readinessProbe": {
+              "httpGet": {
+                "path": "/readyz",
+                "port": "https",
+                "scheme": "HTTPS"
+              },
+              "periodSeconds": 5,
+              "timeoutSeconds": 6
+            }
+          }
+        ],
+        "volumes": [
+          {
+            "name": "material",
+            "configMap": {
+              "name": "<XCSH_WINGMAN_NAME>-wingman-material"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

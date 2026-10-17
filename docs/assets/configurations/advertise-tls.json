@@ -1,0 +1,34 @@
+[
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "protocol": "TCP",
+      "port": 8443,
+      "ipv4": {},
+      "tls_parameters": {
+        "no_client_certificate": {},
+        "common_params": {
+          "minimum_protocol_version": "TLS_AUTO",
+          "maximum_protocol_version": "TLS_AUTO",
+          "tls_certificates": [
+            {
+              "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+              "private_key": {
+                "blindfold_secret_info": {
+                  "location": "string:///<ENCRYPTED_KEY>"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+]

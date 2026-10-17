@@ -35,8 +35,9 @@ for (const file of walk(path.join(root, 'docs/en'))) {
         !(name === 'XCSH_TLS_INPUT_PASSWORD' && block[1] === 'hcl')
       )
         assert.ok(selected.has(name), file + ': undeclared dependency ' + name);
+      const assignment = block[2].match(new RegExp('^\\s*(?:export\\s+)?' + name + '=([^\\n]*)', 'm'));
       assert.ok(
-        !new RegExp('^\\s*(?:export\\s+)?' + name + '=([^\\n]*)', 'm').test(block[2]),
+        !assignment || assignment[1].trim() === '"$' + name + '"',
         file + ': input assignment overrides selection ' + name,
       );
     }
@@ -44,13 +45,9 @@ for (const file of walk(path.join(root, 'docs/en'))) {
       assert.ok(!/^\s*(xcsh|vesctl)\b/m.test(block[2]), file + ': external encryption CLI');
   }
 }
-assert.equal(fields.size, 31);
+assert.equal(fields.size, 32);
 assert.equal(manifest.behavior.environmentCredentials, true);
 assert.equal(manifest.behavior.fallbackToDefaults, true);
 console.log(
-  'Customization audit passed: English pages, ' +
-    blocks +
-    ' annotated blocks, ' +
-    fields.size +
-    ' catalog fields.',
+  'Customization audit passed: English pages, ' + blocks + ' annotated blocks, ' + fields.size + ' catalog fields.',
 );

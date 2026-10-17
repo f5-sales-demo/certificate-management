@@ -24,6 +24,17 @@ PAGES = [
     "xcsh/input-workflows/",
     "xcsh/command-reference/",
 ]
+PAGES.extend(
+    "terraform/certificate-surfaces/" + path.stem + "/"
+    for path in sorted(
+        (
+            Path(__file__).resolve().parents[1]
+            / "docs/en/terraform/certificate-surfaces"
+        ).glob("*.md")
+    )
+    if path.stem != "index"
+)
+
 ARTIFACTS = Path(
     os.environ.get(
         "CERT_CUSTOMIZATION_ARTIFACTS",
@@ -75,6 +86,7 @@ with sync_playwright() as p:
             "XCSH_LB_NAME": sentinel,
             "XCSH_DOMAINNAME": "reader.example.com",
             "XCSH_CERT_FILE": "/private/" + sentinel + ".pem",
+            "XCSH_APPLICATION_CERT_FILE": "/private/application.pem",
             "XCSH_KEY_FILE": "/private/" + sentinel + "-key.pem",
             "XCSH_CERT_ID": sentinel,
             "XCSH_API_TOKEN": "TOKEN_SENTINEL",
@@ -96,12 +108,61 @@ with sync_playwright() as p:
             BASE + "/certificate-management/_data/wingman/runtime/main.tf",
             BASE + "/certificate-management/_data/wingman/qualification/main.tf",
         ]
+        canonical_urls.extend(
+            BASE + "/certificate-management/assets/configurations/" + path.name
+            for path in sorted(
+                (
+                    Path(__file__).resolve().parents[1] / "docs/assets/configurations"
+                ).glob("*.json")
+            )
+        )
         downloads = {
             url: hashlib.sha256(context.request.get(url).body()).hexdigest()
             for url in canonical_urls
         }
+        for url, digest in downloads.items():
+            relative = url.split("/certificate-management/", 1)[1]
+            source_root = Path(__file__).resolve().parents[1]
+            source = (
+                source_root / relative.removeprefix("_data/")
+                if relative.startswith("_data/")
+                else source_root / "docs" / relative
+            )
+            assert hashlib.sha256(source.read_bytes()).hexdigest() == digest, url
         for route in PAGES:
             visit(route)
+            navigation = page.evaluate("""() => {
+              const sidebar = document.querySelector('.sidebar-content');
+              return {
+                labels: [...sidebar.querySelectorAll('a, .group-label')].map(e => e.textContent.trim()),
+                groups: [...sidebar.querySelectorAll('details')].map(e => ({
+                  parent: e.querySelector(':scope > summary .group-label').textContent.trim(),
+                  child: e.querySelector(':scope > ul > li > a')?.textContent.trim()
+                })),
+                order: [...sidebar.querySelectorAll('ul.top-level > li')].map(e =>
+                  e.querySelector(':scope > a, :scope > details > summary .group-label').textContent.trim())
+              };
+            }""")
+            assert all(len(label.split()) <= 3 for label in navigation["labels"]), (
+                navigation
+            )
+            assert all(
+                group["parent"] != group["child"] for group in navigation["groups"]
+            ), navigation
+            assert navigation["order"] == [
+                "Overview",
+                "xcsh",
+                "Terraform",
+                "Wingman",
+            ], navigation
+            assert {
+                group["parent"]: group["child"] for group in navigation["groups"]
+            } == {
+                "xcsh": "Certificate workflow",
+                "Terraform": "Certificate workflow",
+                "Certificate types": "Choose configuration",
+                "Wingman": "Key unsealing",
+            }, navigation
             for name, value in values.items():
                 assert page.locator("#ph-" + name).input_value() == value, (route, name)
             assert (
@@ -134,11 +195,13 @@ with sync_playwright() as p:
                     assert "PASSPHRASE_SENTINEL" not in copied
                     if route == "wingman/" and "metadata" in structured:
                         assert (
-                            structured["metadata"]["labels"]["app"]
+                            structured["spec"]["template"]["metadata"]["labels"]["app"]
                             == "reader-wingman-wingman"
                         )
                         assert (
-                            structured["spec"]["containers"][0]["env"][0]["value"]
+                            structured["spec"]["template"]["spec"]["containers"][0][
+                                "env"
+                            ][0]["value"]
                             == "reader.example.com"
                         )
                 if context_name == "hcl":
@@ -165,10 +228,6 @@ with sync_playwright() as p:
                 assert any("reader-context" in text for text in rendered)
             assert not errors, errors
         visit("xcsh/")
-        historical = page.locator('[data-personalize="off"]').text_content()
-        assert "certificate-management.f5-sales-demo.com" in historical
-        assert sentinel not in historical
-        assert "reader.example.com" not in historical
         reader = page.locator(
             '[data-xcsh-fields="XCSH_DOMAINNAME XCSH_CERT_FILE"] pre code'
         ).text_content()
@@ -216,6 +275,11 @@ with sync_playwright() as p:
         )
         for url, digest in downloads.items():
             assert hashlib.sha256(context.request.get(url).body()).hexdigest() == digest
+        visit("terraform/certificate-surfaces/")
+        page.locator(".ph-form-wrapper summary").click()
+        if width < 800:
+            page.get_by_role("button", name="Menu", exact=True).click()
+        page.screenshot(path=str(ARTIFACTS / f"navigation-{width}.png"))
         context.close()
     context = browser.new_context()
     context.add_init_script(

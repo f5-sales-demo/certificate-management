@@ -1,0 +1,112 @@
+[
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+      "private_key": {
+        "blindfold_secret_info": {
+          "location": "string:///<ENCRYPTED_KEY>"
+        }
+      }
+    }
+  },
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "domains": ["<XCSH_DOMAINNAME>"],
+      "advertise_on_public_default_vip": {},
+      "disable_waf": {},
+      "no_service_policies": {},
+      "disable_api_definition": {},
+      "disable_api_discovery": {},
+      "disable_bot_defense": {},
+      "disable_rate_limit": {},
+      "disable_ip_reputation": {},
+      "disable_malicious_user_detection": {},
+      "https": {
+        "port": 443,
+        "tls_cert_params": {
+          "no_mtls": {},
+          "tls_config": {
+            "default_security": {}
+          },
+          "certificates": [
+            {
+              "name": "<XCSH_LB_NAME>",
+              "namespace": "<XCSH_NAMESPACE>"
+            }
+          ]
+        }
+      },
+      "routes": [
+        {
+          "direct_response_route": {
+            "http_method": "GET",
+            "path": {
+              "path": "/get"
+            },
+            "route_direct_response": {
+              "response_code": 200,
+              "response_body_encoded": "string:///eyJleGFtcGxlIjoidGVycmFmb3JtLWNlcnRpZmljYXRlIiwibmF0aXZlX2JsaW5kZm9sZCI6dHJ1ZX0="
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>-http",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "domains": ["<XCSH_DOMAINNAME>"],
+      "advertise_on_public_default_vip": {},
+      "disable_waf": {},
+      "no_service_policies": {},
+      "disable_api_definition": {},
+      "disable_api_discovery": {},
+      "disable_bot_defense": {},
+      "disable_rate_limit": {},
+      "disable_ip_reputation": {},
+      "disable_malicious_user_detection": {},
+      "http": {
+        "port": 80,
+        "dns_volterra_managed": true
+      },
+      "routes": [
+        {
+          "redirect_route": {
+            "http_method": "ANY",
+            "path": {
+              "prefix": "/"
+            },
+            "route_redirect": {
+              "proto_redirect": "https",
+              "host_redirect": "<XCSH_DOMAINNAME>",
+              "response_code": 301
+            }
+          }
+        }
+      ]
+    }
+  }
+]

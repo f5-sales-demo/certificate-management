@@ -34,6 +34,39 @@ KINDS = {
 }
 
 
+def require_public_projection(
+    expected: object, observed: object, path: str = ""
+) -> None:
+    """Compare authored public fields while permitting API-added defaults."""
+    if isinstance(expected, dict):
+        if not isinstance(observed, dict):
+            raise TypeError("Public configuration object differs at " + path)
+        for key, value in expected.items():
+            # The isolated lifecycle deliberately disables public advertisement.
+            if key == "advertise_on_public_default_vip":
+                if "do_not_advertise" not in observed:
+                    message = "Qualification advertisement differs"
+                    raise ValueError(message)
+                continue
+            if key not in observed:
+                raise ValueError(
+                    "Public configuration field missing at " + path + "/" + key
+                )
+            require_public_projection(value, observed[key], path + "/" + key)
+    elif isinstance(expected, list):
+        if not isinstance(observed, list) or len(expected) != len(observed):
+            raise ValueError("Public configuration list differs at " + path)
+        for index, (value, actual) in enumerate(zip(expected, observed, strict=True)):
+            require_public_projection(value, actual, path + "/" + str(index))
+    elif isinstance(expected, str) and re.search(r"<[A-Z0-9_]+>", expected):
+        pattern = re.escape(expected)
+        pattern = re.sub(r"<[A-Z0-9_]+>", ".+", pattern)
+        if not isinstance(observed, str) or not re.fullmatch(pattern, observed):
+            raise ValueError("Public configuration placeholder differs at " + path)
+    elif expected != observed:
+        raise ValueError("Public configuration value differs at " + path)
+
+
 def require_run_ownership(
     name: str, namespace: str, run: str, expected_namespace: str
 ) -> None:
@@ -258,7 +291,10 @@ def main() -> None:
                 raise ValueError(message)
             _, identity = api(entry["kind"], entry["name"], complete=False)
             entry["uid"] = (identity.get("system_metadata") or {}).get("uid")
-
+            (
+                Path(entry["source"])
+                / (entry["kind"] + "-" + entry["name"] + "-readback-private.json")
+            ).write_text(json.dumps(value, indent=2) + "\n")
             walk(value.get("spec", {}))
         if not found:
             message = "No encrypted certificate material in typed API readback"
@@ -421,6 +457,47 @@ def main() -> None:
                     "-detailed-exitcode",
                 )
                 current = encrypted(owned)
+                if stage == "initial":
+                    public_file = (
+                        root / "docs/assets/configurations" / (source + ".json")
+                    )
+                    if public_file.is_file():
+                        documents = json.loads(public_file.read_text())
+                        kinds = re.findall(r'resource "(xcsh_[^"]+)"', original)
+                        compared = 0
+                        for kind, document in zip(kinds, documents, strict=True):
+                            expected_name = document["metadata"]["name"].replace(
+                                "<XCSH_LB_NAME>", variables["name"]
+                            )
+                            matches = [
+                                item
+                                for item in owned
+                                if item["kind"] == KINDS[kind]
+                                and item["name"] == expected_name
+                            ]
+                            if not matches:
+                                continue
+                            if len(matches) != 1:
+                                message = "Ambiguous public configuration comparison"
+                                raise ValueError(message)
+                            actual = json.loads(
+                                (
+                                    directory
+                                    / (
+                                        matches[0]["kind"]
+                                        + "-"
+                                        + matches[0]["name"]
+                                        + "-readback-private.json"
+                                    )
+                                ).read_text()
+                            )
+                            require_public_projection(document["spec"], actual["spec"])
+                            compared += 1
+                        entry["public_configuration_comparison"] = {
+                            "status": "passed",
+                            "resources": compared,
+                            "method": "authored fields match normalized API; defaults permitted",
+                        }
                 if stage in ("metadata", "reorder") and current != previous:
                     message = "Metadata edit changed encrypted material"
                     raise ValueError(message)

@@ -1,0 +1,43 @@
+[
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "port": 443,
+      "origin_servers": [
+        {
+          "public_name": {
+            "dns_name": "<XCSH_ORIGIN_HOSTNAME>"
+          }
+        }
+      ],
+      "use_tls": {
+        "sni": "<XCSH_ORIGIN_HOSTNAME>",
+        "tls_config": {
+          "default_security": {}
+        },
+        "use_mtls": {
+          "tls_certificates": [
+            {
+              "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+              "private_key": {
+                "blindfold_secret_info": {
+                  "location": "string:///<ENCRYPTED_KEY>"
+                }
+              }
+            }
+          ]
+        },
+        "use_server_verification": {
+          "trusted_ca_url": "string:///<BASE64_ORIGIN_CA>"
+        }
+      }
+    }
+  }
+]

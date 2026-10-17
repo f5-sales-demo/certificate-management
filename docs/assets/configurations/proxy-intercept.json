@@ -1,0 +1,32 @@
+[
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "do_not_advertise": {},
+      "site_local_network": {},
+      "no_forward_proxy_policy": {},
+      "http_proxy": {
+        "enable_http": {}
+      },
+      "tls_intercept": {
+        "enable_for_all_domains": {},
+        "volterra_trusted_ca": {},
+        "custom_certificate": {
+          "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+          "private_key": {
+            "blindfold_secret_info": {
+              "location": "string:///<ENCRYPTED_KEY>"
+            }
+          }
+        }
+      }
+    }
+  }
+]

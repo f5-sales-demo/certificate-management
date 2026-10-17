@@ -1,0 +1,67 @@
+[
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>",
+      "namespace": "<XCSH_NAMESPACE>",
+      "description": "Native Terraform Blindfold certificate example",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "domains": ["<XCSH_DOMAINNAME>"],
+      "listen_port": 443,
+      "do_not_advertise": {},
+      "no_sni": {},
+      "no_service_policies": {},
+      "origin_pools_weights": [
+        {
+          "pool": {
+            "name": "<XCSH_LB_NAME>-origin",
+            "namespace": "<XCSH_NAMESPACE>"
+          },
+          "weight": 1,
+          "priority": 1
+        }
+      ],
+      "tls_tcp": {
+        "tls_parameters": {
+          "no_mtls": {},
+          "tls_config": {
+            "default_security": {}
+          },
+          "tls_certificates": [
+            {
+              "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+              "private_key": {
+                "blindfold_secret_info": {
+                  "location": "string:///<ENCRYPTED_KEY>"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>-origin",
+      "namespace": "<XCSH_NAMESPACE>",
+      "labels": {
+        "certificate-example": "terraform"
+      }
+    },
+    "spec": {
+      "port": 8080,
+      "origin_servers": [
+        {
+          "public_name": {
+            "dns_name": "<XCSH_ORIGIN_HOSTNAME>"
+          }
+        }
+      ],
+      "no_tls": {}
+    }
+  }
+]

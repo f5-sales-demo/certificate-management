@@ -11,7 +11,34 @@ from collections.abc import Callable
 from pathlib import Path
 from urllib.parse import urlsplit
 
-DIGEST_LENGTH = 64
+
+def require_image(image: str) -> None:
+    """Accept only governed latest and immutable application references."""
+    if not re.fullmatch(
+        r"ghcr.io/f5-sales-demo/certificate-management-wingman(?::latest|@sha256:[a-f0-9]{64})",
+        image,
+    ):
+        message = "A governed latest or immutable application image is required"
+        raise ValueError(message)
+
+
+def planned_image(inventory: dict, selected: str) -> tuple[str, list[str]]:
+    """Bind observation to the immutable image recorded by the reviewed plan."""
+    resolved = inventory.get("resolved_image", "")
+    require_image(resolved)
+    platforms = inventory.get("platform_digests", [])
+    if (
+        inventory.get("requested_image") != selected
+        or "@sha256:" not in resolved
+        or not platforms
+    ):
+        message = "Planned application image differs from the selected publication"
+        raise ValueError(message)
+    for digest in platforms:
+        require_image("ghcr.io/f5-sales-demo/certificate-management-wingman@" + digest)
+    return resolved, platforms
+
+
 HTTP_FORBIDDEN = 403
 PROBE_COUNT = 3
 
@@ -141,7 +168,15 @@ def read_probe_output(
             log = command("logs", pod_name, "-c", "application", *options)
             output_file.write_text(log.stdout + log.stderr)
             output_file.chmod(0o600)
-            if log.returncode:
+            if log.returncode or log.stdout.startswith(
+                "unable to retrieve container logs for "
+            ):
+                # The observed vK8s log proxy can return its CRI error with exit 0.
+                # Preserve transport diagnostics separately from application output.
+                transport = output_file.with_name(output_file.stem + "-transport.log")
+                with transport.open("a") as stream:
+                    stream.write(log.stdout + log.stderr)
+                transport.chmod(0o600)
                 errors += 1
             elif log.stdout.strip():
                 return json.loads(log.stdout)
@@ -217,15 +252,10 @@ def main() -> None:
         msg = "An explicit private kubeconfig file is required"
         raise ValueError(msg)
     contract = json.loads((Path(__file__).parent / "contract.json").read_text())
-    image_prefix = "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:"
-    digest = (args.image or "").removeprefix(image_prefix)
-    if observe and (
-        not (args.image or "").startswith(image_prefix)
-        or len(digest) != DIGEST_LENGTH
-        or any(c not in "0123456789abcdef" for c in digest)
-    ):
-        msg = "An immutable governed application image is required"
-        raise ValueError(msg)
+    if observe:
+        require_image(args.image)
+    resolved_image = ""
+    platform_digests: list[str] = []
     if args.cleanup_only or args.verify_cleanup or args.verify_owned:
         document = json.loads((args.private_directory / "journal.json").read_text())
         run, journal = document["run"], document["entries"]
@@ -249,9 +279,9 @@ def main() -> None:
                 "Terraform-owned probes require a saved destroy plan, then --verify-cleanup"
             )
     else:
-        run, journal = terraform_inventory(
-            json.loads(args.inventory.read_text()), args.namespace
-        )
+        inventory = json.loads(args.inventory.read_text())
+        resolved_image, platform_digests = planned_image(inventory, args.image)
+        run, journal = terraform_inventory(inventory, args.namespace)
         args.private_directory.mkdir(mode=0o700, parents=True, exist_ok=False)
     results: dict = {
         "qualification": "cleanup only; unseal not exercised"
@@ -384,7 +414,7 @@ def main() -> None:
                     pod,
                     mode,
                     source,
-                    args.image,
+                    resolved_image,
                     args.domain,
                     {
                         contract["app_label"]: args.name
@@ -436,6 +466,10 @@ def main() -> None:
                 for c in pod["status"]["containerStatuses"]
                 if c["name"] == "application"
             )
+            image_id = container_status.get("imageID", "")
+            if not any(image_id.endswith(digest) for digest in platform_digests):
+                message = "Resolved application image digest is missing"
+                raise RuntimeError(message)
             evidence = read_probe_output(
                 command,
                 pod_name,
@@ -464,6 +498,7 @@ def main() -> None:
                     "source": source,
                     "evidence": evidence,
                     "sidecar_injected": True,
+                    "resolved_image_id": image_id,
                 }
             )
         succeeded = True
