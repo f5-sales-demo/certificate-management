@@ -1,11 +1,14 @@
 """Guard probe cleanup against foreign or replaced Kubernetes resources."""
 
 # ruff: noqa: PT027 -- Repository unittest protocol tests.
+import hashlib
 import importlib.util
+import json
+import sys
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from unittest.mock import Mock
+from unittest.mock import MagicMock, Mock, patch
 
 spec = importlib.util.spec_from_file_location(
     "wingman_qualification", Path(__file__).parents[1] / "wingman/qualify.py"
@@ -15,8 +18,76 @@ assert spec.loader is not None
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
+image_spec = importlib.util.spec_from_file_location(
+    "wingman_image", Path(__file__).parents[1] / "wingman/resolve_image.py"
+)
+assert image_spec is not None
+assert image_spec.loader is not None
+images = importlib.util.module_from_spec(image_spec)
+with patch.dict(sys.modules, {"qualify": module}):
+    image_spec.loader.exec_module(images)
+
+
+class RegistryImageTests(unittest.TestCase):
+    def test_latest_resolves_verified_index_and_linux_manifests(self):
+        body = json.dumps(
+            {
+                "manifests": [
+                    {"digest": "sha256:" + "a" * 64, "platform": {"os": "linux"}},
+                    {"digest": "sha256:" + "b" * 64, "platform": {"os": "unknown"}},
+                ]
+            }
+        ).encode()
+        digest = "sha256:" + hashlib.sha256(body).hexdigest()
+        response = MagicMock()
+        response.read.return_value = body
+        response.headers = {"Docker-Content-Digest": digest}
+        response.__enter__.return_value = response
+        with patch.object(images.urllib.request, "urlopen", return_value=response):
+            result = images.resolve(images.PREFIX + ":latest")
+        assert result["image"] == images.PREFIX + "@" + digest
+        assert result["platform_digests"] == "sha256:" + "a" * 64
+
+    def test_registry_digest_mismatch_is_rejected(self):
+        response = MagicMock()
+        response.read.return_value = b"{}"
+        response.headers = {"Docker-Content-Digest": "sha256:" + "a" * 64}
+        response.__enter__.return_value = response
+        with (
+            patch.object(images.urllib.request, "urlopen", return_value=response),
+            self.assertRaises(ValueError),
+        ):
+            images.resolve(images.PREFIX + ":latest")
+
+    def test_observation_rejects_mutable_or_foreign_planned_image(self):
+        selected = images.PREFIX + ":latest"
+        inventory = {
+            "requested_image": selected,
+            "resolved_image": selected,
+            "platform_digests": ["sha256:" + "a" * 64],
+        }
+        with self.assertRaises(ValueError):
+            module.planned_image(inventory, selected)
+        inventory["resolved_image"] = images.PREFIX + "@sha256:" + "b" * 64
+        with self.assertRaises(ValueError):
+            module.planned_image(inventory, images.PREFIX + "@sha256:" + "c" * 64)
+
 
 class ApplicationImageTests(unittest.TestCase):
+    def test_public_deployment_uses_kubernetes_probe_ports(self):
+        document = json.loads(
+            (Path(__file__).parents[1] / "docs/assets/configurations/wingman-deployment.json").read_text()
+        )
+        application = document["spec"]["template"]["spec"]["containers"][0]
+        assert application["ports"][0]["containerPort"] == 8443
+        for probe, handler in [
+            ("startupProbe", "httpGet"),
+            ("readinessProbe", "httpGet"),
+            ("livenessProbe", "tcpSocket"),
+        ]:
+            assert application[probe][handler]["port"] == "https"
+            assert "ports" not in application[probe][handler]
+
     def test_governed_latest_and_immutable_references(self):
         prefix = "ghcr.io/f5-sales-demo/certificate-management-wingman"
         module.require_image(prefix + ":latest")

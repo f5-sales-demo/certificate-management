@@ -104,3 +104,4 @@ terraform/input-variants/write-only-pem/versions.tf -> terraform/input-variants/
 terraform/input-variants/write-only-pkcs12/main.tf -> terraform/input-variants/write-only-pkcs12/main.tf
 terraform/input-variants/write-only-pkcs12/variables.tf -> terraform/input-variants/write-only-pkcs12/variables.tf
 terraform/input-variants/write-only-pkcs12/versions.tf -> terraform/input-variants/write-only-pkcs12/versions.tf
+wingman/resolve_image.py -> wingman/resolve_image.py

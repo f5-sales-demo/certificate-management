@@ -23,9 +23,11 @@ Follow F5's [Wingman how-to](https://docs.cloud.f5.com/docs-v2/multi-cloud-netwo
 
 ## Configuration
 
-Set `XCSH_APPLICATION_CERT_FILE` to the application leaf-first chain, `XCSH_CERT_FILE` to public endpoint trust, and `XCSH_ORIGIN_CA_FILE` to origin root trust. Use the governed latest image or an immutable digest. The runtime ConfigMap contains only the public chain and encrypted locations. Terraform creates it before this Deployment; do not apply this JSON separately to a Terraform-owned resource.
+Set `XCSH_APPLICATION_CERT_FILE` to the application leaf-first chain, `XCSH_CERT_FILE` to public endpoint trust, and `XCSH_ORIGIN_CA_FILE` to origin root trust. Use the governed latest image or an immutable digest.
+Terraform resolves the selection to a verified immutable image during planning; inspect that digest before applying the saved plan. The runtime ConfigMap contains only the public chain and encrypted locations.
+Terraform creates it before this Deployment; do not apply this JSON separately to a Terraform-owned resource.
 
-<div data-xcsh-context="json" data-xcsh-fields="XCSH_DOMAINNAME XCSH_NAMESPACE XCSH_WINGMAN_IMAGE XCSH_WINGMAN_NAME">
+<div data-xcsh-context="json" data-xcsh-fields="XCSH_DOMAINNAME XCSH_NAMESPACE XCSH_WINGMAN_NAME">
 
 ```json
 {
@@ -59,7 +61,7 @@ Set `XCSH_APPLICATION_CERT_FILE` to the application leaf-first chain, `XCSH_CERT
         "containers": [
           {
             "name": "application",
-            "image": "<XCSH_WINGMAN_IMAGE>",
+            "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:<RESOLVED_IMAGE_DIGEST>",
             "imagePullPolicy": "Always",
             "ports": [
               {
@@ -101,7 +103,7 @@ Set `XCSH_APPLICATION_CERT_FILE` to the application leaf-first chain, `XCSH_CERT
             "startupProbe": {
               "httpGet": {
                 "path": "/readyz",
-                "ports": "https",
+                "port": "https",
                 "scheme": "HTTPS"
               },
               "periodSeconds": 5,
@@ -110,7 +112,7 @@ Set `XCSH_APPLICATION_CERT_FILE` to the application leaf-first chain, `XCSH_CERT
             },
             "livenessProbe": {
               "tcpSocket": {
-                "ports": "https"
+                "port": "https"
               },
               "periodSeconds": 10,
               "failureThreshold": 3
@@ -118,7 +120,7 @@ Set `XCSH_APPLICATION_CERT_FILE` to the application leaf-first chain, `XCSH_CERT
             "readinessProbe": {
               "httpGet": {
                 "path": "/readyz",
-                "ports": "https",
+                "port": "https",
                 "scheme": "HTTPS"
               },
               "periodSeconds": 5,
@@ -183,7 +185,7 @@ The actual pod must contain both `application` and an injected Wingman container
 
 ### Unseal inside the application
 
-Wingman's loopback API listens on port 8070. The application first requests `/status` and requires the response body to be `READY`; HTTP 200 alone is insufficient. It sends the encrypted location to `/secret/unseal` as a Blindfold request, decodes the Base64 response in memory, and validates the certificate/key pair, hostname, and validity period before listening on TLS port 8443.
+Wingman's loopback API listens on port 8070. The application first requests `/status` and requires the response body to be `READY`; HTTP 200 alone is insufficient. It sends the encrypted location to `/secret/unseal` as a Blindfold request, decodes the base64 response in memory, and validates the certificate/key pair, hostname, and validity period before listening on TLS port 8443.
 
 <div data-xcsh-context="json" data-xcsh-fields="">
 
@@ -305,7 +307,6 @@ python3 "$XCSH_WORKDIR/wingman/qualify.py" --verify-cleanup \
 </div>
 
 Require successful Kubernetes reads showing no named Deployments and no run-labelled pods or ReplicaSets twice. Permission or transport errors do not count as absence. The empty create-state follow-up plan is checked before destroy; after destroy the state must contain no resources. Keep failed plan/apply evidence and reconcile state before making a fresh recovery plan.
-
 
 Run the [planned disposable checks](#plan-disposable-qualification-infrastructure)
 against your actual sidecar. They require `READY`, trusted platform-issued client/server identity

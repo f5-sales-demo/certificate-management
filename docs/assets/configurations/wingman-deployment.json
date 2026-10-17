@@ -29,7 +29,7 @@
         "containers": [
           {
             "name": "application",
-            "image": "<XCSH_WINGMAN_IMAGE>",
+            "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:<RESOLVED_IMAGE_DIGEST>",
             "imagePullPolicy": "Always",
             "ports": [
               {
@@ -71,7 +71,7 @@
             "startupProbe": {
               "httpGet": {
                 "path": "/readyz",
-                "ports": "https",
+                "port": "https",
                 "scheme": "HTTPS"
               },
               "periodSeconds": 5,
@@ -80,7 +80,7 @@
             },
             "livenessProbe": {
               "tcpSocket": {
-                "ports": "https"
+                "port": "https"
               },
               "periodSeconds": 10,
               "failureThreshold": 3
@@ -88,7 +88,7 @@
             "readinessProbe": {
               "httpGet": {
                 "path": "/readyz",
-                "ports": "https",
+                "port": "https",
                 "scheme": "HTTPS"
               },
               "periodSeconds": 5,

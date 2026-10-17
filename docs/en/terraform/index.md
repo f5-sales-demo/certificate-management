@@ -315,9 +315,11 @@ data "xcsh_namespace" "existing" {
   name = var.namespace
 }
 terraform {
+  required_version = null
   required_providers {
     xcsh = {
-      source = "f5-sales-demo/xcsh"
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
     }
   }
 }
@@ -436,7 +438,7 @@ terraform -chdir="$XCSH_WORKDIR/deployment" show \
 </div>
 
 Hash the reviewed plan with `shasum -a 256 "$XCSH_WORKDIR/deployment/create.plan"`. Expect one named certificate, one HTTPS load balancer, one HTTP DNS companion, and a namespace read. Confirm the names, hostname, references, and
-ownership before applying. Protect the dependency lock file, saved plans, state, and logs. They contain encrypted material and local paths. Read
+ownership before applying. Protect the dependency lockfile, saved plans, state, and logs. They contain encrypted material and local paths. Read
 [saved-plan input changes](./input-lifecycle/#saved-plans) before changing files after planning.
 
 ### Apply the configuration

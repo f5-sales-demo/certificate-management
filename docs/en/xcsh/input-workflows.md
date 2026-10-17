@@ -13,11 +13,11 @@ Choose the input form for your existing certificate and key; use new artifact fi
 
 ## Protected PEM
 
-### Configuration
+### Protected PEM configuration
 
 Supply `<XCSH_CERT_FILE>` and matching `<XCSH_PROTECTED_KEY_FILE>`; pass the name of the environment variable holding the input passphrase.
 
-### Configure
+### Configure protected PEM
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE XCSH_CERT_NAME XCSH_CERT_FILE XCSH_PROTECTED_KEY_FILE XCSH_TLS_INPUT_PASSWORD">
 
@@ -37,7 +37,7 @@ unset XCSH_TLS_INPUT_PASSWORD
 
 Expect `prepared`; native preparation decrypts and normalizes the key before encryption. [Preview and apply](../#configure) the saved manifest using its filename.
 
-### Verify
+### Verify protected PEM
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE">
 
@@ -53,11 +53,11 @@ Review the preview before applying. Expect `created` for a new resource and `unc
 
 ## PKCS#12
 
-### Configuration
+### PKCS#12 configuration
 
 Supply `<XCSH_P12_FILE>` containing one private key, its matching leaf certificate, and issuing chain.
 
-### Configure
+### Configure PKCS#12
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE XCSH_CERT_NAME XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
 
@@ -77,7 +77,7 @@ unset XCSH_TLS_INPUT_PASSWORD
 
 Expect `prepared`; an incorrect password or multiple private keys fails. [Preview and apply](../#configure) `bundle-certificate.json`.
 
-### Verify
+### Verify PKCS#12
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE">
 
@@ -93,7 +93,7 @@ Review the preview before applying. Expect `created` for a new resource and `unc
 
 ## Raw and offline
 
-### Configuration
+### Raw configuration
 
 The tenant public key and TLS secret policy provide the paired public material for local Blindfold encryption.
 
@@ -111,7 +111,7 @@ xcsh blindfold policy --policy shared/ves-io-allow-volterra \
 
 Expect two JSON documents for the same tenant; retrieve a fresh pair when its public key or policy changes.
 
-### Configure
+### Configure raw inputs
 
 Encrypt the existing `<XCSH_KEY_FILE>` using both files; paired documents select offline encryption.
 
@@ -142,7 +142,7 @@ xcsh blindfold encrypt --public-key tenant-public-key.json \
 
 Expect `prepared` and a `string:///` location. Raw encryption preserves input bytes; [native certificate preparation](../#configure) validates and normalizes certificate inputs.
 
-### Verify
+### Verify raw inputs
 
 <div data-xcsh-context="shell" data-xcsh-fields="">
 

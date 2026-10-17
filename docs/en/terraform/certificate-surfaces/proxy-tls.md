@@ -124,9 +124,11 @@ data "xcsh_namespace" "existing" {
   name = var.namespace
 }
 terraform {
+  required_version = null
   required_providers {
     xcsh = {
-      source = "f5-sales-demo/xcsh"
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
     }
   }
 }
@@ -139,7 +141,7 @@ provider "xcsh" {}
 
 ## Configure
 
-1. Supply the prerequisite fields in Customize examples. Download the files and review the saved plan.
+Supply the prerequisite fields in Customize examples. Download the files and review the saved plan.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_CERT_FILE XCSH_DOMAINNAME XCSH_KEY_FILE XCSH_LB_NAME XCSH_NAMESPACE XCSH_WORKDIR">
 
@@ -164,7 +166,7 @@ shasum -a 256 "$configuration/create.plan"
 
 </div>
 
-2. Confirm the resource names, references, and ownership in the plan. Apply that reviewed plan.
+Confirm the resource names, references, and ownership in the plan. Apply that reviewed plan.
 
 <div data-xcsh-context="shell" data-xcsh-fields="">
 

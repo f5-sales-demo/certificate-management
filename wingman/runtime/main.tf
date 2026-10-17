@@ -1,3 +1,8 @@
+data "external" "application_image" {
+  program = ["python3", "${path.module}/../resolve_image.py"]
+  query   = { image = var.application_image }
+}
+
 locals {
   contract  = jsondecode(file("${path.module}/../contract.json"))
   namespace = var.namespace == null ? local.contract.namespace : var.namespace
@@ -56,7 +61,7 @@ resource "kubernetes_deployment_v1" "application" {
       spec {
         container {
           name              = "application"
-          image             = var.application_image
+          image             = "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:${split(":", data.external.application_image.result.digest)[1]}"
           image_pull_policy = "Always"
           port {
             name           = "https"

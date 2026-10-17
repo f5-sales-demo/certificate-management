@@ -58,9 +58,11 @@ data "xcsh_namespace" "existing" {
 }
 
 terraform {
+  required_version = null
   required_providers {
     xcsh = {
-      source = "f5-sales-demo/xcsh"
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
     }
   }
 }
@@ -71,7 +73,7 @@ provider "xcsh" {}
 
 </div>
 
-1. Supply the selected input and review the saved plan.
+Supply the selected input and review the saved plan.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_CERT_FILE XCSH_LB_NAME XCSH_NAMESPACE XCSH_P12_FILE XCSH_PROTECTED_KEY_FILE XCSH_TLS_INPUT_PASSWORD XCSH_WORKDIR">
 
@@ -101,7 +103,7 @@ shasum -a 256 "$configuration/input.plan"
 
 </div>
 
-2. Apply the reviewed plan and verify encrypted readback.
+Apply the reviewed plan and verify encrypted readback.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
 
@@ -144,8 +146,6 @@ variable "name" {
   default     = "example-tls"
 }
 
-
-
 variable "description" {
   type        = string
   description = "Operator-editable resource description."
@@ -160,9 +160,11 @@ variable "pkcs12_file" {
 }
 
 terraform {
+  required_version = null
   required_providers {
     xcsh = {
-      source = "f5-sales-demo/xcsh"
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
     }
   }
 }
@@ -173,7 +175,7 @@ provider "xcsh" {}
 
 </div>
 
-1. Supply the selected input and review the saved plan.
+Supply the selected input and review the saved plan.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_LB_NAME XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD XCSH_WORKDIR">
 
@@ -202,7 +204,7 @@ shasum -a 256 "$configuration/input.plan"
 
 </div>
 
-2. Apply the reviewed plan and verify encrypted readback.
+Apply the reviewed plan and verify encrypted readback.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
 
@@ -266,9 +268,11 @@ variable "private_key" {
 }
 
 terraform {
+  required_version = null
   required_providers {
     xcsh = {
-      source = "f5-sales-demo/xcsh"
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
     }
   }
 }
@@ -279,7 +283,7 @@ provider "xcsh" {}
 
 </div>
 
-1. Supply the selected input and review the saved plan.
+Supply the selected input and review the saved plan.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_CERT_FILE XCSH_KEY_FILE XCSH_LB_NAME XCSH_MATERIAL_VERSION XCSH_NAMESPACE XCSH_P12_FILE XCSH_WORKDIR">
 
@@ -306,7 +310,7 @@ shasum -a 256 "$configuration/input.plan"
 
 </div>
 
-2. Apply the reviewed plan and verify encrypted readback.
+Apply the reviewed plan and verify encrypted readback.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
 
@@ -349,8 +353,6 @@ variable "name" {
   default     = "example-tls"
 }
 
-
-
 variable "description" {
   type        = string
   description = "Operator-editable resource description."
@@ -372,9 +374,11 @@ variable "passphrase" {
 }
 
 terraform {
+  required_version = null
   required_providers {
     xcsh = {
-      source = "f5-sales-demo/xcsh"
+      source  = "f5-sales-demo/xcsh"
+      version = ">= 0"
     }
   }
 }
@@ -385,7 +389,7 @@ provider "xcsh" {}
 
 </div>
 
-1. Supply the selected input and review the saved plan.
+Supply the selected input and review the saved plan.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_LB_NAME XCSH_MATERIAL_VERSION XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD XCSH_WORKDIR">
 
@@ -418,7 +422,7 @@ shasum -a 256 "$configuration/input.plan"
 
 </div>
 
-2. Apply the reviewed plan and verify encrypted readback.
+Apply the reviewed plan and verify encrypted readback.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL XCSH_NAMESPACE XCSH_P12_FILE XCSH_TLS_INPUT_PASSWORD">
 

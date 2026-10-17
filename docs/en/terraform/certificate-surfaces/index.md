@@ -57,7 +57,6 @@ The provider has 25 certificate nodes across 14 resource types. Sixteen support 
 | `xcsh_workload.stateful_service.advertise_options.advertise_on_public.multi_ports.ports.http_loadbalancer.https.tls_parameters.tls_certificates` | Passed | Failed | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/workload-stateful_service-public-multi) Current API returns HTTP 500; the HTTP-only control also fails |
 | `xcsh_workload.stateful_service.advertise_options.advertise_on_public.port.http_loadbalancer.https.tls_parameters.tls_certificates` | Passed | Failed | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/workload-stateful_service-public-single) Current API returns HTTP 500; the HTTP-only control also fails |
 
-
 ## Restricted reference fragments
 
 Files under [`terraform/reference`](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference) end in `.tf.example`. They illustrate schema paths and are excluded from normal `terraform apply` discovery. Review them against the installed schema; do not deploy them into the retained shared namespace.

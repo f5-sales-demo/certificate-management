@@ -1,7 +1,13 @@
 terraform {
+  required_version = null
   required_providers {
+    external = {
+      source  = "hashicorp/external"
+      version = ">= 0"
+    }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
+      version = ">= 0"
     }
   }
 }

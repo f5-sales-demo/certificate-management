@@ -95,7 +95,6 @@ curl --silent --show-error --fail --cacert "$XCSH_CERT_FILE" \
 
 Expect matching fingerprints and your application's expected status and content. After renewal, select the renewed public certificate in the form before repeating verification.
 
-
 ## Maintain
 
 Supply renewed `<XCSH_RENEWED_CERT_FILE>` and matching `<XCSH_RENEWED_KEY_FILE>` with the same key algorithm for a referenced certificate. Prepare the replacement and inspect its preview:

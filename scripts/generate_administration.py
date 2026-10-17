@@ -112,7 +112,7 @@ def value(text: Any) -> Any:
 
 def public(body: dict, shape: dict) -> dict:
     """Convert Terraform single/list nesting to the public API configuration."""
-    result = {}
+    result: dict[str, Any] = {}
     for key, item in body.items():
         if key in {"depends_on", "lifecycle", "timeouts"}:
             continue
@@ -259,9 +259,13 @@ def generate(schema: dict) -> None:
             )
             generated = begin + "\n" + section + "\n" + end
             if begin in text:
+
+                def replacement(_match: re.Match[str], content: str = generated) -> str:
+                    return content
+
                 text = re.sub(
                     begin + r"[\s\S]*?" + end,
-                    lambda _, generated=generated: generated,
+                    replacement,
                     text,
                 )
             else:
@@ -276,9 +280,9 @@ def generate(schema: dict) -> None:
             + '\nterraform -chdir="$configuration" plan -detailed-exitcode'
         )
         text = (
-            f"---\ntitle: {CHOICES[name]}\nsidebar:\n  order: {list(CHOICES).index(name) + 1}\n---\n\n## Prerequisites\n\nInstall the latest Terraform and provider releases. Set the [provider environment](../../#prerequisites) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.\n\n{requirements(name)}\n\n## Configuration\n\n{section}\n## Configure\n\n1. Supply the prerequisite fields in Customize examples. Download the files and review the saved plan.\n\n"
+            f"---\ntitle: {CHOICES[name]}\nsidebar:\n  order: {list(CHOICES).index(name) + 1}\n---\n\n## Prerequisites\n\nInstall the latest Terraform and provider releases. Set the [provider environment](../../#prerequisites) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.\n\n{requirements(name)}\n\n## Configuration\n\n{section}\n## Configure\n\nSupply the prerequisite fields in Customize examples. Download the files and review the saved plan.\n\n"
             + fence("bash", "\n".join(commands))
-            + "\n2. Confirm the resource names, references, and ownership in the plan. Apply that reviewed plan.\n\n"
+            + "\nConfirm the resource names, references, and ownership in the plan. Apply that reviewed plan.\n\n"
             + fence("bash", 'terraform -chdir="$configuration" apply create.plan')
             + "\nExpect the configured resource to be created with encrypted key material. A failed or uncertain apply requires named readback before recovery; create a fresh plan after reconciling state.\n\n## Verify\n\nRead the complete API configuration privately and check the new process's Terraform plan.\n\n"
             + fence("bash", verify)
@@ -433,9 +437,9 @@ def generate_inputs() -> None:
             + title
             + "\n\nUse a separate directory and state, an existing namespace, and an exclusively owned certificate name. This complete HCL owns only the named certificate. Attach it to a separately owned HTTPS consumer for served verification.\n\n"
             + fence("hcl", "\n".join(files.values()))
-            + "\n1. Supply the selected input and review the saved plan.\n\n"
+            + "\nSupply the selected input and review the saved plan.\n\n"
             + fence("bash", setup)
-            + "\n2. Apply the reviewed plan and verify encrypted readback.\n\n"
+            + "\nApply the reviewed plan and verify encrypted readback.\n\n"
             + fence("bash", verification)
             + "\nExpect HTTP `200`, an encoded public chain, and an encrypted private-key location. Expect **No changes** and exit `0` in a new process. This result does not prove served TLS. Write-only inputs require the same ephemeral values at saved-plan apply and a new material version when inputs change. Keep secrets exported until verification finishes, then unset them.\n"
         )
@@ -472,7 +476,7 @@ def generate_wingman() -> None:
         "${local.names.application}": "<XCSH_WINGMAN_NAME>-wingman",
         "${local.namespace}": "<XCSH_NAMESPACE>",
         "${local.selector}": {"app": "<XCSH_WINGMAN_NAME>-wingman"},
-        "${var.application_image}": "<XCSH_WINGMAN_IMAGE>",
+        'ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:${split(":", data.external.application_image.result.digest)[1]}': "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:<RESOLVED_IMAGE_DIGEST>",
         "${local.contract.backend_port}": 8443,
         "${var.domain}": "<XCSH_DOMAINNAME>",
         "${sha256(jsonencode(kubernetes_config_map_v1.material.data))}": "<MATERIAL_SHA256>",
@@ -520,9 +524,9 @@ def generate_wingman() -> None:
             else:
                 converted = convert(item)
             words = key.split("_")
-            name = arrays.get(
-                key, words[0] + "".join(word.title() for word in words[1:])
-            )
+            name = words[0] + "".join(word.title() for word in words[1:])
+            if isinstance(item, list):
+                name = arrays.get(key, name)
             result[name] = converted
         return result
 
@@ -552,6 +556,8 @@ def main() -> None:
     generate(schema)
     generate_inputs()
     generate_wingman()
+    for page in (ROOT / "docs/en").rglob("*.md"):
+        page.write_text(re.sub(r"\n{3,}", "\n\n", page.read_text()))
     (ROOT / "verification/administration-source.json").write_text(
         json.dumps(
             {

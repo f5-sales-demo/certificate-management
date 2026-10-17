@@ -10,7 +10,7 @@ Provision the policy, virtual site, vK8s, application, and TLS service with sepa
 
 ## Prerequisites
 
-
+Install Python 3, the latest Terraform release, kubectl, and jq. You need tenant API access, an existing namespace, and a verified regional-edge site selector with sufficient vK8s quota. Keep matching application certificate and key files in private storage. Set the [provider environment](../../terraform/#prerequisites) before planning.
 
 ## Configuration
 
@@ -35,8 +35,7 @@ Choose an independent naming base for a new deployment. Preserve existing owner 
 
 Use a verified source checkout or [download the scaffold](https://github.com/f5-sales-demo/certificate-management/tree/main/wingman).
 Preserve `wingman/contract.json` beside `bootstrap/`, `runtime/`, and `qualification/`. Keep state and session credentials
-outside Git with directory mode 0700 and file mode 0600. Install Python 3, Terraform 1.11 or later,
-kubectl, and jq. Use the latest published providers with `init -upgrade`.
+outside Git with directory mode 0700 and file mode 0600. Use the latest published providers with `init -upgrade`.
 
 Choose `<XCSH_WINGMAN_NAME>`, `<XCSH_WINGMAN_SITE_SELECTOR>`, `<XCSH_KUBECONFIG_FILE>`, and
 `<XCSH_KUBECONFIG_CONTEXT>` independently. Unknown identities remain placeholders. Supply the
@@ -59,7 +58,7 @@ for root in runtime qualification; do
     "https://f5-sales-demo.github.io/certificate-management/_data/wingman/$root/variables.tf" \
     --output "$XCSH_WORKDIR/wingman/$root/variables.tf"
 done
-for file in contract.json qualify.py kubeconfig.py; do
+for file in contract.json qualify.py kubeconfig.py resolve_image.py; do
   curl --silent --show-error --fail \
     "https://f5-sales-demo.github.io/certificate-management/_data/wingman/$file" \
     --output "$XCSH_WORKDIR/wingman/$file"
@@ -69,6 +68,7 @@ done
 
 </div>
 
+The selected `latest` image is resolved from the public registry to a verified immutable digest during planning. Review that digest in the saved plan; a later `init -upgrade` and fresh plan can select a newer publication.
 Keep the downloaded files together and preserve dependency lockfiles after `init -upgrade`. Record installed versions and pod image IDs in private verification evidence. Resolve publications again when repeating acceptance after an artifact changes.
 
 ### Create bootstrap and runtime
