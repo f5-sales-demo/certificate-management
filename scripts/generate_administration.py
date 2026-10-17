@@ -88,7 +88,7 @@ def value(text: Any) -> Any:
     """Resolve only known example expressions; unknown expressions fail generation."""
     if not isinstance(text, str):
         return text
-    examples = {
+    examples: dict[str, Any] = {
         "${var.origin_sni == null ? var.origin_hostname : var.origin_sni}": "<XCSH_ORIGIN_HOSTNAME>",
         "${var.send_client_certificate ? null : {}}": None,
         "${var.origin_port}": 8080,
@@ -121,7 +121,7 @@ def value(text: Any) -> Any:
 
 def public_dynamic(dynamic: dict, shape: dict) -> dict:
     """Render canonical default branches and reject unsupported dynamic blocks."""
-    result = {}
+    result: dict[str, Any] = {}
     for name, definition in dynamic.items():
         if name == "tls_certificates":
             result[name] = [

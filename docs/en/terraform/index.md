@@ -331,8 +331,9 @@ module "certificate_use_cases" {
 }
 output "certificate_use_case_inventory" {
   value = { for key, item in module.certificate_use_cases : key => merge(item.inventory, {
-    resource_address = "module.certificate_use_cases[\"${key}\"].${item.inventory.resource}"
-    owner            = "named-certificate"
+    resource_address   = "module.certificate_use_cases[\"${key}\"].${item.inventory.resource}"
+    resource_addresses = [for address in concat([item.inventory.resource], item.inventory.supporting_resources) : "module.certificate_use_cases[\"${key}\"].${address}"]
+    owner              = "named-certificate"
   }) }
 }
 variable "namespace" {
