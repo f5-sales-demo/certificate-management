@@ -44,7 +44,7 @@ class ClientMTLSTests(unittest.TestCase):
         assert match is not None
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "client.json"
-            subprocess.run(
+            subprocess.run(  # noqa: S603, S607 -- Fixed Python and canonical documented snippet, no shell.
                 [
                     "python3",
                     "-",
