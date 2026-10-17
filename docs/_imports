@@ -105,3 +105,6 @@ terraform/input-variants/write-only-pkcs12/main.tf -> terraform/input-variants/w
 terraform/input-variants/write-only-pkcs12/variables.tf -> terraform/input-variants/write-only-pkcs12/variables.tf
 terraform/input-variants/write-only-pkcs12/versions.tf -> terraform/input-variants/write-only-pkcs12/versions.tf
 wingman/resolve_image.py -> wingman/resolve_image.py
+terraform/named-certificate/use-cases.tf -> terraform/named-certificate/use-cases.tf
+terraform/http-origin-mtls/outputs.tf -> terraform/http-origin-mtls/outputs.tf
+terraform/http-origin-mtls/dns.tf -> terraform/http-origin-mtls/dns.tf
