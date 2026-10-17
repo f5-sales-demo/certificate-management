@@ -38,3 +38,36 @@ variable "origin_ca_file" {
   type        = string
   description = "Public PEM trust anchor for the origin server. Verification remains enabled."
 }
+
+variable "serve" {
+  type        = bool
+  default     = false
+  description = "Opt in to public HTTP advertisement and the concrete /get default-pool route."
+}
+variable "origin_port" {
+  type        = number
+  default     = 443
+  description = "Owned backend listener port."
+}
+variable "backend_service" {
+  type        = object({ service_name = string, virtual_site_name = string, virtual_site_namespace = string })
+  default     = null
+  description = "Explicit runtime-owned service and configured virtual site; no site discovery."
+}
+
+variable "send_client_certificate" {
+  type        = bool
+  default     = true
+  description = "Disable only for a reviewed missing-client negative-control plan."
+}
+variable "origin_sni" {
+  type        = string
+  default     = null
+  description = "Optional explicit TLS hostname; DNS origin address remains independent."
+}
+
+variable "frontend_tls" {
+  type        = object({ certificate_file = string, private_key_file = string })
+  default     = null
+  description = "Optional distinct downstream server material for trusted public qualification traffic."
+}

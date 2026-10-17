@@ -88,8 +88,16 @@ def value(text: Any) -> Any:
     """Resolve only known example expressions; unknown expressions fail generation."""
     if not isinstance(text, str):
         return text
-    if text == "${var.origin_port}":
-        return 8080
+    examples: dict[str, Any] = {
+        "${var.origin_sni == null ? var.origin_hostname : var.origin_sni}": "<XCSH_ORIGIN_HOSTNAME>",
+        "${var.send_client_certificate ? null : {}}": None,
+        "${var.origin_port}": 8080,
+        "${var.serve ? null : {}}": {},
+        "${var.serve ? {} : null}": None,
+        "${var.serve ? True : null}": None,
+    }
+    if text in examples:
+        return examples[text]
     if "base64encode(jsonencode(" in text:
         body = json.dumps(
             {"example": "terraform-certificate", "native_blindfold": True},
@@ -100,6 +108,7 @@ def value(text: Any) -> Any:
     text = text.replace("${xcsh_certificate.server.name}", "<XCSH_LB_NAME>")
     text = text.replace("${xcsh_origin_pool.backend.name}", "<XCSH_LB_NAME>-origin")
     text = text.replace("${filebase64(var.origin_ca_file)}", "<BASE64_ORIGIN_CA>")
+    text = text.replace("${origin_servers.value}", "<XCSH_ORIGIN_HOSTNAME>")
     for name, field in FIELDS.items():
         text = text.replace("${var." + name + "}", "<" + field + ">")
     text = text.replace(
@@ -110,6 +119,34 @@ def value(text: Any) -> Any:
     return text
 
 
+def public_dynamic(dynamic: dict, shape: dict) -> dict:
+    """Render canonical default branches and reject unsupported dynamic blocks."""
+    result: dict[str, Any] = {}
+    for name, definition in dynamic.items():
+        if name == "tls_certificates":
+            result[name] = [
+                {
+                    "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+                    "private_key": {
+                        "blindfold_secret_info": {
+                            "location": "string:///<ENCRYPTED_KEY>"
+                        }
+                    },
+                }
+            ]
+        elif name in {"http", "use_mtls"}:
+            result[name] = public(
+                definition["content"][0], shape["block_types"][name]["block"]
+            )
+        elif name == "origin_servers":
+            content = definition["content"][0]
+            if "public_name" in content:
+                result[name] = [public(content, shape["block_types"][name]["block"])]
+        elif name not in {"routes", "https"}:
+            raise ValueError("Unsupported dynamic block " + name)
+    return result
+
+
 def public(body: dict, shape: dict) -> dict:
     """Convert Terraform single/list nesting to the public API configuration."""
     result: dict[str, Any] = {}
@@ -118,20 +155,7 @@ def public(body: dict, shape: dict) -> dict:
             continue
         if key == "dynamic":
             for dynamic in item:
-                for name in dynamic:
-                    if name == "tls_certificates":
-                        result[name] = [
-                            {
-                                "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
-                                "private_key": {
-                                    "blindfold_secret_info": {
-                                        "location": "string:///<ENCRYPTED_KEY>"
-                                    }
-                                },
-                            }
-                        ]
-                    elif name != "routes":
-                        raise ValueError("Unsupported dynamic block " + name)
+                result.update(public_dynamic(dynamic, shape))
             continue
         if key == "blindfold":
             result.update(
@@ -152,7 +176,9 @@ def public(body: dict, shape: dict) -> dict:
         elif isinstance(item, list):
             result[key] = [value(v) for v in item]
         else:
-            result[key] = value(item)
+            resolved = value(item)
+            if resolved is not None:
+                result[key] = resolved
     return result
 
 
@@ -185,6 +211,8 @@ def generate(schema: dict) -> None:
             for kind, instances in resource.items():
                 for label, body in instances.items():
                     converted = public(body, schema[kind]["block"])
+                    if name == "http-origin-mtls":
+                        converted["default_pool"]["port"] = 443
                     metadata = {
                         key: converted.pop(key)
                         for key in ["name", "namespace", "description", "labels"]
@@ -237,6 +265,18 @@ def generate(schema: dict) -> None:
             + "; do",
             f'  curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/{name}/$file" --output "$configuration/$file"',
             "done",
+        ]
+        if name == "named-certificate":
+            dependency = ROOT / "terraform/http-origin-mtls"
+            commands += [
+                'mkdir -p "$configuration/../http-origin-mtls"',
+                "for file in "
+                + " ".join(p.name for p in sorted(dependency.glob("*.tf")))
+                + "; do",
+                '  curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/http-origin-mtls/$file" --output "$configuration/../http-origin-mtls/$file"',
+                "done",
+            ]
+        commands += [
             'terraform -chdir="$configuration" init -upgrade',
             'terraform -chdir="$configuration" validate',
             'terraform -chdir="$configuration" plan -out=create.plan',

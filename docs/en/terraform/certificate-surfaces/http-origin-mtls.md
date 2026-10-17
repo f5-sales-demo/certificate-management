@@ -84,15 +84,65 @@ The JSON below shows the complete public configuration resulting from native enc
 <div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
 
 ```hcl
-resource "xcsh_http_loadbalancer" "example" {
-  name             = var.name
-  namespace        = data.xcsh_namespace.existing.name
-  description      = var.description
-  labels           = { certificate-example = "terraform" }
-  domains          = [var.domain]
-  do_not_advertise = {}
+resource "xcsh_http_loadbalancer" "dns" {
+  count                            = var.serve && var.frontend_tls != null ? 1 : 0
+  name                             = "${var.name}-http"
+  namespace                        = data.xcsh_namespace.existing.name
+  description                      = var.description
+  labels                           = { certificate-example = "terraform" }
+  domains                          = [var.domain]
+  advertise_on_public_default_vip  = {}
+  disable_waf                      = {}
+  no_service_policies              = {}
+  disable_api_definition           = {}
+  disable_api_discovery            = {}
+  disable_bot_defense              = {}
+  disable_rate_limit               = {}
+  disable_ip_reputation            = {}
+  disable_malicious_user_detection = {}
   http {
-    port = 80
+    port                 = 80
+    dns_volterra_managed = true
+  }
+  routes {
+    redirect_route {
+      http_method = "ANY"
+      path { prefix = "/" }
+      route_redirect {
+        proto_redirect = "https"
+        host_redirect  = var.domain
+        response_code  = 301
+      }
+    }
+  }
+}
+resource "xcsh_http_loadbalancer" "example" {
+  name                            = var.name
+  namespace                       = data.xcsh_namespace.existing.name
+  description                     = var.description
+  labels                          = { certificate-example = "terraform" }
+  domains                         = [var.domain]
+  do_not_advertise                = var.serve ? null : {}
+  advertise_on_public_default_vip = var.serve ? {} : null
+  dynamic "http" {
+    for_each = var.frontend_tls == null ? [1] : []
+    content {
+      port                 = 80
+      dns_volterra_managed = var.serve ? true : null
+    }
+  }
+  dynamic "https" {
+    for_each = var.frontend_tls == null ? [] : [var.frontend_tls]
+    content {
+      port = 443
+      tls_parameters {
+        no_mtls = {}
+        tls_config { default_security = {} }
+        tls_certificates {
+          blindfold = { id = "downstream", certificate_file = https.value.certificate_file, private_key_file = https.value.private_key_file }
+        }
+      }
+    }
   }
   disable_waf                      = {}
   no_service_policies              = {}
@@ -102,27 +152,69 @@ resource "xcsh_http_loadbalancer" "example" {
   disable_rate_limit               = {}
   disable_ip_reputation            = {}
   disable_malicious_user_detection = {}
+  dynamic "routes" {
+    for_each = var.serve ? [1] : []
+    content {
+      simple_route {
+        http_method          = "GET"
+        disable_host_rewrite = {}
+        path { prefix = "/get" }
+      }
+    }
+  }
   default_pool {
-    port = 443
-    origin_servers {
-      public_name {
-        dns_name = var.origin_hostname
+    port = var.origin_port
+    dynamic "origin_servers" {
+      for_each = var.backend_service == null ? [var.origin_hostname] : []
+      content {
+        public_name { dns_name = origin_servers.value }
+      }
+    }
+    dynamic "origin_servers" {
+      for_each = var.backend_service == null ? [] : [var.backend_service]
+      content {
+        k8s_service {
+          protocol      = "PROTOCOL_TCP"
+          service_name  = origin_servers.value.service_name
+          vk8s_networks = {}
+          site_locator {
+            virtual_site {
+              name      = origin_servers.value.virtual_site_name
+              namespace = origin_servers.value.virtual_site_namespace
+            }
+          }
+        }
       }
     }
     use_tls {
-      sni = var.origin_hostname
+      sni = var.origin_sni == null ? var.origin_hostname : var.origin_sni
       tls_config {
         default_security = {}
       }
-      use_mtls {
-        tls_certificates {
-          blindfold = { id = "server", certificate_file = var.certificate_file, private_key_file = var.private_key_file }
+      no_mtls = var.send_client_certificate ? null : {}
+      dynamic "use_mtls" {
+        for_each = var.send_client_certificate ? [1] : []
+        content {
+          tls_certificates {
+            blindfold = { id = "server", certificate_file = var.certificate_file, private_key_file = var.private_key_file }
+          }
         }
       }
       use_server_verification {
         trusted_ca_url = "string:///${filebase64(var.origin_ca_file)}"
       }
     }
+  }
+}
+output "inventory" {
+  value = {
+    resource               = "xcsh_http_loadbalancer.example"
+    name                   = xcsh_http_loadbalancer.example.name
+    endpoint               = var.serve ? "${var.frontend_tls == null ? "http" : "https"}://${var.domain}/get" : null
+    certificate_role       = "default_pool.use_tls.use_mtls.tls_certificates"
+    logical_certificate_id = "server"
+    supporting_resources   = var.serve && var.frontend_tls != null ? ["xcsh_http_loadbalancer.dns[0]"] : []
+    dependencies           = { origin_hostname = var.origin_hostname, backend_service = var.backend_service }
   }
 }
 variable "namespace" {
@@ -165,6 +257,39 @@ variable "origin_ca_file" {
   type        = string
   description = "Public PEM trust anchor for the origin server. Verification remains enabled."
 }
+
+variable "serve" {
+  type        = bool
+  default     = false
+  description = "Opt in to public HTTP advertisement and the concrete /get default-pool route."
+}
+variable "origin_port" {
+  type        = number
+  default     = 443
+  description = "Owned backend listener port."
+}
+variable "backend_service" {
+  type        = object({ service_name = string, virtual_site_name = string, virtual_site_namespace = string })
+  default     = null
+  description = "Explicit runtime-owned service and configured virtual site; no site discovery."
+}
+
+variable "send_client_certificate" {
+  type        = bool
+  default     = true
+  description = "Disable only for a reviewed missing-client negative-control plan."
+}
+variable "origin_sni" {
+  type        = string
+  default     = null
+  description = "Optional explicit TLS hostname; DNS origin address remains independent."
+}
+
+variable "frontend_tls" {
+  type        = object({ certificate_file = string, private_key_file = string })
+  default     = null
+  description = "Optional distinct downstream server material for trusted public qualification traffic."
+}
 terraform {
   required_version = null
   required_providers {
@@ -176,7 +301,6 @@ terraform {
 }
 
 # XCSH_API_URL and XCSH_API_TOKEN configure the provider, without a CLI.
-provider "xcsh" {}
 ```
 
 </div>
@@ -198,7 +322,7 @@ export TF_VAR_certificate_file="$XCSH_CERT_FILE"
 export TF_VAR_private_key_file="$XCSH_KEY_FILE"
 export TF_VAR_origin_hostname="$XCSH_ORIGIN_HOSTNAME"
 export TF_VAR_origin_ca_file="$XCSH_ORIGIN_CA_FILE"
-for file in main.tf variables.tf versions.tf; do
+for file in dns.tf main.tf outputs.tf variables.tf versions.tf; do
   curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/http-origin-mtls/$file" --output "$configuration/$file"
 done
 terraform -chdir="$configuration" init -upgrade
