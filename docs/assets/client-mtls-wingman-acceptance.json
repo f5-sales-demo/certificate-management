@@ -1,0 +1,51 @@
+{
+  "qualification": "fresh live Wingman unseal",
+  "run": "wingman-q-aeb6f6100ad0",
+  "probes": [
+    {
+      "mode": "probe-authorized",
+      "source": "encrypted-location",
+      "evidence": {
+        "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+        "identities": {
+          "client_identity_sha256": "48e7a295ad2c62878f3b828cc5367f7920db3547ceb04118651e03991c2da44e",
+          "server_identity_sha256": "cf93dfede91bd7b70e740fe133331632444ecf523cf49d9cad12a8160be0179e"
+        }
+      },
+      "sidecar_injected": true,
+      "resolved_image_id": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:14107b2cd16e396e72a2345f2ee4668d359d77d0676132be5e50a1b408d5ca06"
+    },
+    {
+      "mode": "probe-authorized",
+      "source": "encrypted-location-xcsh",
+      "evidence": {
+        "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde",
+        "identities": {
+          "client_identity_sha256": "f8300facb9ea44eb7277f9687c3fdb021c4367895f0d0e08f3b013d88b62ca53",
+          "server_identity_sha256": "a49016918afdb046595070edf55ccd85855eb80f357029bd540470b808562d82"
+        }
+      },
+      "sidecar_injected": true,
+      "resolved_image_id": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:14107b2cd16e396e72a2345f2ee4668d359d77d0676132be5e50a1b408d5ca06"
+    },
+    {
+      "mode": "probe-denied",
+      "source": "encrypted-location",
+      "evidence": {
+        "denied": true,
+        "http_status": 403,
+        "identities": {
+          "client_identity_sha256": "794c0a8a0e50e51495f9aaf2cc4491194cca55a5036054161e8bcfd21c2a8aa9",
+          "server_identity_sha256": "5150994116929e919254e2a58847931ab23ca7046b0fb67b9653149f691cca71"
+        }
+      },
+      "sidecar_injected": true,
+      "resolved_image_id": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:14107b2cd16e396e72a2345f2ee4668d359d77d0676132be5e50a1b408d5ca06"
+    }
+  ],
+  "status": "passed",
+  "terraform_probe_cleanup": true,
+  "restart_verified": true,
+  "credential_revocation_verified": true,
+  "published_image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:14107b2cd16e396e72a2345f2ee4668d359d77d0676132be5e50a1b408d5ca06"
+}
