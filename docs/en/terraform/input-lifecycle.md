@@ -444,8 +444,8 @@ Expect HTTP `200`, an encoded public chain, and an encrypted private-key locatio
 Every inline certificate needs a unique `blindfold.id` in its certificate list. [Inline server
 HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/inline-server-tls) accepts an ordered list of stable IDs and file
 paths. Keep an ID attached to the same logical certificate when inserting, reordering, or removing other entries. The provider preserves unchanged
-encrypted output and maps provenance by ID, rather than by list position. The demo API rejected two RSA entries in the same server list with HTTP 400.
-The qualified insertion/reorder/removal test uses one RSA and one EC entry. Respect the consumer’s algorithm/list constraints. Duplicate or missing
+encrypted output and maps provenance by ID, rather than by list position. The tenant API rejected two RSA entries in the same server list with HTTP 400.
+A mixed list with one RSA and one EC entry supports insertion, reordering, and removal. Respect the consumer’s algorithm/list constraints. Duplicate or missing
 IDs are invalid. Give a replacement logical certificate
 a new ID if its role changes.
 

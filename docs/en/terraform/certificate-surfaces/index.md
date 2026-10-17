@@ -32,7 +32,7 @@ The provider has 25 certificate nodes across 14 resource types. Sixteen support 
 | Certificate node | Schema validation | Live lifecycle | Served TLS | Example and prerequisite or restriction |
 | --- | --- | --- | --- | --- |
 | `xcsh_advertise_policy.tls_parameters.common_params.tls_certificates` | Passed | Passed | Unqualified | [HCL](./advertise-tls/) Concrete consumer/advertisement required for serving. |
-| `xcsh_bigip_http_proxy.proxy_config.https.tls_parameters.tls_certificates` | Passed | Unqualified | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/bigip-server-tls) Sales Demo API returns HTTP 501 Not Implemented |
+| `xcsh_bigip_http_proxy.proxy_config.https.tls_parameters.tls_certificates` | Passed | Unqualified | Unqualified | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference/bigip-server-tls) Tenant API returns HTTP 501 Not Implemented |
 | `xcsh_cdn_loadbalancer.https.tls_cert_options.tls_inline_params.tls_certificates` | Passed | Passed | Unqualified | [HCL](./cdn-server-tls/) Concrete consumer/advertisement required for serving. |
 | `xcsh_cdn_loadbalancer.origin_pool.use_tls.use_mtls.tls_certificates` | Passed | Passed | Unqualified | [HCL](./cdn-origin-mtls/) Existing origin with client authentication and trusted server chain. |
 | `xcsh_certificate` | Passed | Passed | Passed | [HCL](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/named-certificate) Existing namespace and tenant-managed hostname. |
@@ -61,9 +61,9 @@ The provider has 25 certificate nodes across 14 resource types. Sixteen support 
 
 Files under [`terraform/reference`](https://github.com/f5-sales-demo/certificate-management/tree/main/terraform/reference) end in `.tf.example`. They illustrate schema paths and are excluded from normal `terraform apply` discovery. Review them against the installed schema; do not deploy them into the retained shared namespace.
 
-- BIG-IP HTTP proxy returned HTTP **501 Not Implemented** in the demo tenant.
+- BIG-IP HTTP proxy returned HTTP **501 Not Implemented** in the tenant.
 - Stateful workloads’ public single-port, public multi-port, and custom advertisement paths were **rejected by the API**.
 - Network function virtualization (NFV) certificates need a separately managed appliance and isolated site. All four nodes remain unqualified live.
 - Network connectors require the **`system` namespace**. Current certificate-specific readback shows that the API accepts the object but drops interception TLS settings, so the current provider fails the write when encrypted readback is missing. The path remains restricted even there.
 
-These limitations and unqualified served paths remain explicit even when schema validation passes. Provider [#2539](https://github.com/f5-sales-demo/terraform-provider-xcsh/issues/2539) scheduled acceptance failures are outside this documentation’s claims.
+These limitations and unqualified served paths remain explicit even when schema validation passes. Review provider [#2539](https://github.com/f5-sales-demo/terraform-provider-xcsh/issues/2539) for tracked acceptance restrictions before selecting these configurations.
