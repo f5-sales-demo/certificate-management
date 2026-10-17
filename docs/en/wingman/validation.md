@@ -16,8 +16,7 @@ Install Python 3, the latest Terraform release, kubectl, and jq. You need tenant
 
 [The naming contract](../../../_data/wingman/contract.json) drives bootstrap and runtime Terraform roots and the
 opt-in route. Bootstrap selects exactly one existing Toronto RE by the observed site label; verify
-the selector and effective vK8s quota before applying. No new appliance or cloud infrastructure is
-part of this demo. Application TLS material and platform-issued pod identities have separate roles.
+the selector and effective vK8s quota before applying. Bootstrap creates no appliance or cloud infrastructure. Application TLS material and platform-issued pod identities have separate roles.
 
 | State or owner | Owned resources |
 | --- | --- |
@@ -33,7 +32,7 @@ Choose an independent naming base for a new deployment. Preserve existing owner 
 
 ### Download the configuration
 
-Use a verified source checkout or [download the scaffold](https://github.com/f5-sales-demo/certificate-management/tree/main/wingman).
+Use a verified source checkout or [download the configuration](https://github.com/f5-sales-demo/certificate-management/tree/main/wingman).
 Preserve `wingman/contract.json` beside `bootstrap/`, `runtime/`, and `qualification/`. Keep state and session credentials
 outside Git with directory mode 0700 and file mode 0600. Use the latest published providers with `init -upgrade`.
 

@@ -382,7 +382,7 @@ output "wingman_endpoint" {
 
 <!-- /generated-configuration -->
 
-Select an existing leaf-first Privacy Enhanced Mail (PEM) chain and matching key, or generate demo material outside Git. The following recipe creates
+Select an existing leaf-first Privacy Enhanced Mail (PEM) chain and matching key, or create self-signed material outside Git. The following recipe creates
 a Rivest–Shamir–Adleman (RSA) 2048-bit self-signed server certificate valid for 3650 days. Select `<XCSH_WORKDIR>`, `<XCSH_CERT_FILE>`, and `<XCSH_KEY_FILE>` as absolute paths outside Git. Create the parent directories for those files first. Replace `<XCSH_DOMAINNAME>` and `<XCSH_COMPANION_DOMAINNAME>` with names you own.
 OpenSSL generates inputs; the provider prepares and encrypts them without calling OpenSSL, xcsh, or vesctl.
 
@@ -457,7 +457,7 @@ Expect endpoint, SHA-256 certificate fingerprint, expiration, and encryption-con
 
 ## Verify
 
-Check trust, hostname, the served leaf fingerprint, HTTP status, and response content. Self-signed demo certificates require explicit trust; use your public chain as the trust asset.
+Check trust, hostname, the served leaf fingerprint, HTTP status, and response content. Self-signed certificates require explicit trust; use your public chain as the trust asset.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_DOMAINNAME XCSH_WORKDIR XCSH_CERT_FILE XCSH_API_URL XCSH_API_TOKEN XCSH_NAMESPACE XCSH_LB_NAME XCSH_KEY_FILE">
 

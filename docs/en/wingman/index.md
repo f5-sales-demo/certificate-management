@@ -195,9 +195,9 @@ Wingman's loopback API listens on port 8070. The application first requests `/st
 
 </div>
 
-This request shape is explanatory. Use the application implementation instead of printing a raw unseal response in a terminal: the response contains private key material. The [probe source](../../_data/wingman/app/probe.go) exercises the same in-memory path and emits only public fingerprints or denial status. Keep port 8070 local to the pod; publish only the application's TLS service.
+This request shape is explanatory. Keep the unseal response in application memory; do not print it in a terminal because it contains private key material. The [probe source](../../_data/wingman/app/probe.go) uses the same in-memory path and emits only public fingerprints or denial status. Keep port 8070 local to the pod; publish only the application's TLS service.
 
-Exercise that safe probe inside the running application container:
+Run the probe inside the running application container:
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_KUBECONFIG_FILE XCSH_KUBECONFIG_CONTEXT XCSH_NAMESPACE XCSH_WINGMAN_NAME">
 
@@ -313,10 +313,10 @@ against your actual sidecar. They require `READY`, trusted platform-issued clien
 chains, successful unseal of both provider- and xcsh-prepared locations, and HTTP 403 for an
 unselected workload. These platform identities are separate from your application TLS certificate.
 An expected negative result is `denied: true` with `http_status: 403`; an authorized result reports
-your public `certificate_sha256`. A public endpoint response alone does not exercise fresh unseal or
+your public `certificate_sha256`. A public endpoint response alone does not verify fresh unseal or
 denial.
 
-Verify your public route using its configured trust certificate. For the retained demo, use the published [load-balancer trust certificate](../../assets/certificate-management.pem). Set `XCSH_CERT_FILE` to the certificate that validates your public endpoint, and `XCSH_APPLICATION_CERT_FILE` to your Wingman application leaf chain.
+Verify your public route using its configured trust certificate. For the published endpoint, use the [load-balancer trust certificate](../../assets/certificate-management.pem). Set `XCSH_CERT_FILE` to the certificate that validates your public endpoint, and `XCSH_APPLICATION_CERT_FILE` to your Wingman application leaf chain.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_DOMAINNAME XCSH_CERT_FILE XCSH_APPLICATION_CERT_FILE">
 
@@ -345,5 +345,5 @@ plan](#destroy-and-verify-disposable-infrastructure), then verify Deployment, po
 ReplicaSet absence twice. Revoke and remove your scoped kubeconfig after all needed checks. If you
 provisioned a reader environment, follow the [operator teardown
 order](./validation/#remove) to remove its route and runtime before bootstrap.
-Preserve the privately owned state and journals for recovery; never delete a retained demo or sweep
+Preserve the privately owned state and journals for recovery; never delete a retained deployment or sweep
 a namespace by prefix.
