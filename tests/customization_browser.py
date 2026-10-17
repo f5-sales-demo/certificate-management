@@ -17,6 +17,7 @@ PAGES = [
     "",
     "terraform/",
     "terraform/input-lifecycle/",
+    "terraform/client-mtls/",
     "terraform/certificate-surfaces/",
     "wingman/",
     "wingman/validation/",
@@ -89,6 +90,13 @@ with sync_playwright() as p:
             "XCSH_APPLICATION_CERT_FILE": "/private/application.pem",
             "XCSH_KEY_FILE": "/private/" + sentinel + "-key.pem",
             "XCSH_CERT_ID": sentinel,
+            "XCSH_CLIENT_CERT_FILE": "/private/client.pem",
+            "XCSH_CLIENT_KEY_FILE": "/private/client-key.pem",
+            "XCSH_CLIENT_CA_FILE": "/private/client-ca.pem",
+            "XCSH_CLIENT_CRL_FILE": "/private/client-crl.pem",
+            "XCSH_CLIENT_CRL_REVISION": "client-revision",
+            "XCSH_CLIENT_CA_DIR": "/private/client-ca-db",
+            "XCSH_CLIENT_NAME": "client-synthetic",
             "XCSH_API_TOKEN": "TOKEN_SENTINEL",
             "XCSH_TLS_INPUT_PASSWORD": "PASSPHRASE_SENTINEL",
             "XCSH_WINGMAN_NAME": "reader-wingman",
@@ -103,6 +111,8 @@ with sync_playwright() as p:
         page.locator("#ph-XCSH_WORKDIR").focus()
         canonical_urls = [
             BASE + "/certificate-management/_data/terraform/named-certificate/main.tf",
+            BASE + "/certificate-management/_data/terraform/named-certificate/client-mtls.tf",
+            BASE + "/certificate-management/_data/scripts/client_pki.py",
             BASE + "/certificate-management/assets/certificate-management.pem",
             BASE + "/certificate-management/_data/wingman/contract.json",
             BASE + "/certificate-management/_data/wingman/runtime/main.tf",
@@ -161,6 +171,7 @@ with sync_playwright() as p:
                 "xcsh": "Certificate workflow",
                 "Terraform": "Certificate workflow",
                 "Certificate types": "Choose configuration",
+                "Client mTLS": "Overview",
                 "Wingman": "Key unsealing",
             }, navigation
             for name, value in values.items():
