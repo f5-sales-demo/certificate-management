@@ -39,22 +39,43 @@ class RegistryImageTests(unittest.TestCase):
             }
         ).encode()
         digest = "sha256:" + hashlib.sha256(body).hexdigest()
-        response = MagicMock()
-        response.read.return_value = body
-        response.headers = {"Docker-Content-Digest": digest}
-        response.__enter__.return_value = response
-        with patch.object(images.urllib.request, "urlopen", return_value=response):
+        with patch.object(images, "registry_get", return_value=(200, body, digest)):
             result = images.resolve(images.PREFIX + ":latest")
         assert result["image"] == images.PREFIX + "@" + digest
         assert result["platform_digests"] == "sha256:" + "a" * 64
 
     def test_registry_digest_mismatch_is_rejected(self):
-        response = MagicMock()
-        response.read.return_value = b"{}"
-        response.headers = {"Docker-Content-Digest": "sha256:" + "a" * 64}
-        response.__enter__.return_value = response
         with (
-            patch.object(images.urllib.request, "urlopen", return_value=response),
+            patch.object(
+                images, "registry_get", return_value=(200, b"{}", "sha256:" + "a" * 64)
+            ),
+            self.assertRaises(ValueError),
+        ):
+            images.resolve(images.PREFIX + ":latest")
+
+    def test_registry_transport_stays_on_https_ghcr(self):
+        connection = MagicMock()
+        response = connection.getresponse.return_value
+        response.status = 302
+        response.read.return_value = b""
+        response.getheader.return_value = None
+        with patch.object(
+            images.http.client, "HTTPSConnection", return_value=connection
+        ) as factory:
+            assert images.registry_get("/v2/example/manifests/latest", {}) == (
+                302,
+                b"",
+                None,
+            )
+        factory.assert_called_once_with("ghcr.io", timeout=30)
+        connection.request.assert_called_once_with(
+            "GET", "/v2/example/manifests/latest", headers={}
+        )
+        connection.close.assert_called_once()
+
+    def test_registry_redirect_is_rejected(self):
+        with (
+            patch.object(images, "registry_get", return_value=(302, b"", None)),
             self.assertRaises(ValueError),
         ):
             images.resolve(images.PREFIX + ":latest")

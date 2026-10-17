@@ -1,12 +1,10 @@
 """Resolve a governed public image to a verified immutable registry reference."""
 
 import hashlib
-import http
+import http.client
 import json
 import sys
-import urllib.error
 import urllib.parse
-import urllib.request
 from typing import Any
 
 from qualify import require_image
@@ -21,31 +19,45 @@ ACCEPT = (
 )
 
 
+def registry_get(path: str, headers: dict[str, str]) -> tuple[int, bytes, str | None]:
+    """Use HTTPS only, with a fixed registry host and no redirect handling."""
+    connection = http.client.HTTPSConnection("ghcr.io", timeout=30)
+    try:
+        connection.request("GET", path, headers=headers)
+        response = connection.getresponse()
+        return (
+            response.status,
+            response.read(),
+            response.getheader("Docker-Content-Digest"),
+        )
+    finally:
+        connection.close()
+
+
 def resolve(image: str) -> dict[str, str]:
     """Verify the registry response and retain its platform digests for acceptance."""
     require_image(image)
     reference = "latest" if image.endswith(":latest") else image.split("@", 1)[1]
-    url = "https://ghcr.io/v2/" + REPOSITORY + "/manifests/" + reference
+    path = "/v2/" + REPOSITORY + "/manifests/" + reference
     headers = {"Accept": ACCEPT}
-    request = urllib.request.Request(url, headers=headers)
-    try:
-        response = urllib.request.urlopen(request, timeout=30)  # noqa: S310 -- Fixed public registry.
-    except urllib.error.HTTPError as error:
-        if error.code != http.HTTPStatus.UNAUTHORIZED:
-            raise
-        token_url = "https://ghcr.io/token?" + urllib.parse.urlencode(
+    status, body, registry_digest = registry_get(path, headers)
+    if status == http.HTTPStatus.UNAUTHORIZED:
+        token_path = "/token?" + urllib.parse.urlencode(
             {"service": "ghcr.io", "scope": "repository:" + REPOSITORY + ":pull"}
         )
-        with urllib.request.urlopen(token_url, timeout=30) as token_response:
-            token = json.load(token_response)["token"]
-        request.add_header("Authorization", "Bearer " + token)
-        response = urllib.request.urlopen(request, timeout=30)  # noqa: S310 -- Fixed public registry.
-    with response:
-        body = response.read()
-        digest = "sha256:" + hashlib.sha256(body).hexdigest()
-        if response.headers.get("Docker-Content-Digest") != digest:
-            message = "Registry manifest digest does not match its bytes"
+        token_status, token_body, _ = registry_get(token_path, {})
+        if token_status != http.HTTPStatus.OK:
+            message = "Public registry authorization failed"
             raise ValueError(message)
+        headers["Authorization"] = "Bearer " + json.loads(token_body)["token"]
+        status, body, registry_digest = registry_get(path, headers)
+    if status != http.HTTPStatus.OK:
+        message = "Registry manifest request failed with HTTP " + str(status)
+        raise ValueError(message)
+    digest = "sha256:" + hashlib.sha256(body).hexdigest()
+    if registry_digest != digest:
+        message = "Registry manifest digest does not match its bytes"
+        raise ValueError(message)
     if reference not in ("latest", digest):
         message = "Registry returned a different immutable image"
         raise ValueError(message)
