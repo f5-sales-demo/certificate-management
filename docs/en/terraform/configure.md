@@ -15,8 +15,6 @@ next:
   label: Verify
 ---
 
-## Configure steps
-
 ## Create certificate inputs
 
 Select an existing leaf-first Privacy Enhanced Mail (PEM) chain and matching key, or create self-signed material outside Git. The following recipe creates
@@ -43,13 +41,9 @@ openssl req -x509 -newkey rsa:2048 -nodes -sha256 -days 3650 \
 
 </div>
 
-## Prepare local inputs
+## Set API credentials
 
-Select an existing leaf-first Privacy Enhanced Mail (PEM) chain and matching key, or create self-signed material outside Git. The following recipe creates
-a Rivest–Shamir–Adleman (RSA) 2048-bit self-signed server certificate valid for 3650 days. Select `<XCSH_WORKDIR>`, `<XCSH_CERT_FILE>`, and `<XCSH_KEY_FILE>` as absolute paths outside Git. Create the parent directories for those files first. Replace `<XCSH_DOMAINNAME>` and `<XCSH_COMPANION_DOMAINNAME>` with names you own.
-OpenSSL generates inputs; the provider prepares and encrypts them without calling OpenSSL, xcsh, or vesctl.
-
-Use these same local files in a separately owned xcsh example if needed. Each tool must manage its own XC resource name and references. Shared material does not imply shared resource ownership. Interception requires a separate signing certificate authority (CA); use the [CA recipe](.././input-lifecycle/#interception-signing-ca).
+Use your tenant API URL and enter the API token privately in the current shell.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_URL XCSH_API_TOKEN">
 
