@@ -32,7 +32,14 @@
     "XCSH_KUBECONFIG_CONTEXT",
     "XCSH_WINGMAN_SITE_SELECTOR",
     "XCSH_WINGMAN_IMAGE",
-    "XCSH_APPLICATION_CERT_FILE"
+    "XCSH_APPLICATION_CERT_FILE",
+    "XCSH_CLIENT_CERT_FILE",
+    "XCSH_CLIENT_KEY_FILE",
+    "XCSH_CLIENT_CA_FILE",
+    "XCSH_CLIENT_CRL_FILE",
+    "XCSH_CLIENT_CRL_REVISION",
+    "XCSH_CLIENT_CA_DIR",
+    "XCSH_CLIENT_NAME"
   ],
   "groups": [
     {
@@ -84,6 +91,18 @@
         "XCSH_WINGMAN_SITE_SELECTOR",
         "XCSH_WINGMAN_IMAGE",
         "XCSH_APPLICATION_CERT_FILE"
+      ]
+    },
+    {
+      "label": "Frontend client mTLS",
+      "keys": [
+        "XCSH_CLIENT_CERT_FILE",
+        "XCSH_CLIENT_KEY_FILE",
+        "XCSH_CLIENT_CA_FILE",
+        "XCSH_CLIENT_CRL_FILE",
+        "XCSH_CLIENT_CRL_REVISION",
+        "XCSH_CLIENT_CA_DIR",
+        "XCSH_CLIENT_NAME"
       ]
     }
   ],

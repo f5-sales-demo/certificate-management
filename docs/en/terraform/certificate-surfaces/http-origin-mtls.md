@@ -8,7 +8,7 @@ sidebar:
 
 Install the latest Terraform and provider releases. Set the [provider environment](../../#prerequisites) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
 
-Supply a reachable origin that requires client authentication, a matching client certificate with `clientAuth` usage, and its public server trust CA. Server-only certificates cannot authenticate a client.
+Supply a reachable origin that requires client authentication, a matching client certificate with `clientAuth` usage, and its public server trust CA. Server-only certificates cannot authenticate a client. For callers presenting certificates to the frontend, see [Client mTLS](../../client-mtls/).
 
 ## Configuration
 

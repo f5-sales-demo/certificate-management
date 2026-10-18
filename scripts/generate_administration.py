@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 import hcl2
+from generate_client_mtls import generate as generate_client
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -96,6 +97,7 @@ def value(text: Any) -> Any:
         "${var.serve ? {} : null}": None,
         "${var.serve ? True : null}": None,
     }
+    examples["${var.client_mtls == null ? {} : null}"] = {}
     if text in examples:
         return examples[text]
     if "base64encode(jsonencode(" in text:
@@ -123,6 +125,10 @@ def public_dynamic(dynamic: dict, shape: dict) -> dict:
     """Render canonical default branches and reject unsupported dynamic blocks."""
     result: dict[str, Any] = {}
     for name, definition in dynamic.items():
+        if "var.client_mtls" in str(definition.get("for_each", "")):
+            continue
+        if name == "active_service_policies":
+            continue
         if name == "tls_certificates":
             result[name] = [
                 {
@@ -187,7 +193,7 @@ def requirements(name: str) -> str:
     if "intercept" in name:
         return "Supply a signing CA and matching key, a forward-proxy route, and client trust. Use the interception CA fields rather than a server leaf. Configuration verification does not qualify intercepted traffic."
     if "mtls" in name:
-        return "Supply a reachable origin that requires client authentication, a matching client certificate with `clientAuth` usage, and its public server trust CA. Server-only certificates cannot authenticate a client."
+        return "Supply a reachable origin that requires client authentication, a matching client certificate with `clientAuth` usage, and its public server trust CA. Server-only certificates cannot authenticate a client. For callers presenting certificates to the frontend, see [Client mTLS](../../client-mtls/)."
     if name.startswith("workload"):
         return "Supply an existing CE virtual site with workload capacity and an available container image listening on the target port. An empty selector cannot establish running workload traffic."
     if name == "inline-server-tls":
@@ -596,6 +602,18 @@ def main() -> None:
     generate(schema)
     generate_inputs()
     generate_wingman()
+    generate_client(schema, public, public_json, fence)
+    named_page = ROOT / "docs/en/terraform/index.md"
+    page_text = named_page.read_text().replace(
+        "for file in versions.tf variables.tf main.tf outputs.tf wingman.tf; do",
+        "for file in "
+        + " ".join(
+            path.name
+            for path in sorted((ROOT / "terraform/named-certificate").glob("*.tf"))
+        )
+        + "; do",
+    )
+    named_page.write_text(page_text)
     for page in (ROOT / "docs/en").rglob("*.md"):
         page.write_text(re.sub(r"\n{3,}", "\n\n", page.read_text()))
     (ROOT / "verification/administration-source.json").write_text(

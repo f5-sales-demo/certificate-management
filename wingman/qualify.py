@@ -467,7 +467,10 @@ def main() -> None:
                 if c["name"] == "application"
             )
             image_id = container_status.get("imageID", "")
-            if not any(image_id.endswith(digest) for digest in platform_digests):
+            if not any(
+                image_id.endswith(digest)
+                for digest in [*platform_digests, resolved_image.split("@", 1)[1]]
+            ):
                 message = "Resolved application image digest is missing"
                 raise RuntimeError(message)
             evidence = read_probe_output(

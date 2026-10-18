@@ -166,6 +166,92 @@ The JSON below shows the complete public configuration resulting from native enc
 <div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
 
 ```hcl
+variable "client_mtls" {
+  type = object({
+    trusted_ca_file     = string
+    crl_revisions       = map(string)
+    active_crl_revision = string
+  })
+  default     = null
+  description = "Optional frontend client trust and public signed PEM CRLs. Private CA/client keys and issuance databases never enter Terraform."
+  validation {
+    condition     = var.client_mtls == null ? true : contains(keys(var.client_mtls.crl_revisions), var.client_mtls.active_crl_revision)
+    error_message = "The active CRL revision must exist in crl_revisions."
+  }
+  validation {
+    condition     = var.client_mtls == null ? true : alltrue([for revision in keys(var.client_mtls.crl_revisions) : can(regex("^[a-z0-9][a-z0-9-]{0,31}$", revision))])
+    error_message = "CRL revisions must be immutable lower-case DNS labels of at most 32 characters."
+  }
+}
+
+locals {
+  client_crls = var.client_mtls == null ? {} : var.client_mtls.crl_revisions
+}
+
+resource "xcsh_trusted_ca_list" "client" {
+  count          = var.client_mtls == null ? 0 : 1
+  name           = "${var.name}-client-ca"
+  namespace      = data.xcsh_namespace.existing.name
+  trusted_ca_url = "string:///${filebase64(var.client_mtls.trusted_ca_file)}"
+}
+
+resource "xcsh_service_policy" "client_write" {
+  count      = var.client_mtls == null ? 0 : 1
+  name       = "${var.name}-client-write"
+  namespace  = data.xcsh_namespace.existing.name
+  any_server = {}
+  rule_list {
+    rules {
+      metadata {
+        name = "deny-write-without-client-identity"
+      }
+      spec {
+        action     = "DENY"
+        any_client = {}
+        http_method {
+          methods = ["POST", "PUT", "PATCH"]
+        }
+        path {
+          exact_values = ["/mtls/write"]
+        }
+        headers {
+          name              = "X-Forwarded-Client-Cert"
+          check_not_present = {}
+          invert_matcher    = false
+        }
+        waf_action {
+          none = {}
+        }
+      }
+    }
+    rules {
+      metadata {
+        name = "allow-other-traffic"
+      }
+      spec {
+        action     = "ALLOW"
+        any_client = {}
+        waf_action {
+          none = {}
+        }
+      }
+    }
+  }
+}
+
+output "client_mtls_inventory" {
+  value = var.client_mtls == null ? null : {
+    owner                    = "named-certificate"
+    resource_addresses       = ["xcsh_trusted_ca_list.client[0]", "xcsh_service_policy.client_write[0]"]
+    certificate_roles        = { frontend = "xcsh_certificate.server", client_trust = "xcsh_trusted_ca_list.client[0]", origin = "xcsh_origin_pool.wingman[0]" }
+    endpoints                = { identity = "https://${var.domain}/mtls/identity", write = "https://${var.domain}/mtls/write" }
+    trusted_ca_bundle_sha256 = filesha256(var.client_mtls.trusted_ca_file)
+    published_crl_revision   = var.client_mtls.active_crl_revision
+    edge_revocation          = "unsupported on Regional Edges; no_crl selected"
+    crls                     = { for revision, path in local.client_crls : revision => { url = "http://${var.domain}/mtls/crl/${revision}.pem", sha256 = filesha256(path) } }
+    acceptance               = "Requires separate live authorization and CA-rotation receipts; Regional Edge CRL revocation is excluded."
+  }
+}
 resource "xcsh_certificate" "server" {
   name        = var.name
   namespace   = data.xcsh_namespace.existing.name
@@ -182,17 +268,46 @@ resource "xcsh_http_loadbalancer" "https" {
   domains                          = [var.domain]
   advertise_on_public_default_vip  = {}
   disable_waf                      = {}
-  no_service_policies              = {}
+  no_service_policies              = var.client_mtls == null ? {} : null
   disable_api_definition           = {}
   disable_api_discovery            = {}
   disable_bot_defense              = {}
   disable_rate_limit               = {}
   disable_ip_reputation            = {}
   disable_malicious_user_detection = {}
+  dynamic "active_service_policies" {
+    for_each = var.client_mtls == null ? [] : [1]
+    content {
+      policies {
+        name      = xcsh_service_policy.client_write[0].name
+        namespace = data.xcsh_namespace.existing.name
+      }
+    }
+  }
+  lifecycle {
+    precondition {
+      condition     = var.client_mtls == null || var.wingman != null
+      error_message = "Qualify and configure the Wingman origin before enabling client mTLS."
+    }
+  }
   https {
     port = 443
     tls_cert_params {
-      no_mtls = {}
+      no_mtls = var.client_mtls == null ? {} : null
+      dynamic "use_mtls" {
+        for_each = var.client_mtls == null ? [] : [var.client_mtls]
+        content {
+          client_certificate_optional = true
+          trusted_ca {
+            name      = xcsh_trusted_ca_list.client[0].name
+            namespace = data.xcsh_namespace.existing.name
+          }
+          no_crl = {}
+          xfcc_options {
+            xfcc_header_elements = ["XFCC_CERT", "XFCC_CHAIN"]
+          }
+        }
+      }
       tls_config {
         default_security = {}
       }
@@ -235,6 +350,25 @@ resource "xcsh_http_loadbalancer" "https" {
     }
   }
 
+  dynamic "routes" {
+    for_each = var.client_mtls == null ? [] : ["/mtls/identity", "/mtls/write"]
+    content {
+      simple_route {
+        http_method          = "ANY"
+        disable_host_rewrite = {}
+        path { path = routes.value }
+        origin_pools {
+          weight   = 1
+          priority = 1
+          pool {
+            name      = xcsh_origin_pool.wingman[0].name
+            namespace = data.xcsh_namespace.existing.name
+          }
+        }
+      }
+    }
+  }
+
 }
 
 resource "xcsh_http_loadbalancer" "http" {
@@ -255,6 +389,19 @@ resource "xcsh_http_loadbalancer" "http" {
   http {
     port                 = 80
     dns_volterra_managed = true
+  }
+  dynamic "routes" {
+    for_each = local.client_crls
+    content {
+      direct_response_route {
+        http_method = "GET"
+        path { path = "/mtls/crl/${routes.key}.pem" }
+        route_direct_response {
+          response_code         = 200
+          response_body_encoded = "string:///${filebase64(routes.value)}"
+        }
+      }
+    }
   }
   routes {
     redirect_route {
@@ -386,6 +533,7 @@ variable "wingman" {
     name              = string
     virtual_site_name = string
     trusted_ca_file   = optional(string)
+    origin_pool_name  = optional(string)
   })
   default     = null
   description = "Runtime owner_integration output, after authorized unseal and denial qualification."
@@ -400,7 +548,7 @@ locals {
 }
 resource "xcsh_origin_pool" "wingman" {
   count     = var.wingman == null ? 0 : 1
-  name      = "${var.wingman.name}${local.wingman_contract.suffixes.origin_pool}"
+  name      = var.wingman.origin_pool_name == null ? "${var.wingman.name}${local.wingman_contract.suffixes.origin_pool}" : var.wingman.origin_pool_name
   namespace = data.xcsh_namespace.existing.name
   port      = local.wingman_contract.backend_port
   origin_servers {
@@ -476,7 +624,7 @@ export TF_VAR_name="$XCSH_LB_NAME"
 export TF_VAR_domain="$XCSH_DOMAINNAME"
 export TF_VAR_certificate_file="$XCSH_CERT_FILE"
 export TF_VAR_private_key_file="$XCSH_KEY_FILE"
-for file in versions.tf variables.tf main.tf outputs.tf wingman.tf; do
+for file in client-mtls.tf main.tf outputs.tf use-cases.tf variables.tf versions.tf wingman.tf; do
   curl --silent --show-error --fail \
     "https://f5-sales-demo.github.io/certificate-management/_data/terraform/named-certificate/$file" \
     --output "$XCSH_WORKDIR/deployment/$file"

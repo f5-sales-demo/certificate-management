@@ -1,0 +1,27 @@
+{
+  "acceptance": "Requires separate live authorization and CA-rotation receipts; Regional Edge CRL revocation is excluded.",
+  "certificate_roles": {
+    "client_trust": "xcsh_trusted_ca_list.client[0]",
+    "frontend": "xcsh_certificate.server",
+    "origin": "xcsh_origin_pool.wingman[0]"
+  },
+  "crls": {
+    "a-initial": {
+      "sha256": "739116a33653d26562f53f9187eed0e842de2e9f15bcb3d36c44c74df906da52",
+      "url": "http://certificate-management-terraform.f5-sales-demo.com/mtls/crl/a-initial.pem"
+    },
+    "a-revoked": {
+      "sha256": "73ab13e34d8142c524361aafbd1a7ca7dbc61c62d2dd9702805aa31f2f0010a4",
+      "url": "http://certificate-management-terraform.f5-sales-demo.com/mtls/crl/a-revoked.pem"
+    }
+  },
+  "edge_revocation": "unsupported on Regional Edges; no_crl selected",
+  "endpoints": {
+    "identity": "https://certificate-management-terraform.f5-sales-demo.com/mtls/identity",
+    "write": "https://certificate-management-terraform.f5-sales-demo.com/mtls/write"
+  },
+  "owner": "named-certificate",
+  "published_crl_revision": "a-revoked",
+  "resource_addresses": ["xcsh_trusted_ca_list.client[0]", "xcsh_service_policy.client_write[0]"],
+  "trusted_ca_bundle_sha256": "8bb9961b3db9390c661eed076868a4bccaabe71c89d363756164e048c9a40534"
+}

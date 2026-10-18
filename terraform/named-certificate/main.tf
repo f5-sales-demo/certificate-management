@@ -14,17 +14,46 @@ resource "xcsh_http_loadbalancer" "https" {
   domains                          = [var.domain]
   advertise_on_public_default_vip  = {}
   disable_waf                      = {}
-  no_service_policies              = {}
+  no_service_policies              = var.client_mtls == null ? {} : null
   disable_api_definition           = {}
   disable_api_discovery            = {}
   disable_bot_defense              = {}
   disable_rate_limit               = {}
   disable_ip_reputation            = {}
   disable_malicious_user_detection = {}
+  dynamic "active_service_policies" {
+    for_each = var.client_mtls == null ? [] : [1]
+    content {
+      policies {
+        name      = xcsh_service_policy.client_write[0].name
+        namespace = data.xcsh_namespace.existing.name
+      }
+    }
+  }
+  lifecycle {
+    precondition {
+      condition     = var.client_mtls == null || var.wingman != null
+      error_message = "Qualify and configure the Wingman origin before enabling client mTLS."
+    }
+  }
   https {
     port = 443
     tls_cert_params {
-      no_mtls = {}
+      no_mtls = var.client_mtls == null ? {} : null
+      dynamic "use_mtls" {
+        for_each = var.client_mtls == null ? [] : [var.client_mtls]
+        content {
+          client_certificate_optional = true
+          trusted_ca {
+            name      = xcsh_trusted_ca_list.client[0].name
+            namespace = data.xcsh_namespace.existing.name
+          }
+          no_crl = {}
+          xfcc_options {
+            xfcc_header_elements = ["XFCC_CERT", "XFCC_CHAIN"]
+          }
+        }
+      }
       tls_config {
         default_security = {}
       }
@@ -67,6 +96,25 @@ resource "xcsh_http_loadbalancer" "https" {
     }
   }
 
+  dynamic "routes" {
+    for_each = var.client_mtls == null ? [] : ["/mtls/identity", "/mtls/write"]
+    content {
+      simple_route {
+        http_method          = "ANY"
+        disable_host_rewrite = {}
+        path { path = routes.value }
+        origin_pools {
+          weight   = 1
+          priority = 1
+          pool {
+            name      = xcsh_origin_pool.wingman[0].name
+            namespace = data.xcsh_namespace.existing.name
+          }
+        }
+      }
+    }
+  }
+
 }
 
 resource "xcsh_http_loadbalancer" "http" {
@@ -87,6 +135,19 @@ resource "xcsh_http_loadbalancer" "http" {
   http {
     port                 = 80
     dns_volterra_managed = true
+  }
+  dynamic "routes" {
+    for_each = local.client_crls
+    content {
+      direct_response_route {
+        http_method = "GET"
+        path { path = "/mtls/crl/${routes.key}.pem" }
+        route_direct_response {
+          response_code         = 200
+          response_body_encoded = "string:///${filebase64(routes.value)}"
+        }
+      }
+    }
   }
   routes {
     redirect_route {

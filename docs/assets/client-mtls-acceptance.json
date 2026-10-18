@@ -1,0 +1,267 @@
+{
+  "status": "live-qualified-publication-pending",
+  "issue": "https://github.com/f5-sales-demo/certificate-management/issues/109",
+  "implementation_pr": "https://github.com/f5-sales-demo/certificate-management/pull/110",
+  "builder_pr": "https://github.com/f5-sales-demo/docs-builder/pull/1589",
+  "provider_version": "15.10.5",
+  "enum_preflight": {
+    "string_input": ["XFCC_CERT", "XFCC_CHAIN"],
+    "numeric_input": [1, 2],
+    "both_accepted": true,
+    "readback": ["XFCC_CERT", "XFCC_CHAIN"],
+    "provider_repair_required": false
+  },
+  "isolated_policy": {
+    "methods": ["POST", "PUT", "PATCH"],
+    "trusted_client_status": 200,
+    "no_client_status": 403,
+    "forged_xfcc_status": 403,
+    "duplicate_xfcc_status": 403,
+    "crl_attached": false,
+    "cleanup": "all probe resources deleted"
+  },
+  "crl_publication": {
+    "byte_equality": true,
+    "signature_verified": true,
+    "refresh_hours": 6,
+    "download_timeout_seconds": 10,
+    "retained_object_created": true,
+    "edge_attachment_accepted": false,
+    "api_error": "Validation failed: CRL is not allowed on regional edge sites",
+    "live_revocation_qualified": false
+  },
+  "rollback": {
+    "reviewed_plan_sha256": "83a456446502f8a72ccd42f279adc1741fda79dc66604b3b01e9e60eef31db56",
+    "removed": ["xcsh_crl.client[\"a-initial\"]"],
+    "restored": ["xcsh_http_loadbalancer.http"],
+    "followup_plan_exit": 0,
+    "retained_resource_ids_unchanged": true,
+    "public_server_certificate_sha256": "b793d1480b1db276d25143b0f48824d62a7c5aaba7d317e79279ea0111cd23ac",
+    "get_body": {
+      "example": "terraform-certificate",
+      "native_blindfold": true
+    },
+    "wingman_body": {
+      "example": "wingman-certificate",
+      "certificate_sha256": "77b47f393961eae63922631d0dc399411240c42e96cb6465c00da8389d264cde"
+    },
+    "removed_crl_route_http_status": 301
+  },
+  "pending": [
+    "merged frontend delivery",
+    "published reader verification",
+    "governed caller convergence",
+    "task worktree cleanup"
+  ],
+  "scope_revision": {
+    "regional_edges_preserved": true,
+    "edge_crl_revocation": "excluded by explicit user decision",
+    "client_mtls_mode": "optional, no_crl",
+    "public_crls": "local lifecycle material only"
+  },
+  "live_traffic": {
+    "ubuntu": [
+      {
+        "method": "GET",
+        "case": "public",
+        "status": "200",
+        "exit": 0,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "GET",
+        "case": "trusted",
+        "status": "200",
+        "exit": 0,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "GET",
+        "case": "forged",
+        "status": "200",
+        "exit": 0,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "GET",
+        "case": "duplicate",
+        "status": "200",
+        "exit": 0,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "POST",
+        "case": "public",
+        "status": "403",
+        "exit": 0
+      },
+      {
+        "method": "POST",
+        "case": "trusted",
+        "status": "200",
+        "exit": 0,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "POST",
+        "case": "forged",
+        "status": "403",
+        "exit": 0
+      },
+      {
+        "method": "POST",
+        "case": "duplicate",
+        "status": "403",
+        "exit": 0
+      },
+      {
+        "method": "PUT",
+        "case": "public",
+        "status": "403",
+        "exit": 0
+      },
+      {
+        "method": "PUT",
+        "case": "trusted",
+        "status": "200",
+        "exit": 0,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "PUT",
+        "case": "forged",
+        "status": "403",
+        "exit": 0
+      },
+      {
+        "method": "PUT",
+        "case": "duplicate",
+        "status": "403",
+        "exit": 0
+      },
+      {
+        "method": "PATCH",
+        "case": "public",
+        "status": "403",
+        "exit": 0
+      },
+      {
+        "method": "PATCH",
+        "case": "trusted",
+        "status": "200",
+        "exit": 0,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "PATCH",
+        "case": "forged",
+        "status": "403",
+        "exit": 0
+      },
+      {
+        "method": "PATCH",
+        "case": "duplicate",
+        "status": "403",
+        "exit": 0
+      }
+    ],
+    "lifecycle": [
+      {
+        "case": "old-before-renewal",
+        "exit": 0,
+        "status": "200",
+        "handler_reached": true,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "case": "renewed",
+        "exit": 0,
+        "status": "200",
+        "handler_reached": true,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "case": "complete-copied-xfcc",
+        "exit": 0,
+        "status": "403",
+        "handler_reached": false
+      },
+      {
+        "case": "malformed",
+        "exit": 0,
+        "status": "403",
+        "handler_reached": false
+      },
+      {
+        "case": "complete-duplicate",
+        "exit": 0,
+        "status": "403",
+        "handler_reached": false
+      },
+      {
+        "case": "untrusted-ca-b",
+        "exit": 56,
+        "status": "000",
+        "handler_reached": false
+      },
+      {
+        "case": "expired",
+        "exit": 56,
+        "status": "000",
+        "handler_reached": false
+      },
+      {
+        "case": "locally-revoked-no-edge-crl",
+        "exit": 0,
+        "status": "200",
+        "handler_reached": true,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "case": "overlap-ca-a",
+        "exit": 0,
+        "status": "200",
+        "handler_reached": true,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "case": "overlap-ca-b",
+        "exit": 0,
+        "status": "200",
+        "handler_reached": true,
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "case": "old-ca-removed",
+        "exit": 56,
+        "status": "000",
+        "handler_reached": false
+      },
+      {
+        "case": "new-ca-retained",
+        "exit": 0,
+        "status": "200",
+        "handler_reached": true,
+        "challenge_match": true,
+        "fingerprint_match": true
+      }
+    ]
+  },
+  "isolated_create_followup_exit": 0,
+  "isolated_remove_state_empty": true,
+  "wingman_live_acceptance": true,
+  "restart_verified": true,
+  "credential_revocation_verified": true
+}

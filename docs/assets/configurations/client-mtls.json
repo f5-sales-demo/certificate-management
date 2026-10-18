@@ -1,0 +1,74 @@
+{
+  "trusted_ca_list": {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>-client-ca",
+      "namespace": "<XCSH_NAMESPACE>"
+    },
+    "spec": {
+      "trusted_ca_url": "string:///<BASE64_CLIENT_CA_BUNDLE>"
+    }
+  },
+  "service_policy": {
+    "metadata": {
+      "name": "<XCSH_LB_NAME>-client-write",
+      "namespace": "<XCSH_NAMESPACE>"
+    },
+    "spec": {
+      "any_server": {},
+      "rule_list": {
+        "rules": [
+          {
+            "metadata": {
+              "name": "deny-write-without-client-identity"
+            },
+            "spec": {
+              "action": "DENY",
+              "any_client": {},
+              "http_method": {
+                "methods": ["POST", "PUT", "PATCH"]
+              },
+              "path": {
+                "exact_values": ["/mtls/write"]
+              },
+              "headers": [
+                {
+                  "name": "X-Forwarded-Client-Cert",
+                  "check_not_present": {},
+                  "invert_matcher": false
+                }
+              ],
+              "waf_action": {
+                "none": {}
+              }
+            }
+          },
+          {
+            "metadata": {
+              "name": "allow-other-traffic"
+            },
+            "spec": {
+              "action": "ALLOW",
+              "any_client": {},
+              "waf_action": {
+                "none": {}
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "https_tls_cert_params_extension": {
+    "use_mtls": {
+      "trusted_ca": {
+        "name": "<XCSH_LB_NAME>-client-ca",
+        "namespace": "<XCSH_NAMESPACE>"
+      },
+      "client_certificate_optional": true,
+      "no_crl": {},
+      "xfcc_options": {
+        "xfcc_header_elements": ["XFCC_CERT", "XFCC_CHAIN"]
+      }
+    }
+  }
+}
