@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import shutil
 from pathlib import Path
 from urllib.parse import urljoin
 
@@ -28,12 +29,12 @@ def main() -> None:
     ]
     observations = []
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            executable_path=os.environ.get(
-                "CERT_BROWSER_EXECUTABLE", "/usr/bin/google-chrome"
-            ),
-            headless=True,
+        executable = (
+            os.environ.get("CERT_BROWSER_EXECUTABLE")
+            or shutil.which("google-chrome")
+            or shutil.which("chromium")
         )
+        browser = playwright.chromium.launch(executable_path=executable, headless=True)
         for width, height in ((1440, 1000), (390, 844)):
             for appearance in ("light", "dark"):
                 context = browser.new_context(

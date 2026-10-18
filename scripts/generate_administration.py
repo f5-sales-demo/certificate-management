@@ -615,6 +615,22 @@ def generate_wingman() -> None:
     page.write_text(text + "\n\n" + marker + "\n\n" + "\n\n".join(sections) + "\n")
 
 
+def generate_xcsh() -> None:
+    """Render the public illustrative manifest from its canonical downloadable source."""
+    artifact = ROOT / "docs/assets/configurations/xcsh-certificate.json"
+    public_manifest = artifact.read_text()
+    json.loads(public_manifest)
+    page = ROOT / "docs/en/xcsh/configuration.md"
+    page.write_text(
+        re.sub(
+            r"```json\n[\s\S]*?```",
+            lambda _: "```json\n" + public_manifest.rstrip() + "\n```",
+            page.read_text(),
+            count=1,
+        )
+    )
+
+
 def main() -> None:
     """Read the installed schema and generate all supported examples."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -627,6 +643,7 @@ def main() -> None:
     generate(schema)
     generate_inputs()
     generate_wingman()
+    generate_xcsh()
     generate_client(schema, public, public_json, fence)
     named_page = ROOT / "docs/en/terraform/configure.md"
     page_text = named_page.read_text().replace(
