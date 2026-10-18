@@ -111,7 +111,10 @@ def main() -> None:
                         )
                     page.evaluate("window.scrollTo(0, 0)")
                     page.wait_for_timeout(150)
-                    assert toc.locator('a[href="#_top"]').get_attribute("aria-current") == "true", (route, width, "top section state")
+                    assert (
+                        toc.locator('a[href="#_top"]').get_attribute("aria-current")
+                        == "true"
+                    ), (route, width, "top section state")
                     screenshot = f"{width}-{appearance}-{route.replace('/', '-') or 'overview'}.png"
                     page.screenshot(path=str(args.output / screenshot))
                     assert not errors, (route, errors)
