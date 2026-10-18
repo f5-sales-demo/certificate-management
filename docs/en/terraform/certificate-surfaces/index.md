@@ -1,8 +1,9 @@
 ---
 title: Certificate types
+description: Certificate types, prerequisite-bound configurations, and dated qualification limits.
 sidebar:
   label: Choose configuration
-  order: 3
+  order: 13
 ---
 
 Choose a configuration based on the TLS endpoint and resource owner. Every supported example includes complete HCL, resulting public JSON, commands, and expected results. Use the [named certificate workflow](../) for the primary HTTPS deployment.

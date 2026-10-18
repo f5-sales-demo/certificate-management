@@ -3,10 +3,10 @@ title: Input variants
 description: Prepare certificates from protected PEM or PKCS#12 and encrypt raw stdin.
 sidebar:
   label: Input variants
-  order: 1
+  order: 11
 tableOfContents:
   minHeadingLevel: 2
-  maxHeadingLevel: 2
+  maxHeadingLevel: 3
 ---
 
 Choose the input form for your existing certificate and key; use new artifact filenames on retries.
@@ -35,7 +35,7 @@ unset XCSH_TLS_INPUT_PASSWORD
 
 </div>
 
-Expect `prepared`; native preparation decrypts and normalizes the key before encryption. [Preview and apply](../#configure) the saved manifest using its filename.
+Expect `prepared`; native preparation decrypts and normalizes the key before encryption. [Preview and apply](../configure/) the saved manifest using its filename.
 
 ### Verify protected PEM
 
@@ -49,7 +49,7 @@ xcsh apply -f protected-certificate.json -n "$XCSH_NAMESPACE" -o json
 
 </div>
 
-Review the preview before applying. Expect `created` for a new resource and `unchanged` on identical reapply. Check encrypted readback and, after attaching the certificate to an HTTPS service, [verify served TLS](../#verify).
+Review the preview before applying. Expect `created` for a new resource and `unchanged` on identical reapply. Check encrypted readback and, after attaching the certificate to an HTTPS service, [verify served TLS](../verify/).
 
 ## PKCS#12
 
@@ -75,7 +75,7 @@ unset XCSH_TLS_INPUT_PASSWORD
 
 </div>
 
-Expect `prepared`; an incorrect password or multiple private keys fails. [Preview and apply](../#configure) `bundle-certificate.json`.
+Expect `prepared`; an incorrect password or multiple private keys fails. [Preview and apply](../configure/) `bundle-certificate.json`.
 
 ### Verify PKCS#12
 
@@ -89,7 +89,7 @@ xcsh apply -f bundle-certificate.json -n "$XCSH_NAMESPACE" -o json
 
 </div>
 
-Review the preview before applying. Expect `created` for a new resource and `unchanged` on identical reapply. Check encrypted readback and, after attaching the certificate to an HTTPS service, [verify served TLS](../#verify).
+Review the preview before applying. Expect `created` for a new resource and `unchanged` on identical reapply. Check encrypted readback and, after attaching the certificate to an HTTPS service, [verify served TLS](../verify/).
 
 ## Raw and offline
 
@@ -140,7 +140,7 @@ xcsh blindfold encrypt --public-key tenant-public-key.json \
 
 </div>
 
-Expect `prepared` and a `string:///` location. Raw encryption preserves input bytes; [native certificate preparation](../#configure) validates and normalizes certificate inputs.
+Expect `prepared` and a `string:///` location. Raw encryption preserves input bytes; [native certificate preparation](../configure/) validates and normalizes certificate inputs.
 
 ### Verify raw inputs
 

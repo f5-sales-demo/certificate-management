@@ -1,12 +1,13 @@
 ---
 title: TLS interception
+description: TLS interception configuration and certificate lifecycle checks.
 sidebar:
   order: 8
 ---
 
 ## Prerequisites
 
-Install the latest Terraform and provider releases. Set the [provider environment](../../#prerequisites) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
+Install the latest Terraform and provider releases. Set the [provider environment](../../prerequisites/) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
 
 Supply a signing CA and matching key, a forward-proxy route, and client trust. Use the interception CA fields rather than a server leaf. Configuration verification does not qualify intercepted traffic.
 
@@ -15,6 +16,12 @@ Supply a signing CA and matching key, a forward-proxy route, and client trust. U
 The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.
 
 [Download JSON](../../../../assets/configurations/proxy-intercept.json).
+
+Download HCL files: [main.tf](../../../../_data/terraform/proxy-intercept/main.tf) ·
+[variables.tf](../../../../_data/terraform/proxy-intercept/variables.tf) ·
+[versions.tf](../../../../_data/terraform/proxy-intercept/versions.tf).
+
+### Public JSON
 
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_LB_NAME XCSH_NAMESPACE">
 
@@ -54,6 +61,8 @@ The JSON below shows the complete public configuration resulting from native enc
 ```
 
 </div>
+
+### Complete HCL
 
 <div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
 

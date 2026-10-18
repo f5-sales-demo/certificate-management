@@ -39,8 +39,15 @@ class ClientMTLSTests(unittest.TestCase):
         assert "name      = xcsh_certificate.server.name" in text
         assert 'xfcc_header_elements = ["XFCC_CERT", "XFCC_CHAIN"]' in text
 
+    def test_task_pages_reuse_server_owner_state(self):
+        configure = (ROOT / "docs/en/client-mtls/configure.md").read_text()
+        verify = (ROOT / "docs/en/client-mtls/verify.md").read_text()
+        assert 'configuration="$XCSH_WORKDIR/deployment"' in configure
+        assert 'configuration="$XCSH_WORKDIR/deployment"' in verify
+        assert 'configuration="$XCSH_WORKDIR/named-certificate"' not in configure
+
     def test_documented_python_configuration_executes(self):
-        page = (ROOT / "docs/en/client-mtls/index.md").read_text()
+        page = (ROOT / "docs/en/client-mtls/configure.md").read_text()
         match = re.search(r"<<'PY'\n([\s\S]*?)\nPY", page)
         assert match is not None
         with tempfile.TemporaryDirectory() as temporary:

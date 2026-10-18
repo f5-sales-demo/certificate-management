@@ -117,6 +117,18 @@ def main() -> None:
         subprocess.run(
             [
                 sys.executable,
+                str(root / "tests/usability_browser.py"),
+                "--base",
+                base + "/certificate-management",
+                "--output",
+                str(work / "usability"),
+            ],
+            env=env,
+            check=True,
+        )
+        subprocess.run(
+            [
+                sys.executable,
                 str(root / "scripts/check_publication.py"),
                 "--base",
                 base + "/certificate-management",
@@ -130,6 +142,7 @@ def main() -> None:
         server.server_close()
     receipt = {
         "builder_image": image,
+        "usability": json.loads((work / "usability/receipt.json").read_text()),
         "browser": json.loads((work / "browser/receipt.json").read_text()),
         "publication": json.loads((work / "publication.json").read_text()),
     }

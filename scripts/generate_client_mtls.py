@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 import hcl2
+from task_pages import write_client_tasks
 
 ROOT = Path(__file__).resolve().parents[1]
 PROSE_WRAP_THRESHOLD = 180
@@ -60,7 +61,7 @@ def generate(
     json_text = public_json(config)
     (ROOT / "docs/assets/configurations/client-mtls.json").write_text(json_text)
     commands = '''umask 077
-configuration="$XCSH_WORKDIR/named-certificate"
+configuration="$XCSH_WORKDIR/deployment"
 python3 "$XCSH_WORKDIR/client_pki.py" init "$XCSH_CLIENT_CA_DIR"
 python3 "$XCSH_WORKDIR/client_pki.py" issue "$XCSH_CLIENT_CA_DIR" --client "$XCSH_CLIENT_NAME"
 python3 "$XCSH_WORKDIR/client_pki.py" crl "$XCSH_CLIENT_CA_DIR" --revision "$XCSH_CLIENT_CRL_REVISION"
@@ -80,7 +81,8 @@ terraform -chdir="$configuration" validate
 terraform -chdir="$configuration" plan -out=client.plan
 terraform -chdir="$configuration" show client.plan
 shasum -a 256 "$configuration/client.plan"'''
-    verify = """challenge=$(openssl rand -hex 16)
+    verify = """configuration="$XCSH_WORKDIR/deployment"
+challenge=$(openssl rand -hex 16)
 curl --silent --show-error --fail "https://$XCSH_DOMAINNAME/mtls/identity?challenge=$challenge"
 openssl x509 -in "$XCSH_CLIENT_CERT_FILE" -noout -fingerprint -sha256
 for method in POST PUT PATCH; do
@@ -114,7 +116,7 @@ done"""
     )
     download = (
         """umask 077
-configuration="$XCSH_WORKDIR/named-certificate"
+configuration="$XCSH_WORKDIR/deployment"
 mkdir -p "$configuration"
 """
         + "\n".join(
@@ -134,7 +136,7 @@ sidebar:
 
 ## Prerequisites
 
-Complete the [server certificate workflow](../terraform/) and [Wingman runtime](../wingman/). Use the existing named-certificate owner state and Wingman pool. [Origin mTLS](../terraform/certificate-surfaces/origin-mtls/) authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
+Complete the [server certificate workflow](../terraform/) and [Wingman runtime](../wingman/). Use the existing named-certificate owner state and Wingman pool. Reuse the server guide's `$XCSH_WORKDIR/deployment` directory and state; do not create a second state for the same resource names. [Origin mTLS](../terraform/certificate-surfaces/origin-mtls/) authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
 
 The retained Regional Edge endpoint uses optional client authentication with `no_crl`. Live XC validation rejects CRLs on Regional Edges. Edge CRL revocation is excluded from this workflow. Signed CRLs remain public downloadable lifecycle material; downloading one does not revoke a client at the edge.
 
@@ -153,18 +155,30 @@ Client mTLS is disabled when `client_mtls = null`. The complete HCL retains the 
         + "\n"
         + fence("bash", download)
         + """
-The retained owner already has its Wingman contract and Default pool module dependencies. For an isolated deployment, download the same dependencies listed in the server workflow before initializing.
+The retained owner already has its Wingman contract and Default pool module dependencies. For an isolated deployment, download the same dependencies listed in [Terraform Configure](../terraform/configure/) before initializing.
 
 ## Configure
 
 Initialize a new private synthetic CA directory once, then issue a client certificate with `clientAuth`. Set Client CA file to `ca.pem`, Client certificate/key files to `clients/<client>/certificate.pem` and `key.pem`, and Client CRL file to `crls/<revision>.pem` under that directory.
 
 """
+        + "## Create client material\n\n"
         + fence("bash", commands)
         + "\n"
+        + "## Review the saved plan\n\n"
         + fence("bash", variables)
         + """
 Deploy the qualified Wingman image first. Publish the exact public CRL route and verify its bytes and signature, then enable optional client trust and the ordered Service Policy with `no_crl`. No XC CRL object is created. Review and hash fresh saved plans and reject unrelated changes or retained-resource replacement. Finish with a full zero-change plan.
+
+Apply the reviewed plan:
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_WORKDIR">
+
+```bash
+terraform -chdir="$configuration" apply client.plan
+```
+
+</div>
 
 The policy denies POST, PUT and PATCH on exact `/mtls/write` when XFCC is absent, then allows other traffic. Qualification must prove the edge sanitizes client-supplied XFCC before policy evaluation. The origin parser alone cannot establish edge trust. A header bypass fails acceptance and requires rollback.
 
@@ -173,8 +187,10 @@ The policy denies POST, PUT and PATCH on exact `/mtls/write` when XFCC is absent
 Use a new cURL process and unique challenge for every probe. Keep server verification enabled. Match the response challenge and `forwarded_client_certificate_sha256` to the client leaf fingerprint; `origin_server_certificate_sha256` identifies the Wingman server certificate separately. Synthetic acknowledgments store and echo no submitted data.
 
 """
+        + "## Verify trusted requests\n\n"
         + fence("bash", verify)
         + "\n"
+        + "## Reject forged client identity\n\n"
         + fence("bash", forged)
         + """
 Expect public identity HTTP 200 with an empty client fingerprint, trusted writes HTTP 200, and certificate-free or forged-header writes HTTP 403. Require duplicate and malformed header denial, including a copied complete valid XFCC value presented without a client certificate. Presented untrusted and expired certificates must fail TLS before the handler returns a challenge. With `no_crl`, a locally revoked certificate remains accepted by the edge until it expires or its issuing CA loses trust. Prove and record that behavior explicitly; do not claim edge revocation.
@@ -194,6 +210,8 @@ python3 "$XCSH_WORKDIR/client_pki.py" crl "$XCSH_CLIENT_CA_DIR" --revision "$XCS
         )
         + """
 Add the newly signed CRL to `crl_revisions` and publish and verify its exact HTTP path through a fresh reviewed plan. The CRL documents local revocation only. With fresh connections, verify the old and renewed clients still work at the edge while their CA remains trusted. Renewal and local revocation do not invalidate an individual client at this Regional Edge listener.
+
+## Rotate CA trust
 
 For CA rotation, initialize a separate private CA database and client. Concatenate the two public CA certificates into the trusted bundle. You may publish both issuers' signed PEM CRLs as a public bundle; verify each signature and validity window independently. The edge does not consume this CRL bundle. Preserve `xcsh_trusted_ca_list.client[0]` identity while adding new trust. Prove both clients work during overlap, then remove old CA trust through a reviewed update and prove old clients fail while new clients work. Retain prior public revisions until the transition is verified.
 
@@ -221,7 +239,7 @@ Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy
             )
         else:
             lines.append(line)
-    page.write_text("\n".join(lines) + "\n")
+    write_client_tasks(page.parent, "\n".join(lines) + "\n")
     imports = ROOT / "docs/_imports"
     lines = imports.read_text().splitlines()
     for path in [*sorted(directory.glob("*.tf")), ROOT / "scripts/client_pki.py"]:

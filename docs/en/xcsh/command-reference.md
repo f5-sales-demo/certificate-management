@@ -3,10 +3,10 @@ title: Command reference
 description: Blindfold operations, essential flags, encodings, limits, statuses, and recovery.
 sidebar:
   label: Command reference
-  order: 2
+  order: 12
 tableOfContents:
   minHeadingLevel: 2
-  maxHeadingLevel: 2
+  maxHeadingLevel: 3
 ---
 
 Use `xcsh blindfold <operation> --help` or `xcsh request secrets <operation> --help` for full command help.
@@ -65,7 +65,7 @@ A location contains one `string:///` prefix plus base64 encrypted bytes. Add tha
 
 ## Status and recovery
 
-Blindfold reports exclude private keys and encrypted payloads. `prepared` confirms local preparation; combined create/replace returns `accepted` when named readback matches the submitted certificate and encrypted key. Its `readiness: unverified` requires endpoint verification. Generic `apply` returns `created`, `updated`, or `unchanged` as described in [Certificate use](../#configure).
+Blindfold reports exclude private keys and encrypted payloads. `prepared` confirms local preparation; combined create/replace returns `accepted` when named readback matches the submitted certificate and encrypted key. Its `readiness: unverified` requires endpoint verification. Generic `apply` returns `created`, `updated`, or `unchanged` as described in [Certificate use](../configure/).
 
 | Exit code | Meaning |
 | --- | --- |

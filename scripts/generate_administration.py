@@ -291,13 +291,29 @@ def generate(schema: dict) -> None:
         ]
         section = (
             "The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.\n\n"
-            f"[Download JSON]({'../../../../assets/' if name != 'named-certificate' else '../../assets/'}configurations/{name}.json).\n\n"
+            f"[Download JSON]({'../../../../assets/' if name != 'named-certificate' else '../../../assets/'}configurations/{name}.json).\n\n"
+            "Download HCL files: "
+            + " ·\n".join(
+                f"[{path.name}]({'../../../../' if name != 'named-certificate' else '../../../'}_data/terraform/{name}/{path.name})"
+                for path in sorted(directory.glob("*.tf"))
+            )
+            + ".\n\n"
+            + (
+                "## Public JSON\n\n"
+                if name == "named-certificate"
+                else "### Public JSON\n\n"
+            )
             + fence("json", public_json(documents))
             + "\n"
+            + (
+                "## Complete HCL\n\n"
+                if name == "named-certificate"
+                else "### Complete HCL\n\n"
+            )
             + fence("hcl", hcl)
         )
         if name == "named-certificate":
-            page = ROOT / "docs/en/terraform/index.md"
+            page = ROOT / "docs/en/terraform/configuration.md"
             text = page.read_text()
             begin, end = (
                 "<!-- generated-configuration -->",
@@ -315,7 +331,7 @@ def generate(schema: dict) -> None:
                     text,
                 )
             else:
-                start = text.index("## Configuration") + len("## Configuration")
+                start = text.index("## Complete HCL") + len("## Complete HCL")
                 text = text[:start] + "\n\n" + generated + text[start:]
             page.write_text(text)
             continue
@@ -326,7 +342,7 @@ def generate(schema: dict) -> None:
             + '\nterraform -chdir="$configuration" plan -detailed-exitcode'
         )
         text = (
-            f"---\ntitle: {CHOICES[name]}\nsidebar:\n  order: {list(CHOICES).index(name) + 1}\n---\n\n## Prerequisites\n\nInstall the latest Terraform and provider releases. Set the [provider environment](../../#prerequisites) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.\n\n{requirements(name)}\n\n## Configuration\n\n{section}\n## Configure\n\nSupply the prerequisite fields in Customize examples. Download the files and review the saved plan.\n\n"
+            f"---\ntitle: {CHOICES[name]}\ndescription: {CHOICES[name]} configuration and certificate lifecycle checks.\nsidebar:\n  order: {list(CHOICES).index(name) + 1}\n---\n\n## Prerequisites\n\nInstall the latest Terraform and provider releases. Set the [provider environment](../../prerequisites/) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.\n\n{requirements(name)}\n\n## Configuration\n\n{section}\n## Configure\n\nSupply the prerequisite fields in Customize examples. Download the files and review the saved plan.\n\n"
             + fence("bash", "\n".join(commands))
             + "\nConfirm the resource names, references, and ownership in the plan. Apply that reviewed plan.\n\n"
             + fence("bash", 'terraform -chdir="$configuration" apply create.plan')
@@ -335,13 +351,13 @@ def generate(schema: dict) -> None:
             + "\nExpect HTTP `200`, the selected names and references, the encoded public chain, and `private_key.blindfold_secret_info.location` at every certificate node. No `blindfold` input or clear private key belongs in the API object. Expect exit `0` and **No changes**; exit `2` means changes and exit `1` means failure.\n\nConfiguration readback does not prove served TLS. "
         )
         if name == "inline-server-tls":
-            text += "Run the [hostname, trust, fingerprint, and response checks](../../#verify). Expect the identifying JSON response.\n"
+            text += "Run the [hostname, trust, fingerprint, and response checks](../../verify/). Expect the identifying JSON response.\n"
         elif "mtls" in name:
             text += "Send a request through the configured consumer to the origin. Require trusted server TLS and an origin result confirming the configured client identity; a successful handshake from your laptop does not prove consumer mTLS.\n"
         elif name == "proxy-intercept":
             text += "Use the advertised forward proxy from an authorized client trusting the signing CA. Verify the target hostname and the substituted leaf issuer, then verify the expected application response. This path has no served-traffic qualification receipt.\n"
         else:
-            text += "Use the advertised consumer hostname for [trusted TLS checks](../../#verify), then require its application's expected response. Serving remains unqualified until a concrete consumer, advertisement, and traffic check are available.\n"
+            text += "Use the advertised consumer hostname for [trusted TLS checks](../../verify/), then require its application's expected response. Serving remains unqualified until a concrete consumer, advertisement, and traffic check are available.\n"
         if name == "proxy-intercept":
             traffic = (
                 'read -r -p "Advertised proxy host:port: " proxy_address\n'
@@ -579,7 +595,7 @@ def generate_wingman() -> None:
     document = {"apiVersion": "apps/v1", "kind": "Deployment", **convert(body)}
     artifact = ROOT / "docs/assets/configurations/wingman-deployment.json"
     artifact.write_text(public_json(document))
-    page = ROOT / "docs/en/wingman/index.md"
+    page = ROOT / "docs/en/wingman/configuration.md"
     text = page.read_text()
     text = re.sub(
         r'<div data-xcsh-context="json"[\s\S]*?</div>\n*',
@@ -587,7 +603,38 @@ def generate_wingman() -> None:
         text,
         count=1,
     )
-    page.write_text(text)
+    marker = "<!-- generated-wingman-hcl -->"
+    text = text.split(marker)[0].rstrip()
+    sections = []
+    for name in ("bootstrap", "runtime", "qualification"):
+        directory = ROOT / "wingman" / name
+        files = sorted(directory.glob("*.tf"))
+        downloads = " · ".join(
+            f"[{path.name}](../../../_data/wingman/{name}/{path.name})"
+            for path in files
+        )
+        complete = "\n".join(path.read_text().rstrip() for path in files)
+        sections.append(
+            f"## {name.capitalize()} HCL\n\nDownload unchanged files: {downloads}.\n\n"
+            + fence("hcl", complete)
+        )
+    page.write_text(text + "\n\n" + marker + "\n\n" + "\n\n".join(sections) + "\n")
+
+
+def generate_xcsh() -> None:
+    """Render the public illustrative manifest from its canonical downloadable source."""
+    artifact = ROOT / "docs/assets/configurations/xcsh-certificate.json"
+    public_manifest = artifact.read_text()
+    json.loads(public_manifest)
+    page = ROOT / "docs/en/xcsh/configuration.md"
+    page.write_text(
+        re.sub(
+            r"```json\n[\s\S]*?```",
+            lambda _: "```json\n" + public_manifest.rstrip() + "\n```",
+            page.read_text(),
+            count=1,
+        )
+    )
 
 
 def main() -> None:
@@ -602,20 +649,25 @@ def main() -> None:
     generate(schema)
     generate_inputs()
     generate_wingman()
+    generate_xcsh()
     generate_client(schema, public, public_json, fence)
-    named_page = ROOT / "docs/en/terraform/index.md"
-    page_text = named_page.read_text().replace(
-        "for file in versions.tf variables.tf main.tf outputs.tf wingman.tf; do",
-        "for file in "
-        + " ".join(
-            path.name
-            for path in sorted((ROOT / "terraform/named-certificate").glob("*.tf"))
-        )
-        + "; do",
+    named_page = ROOT / "docs/en/terraform/configure.md"
+    page_text = re.sub(
+        r"for file in [^\n]+; do\n(?=[\s\S]{0,300}named-certificate/\$file)",
+        lambda _: (
+            "for file in "
+            + " ".join(
+                path.name
+                for path in sorted((ROOT / "terraform/named-certificate").glob("*.tf"))
+            )
+            + "; do\n"
+        ),
+        named_page.read_text(),
+        count=1,
     )
     named_page.write_text(page_text)
     for page in (ROOT / "docs/en").rglob("*.md"):
-        page.write_text(re.sub(r"\n{3,}", "\n\n", page.read_text()))
+        page.write_text(re.sub(r"\n{3,}", "\n\n", page.read_text()).rstrip() + "\n")
     (ROOT / "verification/administration-source.json").write_text(
         json.dumps(
             {

@@ -1,12 +1,13 @@
 ---
 title: Custom workload TLS
+description: Custom workload TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 13
 ---
 
 ## Prerequisites
 
-Install the latest Terraform and provider releases. Set the [provider environment](../../#prerequisites) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
+Install the latest Terraform and provider releases. Set the [provider environment](../../prerequisites/) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
 
 Supply an existing CE virtual site with workload capacity and an available container image listening on the target port. An empty selector cannot establish running workload traffic.
 
@@ -15,6 +16,12 @@ Supply an existing CE virtual site with workload capacity and an available conta
 The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.
 
 [Download JSON](../../../../assets/configurations/workload-service-custom.json).
+
+Download HCL files: [main.tf](../../../../_data/terraform/workload-service-custom/main.tf) ·
+[variables.tf](../../../../_data/terraform/workload-service-custom/variables.tf) ·
+[versions.tf](../../../../_data/terraform/workload-service-custom/versions.tf).
+
+### Public JSON
 
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_CONTAINER_IMAGE XCSH_DOMAINNAME XCSH_LB_NAME XCSH_NAMESPACE XCSH_VIRTUAL_SITE_NAME XCSH_VIRTUAL_SITE_NAMESPACE">
 
@@ -116,6 +123,8 @@ The JSON below shows the complete public configuration resulting from native enc
 ```
 
 </div>
+
+### Complete HCL
 
 <div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
 
@@ -311,7 +320,7 @@ terraform -chdir="$configuration" plan -detailed-exitcode
 
 Expect HTTP `200`, the selected names and references, the encoded public chain, and `private_key.blindfold_secret_info.location` at every certificate node. No `blindfold` input or clear private key belongs in the API object. Expect exit `0` and **No changes**; exit `2` means changes and exit `1` means failure.
 
-Configuration readback does not prove served TLS. Use the advertised consumer hostname for [trusted TLS checks](../../#verify), then require its application's expected response. Serving remains unqualified until a concrete consumer, advertisement, and traffic check are available.
+Configuration readback does not prove served TLS. Use the advertised consumer hostname for [trusted TLS checks](../../verify/), then require its application's expected response. Serving remains unqualified until a concrete consumer, advertisement, and traffic check are available.
 
 Run these checks only after attaching an advertised HTTPS consumer on port 443 with this certificate. Expect trusted hostname verification, identical fingerprints, and the application's expected status and response. A different protocol or port requires the corresponding consumer check.
 
