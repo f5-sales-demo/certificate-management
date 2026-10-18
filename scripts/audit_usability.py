@@ -20,15 +20,16 @@ def main() -> None:
         examples = re.findall(r"```([^\n]*)\n([\s\S]*?)```", body)
         prose = re.sub(r"```[\s\S]*?```", "", body)
         headings = re.findall(r"^#{2,3} (.+)$", prose, re.MULTILINE)
+        route = (
+            page.relative_to(ROOT / "docs/en")
+            .as_posix()
+            .removesuffix(".md")
+            .removesuffix("index")
+            .rstrip("/")
+        )
         routes.append(
             {
-                "route": "/en/"
-                + page.relative_to(ROOT / "docs/en")
-                .as_posix()
-                .removesuffix(".md")
-                .removesuffix("index")
-                .rstrip("/")
-                + "/",
+                "route": "/en/" + (route + "/" if route else ""),
                 "prose_words": len(
                     re.findall(r"\b\w+\b", re.sub(r"<[^>]*>", "", prose))
                 ),

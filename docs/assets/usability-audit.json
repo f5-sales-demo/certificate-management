@@ -59,7 +59,7 @@
       "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
-      "route": "/en//",
+      "route": "/en/",
       "prose_words": 209,
       "code_lines": 0,
       "sections": ["Choose a workflow", "Customize your environment", "Ownership and qualification"],
