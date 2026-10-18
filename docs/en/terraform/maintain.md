@@ -28,6 +28,18 @@ terraform -chdir="$XCSH_WORKDIR/deployment" plan \
   -out="$XCSH_WORKDIR/deployment/renew.plan"
 terraform -chdir="$XCSH_WORKDIR/deployment" show \
   "$XCSH_WORKDIR/deployment/renew.plan"
+shasum -a 256 "$XCSH_WORKDIR/deployment/renew.plan"
+```
+
+</div>
+
+## Apply the reviewed plan
+
+Confirm the exact owned resources and saved-plan hash before running the apply command.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_WORKDIR XCSH_RENEWED_CERT_FILE XCSH_RENEWED_KEY_FILE XCSH_API_URL XCSH_API_TOKEN XCSH_NAMESPACE XCSH_LB_NAME XCSH_DOMAINNAME">
+
+```bash
 terraform -chdir="$XCSH_WORKDIR/deployment" apply \
   "$XCSH_WORKDIR/deployment/renew.plan"
 terraform -chdir="$XCSH_WORKDIR/deployment" plan -detailed-exitcode

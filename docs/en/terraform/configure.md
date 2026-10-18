@@ -98,6 +98,7 @@ terraform -chdir="$XCSH_WORKDIR/deployment" plan \
   -out="$XCSH_WORKDIR/deployment/create.plan"
 terraform -chdir="$XCSH_WORKDIR/deployment" show \
   "$XCSH_WORKDIR/deployment/create.plan"
+shasum -a 256 "$XCSH_WORKDIR/deployment/create.plan"
 ```
 
 </div>

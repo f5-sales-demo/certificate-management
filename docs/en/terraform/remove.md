@@ -26,6 +26,18 @@ terraform -chdir="$XCSH_WORKDIR/deployment" plan -destroy \
   -out="$XCSH_WORKDIR/deployment/destroy.plan"
 terraform -chdir="$XCSH_WORKDIR/deployment" show \
   "$XCSH_WORKDIR/deployment/destroy.plan"
+shasum -a 256 "$XCSH_WORKDIR/deployment/destroy.plan"
+```
+
+</div>
+
+## Apply the reviewed plan
+
+Confirm the exact owned resources and saved-plan hash before running the apply command.
+
+<div data-xcsh-context="shell" data-xcsh-fields="XCSH_API_TOKEN XCSH_WORKDIR XCSH_API_URL XCSH_NAMESPACE XCSH_LB_NAME XCSH_DOMAINNAME XCSH_CERT_FILE XCSH_KEY_FILE">
+
+```bash
 terraform -chdir="$XCSH_WORKDIR/deployment" apply \
   "$XCSH_WORKDIR/deployment/destroy.plan"
 unset XCSH_API_TOKEN
