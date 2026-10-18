@@ -17,7 +17,7 @@ next:
 
 ## Configure steps
 
-## Prepare local inputs
+## Create certificate inputs
 
 Select an existing leaf-first Privacy Enhanced Mail (PEM) chain and matching key, or create self-signed material outside Git. The following recipe creates
 a Rivest–Shamir–Adleman (RSA) 2048-bit self-signed server certificate valid for 3650 days. Select `<XCSH_WORKDIR>`, `<XCSH_CERT_FILE>`, and `<XCSH_KEY_FILE>` as absolute paths outside Git. Create the parent directories for those files first. Replace `<XCSH_DOMAINNAME>` and `<XCSH_COMPANION_DOMAINNAME>` with names you own.

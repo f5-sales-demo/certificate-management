@@ -17,7 +17,9 @@ The JSON below shows the complete public configuration resulting from native enc
 
 [Download JSON](../../../../assets/configurations/workload-service-custom.json).
 
-Download HCL files: [main.tf](../../../../_data/terraform/workload-service-custom/main.tf) · [variables.tf](../../../../_data/terraform/workload-service-custom/variables.tf) · [versions.tf](../../../../_data/terraform/workload-service-custom/versions.tf).
+Download HCL files: [main.tf](../../../../_data/terraform/workload-service-custom/main.tf) ·
+[variables.tf](../../../../_data/terraform/workload-service-custom/variables.tf) ·
+[versions.tf](../../../../_data/terraform/workload-service-custom/versions.tf).
 
 ### Public JSON
 

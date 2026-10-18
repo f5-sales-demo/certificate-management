@@ -17,7 +17,9 @@ The JSON below shows the complete public configuration resulting from native enc
 
 [Download JSON](../../../../assets/configurations/cluster-tls.json).
 
-Download HCL files: [main.tf](../../../../_data/terraform/cluster-tls/main.tf) · [variables.tf](../../../../_data/terraform/cluster-tls/variables.tf) · [versions.tf](../../../../_data/terraform/cluster-tls/versions.tf).
+Download HCL files: [main.tf](../../../../_data/terraform/cluster-tls/main.tf) ·
+[variables.tf](../../../../_data/terraform/cluster-tls/variables.tf) ·
+[versions.tf](../../../../_data/terraform/cluster-tls/versions.tf).
 
 ### Public JSON
 

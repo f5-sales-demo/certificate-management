@@ -17,7 +17,9 @@ The JSON below shows the complete public configuration resulting from native enc
 
 [Download JSON](../../../../assets/configurations/origin-mtls.json).
 
-Download HCL files: [main.tf](../../../../_data/terraform/origin-mtls/main.tf) · [variables.tf](../../../../_data/terraform/origin-mtls/variables.tf) · [versions.tf](../../../../_data/terraform/origin-mtls/versions.tf).
+Download HCL files: [main.tf](../../../../_data/terraform/origin-mtls/main.tf) ·
+[variables.tf](../../../../_data/terraform/origin-mtls/variables.tf) ·
+[versions.tf](../../../../_data/terraform/origin-mtls/versions.tf).
 
 ### Public JSON
 

@@ -15,7 +15,6 @@ next:
   label: Overview
 ---
 
-## Remove steps
 ## Destroy and verify disposable infrastructure
 
 Resume the exact `TF_VAR_run_id`, private state directory, inventory, and observation journal created in Verify. Keep the shell environment from that run; never generate a new run ID for removal.

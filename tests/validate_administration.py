@@ -99,7 +99,7 @@ def main() -> None:
         documents = json.loads(public_source)
         assert "```json\n" + public_source.rstrip() + "\n```" in source, name
         assert all("metadata" in d and "spec" in d for d in documents)
-        workflow = (
+        source = (
             source
             if name != "named-certificate"
             else "\n".join(
@@ -115,7 +115,7 @@ def main() -> None:
             )
         )
         assert all(
-            heading in workflow
+            heading in source
             for heading in [
                 "## Prerequisites steps"
                 if name == "named-certificate"

@@ -293,7 +293,7 @@ def generate(schema: dict) -> None:
             "The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.\n\n"
             f"[Download JSON]({'../../../../assets/' if name != 'named-certificate' else '../../../assets/'}configurations/{name}.json).\n\n"
             "Download HCL files: "
-            + " · ".join(
+            + " ·\n".join(
                 f"[{path.name}]({'../../../../' if name != 'named-certificate' else '../../../'}_data/terraform/{name}/{path.name})"
                 for path in sorted(directory.glob("*.tf"))
             )
@@ -667,7 +667,7 @@ def main() -> None:
     )
     named_page.write_text(page_text)
     for page in (ROOT / "docs/en").rglob("*.md"):
-        page.write_text(re.sub(r"\n{3,}", "\n\n", page.read_text()))
+        page.write_text(re.sub(r"\n{3,}", "\n\n", page.read_text()).rstrip() + "\n")
     (ROOT / "verification/administration-source.json").write_text(
         json.dumps(
             {

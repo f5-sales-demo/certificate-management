@@ -17,7 +17,9 @@ The JSON below shows the complete public configuration resulting from native enc
 
 [Download JSON](../../../../assets/configurations/proxy-intercept.json).
 
-Download HCL files: [main.tf](../../../../_data/terraform/proxy-intercept/main.tf) · [variables.tf](../../../../_data/terraform/proxy-intercept/variables.tf) · [versions.tf](../../../../_data/terraform/proxy-intercept/versions.tf).
+Download HCL files: [main.tf](../../../../_data/terraform/proxy-intercept/main.tf) ·
+[variables.tf](../../../../_data/terraform/proxy-intercept/variables.tf) ·
+[versions.tf](../../../../_data/terraform/proxy-intercept/versions.tf).
 
 ### Public JSON
 

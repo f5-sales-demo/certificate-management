@@ -20,7 +20,13 @@ The JSON below shows the complete public configuration resulting from native enc
 
 [Download JSON](../../../assets/configurations/named-certificate.json).
 
-Download HCL files: [client-mtls.tf](../../../_data/terraform/named-certificate/client-mtls.tf) · [main.tf](../../../_data/terraform/named-certificate/main.tf) · [outputs.tf](../../../_data/terraform/named-certificate/outputs.tf) · [use-cases.tf](../../../_data/terraform/named-certificate/use-cases.tf) · [variables.tf](../../../_data/terraform/named-certificate/variables.tf) · [versions.tf](../../../_data/terraform/named-certificate/versions.tf) · [wingman.tf](../../../_data/terraform/named-certificate/wingman.tf).
+Download HCL files: [client-mtls.tf](../../../_data/terraform/named-certificate/client-mtls.tf) ·
+[main.tf](../../../_data/terraform/named-certificate/main.tf) ·
+[outputs.tf](../../../_data/terraform/named-certificate/outputs.tf) ·
+[use-cases.tf](../../../_data/terraform/named-certificate/use-cases.tf) ·
+[variables.tf](../../../_data/terraform/named-certificate/variables.tf) ·
+[versions.tf](../../../_data/terraform/named-certificate/versions.tf) ·
+[wingman.tf](../../../_data/terraform/named-certificate/wingman.tf).
 
 ## Public JSON
 
@@ -565,4 +571,3 @@ output "wingman_endpoint" {
 </div>
 
 <!-- /generated-configuration -->
-

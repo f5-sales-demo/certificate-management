@@ -9,7 +9,11 @@ STAGES = ("Prerequisites", "Configuration", "Configure", "Verify", "Maintain", "
 def write_client_tasks(directory: Path, text: str) -> None:
     """Update task bodies while preserving descriptive metadata and navigation."""
     body = text.split("---", 2)[2]
-    parts = re.split(r"^## (Prerequisites|Configuration|Configure|Verify|Maintain|Remove)\n", body, flags=re.MULTILINE)
+    parts = re.split(
+        r"^## (Prerequisites|Configuration|Configure|Verify|Maintain|Remove)\n",
+        body,
+        flags=re.MULTILINE,
+    )
     sections = dict(zip(parts[1::2], parts[2::2], strict=True))
     configuration = sections["Configuration"]
     download = re.search(
