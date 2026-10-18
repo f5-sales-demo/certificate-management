@@ -21,7 +21,7 @@ next:
 
 ```bash
 umask 077
-configuration="$XCSH_WORKDIR/named-certificate"
+configuration="$XCSH_WORKDIR/deployment"
 mkdir -p "$configuration"
 curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/named-certificate/client-mtls.tf" --output "$configuration/client-mtls.tf"
 curl --silent --show-error --fail "https://f5-sales-demo.github.io/certificate-management/_data/terraform/named-certificate/main.tf" --output "$configuration/main.tf"
@@ -45,7 +45,7 @@ to `crls/<revision>.pem` under that directory.
 
 ```bash
 umask 077
-configuration="$XCSH_WORKDIR/named-certificate"
+configuration="$XCSH_WORKDIR/deployment"
 python3 "$XCSH_WORKDIR/client_pki.py" init "$XCSH_CLIENT_CA_DIR"
 python3 "$XCSH_WORKDIR/client_pki.py" issue "$XCSH_CLIENT_CA_DIR" --client "$XCSH_CLIENT_NAME"
 python3 "$XCSH_WORKDIR/client_pki.py" crl "$XCSH_CLIENT_CA_DIR" --revision "$XCSH_CLIENT_CRL_REVISION"

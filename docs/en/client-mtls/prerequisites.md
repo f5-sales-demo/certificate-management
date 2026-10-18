@@ -18,7 +18,8 @@ next:
 ## Prerequisites steps
 
 Complete the [server certificate workflow](../../terraform/) and [Wingman runtime](../../wingman/). Use the existing
-named-certificate owner state and Wingman pool. [Origin mTLS](../../terraform/certificate-surfaces/origin-mtls/)
+named-certificate owner state and Wingman pool. Reuse the server guide's `$XCSH_WORKDIR/deployment` directory and state;
+do not create a second state for the same resource names. [Origin mTLS](../../terraform/certificate-surfaces/origin-mtls/)
 authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material
 distinct.
 

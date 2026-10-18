@@ -61,7 +61,7 @@ def generate(
     json_text = public_json(config)
     (ROOT / "docs/assets/configurations/client-mtls.json").write_text(json_text)
     commands = '''umask 077
-configuration="$XCSH_WORKDIR/named-certificate"
+configuration="$XCSH_WORKDIR/deployment"
 python3 "$XCSH_WORKDIR/client_pki.py" init "$XCSH_CLIENT_CA_DIR"
 python3 "$XCSH_WORKDIR/client_pki.py" issue "$XCSH_CLIENT_CA_DIR" --client "$XCSH_CLIENT_NAME"
 python3 "$XCSH_WORKDIR/client_pki.py" crl "$XCSH_CLIENT_CA_DIR" --revision "$XCSH_CLIENT_CRL_REVISION"
@@ -81,7 +81,8 @@ terraform -chdir="$configuration" validate
 terraform -chdir="$configuration" plan -out=client.plan
 terraform -chdir="$configuration" show client.plan
 shasum -a 256 "$configuration/client.plan"'''
-    verify = """challenge=$(openssl rand -hex 16)
+    verify = """configuration="$XCSH_WORKDIR/deployment"
+challenge=$(openssl rand -hex 16)
 curl --silent --show-error --fail "https://$XCSH_DOMAINNAME/mtls/identity?challenge=$challenge"
 openssl x509 -in "$XCSH_CLIENT_CERT_FILE" -noout -fingerprint -sha256
 for method in POST PUT PATCH; do
@@ -115,7 +116,7 @@ done"""
     )
     download = (
         """umask 077
-configuration="$XCSH_WORKDIR/named-certificate"
+configuration="$XCSH_WORKDIR/deployment"
 mkdir -p "$configuration"
 """
         + "\n".join(
@@ -135,7 +136,7 @@ sidebar:
 
 ## Prerequisites
 
-Complete the [server certificate workflow](../terraform/) and [Wingman runtime](../wingman/). Use the existing named-certificate owner state and Wingman pool. [Origin mTLS](../terraform/certificate-surfaces/origin-mtls/) authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
+Complete the [server certificate workflow](../terraform/) and [Wingman runtime](../wingman/). Use the existing named-certificate owner state and Wingman pool. Reuse the server guide's `$XCSH_WORKDIR/deployment` directory and state; do not create a second state for the same resource names. [Origin mTLS](../terraform/certificate-surfaces/origin-mtls/) authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
 
 The retained Regional Edge endpoint uses optional client authentication with `no_crl`. Live XC validation rejects CRLs on Regional Edges. Edge CRL revocation is excluded from this workflow. Signed CRLs remain public downloadable lifecycle material; downloading one does not revoke a client at the edge.
 

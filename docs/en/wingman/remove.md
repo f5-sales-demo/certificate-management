@@ -16,7 +16,9 @@ next:
 ---
 
 ## Remove steps
-### Destroy and verify disposable infrastructure
+## Destroy and verify disposable infrastructure
+
+Resume the exact `TF_VAR_run_id`, private state directory, inventory, and observation journal created in Verify. Keep the shell environment from that run; never generate a new run ID for removal.
 
 Check exact live ownership before planning and again before applying destruction. Stop if any UID changes; inspect the private state and journal rather than deleting a replacement. Do not run concurrent writers against these disposable names.
 

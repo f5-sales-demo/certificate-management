@@ -24,6 +24,7 @@ identifies the Wingman server certificate separately. Synthetic acknowledgments 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_CLIENT_CA_FILE XCSH_CLIENT_CERT_FILE XCSH_CLIENT_CRL_FILE XCSH_CLIENT_CRL_REVISION XCSH_CLIENT_KEY_FILE XCSH_DOMAINNAME XCSH_WORKDIR">
 
 ```bash
+configuration="$XCSH_WORKDIR/deployment"
 challenge=$(openssl rand -hex 16)
 curl --silent --show-error --fail "https://$XCSH_DOMAINNAME/mtls/identity?challenge=$challenge"
 openssl x509 -in "$XCSH_CLIENT_CERT_FILE" -noout -fingerprint -sha256
