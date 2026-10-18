@@ -134,7 +134,7 @@ sidebar:
 
 ## Prerequisites
 
-Complete the [server certificate workflow](../) and [Wingman runtime](../../wingman/). Use the existing named-certificate owner state and Wingman pool. [Origin mTLS](../certificate-surfaces/origin-mtls/) authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
+Complete the [server certificate workflow](../terraform/) and [Wingman runtime](../wingman/). Use the existing named-certificate owner state and Wingman pool. [Origin mTLS](../terraform/certificate-surfaces/origin-mtls/) authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
 
 The retained Regional Edge endpoint uses optional client authentication with `no_crl`. Live XC validation rejects CRLs on Regional Edges. Edge CRL revocation is excluded from this workflow. Signed CRLs remain public downloadable lifecycle material; downloading one does not revoke a client at the edge.
 
@@ -144,7 +144,7 @@ Use Python 3 and OpenSSL 3 on Ubuntu or macOS. Store the synthetic CA database, 
 
 Client mTLS is disabled when `client_mtls = null`. The complete HCL retains the named server certificate and existing routes. The public JSON describes the added resources and TLS extension; encoded-material placeholders are illustrative.
 
-[Download public JSON](../../../assets/configurations/client-mtls.json).
+[Download public JSON](../../assets/configurations/client-mtls.json).
 
 """
         + fence("json", json_text)
@@ -202,7 +202,7 @@ For CA rotation, initialize a separate private CA database and client. Concatena
 Set `client_mtls = null` through a fresh reviewed plan. Remove the client policy, trust and public CRL routes while preserving the server certificate, load balancers, Wingman and Default pool additions. Verify public reads and redirects, unchanged server fingerprints and zero-change refresh. Exercise full destroy separately on an isolated deployment of this same configuration; never destroy the retained owner to test removal.
 """
     )
-    page = ROOT / "docs/en/terraform/client-mtls/index.md"
+    page = ROOT / "docs/en/client-mtls/index.md"
     page.parent.mkdir(parents=True, exist_ok=True)
     lines = []
     fenced = False

@@ -40,7 +40,7 @@ class ClientMTLSTests(unittest.TestCase):
         assert 'xfcc_header_elements = ["XFCC_CERT", "XFCC_CHAIN"]' in text
 
     def test_documented_python_configuration_executes(self):
-        page = (ROOT / "docs/en/terraform/client-mtls/index.md").read_text()
+        page = (ROOT / "docs/en/client-mtls/index.md").read_text()
         match = re.search(r"<<'PY'\n([\s\S]*?)\nPY", page)
         assert match is not None
         with tempfile.TemporaryDirectory() as temporary:
