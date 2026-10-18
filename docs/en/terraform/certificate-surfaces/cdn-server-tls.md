@@ -1,5 +1,6 @@
 ---
 title: CDN server TLS
+description: CDN server TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 3
 ---

@@ -1,5 +1,6 @@
 ---
 title: Inline server TLS
+description: Inline server TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 6
 ---

@@ -1,5 +1,6 @@
 ---
 title: TCP TLS
+description: TCP TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 11
 ---

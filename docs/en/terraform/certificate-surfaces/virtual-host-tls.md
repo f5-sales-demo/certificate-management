@@ -1,5 +1,6 @@
 ---
 title: Virtual host TLS
+description: Virtual host TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 12
 ---

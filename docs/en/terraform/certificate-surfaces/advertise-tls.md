@@ -1,5 +1,6 @@
 ---
 title: Advertise TLS
+description: Advertise TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 1
 ---

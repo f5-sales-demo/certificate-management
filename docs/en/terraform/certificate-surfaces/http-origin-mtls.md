@@ -1,5 +1,6 @@
 ---
 title: Default pool mTLS
+description: Default pool mTLS configuration and certificate lifecycle checks.
 sidebar:
   order: 5
 ---

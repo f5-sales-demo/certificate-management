@@ -1,5 +1,6 @@
 ---
 title: Workload TLS
+description: Workload TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 15
 ---

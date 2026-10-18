@@ -1,5 +1,6 @@
 ---
 title: Proxy TLS
+description: Proxy TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 9
 ---

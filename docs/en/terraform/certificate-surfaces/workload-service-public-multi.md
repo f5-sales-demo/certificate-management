@@ -1,5 +1,6 @@
 ---
 title: Multiport workload TLS
+description: Multiport workload TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 14
 ---

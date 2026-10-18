@@ -1,5 +1,6 @@
 ---
 title: TLS interception
+description: TLS interception configuration and certificate lifecycle checks.
 sidebar:
   order: 8
 ---

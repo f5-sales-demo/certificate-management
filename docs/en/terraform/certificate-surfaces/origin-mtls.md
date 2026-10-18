@@ -1,5 +1,6 @@
 ---
 title: Origin mTLS
+description: Origin mTLS configuration and certificate lifecycle checks.
 sidebar:
   order: 7
 ---

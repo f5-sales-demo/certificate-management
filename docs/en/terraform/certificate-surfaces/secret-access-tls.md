@@ -1,5 +1,6 @@
 ---
 title: Secret access TLS
+description: Secret access TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 10
 ---

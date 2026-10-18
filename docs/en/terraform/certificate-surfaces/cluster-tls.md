@@ -1,5 +1,6 @@
 ---
 title: Cluster TLS
+description: Cluster TLS configuration and certificate lifecycle checks.
 sidebar:
   order: 4
 ---

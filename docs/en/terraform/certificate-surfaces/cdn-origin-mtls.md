@@ -1,5 +1,6 @@
 ---
 title: CDN origin mTLS
+description: CDN origin mTLS configuration and certificate lifecycle checks.
 sidebar:
   order: 2
 ---
