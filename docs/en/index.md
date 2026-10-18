@@ -7,9 +7,12 @@ sidebar:
 Manage certificates and encrypted private keys for F5 Distributed Cloud. Choose a workflow based on who owns the resource and where the key is used.
 
 - [xcsh](./xcsh/) prepares and applies named certificate manifests through the CLI.
-- [Terraform](./terraform/) owns a certificate and HTTPS service, with native key encryption.
+- [Terraform](./terraform/) demonstrates native Blindfold key encryption in the provider.
+- [Client mTLS](./client-mtls/) authenticates callers and authorizes writes using their certificates.
 - [Wingman](./wingman/) authorizes an application to unseal its TLS key in memory.
 - [Certificate types](./terraform/certificate-surfaces/) covers inline TLS, origin authentication, interception, and workload configurations.
+
+Every use case includes Terraform scaffolding for its supporting infrastructure. The Terraform use case specifically demonstrates native Blindfold encryption.
 
 Use **Customize examples** to supply tenant settings and literal paths to local files. Matching fields carry across guides. Credentials remain in the tab session; leave them empty to use your shell environment or a private prompt. Reset restores noncredential defaults; Clear credentials removes tokens and passphrases.
 

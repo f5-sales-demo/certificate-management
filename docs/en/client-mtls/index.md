@@ -7,9 +7,10 @@ sidebar:
 
 ## Prerequisites
 
-Complete the [server certificate workflow](../) and [Wingman runtime](../../wingman/). Use the existing
-named-certificate owner state and Wingman pool. [Origin mTLS](../certificate-surfaces/origin-mtls/) authenticates the
-load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material distinct.
+Complete the [server certificate workflow](../terraform/) and [Wingman runtime](../wingman/). Use the existing
+named-certificate owner state and Wingman pool. [Origin mTLS](../terraform/certificate-surfaces/origin-mtls/)
+authenticates the load balancer to an origin; client mTLS authenticates a caller to the frontend. Keep their material
+distinct.
 
 The retained Regional Edge endpoint uses optional client authentication with `no_crl`. Live XC validation rejects CRLs
 on Regional Edges. Edge CRL revocation is excluded from this workflow. Signed CRLs remain public downloadable lifecycle
@@ -24,7 +25,7 @@ file paths produced below; never reuse server, origin or Wingman key inputs.
 Client mTLS is disabled when `client_mtls = null`. The complete HCL retains the named server certificate and existing
 routes. The public JSON describes the added resources and TLS extension; encoded-material placeholders are illustrative.
 
-[Download public JSON](../../../assets/configurations/client-mtls.json).
+[Download public JSON](../../assets/configurations/client-mtls.json).
 
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_LB_NAME XCSH_NAMESPACE">
 

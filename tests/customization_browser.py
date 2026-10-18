@@ -17,7 +17,7 @@ PAGES = [
     "",
     "terraform/",
     "terraform/input-lifecycle/",
-    "terraform/client-mtls/",
+    "client-mtls/",
     "terraform/certificate-surfaces/",
     "wingman/",
     "wingman/validation/",
@@ -164,6 +164,7 @@ with sync_playwright() as p:
                 "Overview",
                 "xcsh",
                 "Terraform",
+                "Client mTLS",
                 "Wingman",
             ], navigation
             assert {

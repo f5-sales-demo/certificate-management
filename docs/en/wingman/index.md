@@ -3,7 +3,7 @@ title: Wingman
 description: Follow encrypted key preparation, sidecar injection, in-memory unsealing, and trusted HTTPS verification.
 sidebar:
   label: Key unsealing
-  order: 4
+  order: 5
 ---
 
 Your application can serve Hypertext Transfer Protocol Secure (HTTPS) without mounting a plaintext private key. Wingman authorizes the workload, unseals its encrypted key, and lets the application keep the decrypted material in memory. Try the [live example](https://certificate-management-terraform.f5-sales-demo.com/wingman/get), then follow the workflow in your own environment.

@@ -193,7 +193,7 @@ def requirements(name: str) -> str:
     if "intercept" in name:
         return "Supply a signing CA and matching key, a forward-proxy route, and client trust. Use the interception CA fields rather than a server leaf. Configuration verification does not qualify intercepted traffic."
     if "mtls" in name:
-        return "Supply a reachable origin that requires client authentication, a matching client certificate with `clientAuth` usage, and its public server trust CA. Server-only certificates cannot authenticate a client. For callers presenting certificates to the frontend, see [Client mTLS](../../client-mtls/)."
+        return "Supply a reachable origin that requires client authentication, a matching client certificate with `clientAuth` usage, and its public server trust CA. Server-only certificates cannot authenticate a client. For callers presenting certificates to the frontend, see [Client mTLS](../../../client-mtls/)."
     if name.startswith("workload"):
         return "Supply an existing CE virtual site with workload capacity and an available container image listening on the target port. An empty selector cannot establish running workload traffic."
     if name == "inline-server-tls":
