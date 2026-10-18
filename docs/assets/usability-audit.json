@@ -6,10 +6,7 @@
       "route": "/en/client-mtls/configuration/",
       "prose_words": 97,
       "code_lines": 74,
-      "sections": [
-        "Public JSON",
-        "Shared Terraform source"
-      ],
+      "sections": ["Public JSON", "Shared Terraform source"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -17,9 +14,7 @@
       "route": "/en/client-mtls/configure/",
       "prose_words": 47,
       "code_lines": 11,
-      "sections": [
-        "Download the shared configuration"
-      ],
+      "sections": ["Download the shared configuration"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -27,10 +22,7 @@
       "route": "/en/client-mtls/",
       "prose_words": 41,
       "code_lines": 0,
-      "sections": [
-        "Prerequisites at a glance",
-        "Workflow"
-      ],
+      "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -38,9 +30,7 @@
       "route": "/en/client-mtls/maintain/",
       "prose_words": 93,
       "code_lines": 3,
-      "sections": [
-        "Maintain steps"
-      ],
+      "sections": ["Maintain steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -48,9 +38,7 @@
       "route": "/en/client-mtls/prerequisites/",
       "prose_words": 145,
       "code_lines": 0,
-      "sections": [
-        "Prerequisites steps"
-      ],
+      "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -58,9 +46,7 @@
       "route": "/en/client-mtls/remove/",
       "prose_words": 63,
       "code_lines": 0,
-      "sections": [
-        "Remove steps"
-      ],
+      "sections": ["Remove steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -68,9 +54,7 @@
       "route": "/en/client-mtls/verify/",
       "prose_words": 43,
       "code_lines": 0,
-      "sections": [
-        "Verify steps"
-      ],
+      "sections": ["Verify steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -78,11 +62,7 @@
       "route": "/en//",
       "prose_words": 209,
       "code_lines": 0,
-      "sections": [
-        "Choose a workflow",
-        "Customize your environment",
-        "Ownership and qualification"
-      ],
+      "sections": ["Choose a workflow", "Customize your environment", "Ownership and qualification"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -90,11 +70,7 @@
       "route": "/en/terraform/campaign/",
       "prose_words": 737,
       "code_lines": 28,
-      "sections": [
-        "Default pool dependencies",
-        "Review and apply",
-        "Traffic and renewal"
-      ],
+      "sections": ["Default pool dependencies", "Review and apply", "Traffic and renewal"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -187,11 +163,7 @@
       "route": "/en/terraform/certificate-surfaces/",
       "prose_words": 967,
       "code_lines": 0,
-      "sections": [
-        "Supported configurations",
-        "Qualification limits",
-        "Restricted reference fragments"
-      ],
+      "sections": ["Supported configurations", "Qualification limits", "Restricted reference fragments"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -369,10 +341,7 @@
       "route": "/en/terraform/configuration/",
       "prose_words": 54,
       "code_lines": 524,
-      "sections": [
-        "Public JSON",
-        "Complete HCL"
-      ],
+      "sections": ["Public JSON", "Complete HCL"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -394,10 +363,7 @@
       "route": "/en/terraform/",
       "prose_words": 88,
       "code_lines": 0,
-      "sections": [
-        "Prerequisites at a glance",
-        "Workflow"
-      ],
+      "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -425,9 +391,7 @@
       "route": "/en/terraform/maintain/",
       "prose_words": 96,
       "code_lines": 9,
-      "sections": [
-        "Maintain steps"
-      ],
+      "sections": ["Maintain steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -435,9 +399,7 @@
       "route": "/en/terraform/prerequisites/",
       "prose_words": 182,
       "code_lines": 0,
-      "sections": [
-        "Prerequisites steps"
-      ],
+      "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -445,9 +407,7 @@
       "route": "/en/terraform/remove/",
       "prose_words": 54,
       "code_lines": 7,
-      "sections": [
-        "Remove steps"
-      ],
+      "sections": ["Remove steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -455,9 +415,7 @@
       "route": "/en/terraform/verify/",
       "prose_words": 72,
       "code_lines": 16,
-      "sections": [
-        "Verify steps"
-      ],
+      "sections": ["Verify steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -465,12 +423,7 @@
       "route": "/en/wingman/configuration/",
       "prose_words": 157,
       "code_lines": 582,
-      "sections": [
-        "Blindfold request",
-        "Bootstrap HCL",
-        "Runtime HCL",
-        "Qualification HCL"
-      ],
+      "sections": ["Blindfold request", "Bootstrap HCL", "Runtime HCL", "Qualification HCL"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -491,10 +444,7 @@
       "route": "/en/wingman/",
       "prose_words": 95,
       "code_lines": 0,
-      "sections": [
-        "Prerequisites at a glance",
-        "Workflow"
-      ],
+      "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -502,9 +452,7 @@
       "route": "/en/wingman/maintain/",
       "prose_words": 42,
       "code_lines": 0,
-      "sections": [
-        "Maintain steps"
-      ],
+      "sections": ["Maintain steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -512,9 +460,7 @@
       "route": "/en/wingman/prerequisites/",
       "prose_words": 169,
       "code_lines": 0,
-      "sections": [
-        "Prerequisites steps"
-      ],
+      "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -522,10 +468,7 @@
       "route": "/en/wingman/remove/",
       "prose_words": 175,
       "code_lines": 17,
-      "sections": [
-        "Remove steps",
-        "Destroy and verify disposable infrastructure"
-      ],
+      "sections": ["Remove steps", "Destroy and verify disposable infrastructure"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -551,10 +494,7 @@
       "route": "/en/wingman/verify/",
       "prose_words": 439,
       "code_lines": 31,
-      "sections": [
-        "Verify steps",
-        "Plan disposable qualification infrastructure"
-      ],
+      "sections": ["Verify steps", "Plan disposable qualification infrastructure"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -562,12 +502,7 @@
       "route": "/en/xcsh/command-reference/",
       "prose_words": 787,
       "code_lines": 0,
-      "sections": [
-        "Operations",
-        "Essential flags",
-        "Encodings and limits",
-        "Status and recovery"
-      ],
+      "sections": ["Operations", "Essential flags", "Encodings and limits", "Status and recovery"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -575,9 +510,7 @@
       "route": "/en/xcsh/configuration/",
       "prose_words": 65,
       "code_lines": 1,
-      "sections": [
-        "Public JSON"
-      ],
+      "sections": ["Public JSON"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -585,10 +518,7 @@
       "route": "/en/xcsh/configure/",
       "prose_words": 90,
       "code_lines": 13,
-      "sections": [
-        "Configure steps",
-        "Prepare local inputs"
-      ],
+      "sections": ["Configure steps", "Prepare local inputs"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -596,10 +526,7 @@
       "route": "/en/xcsh/",
       "prose_words": 116,
       "code_lines": 0,
-      "sections": [
-        "Prerequisites at a glance",
-        "Workflow"
-      ],
+      "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -628,9 +555,7 @@
       "route": "/en/xcsh/maintain/",
       "prose_words": 40,
       "code_lines": 7,
-      "sections": [
-        "Maintain steps"
-      ],
+      "sections": ["Maintain steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -638,9 +563,7 @@
       "route": "/en/xcsh/prerequisites/",
       "prose_words": 56,
       "code_lines": 0,
-      "sections": [
-        "Prerequisites steps"
-      ],
+      "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -648,9 +571,7 @@
       "route": "/en/xcsh/remove/",
       "prose_words": 70,
       "code_lines": 0,
-      "sections": [
-        "Remove steps"
-      ],
+      "sections": ["Remove steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -658,9 +579,7 @@
       "route": "/en/xcsh/verify/",
       "prose_words": 67,
       "code_lines": 9,
-      "sections": [
-        "Verify steps"
-      ],
+      "sections": ["Verify steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     }

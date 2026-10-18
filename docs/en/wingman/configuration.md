@@ -19,6 +19,8 @@ Set `XCSH_APPLICATION_CERT_FILE` to the application leaf-first chain, `XCSH_CERT
 Terraform resolves the selection to a verified immutable image during planning; inspect that digest before applying the saved plan. The runtime ConfigMap contains only the public chain and encrypted locations.
 Terraform creates it before this Deployment; do not apply this JSON separately to a Terraform-owned resource.
 
+## Public Deployment JSON
+
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_DOMAINNAME XCSH_NAMESPACE XCSH_WINGMAN_NAME">
 
 ```json

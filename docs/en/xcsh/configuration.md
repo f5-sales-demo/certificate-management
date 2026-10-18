@@ -22,7 +22,13 @@ Supply a leaf-first public chain and matching private key. Native certificate pr
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_CERT_NAME XCSH_NAMESPACE">
 
 ```json
-{"metadata":{"name":"<XCSH_CERT_NAME>","namespace":"<XCSH_NAMESPACE>"},"spec":{"certificate_url":"string:///<BASE64_PUBLIC_CHAIN>","private_key":{"blindfold_secret_info":{"location":"string:///<ENCRYPTED_KEY>"}}}}
+{
+  "metadata": { "name": "<XCSH_CERT_NAME>", "namespace": "<XCSH_NAMESPACE>" },
+  "spec": {
+    "certificate_url": "string:///<BASE64_PUBLIC_CHAIN>",
+    "private_key": { "blindfold_secret_info": { "location": "string:///<ENCRYPTED_KEY>" } }
+  }
+}
 ```
 
 </div>
