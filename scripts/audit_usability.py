@@ -117,6 +117,13 @@ def main() -> None:
             "resolution": "Collapse inactive groups, reopen current ancestors after restoration, and reveal the active link using only sidebar scrolling; docs-theme#1765/#1766.",
             "verification": "passed: 200 candidate desktop/mobile light-dark combinations, focused keyboard tests and individually reviewed screenshots; deployed readback in certificate-management#119",
         },
+        {
+            "route": "/en/*/",
+            "severity": "high",
+            "evidence": "After a mobile TOC jump to Set API credentials, Overview remained current; fragment reload left a blank caption despite the visible heading. The native reading band omitted sticky breadcrumbs.",
+            "resolution": "Include measured breadcrumbs in native reading bands and synchronize visible fragment selections through the renderer setter; assert current links, mobile captions and fragment reloads; docs-builder#1614/#1615.",
+            "verification": "passed: 200 candidate desktop/mobile light-dark combinations including each section and fragment reload; native scoped regressions and reviewed mobile screenshot; published receipt in certificate-management#119",
+        },
     ]
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
