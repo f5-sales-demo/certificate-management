@@ -8,7 +8,7 @@
       "code_lines": 74,
       "sections": ["Public JSON", "Shared Terraform source"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/client-mtls/configure/",
@@ -16,7 +16,7 @@
       "code_lines": 33,
       "sections": ["Download the shared configuration", "Create client material", "Review the saved plan"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/client-mtls/",
@@ -24,7 +24,7 @@
       "code_lines": 0,
       "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/client-mtls/maintain/",
@@ -32,7 +32,7 @@
       "code_lines": 3,
       "sections": ["Rotate CA trust"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/client-mtls/prerequisites/",
@@ -40,7 +40,7 @@
       "code_lines": 0,
       "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/client-mtls/remove/",
@@ -48,7 +48,7 @@
       "code_lines": 0,
       "sections": ["Remove steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/client-mtls/verify/",
@@ -56,15 +56,15 @@
       "code_lines": 30,
       "sections": ["Verify trusted requests", "Reject forged client identity"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
-      "route": "/en//",
+      "route": "/en/",
       "prose_words": 209,
       "code_lines": 0,
       "sections": ["Choose a workflow", "Customize your environment", "Ownership and qualification"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/campaign/",
@@ -72,7 +72,7 @@
       "code_lines": 28,
       "sections": ["Default pool dependencies", "Review and apply", "Traffic and renewal"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/advertise-tls/",
@@ -89,7 +89,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/cdn-origin-mtls/",
@@ -106,7 +106,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/cdn-server-tls/",
@@ -123,7 +123,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/cluster-tls/",
@@ -140,7 +140,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/http-origin-mtls/",
@@ -157,7 +157,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/",
@@ -165,7 +165,7 @@
       "code_lines": 0,
       "sections": ["Supported configurations", "Qualification limits", "Restricted reference fragments"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/inline-server-tls/",
@@ -182,7 +182,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/origin-mtls/",
@@ -199,7 +199,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/proxy-intercept/",
@@ -216,7 +216,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/proxy-tls/",
@@ -233,7 +233,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/secret-access-tls/",
@@ -250,7 +250,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/tcp-tls/",
@@ -267,7 +267,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/virtual-host-tls/",
@@ -284,7 +284,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/workload-service-custom/",
@@ -301,7 +301,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/workload-service-public-multi/",
@@ -318,7 +318,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/certificate-surfaces/workload-service-public-single/",
@@ -335,7 +335,7 @@
         "Remove"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/configuration/",
@@ -343,21 +343,20 @@
       "code_lines": 524,
       "sections": ["Public JSON", "Complete HCL"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/configure/",
-      "prose_words": 411,
+      "prose_words": 300,
       "code_lines": 46,
       "sections": [
-        "Configure steps",
-        "Prepare local inputs",
-        "Prepare local inputs",
+        "Create certificate inputs",
+        "Set API credentials",
         "Review a saved plan",
         "Apply the configuration"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/",
@@ -365,7 +364,7 @@
       "code_lines": 0,
       "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/input-lifecycle/",
@@ -385,7 +384,7 @@
         "Interception signing CA"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/maintain/",
@@ -393,7 +392,7 @@
       "code_lines": 10,
       "sections": ["Maintain steps", "Apply the reviewed plan"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/prerequisites/",
@@ -401,7 +400,7 @@
       "code_lines": 0,
       "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/remove/",
@@ -409,7 +408,7 @@
       "code_lines": 8,
       "sections": ["Remove steps", "Apply the reviewed plan"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/verify/",
@@ -417,7 +416,7 @@
       "code_lines": 16,
       "sections": ["Verify steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/wingman/configuration/",
@@ -425,7 +424,7 @@
       "code_lines": 582,
       "sections": ["Public Deployment JSON", "Blindfold request", "Bootstrap HCL", "Runtime HCL", "Qualification HCL"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/wingman/configure/",
@@ -438,7 +437,7 @@
         "Unseal inside the application"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/wingman/",
@@ -446,7 +445,7 @@
       "code_lines": 0,
       "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/wingman/maintain/",
@@ -454,7 +453,7 @@
       "code_lines": 0,
       "sections": ["Maintain steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/wingman/prerequisites/",
@@ -462,15 +461,15 @@
       "code_lines": 0,
       "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/wingman/remove/",
-      "prose_words": 204,
+      "prose_words": 202,
       "code_lines": 17,
-      "sections": ["Remove steps", "Destroy and verify disposable infrastructure"],
+      "sections": ["Destroy and verify disposable infrastructure"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/wingman/validation/",
@@ -488,7 +487,7 @@
         "Recover interrupted changes"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/wingman/verify/",
@@ -496,7 +495,7 @@
       "code_lines": 31,
       "sections": ["Verify steps", "Plan disposable qualification infrastructure"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/command-reference/",
@@ -504,7 +503,7 @@
       "code_lines": 0,
       "sections": ["Operations", "Essential flags", "Encodings and limits", "Status and recovery"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/configuration/",
@@ -512,7 +511,7 @@
       "code_lines": 7,
       "sections": ["Public JSON"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/configure/",
@@ -520,7 +519,7 @@
       "code_lines": 13,
       "sections": ["Configure steps", "Prepare local inputs"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/",
@@ -528,7 +527,7 @@
       "code_lines": 0,
       "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/input-workflows/",
@@ -549,7 +548,7 @@
         "Verify raw inputs"
       ],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/maintain/",
@@ -557,7 +556,7 @@
       "code_lines": 7,
       "sections": ["Maintain steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/prerequisites/",
@@ -565,7 +564,7 @@
       "code_lines": 0,
       "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/remove/",
@@ -573,7 +572,7 @@
       "code_lines": 9,
       "sections": ["Remove steps", "Review and remove the owned certificate", "Verify named absence"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     },
     {
       "route": "/en/xcsh/verify/",
@@ -581,7 +580,7 @@
       "code_lines": 9,
       "sections": ["Verify steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-      "browser_verification": "pending"
+      "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119"
     }
   ],
   "findings": [
@@ -590,7 +589,7 @@
       "severity": "high",
       "evidence": "Theme cleared index TOCs regardless of repository or explicit setting.",
       "resolution": "Repository-scoped TOC policy and explicit task sidebar in docs-theme#1747.",
-      "verification": "theme tests passed; published browser qualification pending"
+      "verification": "passed: theme tests and 200 current-builder browser combinations; publication receipt in certificate-management#119"
     },
     {
       "route": "/en/terraform/",
@@ -611,7 +610,7 @@
       "severity": "high",
       "evidence": "Source module requires ../http-origin-mtls; former download command omitted it.",
       "resolution": "Download full module and Wingman naming contract before init.",
-      "verification": "shell syntax passed; clean downloaded-root init pending"
+      "verification": "passed: literal downloads, source equality, latest Terraform init-upgrade and validate; provider#2641"
     },
     {
       "route": "/en/wingman/",
@@ -633,6 +632,34 @@
       "evidence": "References contain long source and old workflow-anchor links.",
       "resolution": "Retain 15 reference pages, add JSON/HCL subdivisions, link current tasks, preserve narrow qualification claims.",
       "verification": "all source links and canonical examples passed"
+    },
+    {
+      "route": "/en/terraform/configure/",
+      "severity": "medium",
+      "evidence": "Certificate input prose was repeated under credential setup, with an empty Configure steps heading.",
+      "resolution": "Keep one input procedure, label credentials explicitly; certificate-management#133/#134.",
+      "verification": "passed: one prose copy and meaningful headings on current published builder"
+    },
+    {
+      "route": "/en/*/",
+      "severity": "high",
+      "evidence": "TOC targets cleared the global header but were clipped by sticky breadcrumbs (heading y=87.84, breadcrumb bottom=111).",
+      "resolution": "Measure breadcrumb height only for Certificate Management; include the complete sticky stack in browser checks; docs-theme#1763/#1764.",
+      "verification": "passed: 200 current published-builder route/viewport/appearance combinations; representative screenshots reviewed individually"
+    },
+    {
+      "route": "/en/*/",
+      "severity": "high",
+      "evidence": "Managed Certificate Management caller selected an old builder digest despite a latest default in the reusable workflow.",
+      "resolution": "Use :latest for the prerelease Certificate caller; resolve immutable run identity centrally; docs-control#2580/#2581.",
+      "verification": "passed: canonical selector regression and 209 CI checks; managed convergence receipt in certificate-management#119"
+    },
+    {
+      "route": "/en/wingman/*/ and /en/terraform/certificate-surfaces/*/",
+      "severity": "medium",
+      "evidence": "All use-case groups were expanded, hiding the active Wingman item below the desktop viewport; the last reference link also sat below the open mobile menu viewport.",
+      "resolution": "Collapse inactive groups, reopen current ancestors after restoration, and reveal the active link using only sidebar scrolling; docs-theme#1765/#1766.",
+      "verification": "passed: 200 candidate desktop/mobile light-dark combinations, focused keyboard tests and individually reviewed screenshots; deployed readback in certificate-management#119"
     }
   ]
 }

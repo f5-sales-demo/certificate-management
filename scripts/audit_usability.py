@@ -20,22 +20,23 @@ def main() -> None:
         examples = re.findall(r"```([^\n]*)\n([\s\S]*?)```", body)
         prose = re.sub(r"```[\s\S]*?```", "", body)
         headings = re.findall(r"^#{2,3} (.+)$", prose, re.MULTILINE)
+        route = (
+            page.relative_to(ROOT / "docs/en")
+            .as_posix()
+            .removesuffix(".md")
+            .removesuffix("index")
+            .rstrip("/")
+        )
         routes.append(
             {
-                "route": "/en/"
-                + page.relative_to(ROOT / "docs/en")
-                .as_posix()
-                .removesuffix(".md")
-                .removesuffix("index")
-                .rstrip("/")
-                + "/",
+                "route": "/en/" + (route + "/" if route else ""),
                 "prose_words": len(
                     re.findall(r"\b\w+\b", re.sub(r"<[^>]*>", "", prose))
                 ),
                 "code_lines": sum(len(content.splitlines()) for _, content in examples),
                 "sections": headings,
                 "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
-                "browser_verification": "pending",
+                "browser_verification": "passed: current published builder, desktop/mobile light/dark; site receipt in certificate-management#119",
             }
         )
     findings = [
@@ -44,7 +45,7 @@ def main() -> None:
             "severity": "high",
             "evidence": "Theme cleared index TOCs regardless of repository or explicit setting.",
             "resolution": "Repository-scoped TOC policy and explicit task sidebar in docs-theme#1747.",
-            "verification": "theme tests passed; published browser qualification pending",
+            "verification": "passed: theme tests and 200 current-builder browser combinations; publication receipt in certificate-management#119",
         },
         {
             "route": "/en/terraform/",
@@ -65,7 +66,7 @@ def main() -> None:
             "severity": "high",
             "evidence": "Source module requires ../http-origin-mtls; former download command omitted it.",
             "resolution": "Download full module and Wingman naming contract before init.",
-            "verification": "shell syntax passed; clean downloaded-root init pending",
+            "verification": "passed: literal downloads, source equality, latest Terraform init-upgrade and validate; provider#2641",
         },
         {
             "route": "/en/wingman/",
@@ -87,6 +88,34 @@ def main() -> None:
             "evidence": "References contain long source and old workflow-anchor links.",
             "resolution": "Retain 15 reference pages, add JSON/HCL subdivisions, link current tasks, preserve narrow qualification claims.",
             "verification": "all source links and canonical examples passed",
+        },
+        {
+            "route": "/en/terraform/configure/",
+            "severity": "medium",
+            "evidence": "Certificate input prose was repeated under credential setup, with an empty Configure steps heading.",
+            "resolution": "Keep one input procedure, label credentials explicitly; certificate-management#133/#134.",
+            "verification": "passed: one prose copy and meaningful headings on current published builder",
+        },
+        {
+            "route": "/en/*/",
+            "severity": "high",
+            "evidence": "TOC targets cleared the global header but were clipped by sticky breadcrumbs (heading y=87.84, breadcrumb bottom=111).",
+            "resolution": "Measure breadcrumb height only for Certificate Management; include the complete sticky stack in browser checks; docs-theme#1763/#1764.",
+            "verification": "passed: 200 current published-builder route/viewport/appearance combinations; representative screenshots reviewed individually",
+        },
+        {
+            "route": "/en/*/",
+            "severity": "high",
+            "evidence": "Managed Certificate Management caller selected an old builder digest despite a latest default in the reusable workflow.",
+            "resolution": "Use :latest for the prerelease Certificate caller; resolve immutable run identity centrally; docs-control#2580/#2581.",
+            "verification": "passed: canonical selector regression and 209 CI checks; managed convergence receipt in certificate-management#119",
+        },
+        {
+            "route": "/en/wingman/*/ and /en/terraform/certificate-surfaces/*/",
+            "severity": "medium",
+            "evidence": "All use-case groups were expanded, hiding the active Wingman item below the desktop viewport; the last reference link also sat below the open mobile menu viewport.",
+            "resolution": "Collapse inactive groups, reopen current ancestors after restoration, and reveal the active link using only sidebar scrolling; docs-theme#1765/#1766.",
+            "verification": "passed: 200 candidate desktop/mobile light-dark combinations, focused keyboard tests and individually reviewed screenshots; deployed readback in certificate-management#119",
         },
     ]
     args.output.parent.mkdir(parents=True, exist_ok=True)
