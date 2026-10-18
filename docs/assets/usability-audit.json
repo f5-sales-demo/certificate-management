@@ -1,0 +1,719 @@
+{
+  "scope": "English Certificate Management",
+  "compatibility": "prerelease: current task destinations only",
+  "routes": [
+    {
+      "route": "/en/client-mtls/configuration/",
+      "prose_words": 97,
+      "code_lines": 74,
+      "sections": [
+        "Public JSON",
+        "Shared Terraform source"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/client-mtls/configure/",
+      "prose_words": 47,
+      "code_lines": 11,
+      "sections": [
+        "Download the shared configuration"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/client-mtls/",
+      "prose_words": 41,
+      "code_lines": 0,
+      "sections": [
+        "Prerequisites at a glance",
+        "Workflow"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/client-mtls/maintain/",
+      "prose_words": 93,
+      "code_lines": 3,
+      "sections": [
+        "Maintain steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/client-mtls/prerequisites/",
+      "prose_words": 145,
+      "code_lines": 0,
+      "sections": [
+        "Prerequisites steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/client-mtls/remove/",
+      "prose_words": 63,
+      "code_lines": 0,
+      "sections": [
+        "Remove steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/client-mtls/verify/",
+      "prose_words": 43,
+      "code_lines": 0,
+      "sections": [
+        "Verify steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en//",
+      "prose_words": 209,
+      "code_lines": 0,
+      "sections": [
+        "Choose a workflow",
+        "Customize your environment",
+        "Ownership and qualification"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/campaign/",
+      "prose_words": 737,
+      "code_lines": 28,
+      "sections": [
+        "Default pool dependencies",
+        "Review and apply",
+        "Traffic and renewal"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/advertise-tls/",
+      "prose_words": 397,
+      "code_lines": 122,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/cdn-origin-mtls/",
+      "prose_words": 419,
+      "code_lines": 192,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/cdn-server-tls/",
+      "prose_words": 394,
+      "code_lines": 185,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/cluster-tls/",
+      "prose_words": 397,
+      "code_lines": 130,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/http-origin-mtls/",
+      "prose_words": 419,
+      "code_lines": 304,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/",
+      "prose_words": 967,
+      "code_lines": 0,
+      "sections": [
+        "Supported configurations",
+        "Qualification limits",
+        "Restricted reference fragments"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/inline-server-tls/",
+      "prose_words": 379,
+      "code_lines": 183,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/origin-mtls/",
+      "prose_words": 418,
+      "code_lines": 144,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/proxy-intercept/",
+      "prose_words": 393,
+      "code_lines": 121,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/proxy-tls/",
+      "prose_words": 397,
+      "code_lines": 140,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/secret-access-tls/",
+      "prose_words": 398,
+      "code_lines": 132,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/tcp-tls/",
+      "prose_words": 397,
+      "code_lines": 199,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/virtual-host-tls/",
+      "prose_words": 398,
+      "code_lines": 134,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/workload-service-custom/",
+      "prose_words": 401,
+      "code_lines": 256,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/workload-service-public-multi/",
+      "prose_words": 402,
+      "code_lines": 240,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/workload-service-public-single/",
+      "prose_words": 402,
+      "code_lines": 232,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Public JSON",
+        "Complete HCL",
+        "Configure",
+        "Verify",
+        "Maintain",
+        "Remove"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/configuration/",
+      "prose_words": 54,
+      "code_lines": 524,
+      "sections": [
+        "Public JSON",
+        "Complete HCL"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/configure/",
+      "prose_words": 411,
+      "code_lines": 45,
+      "sections": [
+        "Configure steps",
+        "Prepare local inputs",
+        "Prepare local inputs",
+        "Review a saved plan",
+        "Apply the configuration"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/",
+      "prose_words": 88,
+      "code_lines": 0,
+      "sections": [
+        "Prerequisites at a glance",
+        "Workflow"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/input-lifecycle/",
+      "prose_words": 1215,
+      "code_lines": 317,
+      "sections": [
+        "Input choices",
+        "Protected PEM",
+        "PKCS#12",
+        "Write-only PEM",
+        "Write-only PKCS#12",
+        "Stable inline identities",
+        "Policy and context rotation",
+        "Saved plans",
+        "Drift and import",
+        "RSA and EC cutovers",
+        "Interception signing CA"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/maintain/",
+      "prose_words": 96,
+      "code_lines": 9,
+      "sections": [
+        "Maintain steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/prerequisites/",
+      "prose_words": 182,
+      "code_lines": 0,
+      "sections": [
+        "Prerequisites steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/remove/",
+      "prose_words": 54,
+      "code_lines": 7,
+      "sections": [
+        "Remove steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/terraform/verify/",
+      "prose_words": 72,
+      "code_lines": 16,
+      "sections": [
+        "Verify steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/wingman/configuration/",
+      "prose_words": 157,
+      "code_lines": 582,
+      "sections": [
+        "Blindfold request",
+        "Bootstrap HCL",
+        "Runtime HCL",
+        "Qualification HCL"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/wingman/configure/",
+      "prose_words": 396,
+      "code_lines": 14,
+      "sections": [
+        "Configure steps",
+        "Prepare an encrypted key",
+        "Inspect sidecar injection",
+        "Unseal inside the application"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/wingman/",
+      "prose_words": 95,
+      "code_lines": 0,
+      "sections": [
+        "Prerequisites at a glance",
+        "Workflow"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/wingman/maintain/",
+      "prose_words": 42,
+      "code_lines": 0,
+      "sections": [
+        "Maintain steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/wingman/prerequisites/",
+      "prose_words": 169,
+      "code_lines": 0,
+      "sections": [
+        "Prerequisites steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/wingman/remove/",
+      "prose_words": 175,
+      "code_lines": 17,
+      "sections": [
+        "Remove steps",
+        "Destroy and verify disposable infrastructure"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/wingman/validation/",
+      "prose_words": 1173,
+      "code_lines": 75,
+      "sections": [
+        "Prerequisites",
+        "Configuration",
+        "Configure",
+        "Download the configuration",
+        "Create bootstrap and runtime",
+        "Connect the existing owner",
+        "Verify",
+        "Remove",
+        "Recover interrupted changes"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/wingman/verify/",
+      "prose_words": 439,
+      "code_lines": 31,
+      "sections": [
+        "Verify steps",
+        "Plan disposable qualification infrastructure"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/command-reference/",
+      "prose_words": 787,
+      "code_lines": 0,
+      "sections": [
+        "Operations",
+        "Essential flags",
+        "Encodings and limits",
+        "Status and recovery"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/configuration/",
+      "prose_words": 65,
+      "code_lines": 1,
+      "sections": [
+        "Public JSON"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/configure/",
+      "prose_words": 90,
+      "code_lines": 13,
+      "sections": [
+        "Configure steps",
+        "Prepare local inputs"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/",
+      "prose_words": 116,
+      "code_lines": 0,
+      "sections": [
+        "Prerequisites at a glance",
+        "Workflow"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/input-workflows/",
+      "prose_words": 302,
+      "code_lines": 37,
+      "sections": [
+        "Protected PEM",
+        "Protected PEM configuration",
+        "Configure protected PEM",
+        "Verify protected PEM",
+        "PKCS#12",
+        "PKCS#12 configuration",
+        "Configure PKCS#12",
+        "Verify PKCS#12",
+        "Raw and offline",
+        "Raw configuration",
+        "Configure raw inputs",
+        "Verify raw inputs"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/maintain/",
+      "prose_words": 40,
+      "code_lines": 7,
+      "sections": [
+        "Maintain steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/prerequisites/",
+      "prose_words": 56,
+      "code_lines": 0,
+      "sections": [
+        "Prerequisites steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/remove/",
+      "prose_words": 70,
+      "code_lines": 0,
+      "sections": [
+        "Remove steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    },
+    {
+      "route": "/en/xcsh/verify/",
+      "prose_words": 67,
+      "code_lines": 9,
+      "sections": [
+        "Verify steps"
+      ],
+      "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
+      "browser_verification": "pending"
+    }
+  ],
+  "findings": [
+    {
+      "route": "/en/*/",
+      "severity": "high",
+      "evidence": "Theme cleared index TOCs regardless of repository or explicit setting.",
+      "resolution": "Repository-scoped TOC policy and explicit task sidebar in docs-theme#1747.",
+      "verification": "theme tests passed; published browser qualification pending"
+    },
+    {
+      "route": "/en/terraform/",
+      "severity": "high",
+      "evidence": "More than 550 code lines behind one workflow entry.",
+      "resolution": "Six task pages; expanded HCL and JSON remain together in Configuration.",
+      "verification": "source checks passed"
+    },
+    {
+      "route": "/en/client-mtls/",
+      "severity": "high",
+      "evidence": "Repeated shared HCL and setup stopped at plan review.",
+      "resolution": "Link authoritative Terraform HCL, move downloads to Configure, show reviewed-plan apply.",
+      "verification": "source checks and executable Python variable-file test passed"
+    },
+    {
+      "route": "/en/terraform/configure/",
+      "severity": "high",
+      "evidence": "Source module requires ../http-origin-mtls; former download command omitted it.",
+      "resolution": "Download full module and Wingman naming contract before init.",
+      "verification": "shell syntax passed; clean downloaded-root init pending"
+    },
+    {
+      "route": "/en/wingman/",
+      "severity": "medium",
+      "evidence": "No Maintain task; disposable destruction mixed into Verify.",
+      "resolution": "Add maintenance route and move cleanup to Remove; link infrastructure owner runbook.",
+      "verification": "source checks passed"
+    },
+    {
+      "route": "/en/xcsh/",
+      "severity": "medium",
+      "evidence": "No Remove task or public JSON download.",
+      "resolution": "Add owner-aware removal guidance and equal public manifest download.",
+      "verification": "source checks passed"
+    },
+    {
+      "route": "/en/terraform/certificate-surfaces/*/",
+      "severity": "medium",
+      "evidence": "References contain long source and old workflow-anchor links.",
+      "resolution": "Retain 15 reference pages, add JSON/HCL subdivisions, link current tasks, preserve narrow qualification claims.",
+      "verification": "all source links and canonical examples passed"
+    }
+  ]
+}

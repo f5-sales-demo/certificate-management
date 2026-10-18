@@ -6,7 +6,7 @@ sidebar:
 
 ## Prerequisites
 
-Install the latest Terraform and provider releases. Set the [provider environment](../../#prerequisites) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
+Install the latest Terraform and provider releases. Set the [provider environment](../../prerequisites/) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
 
 Supply an existing namespace, matching certificate/key files, and a separately owned resource name. Attach a concrete consumer and advertisement before checking served traffic.
 
@@ -15,6 +15,8 @@ Supply an existing namespace, matching certificate/key files, and a separately o
 The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.
 
 [Download JSON](../../../../assets/configurations/advertise-tls.json).
+
+### Public JSON
 
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_LB_NAME XCSH_NAMESPACE">
 
@@ -56,6 +58,8 @@ The JSON below shows the complete public configuration resulting from native enc
 ```
 
 </div>
+
+### Complete HCL
 
 <div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
 
@@ -177,7 +181,7 @@ terraform -chdir="$configuration" plan -detailed-exitcode
 
 Expect HTTP `200`, the selected names and references, the encoded public chain, and `private_key.blindfold_secret_info.location` at every certificate node. No `blindfold` input or clear private key belongs in the API object. Expect exit `0` and **No changes**; exit `2` means changes and exit `1` means failure.
 
-Configuration readback does not prove served TLS. Use the advertised consumer hostname for [trusted TLS checks](../../#verify), then require its application's expected response. Serving remains unqualified until a concrete consumer, advertisement, and traffic check are available.
+Configuration readback does not prove served TLS. Use the advertised consumer hostname for [trusted TLS checks](../../verify/), then require its application's expected response. Serving remains unqualified until a concrete consumer, advertisement, and traffic check are available.
 
 Run these checks only after attaching an advertised HTTPS consumer on port 443 with this certificate. Expect trusted hostname verification, identical fingerprints, and the application's expected status and response. A different protocol or port requires the corresponding consumer check.
 

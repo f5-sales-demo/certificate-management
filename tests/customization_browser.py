@@ -14,27 +14,15 @@ from playwright.sync_api import sync_playwright
 BASE = os.environ.get("CERT_CUSTOMIZATION_URL", "http://127.0.0.1:18865")
 ROOT = BASE + "/certificate-management/en/"
 PAGES = [
-    "",
-    "terraform/",
-    "terraform/input-lifecycle/",
-    "client-mtls/",
-    "terraform/certificate-surfaces/",
-    "wingman/",
-    "wingman/validation/",
-    "xcsh/",
-    "xcsh/input-workflows/",
-    "xcsh/command-reference/",
+    path.relative_to(Path(__file__).resolve().parents[1] / "docs/en")
+    .as_posix()
+    .removesuffix(".md")
+    .removesuffix("index")
+    .rstrip("/")
+    + "/"
+    for path in sorted((Path(__file__).resolve().parents[1] / "docs/en").rglob("*.md"))
 ]
-PAGES.extend(
-    "terraform/certificate-surfaces/" + path.stem + "/"
-    for path in sorted(
-        (
-            Path(__file__).resolve().parents[1]
-            / "docs/en/terraform/certificate-surfaces"
-        ).glob("*.md")
-    )
-    if path.stem != "index"
-)
+PAGES = ["" if route == "/" else route for route in PAGES]
 
 ARTIFACTS = Path(
     os.environ.get(
@@ -170,11 +158,11 @@ with sync_playwright() as p:
             assert {
                 group["parent"]: group["child"] for group in navigation["groups"]
             } == {
-                "xcsh": "Certificate workflow",
-                "Terraform": "Certificate workflow",
+                "xcsh": "Overview",
+                "Terraform": "Overview",
                 "Certificate types": "Choose configuration",
                 "Client mTLS": "Overview",
-                "Wingman": "Key unsealing",
+                "Wingman": "Overview",
             }, navigation
             for name, value in values.items():
                 assert page.locator("#ph-" + name).input_value() == value, (route, name)
@@ -206,7 +194,7 @@ with sync_playwright() as p:
                     structured = json.loads(copied)
                     assert "TOKEN_SENTINEL" not in copied
                     assert "PASSPHRASE_SENTINEL" not in copied
-                    if route == "wingman/" and "metadata" in structured:
+                    if route == "wingman/configuration/" and "metadata" in structured:
                         assert (
                             structured["spec"]["template"]["metadata"]["labels"]["app"]
                             == "reader-wingman-wingman"
@@ -227,7 +215,7 @@ with sync_playwright() as p:
                         "clipboard_sha256": hashlib.sha256(copied.encode()).hexdigest(),
                     }
                 )
-            if route in ("wingman/", "wingman/validation/"):
+            if route in ("wingman/configure/", "wingman/validation/"):
                 assert (
                     page.locator("#ph-XCSH_WINGMAN_NAME").input_value()
                     == "reader-wingman"
@@ -240,7 +228,7 @@ with sync_playwright() as p:
                 assert any("reader-wingman" in text for text in rendered)
                 assert any("reader-context" in text for text in rendered)
             assert not errors, errors
-        visit("xcsh/")
+        visit("xcsh/verify/")
         reader = page.locator(
             '[data-xcsh-fields="XCSH_DOMAINNAME XCSH_CERT_FILE"] pre code'
         ).text_content()

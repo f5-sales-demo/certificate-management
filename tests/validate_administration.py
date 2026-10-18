@@ -6,6 +6,8 @@ import subprocess
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlsplit
 
+from validate_usability import validate
+
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 
@@ -28,6 +30,7 @@ def anchors(source: str) -> set[str]:
 
 def main() -> None:
     """Fail on missing examples, broken local links, or non-runnable shell syntax."""
+    validate()
     pages = sorted((DOCS / "en").rglob("*.md"))
     routes = {
         "/"
@@ -50,8 +53,6 @@ def main() -> None:
         title = re.search(r"^title: (.+)$", source, re.MULTILINE)
         assert title
         assert len((label or title)[1].split()) <= 3, page
-        if page.name == "index.md" and label:
-            assert title[1] != label[1], page
         for language, content in re.findall(
             r"```(bash|json|hcl)\n([\s\S]*?)```", source
         ):
@@ -87,7 +88,7 @@ def main() -> None:
     )["examples"]:
         directory = ROOT / "terraform" / name
         page = (
-            DOCS / "en/terraform/index.md"
+            DOCS / "en/terraform/configuration.md"
             if name == "named-certificate"
             else DOCS / "en/terraform/certificate-surfaces" / (name + ".md")
         )
@@ -98,13 +99,34 @@ def main() -> None:
         documents = json.loads(public_source)
         assert "```json\n" + public_source.rstrip() + "\n```" in source, name
         assert all("metadata" in d and "spec" in d for d in documents)
+        workflow = (
+            source
+            if name != "named-certificate"
+            else "\n".join(
+                (DOCS / "en/terraform" / (stage + ".md")).read_text()
+                for stage in (
+                    "prerequisites",
+                    "configuration",
+                    "configure",
+                    "verify",
+                    "maintain",
+                    "remove",
+                )
+            )
+        )
         assert all(
-            heading in source
+            heading in workflow
             for heading in [
-                "## Prerequisites",
-                "## Configuration",
-                "## Configure",
-                "## Verify",
+                "## Prerequisites steps"
+                if name == "named-certificate"
+                else "## Prerequisites",
+                "## Complete HCL"
+                if name == "named-certificate"
+                else "## Configuration",
+                "## Review a saved plan"
+                if name == "named-certificate"
+                else "## Configure",
+                "## Verify steps" if name == "named-certificate" else "## Verify",
             ]
         )
     print(  # noqa: T201 -- Command-line verification summary.

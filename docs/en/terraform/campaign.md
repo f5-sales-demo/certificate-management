@@ -1,7 +1,7 @@
 ---
 title: Traffic qualification
 sidebar:
-  order: 5
+  order: 15
 ---
 
 The [campaign](https://github.com/f5-sales-demo/certificate-management/issues/93) extends the existing named-certificate, Wingman bootstrap, and Wingman runtime deployments. GitHub Pages serves this documentation. Successful infrastructure stays deployed. Temporary probes and an isolated teardown deployment are removed through reviewed Terraform plans.

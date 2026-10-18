@@ -6,7 +6,7 @@ sidebar:
 
 ## Prerequisites
 
-Install the latest Terraform and provider releases. Set the [provider environment](../../#prerequisites) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
+Install the latest Terraform and provider releases. Set the [provider environment](../../prerequisites/) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.
 
 Supply a reachable origin that requires client authentication, a matching client certificate with `clientAuth` usage, and its public server trust CA. Server-only certificates cannot authenticate a client. For callers presenting certificates to the frontend, see [Client mTLS](../../../client-mtls/).
 
@@ -15,6 +15,8 @@ Supply a reachable origin that requires client authentication, a matching client
 The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.
 
 [Download JSON](../../../../assets/configurations/http-origin-mtls.json).
+
+### Public JSON
 
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_DOMAINNAME XCSH_LB_NAME XCSH_NAMESPACE XCSH_ORIGIN_HOSTNAME">
 
@@ -80,6 +82,8 @@ The JSON below shows the complete public configuration resulting from native enc
 ```
 
 </div>
+
+### Complete HCL
 
 <div data-xcsh-context="hcl" data-xcsh-fields="XCSH_API_TOKEN XCSH_API_URL">
 

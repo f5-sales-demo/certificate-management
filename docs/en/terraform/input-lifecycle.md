@@ -2,7 +2,7 @@
 title: Inputs and lifecycle
 description: Protected certificate inputs, write-only versioning, stable IDs, rotation, drift, and import.
 sidebar:
-  order: 2
+  order: 12
 ---
 
 Native Blindfold preparation validates the matching key and leaf-first certificate chain, normalizes material, and encrypts the private key. Use the [file-input walkthrough](../) for the main deployment. Keep every private input outside Git with directory mode `0700` and file mode `0600`.

@@ -1,0 +1,1 @@
+{"metadata":{"name":"<XCSH_CERT_NAME>","namespace":"<XCSH_NAMESPACE>"},"spec":{"certificate_url":"string:///<BASE64_PUBLIC_CHAIN>","private_key":{"blindfold_secret_info":{"location":"string:///<ENCRYPTED_KEY>"}}}}

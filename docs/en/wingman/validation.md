@@ -3,14 +3,14 @@ title: Infrastructure
 description: Authorize an application to unseal its TLS key through an injected Wingman sidecar.
 sidebar:
   label: Infrastructure
-  order: 2
+  order: 12
 ---
 
 Provision the policy, virtual site, vK8s, application, and TLS service with separate Terraform states. Complete [Key unsealing](../) to verify application behavior. Keep historical artifact observations in the [qualification records](../../../assets/wingman-acceptance.json).
 
 ## Prerequisites
 
-Install Python 3, the latest Terraform release, kubectl, and jq. You need tenant API access, an existing namespace, and a verified regional-edge site selector with sufficient vK8s quota. Keep matching application certificate and key files in private storage. Set the [provider environment](../../terraform/#prerequisites) before planning.
+Install Python 3, the latest Terraform release, kubectl, and jq. You need tenant API access, an existing namespace, and a verified regional-edge site selector with sufficient vK8s quota. Keep matching application certificate and key files in private storage. Set the [provider environment](../../terraform/prerequisites/) before planning.
 
 ## Configuration
 
@@ -73,7 +73,7 @@ Keep the downloaded files together and preserve dependency lockfiles after `init
 ### Create bootstrap and runtime
 
 Provide `XCSH_API_URL` and `XCSH_API_TOKEN` in the process environment, as in the
-[Terraform prerequisites](../../terraform/#prerequisites). No CLI is required for Terraform encryption.
+[Terraform prerequisites](../../terraform/prerequisites/). No CLI is required for Terraform encryption.
 
 <div data-xcsh-context="shell" data-xcsh-fields="XCSH_NAMESPACE XCSH_WINGMAN_NAME XCSH_WINGMAN_SITE_SELECTOR XCSH_WORKDIR">
 
@@ -153,7 +153,7 @@ terraform -chdir="$XCSH_WORKDIR/wingman/runtime" plan -detailed-exitcode
 
 </div>
 
-Run the [planned unseal and denial checks](../#plan-disposable-qualification-infrastructure) before enabling the route. The qualification state owns those disposable probes; the observer cannot create them.
+Run the [planned unseal and denial checks](../verify/#plan-disposable-qualification-infrastructure) before enabling the route. The qualification state owns those disposable probes; the observer cannot create them.
 
 Next verify backend TLS through a private port-forward with the Wingman root CA and existing
 hostname. Restart the runtime pod through its exact UID and repeat the probes; require fresh platform
@@ -202,7 +202,7 @@ Wingman is reported separately from the existing 25-node certificate matrix and 
 
 ## Verify
 
-Follow the [walkthrough verification](../#verify) using the actual copied commands. Require fresh
+Follow the [walkthrough verification](../verify/) using the actual copied commands. Require fresh
 authorized unseal, denied HTTP 403, preserved TLS material and existing endpoints, and empty
 follow-up plans. Publish only sanitized results in a new receipt; preserve historical receipts. The
 [walkthrough qualification record](../../../assets/wingman-human-walkthrough-qualification.json)
@@ -229,8 +229,7 @@ python3 "$XCSH_WORKDIR/wingman/kubeconfig.py" revoke \
 For Terraform-owned probes, resume using the same state, inventory, and observation journal, review
 a fresh destroy plan, then use `--verify-cleanup`. If apply failed before inventory export,
 reconcile exact state/remote identities first and recover the inventory; do not blindly replay the
-old plan. The legacy `--cleanup-only` mode retains exact-UID deletion for earlier imperative-run
-journals only and refuses Terraform-owned journals.
+old plan.
 
 Preserve private state, encrypted provenance, and cleanup journals after any failure. Verify exact
 UIDs and the run label before recovering disposable probes; never use prefix sweeps or delete the
