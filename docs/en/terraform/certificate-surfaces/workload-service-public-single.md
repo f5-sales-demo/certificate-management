@@ -16,6 +16,8 @@ The JSON below shows the complete public configuration resulting from native enc
 
 [Download JSON](../../../../assets/configurations/workload-service-public-single.json).
 
+Download HCL files: [main.tf](../../../../_data/terraform/workload-service-public-single/main.tf) · [variables.tf](../../../../_data/terraform/workload-service-public-single/variables.tf) · [versions.tf](../../../../_data/terraform/workload-service-public-single/versions.tf).
+
 ### Public JSON
 
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_CONTAINER_IMAGE XCSH_DOMAINNAME XCSH_LB_NAME XCSH_NAMESPACE XCSH_VIRTUAL_SITE_NAME XCSH_VIRTUAL_SITE_NAMESPACE">

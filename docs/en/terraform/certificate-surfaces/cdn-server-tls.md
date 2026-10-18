@@ -16,6 +16,8 @@ The JSON below shows the complete public configuration resulting from native enc
 
 [Download JSON](../../../../assets/configurations/cdn-server-tls.json).
 
+Download HCL files: [main.tf](../../../../_data/terraform/cdn-server-tls/main.tf) · [variables.tf](../../../../_data/terraform/cdn-server-tls/variables.tf) · [versions.tf](../../../../_data/terraform/cdn-server-tls/versions.tf).
+
 ### Public JSON
 
 <div data-xcsh-context="json" data-xcsh-fields="XCSH_DOMAINNAME XCSH_LB_NAME XCSH_NAMESPACE XCSH_ORIGIN_HOSTNAME">

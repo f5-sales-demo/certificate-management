@@ -46,6 +46,9 @@ def validate() -> None:
         )
         assert all_source.count("```hcl\n" + complete + "\n```") == 1, name
     named = ROOT / "terraform/named-certificate"
+    filenames = " ".join(path.name for path in sorted(named.glob("*.tf")))
+    configure = sources[ROOT / "docs/en/terraform/configure.md"]
+    assert "for file in " + filenames + "; do" in configure
     complete_hcl = "\n".join(
         path.read_text().rstrip() for path in sorted(named.glob("*.tf"))
     )

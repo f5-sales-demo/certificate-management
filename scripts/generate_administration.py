@@ -292,6 +292,12 @@ def generate(schema: dict) -> None:
         section = (
             "The JSON below shows the complete public configuration resulting from native encryption, with encoded public chains and encrypted-key placeholders. API defaults and provider provenance may add fields. Never apply encoded-material placeholders. HCL includes the complete canonical root; download its files separately.\n\n"
             f"[Download JSON]({'../../../../assets/' if name != 'named-certificate' else '../../../assets/'}configurations/{name}.json).\n\n"
+            "Download HCL files: "
+            + " · ".join(
+                f"[{path.name}]({'../../../../' if name != 'named-certificate' else '../../../'}_data/terraform/{name}/{path.name})"
+                for path in sorted(directory.glob("*.tf"))
+            )
+            + ".\n\n"
             + (
                 "## Public JSON\n\n"
                 if name == "named-certificate"
@@ -646,14 +652,18 @@ def main() -> None:
     generate_xcsh()
     generate_client(schema, public, public_json, fence)
     named_page = ROOT / "docs/en/terraform/configure.md"
-    page_text = named_page.read_text().replace(
-        "for file in versions.tf variables.tf main.tf outputs.tf wingman.tf; do",
-        "for file in "
-        + " ".join(
-            path.name
-            for path in sorted((ROOT / "terraform/named-certificate").glob("*.tf"))
-        )
-        + "; do",
+    page_text = re.sub(
+        r"for file in [^\n]+; do\n(?=[\s\S]{0,300}named-certificate/\$file)",
+        lambda _: (
+            "for file in "
+            + " ".join(
+                path.name
+                for path in sorted((ROOT / "terraform/named-certificate").glob("*.tf"))
+            )
+            + "; do\n"
+        ),
+        named_page.read_text(),
+        count=1,
     )
     named_page.write_text(page_text)
     for page in (ROOT / "docs/en").rglob("*.md"):
