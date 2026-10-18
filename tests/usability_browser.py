@@ -77,7 +77,36 @@ def verify_toc(page: Page, width: int, height: int, route: str) -> int:
             sticky_bottom,
         )
         assert box["y"] < height, (route, href, width, box)
-    page.evaluate("window.scrollTo(0, 0)")
+        assert link.get_attribute("aria-current") == "true", (
+            route,
+            href,
+            width,
+            "current TOC section",
+        )
+        if width < 800:
+            assert (
+                toc.locator(".display-current").inner_text().strip()
+                == (link.text_content() or "").strip()
+            ), (route, href, "mobile current section")
+    page.reload(wait_until="networkidle")
+    page.wait_for_timeout(350)
+    active = toc.locator('a[href="' + links[-1] + '"]')
+    assert active.get_attribute("aria-current") == "true", (
+        route,
+        width,
+        "fragment reload TOC state",
+    )
+    if width < 800:
+        assert (
+            toc.locator(".display-current").inner_text().strip()
+            == (active.text_content() or "").strip()
+        ), (route, width, "fragment reload mobile label")
+        toc.locator("summary").focus()
+        if not toc.locator("details").evaluate("e => e.open"):
+            page.keyboard.press("Enter")
+    top = toc.locator('a[href="#_top"]')
+    top.focus()
+    page.keyboard.press("Enter")
     page.wait_for_timeout(150)
     assert toc.locator('a[href="#_top"]').get_attribute("aria-current") == "true", (
         route,
