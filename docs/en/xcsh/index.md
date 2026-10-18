@@ -2,7 +2,7 @@
 title: xcsh
 description: xcsh certificate workflow overview and ordered tasks.
 sidebar:
-  label: xcsh
+  label: Overview
   order: 2
 tableOfContents:
   minHeadingLevel: 2

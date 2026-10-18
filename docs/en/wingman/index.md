@@ -2,7 +2,7 @@
 title: Wingman
 description: Wingman certificate workflow overview and ordered tasks.
 sidebar:
-  label: Wingman
+  label: Overview
   order: 5
 tableOfContents:
   minHeadingLevel: 2

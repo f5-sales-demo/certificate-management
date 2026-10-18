@@ -2,7 +2,7 @@
 title: Terraform
 description: Terraform certificate workflow overview and ordered tasks.
 sidebar:
-  label: Terraform
+  label: Overview
   order: 3
 tableOfContents:
   minHeadingLevel: 2

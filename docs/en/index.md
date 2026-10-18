@@ -1,6 +1,7 @@
 ---
 title: Certificate Management
 sidebar:
+  label: Overview
   order: 1
 ---
 

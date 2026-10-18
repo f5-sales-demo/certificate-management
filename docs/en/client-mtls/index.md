@@ -2,7 +2,7 @@
 title: Client mTLS
 description: Client mTLS certificate workflow overview and ordered tasks.
 sidebar:
-  label: Client mTLS
+  label: Overview
   order: 4
 tableOfContents:
   minHeadingLevel: 2
