@@ -65,7 +65,7 @@ def verify_toc(page: Page, width: int, height: int, route: str) -> int:
             "header, nav.breadcrumbs, mobile-starlight-toc"
         ).evaluate_all(
             "es => Math.max(0, ...es.filter(e => "
-            "[\"sticky\", \"fixed\"].includes(getComputedStyle(e).position) && "
+            '["sticky", "fixed"].includes(getComputedStyle(e).position) && '
             "e.getBoundingClientRect().height > 0).map(e => e.getBoundingClientRect().bottom))"
         )
         assert box is not None
@@ -87,6 +87,31 @@ def verify_toc(page: Page, width: int, height: int, route: str) -> int:
     return len(links)
 
 
+def verify_sidebar(page: Page, width: int, route: str) -> None:
+    """Reveal and focus the current page within the desktop or mobile sidebar."""
+    if width < 800:
+        menu = page.get_by_role("button", name="Menu", exact=True)
+        menu.focus()
+        page.keyboard.press("Enter")
+    active = page.locator(".sidebar-content a[aria-current=page]")
+    assert active.is_visible(), (route, width, "active sidebar link hidden")
+    bounds = active.bounding_box()
+    panel = page.locator("#starlight__sidebar").bounding_box()
+    assert bounds is not None
+    assert panel is not None
+    assert bounds["y"] >= panel["y"] - 1, (route, width, bounds, panel)
+    assert bounds["y"] + bounds["height"] <= panel["y"] + panel["height"] + 1, (
+        route,
+        width,
+        bounds,
+        panel,
+    )
+    active.focus()
+    assert active.evaluate("e => e === document.activeElement")
+    if width < 800:
+        page.get_by_role("button", name="Menu", exact=True).click()
+
+
 def capture_route(
     page: Page,
     base: str,
@@ -100,6 +125,7 @@ def capture_route(
     width, height = viewport
     url = base.rstrip("/") + "/en/" + (route + "/" if route else "")
     verify_page(page, url, route, appearance)
+    verify_sidebar(page, width, route)
     link_count = verify_toc(page, width, height, route)
     for link in page.locator(".pagination-links a").all():
         destination = urljoin(url, link.get_attribute("href") or "")

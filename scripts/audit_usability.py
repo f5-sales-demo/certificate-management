@@ -109,6 +109,13 @@ def main() -> None:
             "resolution": "Use :latest for the prerelease Certificate caller; resolve immutable run identity centrally; docs-control#2580/#2581.",
             "verification": "passed: canonical selector regression and 209 CI checks; managed convergence receipt in certificate-management#119",
         },
+        {
+            "route": "/en/wingman/*/ and /en/terraform/certificate-surfaces/*/",
+            "severity": "medium",
+            "evidence": "All use-case groups were expanded, hiding the active Wingman item below the desktop viewport; the last reference link also sat below the open mobile menu viewport.",
+            "resolution": "Collapse inactive groups, reopen current ancestors after restoration, and reveal the active link using only sidebar scrolling; docs-theme#1765/#1766.",
+            "verification": "passed: 200 candidate desktop/mobile light-dark combinations, focused keyboard tests and individually reviewed screenshots; deployed readback in certificate-management#119",
+        },
     ]
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
