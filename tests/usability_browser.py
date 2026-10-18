@@ -37,7 +37,7 @@ def verify_page(page: Page, url: str, route: str, appearance: str) -> None:
 
 
 def verify_toc(page: Page, width: int, height: int, route: str) -> int:
-    """Use keyboard section navigation and verify headings below the sticky header."""
+    """Use keyboard section navigation and verify headings below all sticky navigation."""
     page.add_style_tag(content="html { scroll-behavior: auto !important; }")
     toc = page.locator("mobile-starlight-toc" if width < 800 else "starlight-toc")
     headings = page.locator(
@@ -61,15 +61,20 @@ def verify_toc(page: Page, width: int, height: int, route: str) -> int:
         target = page.locator(href)
         assert target.count() == 1, (route, href)
         box = target.bounding_box()
-        header = page.locator("header").first.bounding_box()
+        sticky_bottom = page.locator(
+            "header, nav.breadcrumbs, mobile-starlight-toc"
+        ).evaluate_all(
+            "es => Math.max(0, ...es.filter(e => "
+            "[\"sticky\", \"fixed\"].includes(getComputedStyle(e).position) && "
+            "e.getBoundingClientRect().height > 0).map(e => e.getBoundingClientRect().bottom))"
+        )
         assert box is not None
-        assert header is not None
-        assert box["y"] >= header["y"] + header["height"] - 1, (
+        assert box["y"] >= sticky_bottom - 1, (
             route,
             href,
             width,
             box,
-            header,
+            sticky_bottom,
         )
         assert box["y"] < height, (route, href, width, box)
     page.evaluate("window.scrollTo(0, 0)")
