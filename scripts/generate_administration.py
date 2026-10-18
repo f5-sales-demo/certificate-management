@@ -342,7 +342,7 @@ def generate(schema: dict) -> None:
             + '\nterraform -chdir="$configuration" plan -detailed-exitcode'
         )
         text = (
-            f"---\ntitle: {CHOICES[name]}\nsidebar:\n  order: {list(CHOICES).index(name) + 1}\n---\n\n## Prerequisites\n\nInstall the latest Terraform and provider releases. Set the [provider environment](../../prerequisites/) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.\n\n{requirements(name)}\n\n## Configuration\n\n{section}\n## Configure\n\nSupply the prerequisite fields in Customize examples. Download the files and review the saved plan.\n\n"
+            f"---\ntitle: {CHOICES[name]}\ndescription: {CHOICES[name]} configuration and certificate lifecycle checks.\nsidebar:\n  order: {list(CHOICES).index(name) + 1}\n---\n\n## Prerequisites\n\nInstall the latest Terraform and provider releases. Set the [provider environment](../../prerequisites/) and keep private inputs and state outside Git. Copy this configuration into its own directory and state; never reuse another owner's name.\n\n{requirements(name)}\n\n## Configuration\n\n{section}\n## Configure\n\nSupply the prerequisite fields in Customize examples. Download the files and review the saved plan.\n\n"
             + fence("bash", "\n".join(commands))
             + "\nConfirm the resource names, references, and ownership in the plan. Apply that reviewed plan.\n\n"
             + fence("bash", 'terraform -chdir="$configuration" apply create.plan')

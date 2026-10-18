@@ -1,5 +1,6 @@
 ---
 title: Certificate types
+description: Certificate types, prerequisite-bound configurations, and dated qualification limits.
 sidebar:
   label: Choose configuration
   order: 13

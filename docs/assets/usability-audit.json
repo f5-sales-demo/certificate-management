@@ -12,15 +12,15 @@
     },
     {
       "route": "/en/client-mtls/configure/",
-      "prose_words": 47,
-      "code_lines": 11,
-      "sections": ["Download the shared configuration"],
+      "prose_words": 162,
+      "code_lines": 33,
+      "sections": ["Download the shared configuration", "Create client material", "Review the saved plan"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
     {
       "route": "/en/client-mtls/",
-      "prose_words": 41,
+      "prose_words": 70,
       "code_lines": 0,
       "sections": ["Prerequisites at a glance", "Workflow"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
@@ -28,15 +28,15 @@
     },
     {
       "route": "/en/client-mtls/maintain/",
-      "prose_words": 93,
+      "prose_words": 184,
       "code_lines": 3,
-      "sections": ["Maintain steps"],
+      "sections": ["Rotate CA trust"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
     {
       "route": "/en/client-mtls/prerequisites/",
-      "prose_words": 145,
+      "prose_words": 166,
       "code_lines": 0,
       "sections": ["Prerequisites steps"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
@@ -52,9 +52,9 @@
     },
     {
       "route": "/en/client-mtls/verify/",
-      "prose_words": 43,
-      "code_lines": 0,
-      "sections": ["Verify steps"],
+      "prose_words": 184,
+      "code_lines": 30,
+      "sections": ["Verify trusted requests", "Reject forged client identity"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -76,7 +76,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/advertise-tls/",
-      "prose_words": 397,
+      "prose_words": 424,
       "code_lines": 122,
       "sections": [
         "Prerequisites",
@@ -93,7 +93,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/cdn-origin-mtls/",
-      "prose_words": 419,
+      "prose_words": 449,
       "code_lines": 192,
       "sections": [
         "Prerequisites",
@@ -110,7 +110,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/cdn-server-tls/",
-      "prose_words": 394,
+      "prose_words": 424,
       "code_lines": 185,
       "sections": [
         "Prerequisites",
@@ -127,7 +127,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/cluster-tls/",
-      "prose_words": 397,
+      "prose_words": 424,
       "code_lines": 130,
       "sections": [
         "Prerequisites",
@@ -144,7 +144,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/http-origin-mtls/",
-      "prose_words": 419,
+      "prose_words": 467,
       "code_lines": 304,
       "sections": [
         "Prerequisites",
@@ -169,7 +169,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/inline-server-tls/",
-      "prose_words": 379,
+      "prose_words": 409,
       "code_lines": 183,
       "sections": [
         "Prerequisites",
@@ -186,7 +186,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/origin-mtls/",
-      "prose_words": 418,
+      "prose_words": 445,
       "code_lines": 144,
       "sections": [
         "Prerequisites",
@@ -203,7 +203,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/proxy-intercept/",
-      "prose_words": 393,
+      "prose_words": 420,
       "code_lines": 121,
       "sections": [
         "Prerequisites",
@@ -220,7 +220,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/proxy-tls/",
-      "prose_words": 397,
+      "prose_words": 424,
       "code_lines": 140,
       "sections": [
         "Prerequisites",
@@ -237,7 +237,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/secret-access-tls/",
-      "prose_words": 398,
+      "prose_words": 428,
       "code_lines": 132,
       "sections": [
         "Prerequisites",
@@ -254,7 +254,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/tcp-tls/",
-      "prose_words": 397,
+      "prose_words": 424,
       "code_lines": 199,
       "sections": [
         "Prerequisites",
@@ -271,7 +271,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/virtual-host-tls/",
-      "prose_words": 398,
+      "prose_words": 428,
       "code_lines": 134,
       "sections": [
         "Prerequisites",
@@ -288,7 +288,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/workload-service-custom/",
-      "prose_words": 401,
+      "prose_words": 431,
       "code_lines": 256,
       "sections": [
         "Prerequisites",
@@ -305,7 +305,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/workload-service-public-multi/",
-      "prose_words": 402,
+      "prose_words": 435,
       "code_lines": 240,
       "sections": [
         "Prerequisites",
@@ -322,7 +322,7 @@
     },
     {
       "route": "/en/terraform/certificate-surfaces/workload-service-public-single/",
-      "prose_words": 402,
+      "prose_words": 435,
       "code_lines": 232,
       "sections": [
         "Prerequisites",
@@ -339,7 +339,7 @@
     },
     {
       "route": "/en/terraform/configuration/",
-      "prose_words": 54,
+      "prose_words": 117,
       "code_lines": 524,
       "sections": ["Public JSON", "Complete HCL"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
@@ -348,7 +348,7 @@
     {
       "route": "/en/terraform/configure/",
       "prose_words": 411,
-      "code_lines": 45,
+      "code_lines": 46,
       "sections": [
         "Configure steps",
         "Prepare local inputs",
@@ -389,9 +389,9 @@
     },
     {
       "route": "/en/terraform/maintain/",
-      "prose_words": 96,
-      "code_lines": 9,
-      "sections": ["Maintain steps"],
+      "prose_words": 114,
+      "code_lines": 10,
+      "sections": ["Maintain steps", "Apply the reviewed plan"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -405,9 +405,9 @@
     },
     {
       "route": "/en/terraform/remove/",
-      "prose_words": 54,
-      "code_lines": 7,
-      "sections": ["Remove steps"],
+      "prose_words": 72,
+      "code_lines": 8,
+      "sections": ["Remove steps", "Apply the reviewed plan"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -421,9 +421,9 @@
     },
     {
       "route": "/en/wingman/configuration/",
-      "prose_words": 157,
+      "prose_words": 160,
       "code_lines": 582,
-      "sections": ["Blindfold request", "Bootstrap HCL", "Runtime HCL", "Qualification HCL"],
+      "sections": ["Public Deployment JSON", "Blindfold request", "Bootstrap HCL", "Runtime HCL", "Qualification HCL"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },
@@ -466,7 +466,7 @@
     },
     {
       "route": "/en/wingman/remove/",
-      "prose_words": 175,
+      "prose_words": 204,
       "code_lines": 17,
       "sections": ["Remove steps", "Destroy and verify disposable infrastructure"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
@@ -509,7 +509,7 @@
     {
       "route": "/en/xcsh/configuration/",
       "prose_words": 65,
-      "code_lines": 1,
+      "code_lines": 7,
       "sections": ["Public JSON"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
@@ -569,9 +569,9 @@
     },
     {
       "route": "/en/xcsh/remove/",
-      "prose_words": 70,
-      "code_lines": 0,
-      "sections": ["Remove steps"],
+      "prose_words": 153,
+      "code_lines": 9,
+      "sections": ["Remove steps", "Review and remove the owned certificate", "Verify named absence"],
       "source_verification": "passed: lifecycle, links, JSON, shell syntax, canonical ownership",
       "browser_verification": "pending"
     },

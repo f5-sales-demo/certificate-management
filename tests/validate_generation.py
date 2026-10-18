@@ -43,9 +43,9 @@ def main() -> None:
             for path in before.keys() | after.keys()
             if before.get(path) != after.get(path)
         ]
-    print(
+    print(  # noqa: T201 -- Verification summary.
         f"Generation consistency passed: {len(before)} public source files, two complete regenerations."
-    )  # noqa: T201
+    )
 
 
 if __name__ == "__main__":

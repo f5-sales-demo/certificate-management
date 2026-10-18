@@ -1,5 +1,6 @@
 ---
 title: Certificate Management
+description: Manage certificate resources, client trust, and encrypted application keys with xcsh and Terraform.
 sidebar:
   label: Overview
   order: 1

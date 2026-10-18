@@ -1,5 +1,6 @@
 ---
 title: Traffic qualification
+description: Infrastructure ownership, ordered traffic qualification, and retained acceptance limits.
 sidebar:
   order: 15
 ---
