@@ -304,11 +304,19 @@
     "Import and policy-context lifecycle",
     "Repeat fresh Wingman identities and both unseal inputs after restart",
     "Default pool canonical served client mTLS; provider issue #2684",
-    "Independent current installed certificate-surface inventory and TLS scope counts"
+    "Independent current installed certificate-surface inventory and TLS scope counts",
+    "Retained origin encrypted TLS credential absent; service inactive"
   ],
   "limitations": [
     "Regional Edge no_crl does not enforce local client revocation",
     "Configuration lifecycle does not qualify served traffic for every certificate surface",
     "Primary probes used original disposable material; subsequent runtime CA-chain update was served separately"
-  ]
+  ],
+  "repairs": {
+    "certificate_pr": "https://github.com/f5-sales-demo/certificate-management/pull/146",
+    "provider_pr": "https://github.com/f5-sales-demo/terraform-provider-xcsh/pull/2685",
+    "candidate_default_pool_plan": "create-only passed; not published acceptance",
+    "staged_detach_read_only_plan": "listener updates only; no resource deletions",
+    "current_schema_ci": "passed on 88c13b9"
+  }
 }
