@@ -309,8 +309,8 @@
   "pending": [
     "Default pool canonical served client mTLS; provider issue #2684",
     "Independent current installed certificate-surface inventory and TLS scope counts",
-    "Retained origin encrypted TLS credential absent; service inactive",
-    "Merged/published repair delivery and installed acceptance"
+    "Merged/published repair delivery and installed acceptance",
+    "Supported Default pool route and fresh unique-host served mTLS qualification"
   ],
   "limitations": [
     "Regional Edge no_crl does not enforce local client revocation",
@@ -318,8 +318,8 @@
   ],
   "repairs": {
     "certificate_pr": "https://github.com/f5-sales-demo/certificate-management/pull/146",
-    "provider_pr": "https://github.com/f5-sales-demo/terraform-provider-xcsh/pull/2685",
-    "candidate_default_pool_plan": "create-only passed; not published acceptance",
+    "provider_pr": "https://github.com/f5-sales-demo/terraform-provider-xcsh/pull/2687",
+    "candidate_default_pool_plan": "planning-only inference disproven by API 400; exception reverted",
     "staged_detach_read_only_plan": "listener updates only; no resource deletions",
     "current_schema_ci": "passed on 88c13b9"
   },
@@ -350,5 +350,18 @@
     "remove-wingman": {
       "empty": 0
     }
+  },
+  "default_pool": {
+    "canonical_simple_route": "API requires at least one explicit origin pool",
+    "provider_exception": "incorrect; reversal PR #2687",
+    "served_mtls": "unqualified"
+  },
+  "origin_restoration": {
+    "installed_owner_material": true,
+    "before_remote_byte_equality_unverified": true,
+    "direct_mtls_exit": 0,
+    "infrastructure_unchanged": true,
+    "prior_service_inactive": true,
+    "final_service_state": "inactive"
   }
 }
