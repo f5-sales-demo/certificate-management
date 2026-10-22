@@ -1,5 +1,6 @@
 variable "client_mtls" {
   type = object({
+    enabled             = optional(bool, true)
     trusted_ca_file     = string
     crl_revisions       = map(string)
     active_crl_revision = string
@@ -17,7 +18,8 @@ variable "client_mtls" {
 }
 
 locals {
-  client_crls = var.client_mtls == null ? {} : var.client_mtls.crl_revisions
+  active_client_mtls = var.client_mtls == null ? null : (var.client_mtls.enabled ? var.client_mtls : null)
+  client_crls        = local.active_client_mtls == null ? {} : local.active_client_mtls.crl_revisions
 }
 
 resource "xcsh_trusted_ca_list" "client" {
