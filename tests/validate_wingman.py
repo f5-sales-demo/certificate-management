@@ -86,7 +86,7 @@ def main() -> None:
             and versions["provider_selections"][
                 "registry.terraform.io/hashicorp/kubernetes"
             ]
-            != "3.3.0"
+            != installed["kubernetes_provider"]["version"]
         ):
             message = "Kubernetes provider differs from frozen published selection"
             raise ValueError(message)
