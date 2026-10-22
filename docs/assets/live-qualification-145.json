@@ -81,6 +81,11 @@
       "new_pod_uid": true,
       "sidecar_injected": true,
       "application_ready": true
+    },
+    "post_restart": {
+      "all_probe_identities_changed": true,
+      "both_inputs_unsealed": true,
+      "denial": 403
     }
   },
   "served_tls": {
@@ -288,7 +293,9 @@
   "cleanup": {
     "all_disposable_namespaces_absent_twice": true,
     "all_disposable_managed_states_empty": true,
-    "both_temporary_credentials_revoked": true
+    "both_temporary_credentials_revoked": true,
+    "temporary_credentials_revoked": 3,
+    "disposable_namespaces_absent_twice": 3
   },
   "preservation": {
     "objects": 10,
@@ -300,17 +307,14 @@
     "findings_count": 0
   },
   "pending": [
-    "Qualify published staged-removal repair",
-    "Import and policy-context lifecycle",
-    "Repeat fresh Wingman identities and both unseal inputs after restart",
     "Default pool canonical served client mTLS; provider issue #2684",
     "Independent current installed certificate-surface inventory and TLS scope counts",
-    "Retained origin encrypted TLS credential absent; service inactive"
+    "Retained origin encrypted TLS credential absent; service inactive",
+    "Merged/published repair delivery and installed acceptance"
   ],
   "limitations": [
     "Regional Edge no_crl does not enforce local client revocation",
-    "Configuration lifecycle does not qualify served traffic for every certificate surface",
-    "Primary probes used original disposable material; subsequent runtime CA-chain update was served separately"
+    "Configuration lifecycle does not qualify served traffic for every certificate surface"
   ],
   "repairs": {
     "certificate_pr": "https://github.com/f5-sales-demo/certificate-management/pull/146",
@@ -318,5 +322,33 @@
     "candidate_default_pool_plan": "create-only passed; not published acceptance",
     "staged_detach_read_only_plan": "listener updates only; no resource deletions",
     "current_schema_ci": "passed on 88c13b9"
+  },
+  "import_policy": {
+    "import_succeeded": true,
+    "first_import_plan_exit": 2,
+    "first_import_plan": "in-place reconciliation; no replacement",
+    "reconcile-plan": 0,
+    "reconcile-apply": 0,
+    "reconciled-empty": 0,
+    "policy-plan": 0,
+    "policy-apply": 0,
+    "policy-empty": 0,
+    "context-plan": 0,
+    "context-apply": 0,
+    "context-empty": 0
+  },
+  "canonical_removal": {
+    "disable-client": {
+      "empty": 0
+    },
+    "remove-client": {
+      "empty": 0
+    },
+    "disable-wingman": {
+      "empty": 0
+    },
+    "remove-wingman": {
+      "empty": 0
+    }
   }
 }
