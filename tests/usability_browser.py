@@ -8,7 +8,7 @@ from functools import partial
 from pathlib import Path
 from urllib.parse import urljoin
 
-from playwright.sync_api import Error as PlaywrightError, Page, sync_playwright
+from playwright.sync_api import Error as PlaywrightError, Page, expect, sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -89,13 +89,8 @@ def verify_toc(page: Page, width: int, height: int, route: str) -> int:
                 == (link.text_content() or "").strip()
             ), (route, href, "mobile current section")
     page.reload(wait_until="networkidle")
-    page.wait_for_timeout(350)
     active = toc.locator('a[href="' + links[-1] + '"]')
-    assert active.get_attribute("aria-current") == "true", (
-        route,
-        width,
-        "fragment reload TOC state",
-    )
+    expect(active).to_have_attribute("aria-current", "true", timeout=5000)
     if width < 800:
         assert (
             toc.locator(".display-current").inner_text().strip()
