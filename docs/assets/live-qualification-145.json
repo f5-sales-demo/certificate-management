@@ -295,7 +295,7 @@
     "all_disposable_managed_states_empty": true,
     "both_temporary_credentials_revoked": true,
     "temporary_credentials_revoked": 3,
-    "disposable_namespaces_absent_twice": 3
+    "disposable_namespaces_absent_twice": 4
   },
   "preservation": {
     "objects": 10,
@@ -354,7 +354,8 @@
   "default_pool": {
     "canonical_simple_route": "API requires at least one explicit origin pool",
     "provider_exception": "incorrect; reversal PR #2687",
-    "served_mtls": "unqualified"
+    "served_mtls": "unqualified",
+    "fresh_unique_host_released_provider": "TLS handshake reset; no served acceptance"
   },
   "origin_restoration": {
     "installed_owner_material": true,
