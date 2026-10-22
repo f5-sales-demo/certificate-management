@@ -106,7 +106,13 @@ def resolve_wingman() -> dict:
 
 def resolve(include_wingman: bool = False) -> dict:
     """Resolve immutable identities from current publications."""
-    result = {"kubernetes_provider": {"version": json.loads(fetch("https://registry.terraform.io/v1/providers/hashicorp/kubernetes"))["version"]}}
+    result = {
+        "kubernetes_provider": {
+            "version": json.loads(
+                fetch("https://registry.terraform.io/v1/providers/hashicorp/kubernetes")
+            )["version"]
+        }
+    }
     version = json.loads(
         fetch("https://checkpoint-api.hashicorp.com/v1/check/terraform")
     )["current_version"]
