@@ -54,3 +54,7 @@ provisioned a reader environment, follow the [operator teardown
 order](.././validation/#remove) to remove its route and runtime before bootstrap.
 Preserve the privately owned state and journals for recovery; never delete a retained deployment or sweep
 a namespace by prefix.
+
+## Detach the runtime origin
+
+Set `wingman.enabled = false` in the frontend owner while retaining the integration inputs. Review and apply the listener update, then verify the Wingman route is absent and `/get` still works. Set `wingman = null` through a second reviewed plan to delete the detached origin pool. Destroy disposable runtime and bootstrap states only after frontend consumers are absent.

@@ -156,6 +156,7 @@ Download HCL files: [client-mtls.tf](../../../_data/terraform/named-certificate/
 ```hcl
 variable "client_mtls" {
   type = object({
+    enabled             = optional(bool, true)
     trusted_ca_file     = string
     crl_revisions       = map(string)
     active_crl_revision = string
@@ -173,7 +174,8 @@ variable "client_mtls" {
 }
 
 locals {
-  client_crls = var.client_mtls == null ? {} : var.client_mtls.crl_revisions
+  active_client_mtls = var.client_mtls == null ? null : (var.client_mtls.enabled ? var.client_mtls : null)
+  client_crls        = local.active_client_mtls == null ? {} : local.active_client_mtls.crl_revisions
 }
 
 resource "xcsh_trusted_ca_list" "client" {
@@ -256,7 +258,7 @@ resource "xcsh_http_loadbalancer" "https" {
   domains                          = [var.domain]
   advertise_on_public_default_vip  = {}
   disable_waf                      = {}
-  no_service_policies              = var.client_mtls == null ? {} : null
+  no_service_policies              = local.active_client_mtls == null ? {} : null
   disable_api_definition           = {}
   disable_api_discovery            = {}
   disable_bot_defense              = {}
@@ -264,7 +266,7 @@ resource "xcsh_http_loadbalancer" "https" {
   disable_ip_reputation            = {}
   disable_malicious_user_detection = {}
   dynamic "active_service_policies" {
-    for_each = var.client_mtls == null ? [] : [1]
+    for_each = local.active_client_mtls == null ? [] : [1]
     content {
       policies {
         name      = xcsh_service_policy.client_write[0].name
@@ -274,16 +276,16 @@ resource "xcsh_http_loadbalancer" "https" {
   }
   lifecycle {
     precondition {
-      condition     = var.client_mtls == null || var.wingman != null
+      condition     = local.active_client_mtls == null || local.active_wingman != null
       error_message = "Qualify and configure the Wingman origin before enabling client mTLS."
     }
   }
   https {
     port = 443
     tls_cert_params {
-      no_mtls = var.client_mtls == null ? {} : null
+      no_mtls = local.active_client_mtls == null ? {} : null
       dynamic "use_mtls" {
-        for_each = var.client_mtls == null ? [] : [var.client_mtls]
+        for_each = local.active_client_mtls == null ? [] : [local.active_client_mtls]
         content {
           client_certificate_optional = true
           trusted_ca {
@@ -318,7 +320,7 @@ resource "xcsh_http_loadbalancer" "https" {
     }
   }
   dynamic "routes" {
-    for_each = var.wingman == null ? [] : [var.wingman]
+    for_each = local.active_wingman == null ? [] : [local.active_wingman]
     content {
       simple_route {
         http_method          = "GET"
@@ -339,7 +341,7 @@ resource "xcsh_http_loadbalancer" "https" {
   }
 
   dynamic "routes" {
-    for_each = var.client_mtls == null ? [] : ["/mtls/identity", "/mtls/write"]
+    for_each = local.active_client_mtls == null ? [] : ["/mtls/identity", "/mtls/write"]
     content {
       simple_route {
         http_method          = "ANY"
@@ -518,6 +520,7 @@ provider "xcsh" {}
 # Disabled by default. Enable only after real Wingman backend qualification.
 variable "wingman" {
   type = object({
+    enabled           = optional(bool, true)
     name              = string
     virtual_site_name = string
     trusted_ca_file   = optional(string)
@@ -532,6 +535,7 @@ variable "wingman_contract_file" {
   description = "Optional explicit contract path when applying from a private owner directory."
 }
 locals {
+  active_wingman   = var.wingman == null ? null : (var.wingman.enabled ? var.wingman : null)
   wingman_contract = var.wingman == null ? null : jsondecode(file(var.wingman_contract_file == null ? "${path.module}/../../wingman/contract.json" : var.wingman_contract_file))
 }
 resource "xcsh_origin_pool" "wingman" {

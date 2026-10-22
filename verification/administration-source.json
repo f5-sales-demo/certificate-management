@@ -1,5 +1,5 @@
 {
-  "schema_sha256": "350eac14fe41ec47ff2eebe4700b1e4a0b38b66b7dbb5c3e6b19ce12ec50a3cd",
+  "schema_sha256": "fc5a673592ac6eed58b4552f0ee2803dbdf3ebb7c5330975b9e8daecc8317a2f",
   "examples": [
     "named-certificate",
     "advertise-tls",

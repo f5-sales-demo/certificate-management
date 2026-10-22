@@ -213,7 +213,11 @@ records this validation separately.
 ### Recover interrupted changes
 
 Set the existing owner's `wingman` input back to null, review the plan, and apply it to remove only
-the Wingman route and pool. Verify both original endpoints and redirects. Then review and apply a saved runtime destroy plan, followed by a saved bootstrap destroy plan. Keep the scoped kubeconfig active until runtime and all disposable consumers are verified absent, then revoke it. Remove bootstrap consumers in dependency order. Read policy
+the Wingman route first with `wingman.enabled = false`, retaining the integration inputs. Verify the listener no longer
+references the pool, then set `wingman = null` through a second reviewed plan to delete the detached pool. Verify both
+original endpoints and redirects. Then review and apply a saved runtime destroy plan, followed by a saved bootstrap
+destroy plan. Keep the scoped kubeconfig active until runtime and all disposable consumers are verified absent, then
+revoke it. Remove bootstrap consumers in dependency order. Read policy
 `marked_for_delete` and `deletion_time` as observed lifecycle facts; a pending tombstone is not absence.
 Do not send a second DELETE to a marked policy or assume same-name recreation restores its old policy ID.
 

@@ -14,7 +14,7 @@ resource "xcsh_http_loadbalancer" "https" {
   domains                          = [var.domain]
   advertise_on_public_default_vip  = {}
   disable_waf                      = {}
-  no_service_policies              = var.client_mtls == null ? {} : null
+  no_service_policies              = local.active_client_mtls == null ? {} : null
   disable_api_definition           = {}
   disable_api_discovery            = {}
   disable_bot_defense              = {}
@@ -22,7 +22,7 @@ resource "xcsh_http_loadbalancer" "https" {
   disable_ip_reputation            = {}
   disable_malicious_user_detection = {}
   dynamic "active_service_policies" {
-    for_each = var.client_mtls == null ? [] : [1]
+    for_each = local.active_client_mtls == null ? [] : [1]
     content {
       policies {
         name      = xcsh_service_policy.client_write[0].name
@@ -32,16 +32,16 @@ resource "xcsh_http_loadbalancer" "https" {
   }
   lifecycle {
     precondition {
-      condition     = var.client_mtls == null || var.wingman != null
+      condition     = local.active_client_mtls == null || local.active_wingman != null
       error_message = "Qualify and configure the Wingman origin before enabling client mTLS."
     }
   }
   https {
     port = 443
     tls_cert_params {
-      no_mtls = var.client_mtls == null ? {} : null
+      no_mtls = local.active_client_mtls == null ? {} : null
       dynamic "use_mtls" {
-        for_each = var.client_mtls == null ? [] : [var.client_mtls]
+        for_each = local.active_client_mtls == null ? [] : [local.active_client_mtls]
         content {
           client_certificate_optional = true
           trusted_ca {
@@ -76,7 +76,7 @@ resource "xcsh_http_loadbalancer" "https" {
     }
   }
   dynamic "routes" {
-    for_each = var.wingman == null ? [] : [var.wingman]
+    for_each = local.active_wingman == null ? [] : [local.active_wingman]
     content {
       simple_route {
         http_method          = "GET"
@@ -97,7 +97,7 @@ resource "xcsh_http_loadbalancer" "https" {
   }
 
   dynamic "routes" {
-    for_each = var.client_mtls == null ? [] : ["/mtls/identity", "/mtls/write"]
+    for_each = local.active_client_mtls == null ? [] : ["/mtls/identity", "/mtls/write"]
     content {
       simple_route {
         http_method          = "ANY"

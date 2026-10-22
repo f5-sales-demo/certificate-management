@@ -1,6 +1,7 @@
 # Disabled by default. Enable only after real Wingman backend qualification.
 variable "wingman" {
   type = object({
+    enabled           = optional(bool, true)
     name              = string
     virtual_site_name = string
     trusted_ca_file   = optional(string)
@@ -15,6 +16,7 @@ variable "wingman_contract_file" {
   description = "Optional explicit contract path when applying from a private owner directory."
 }
 locals {
+  active_wingman   = var.wingman == null ? null : (var.wingman.enabled ? var.wingman : null)
   wingman_contract = var.wingman == null ? null : jsondecode(file(var.wingman_contract_file == null ? "${path.module}/../../wingman/contract.json" : var.wingman_contract_file))
 }
 resource "xcsh_origin_pool" "wingman" {

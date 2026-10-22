@@ -106,7 +106,13 @@ def resolve_wingman() -> dict:
 
 def resolve(include_wingman: bool = False) -> dict:
     """Resolve immutable identities from current publications."""
-    result = {}
+    result = {
+        "kubernetes_provider": {
+            "version": json.loads(
+                fetch("https://registry.terraform.io/v1/providers/hashicorp/kubernetes")
+            )["version"]
+        }
+    }
     version = json.loads(
         fetch("https://checkpoint-api.hashicorp.com/v1/check/terraform")
     )["current_version"]
@@ -195,6 +201,8 @@ def install(frozen: dict, destination: Path) -> dict:
     arch = "arm64" if platform.machine() in ("arm64", "aarch64") else "amd64"
     target = osname + "_" + arch
     receipts: dict[str, Any] = {"platform": target}
+    if "kubernetes_provider" in frozen:
+        receipts["kubernetes_provider"] = frozen["kubernetes_provider"]
     for tool in ("terraform", "provider", "xcsh"):
         info = frozen[tool]
         version = info["version"]

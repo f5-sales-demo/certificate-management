@@ -1,0 +1,368 @@
+{
+  "status": "partial-live-qualification",
+  "issue": "https://github.com/f5-sales-demo/certificate-management/issues/145",
+  "source_commit": "77b6ee6cb9ac3929ffaff2e2dac53d2fa9a5b70b",
+  "artifacts": {
+    "terraform": {
+      "version": "1.17.0",
+      "source_commit": "018a99c83c5dcc6d87bcdc4637b1e8da572a7042"
+    },
+    "provider": {
+      "version": "15.15.0",
+      "source_commit": "73560c4bcb453ae8198c8056ca0c46d5388e47b2"
+    },
+    "xcsh": {
+      "version": "23.9.5",
+      "source_commit": "3fc47cd286894e4a73e06fc0259ff98601b8a68f"
+    },
+    "builder": {
+      "image": "ghcr.io/f5-sales-demo/docs-builder@sha256:0ab420ea2e306aabca68765b71e0d843e4f28af7090006b82d3caf199679f905",
+      "version": "1.12.5",
+      "source_commit": "8ec7cc07bbba7e29341d05caf518f6c64c6f2024",
+      "publication_run": "https://github.com/f5-sales-demo/docs-builder/actions/runs/39154929631"
+    },
+    "kubernetes_provider": {
+      "version": "3.4.0",
+      "source_commit": "f76a1ae8afd51777c8ef068b3cfaf34d58a32803"
+    },
+    "application": {
+      "image": "ghcr.io/f5-sales-demo/certificate-management-wingman@sha256:14107b2cd16e396e72a2345f2ee4668d359d77d0676132be5e50a1b408d5ca06",
+      "source_commit": "fea9fedcec55762a7b09f1a35d929e92c961a2bc",
+      "publication_run": "https://github.com/f5-sales-demo/certificate-management/actions/runs/39077049578"
+    }
+  },
+  "configuration_lifecycles": {
+    "passed": 15,
+    "cleanup": "typed absence twice"
+  },
+  "input_variants": {
+    "protected-pem": {
+      "init": 0,
+      "plan": 0,
+      "apply": 0,
+      "empty": 0,
+      "destroy-plan": 0,
+      "destroy": 0
+    },
+    "pkcs12": {
+      "init": 0,
+      "plan": 0,
+      "apply": 0,
+      "empty": 0,
+      "destroy-plan": 0,
+      "destroy": 0
+    },
+    "write-only-pem": {
+      "init": 0,
+      "plan": 0,
+      "apply": 0,
+      "empty": 0,
+      "destroy-plan": 0,
+      "destroy": 0
+    },
+    "write-only-pkcs12": {
+      "init": 0,
+      "plan": 0,
+      "apply": 0,
+      "empty": 0,
+      "destroy-plan": 0,
+      "destroy": 0
+    }
+  },
+  "wingman": {
+    "injected": true,
+    "ready": true,
+    "trusted_platform_identities": true,
+    "provider_unseal": true,
+    "xcsh_unseal": true,
+    "denial_http": 403,
+    "probe_cleanup_twice": true,
+    "restart": {
+      "new_pod_uid": true,
+      "sidecar_injected": true,
+      "application_ready": true
+    },
+    "post_restart": {
+      "all_probe_identities_changed": true,
+      "both_inputs_unsealed": true,
+      "denial": 403
+    }
+  },
+  "served_tls": {
+    "trusted_hostname": true,
+    "fingerprint_match": true,
+    "/get": {
+      "exit": 0,
+      "response_keys": ["example", "native_blindfold"]
+    },
+    "/wingman/get": {
+      "exit": 0,
+      "response_keys": ["example", "certificate_sha256"]
+    }
+  },
+  "client_mtls": {
+    "initial": [
+      {
+        "method": "POST",
+        "case": "trusted",
+        "exit": 0,
+        "status": "200",
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "POST",
+        "case": "absent",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "POST",
+        "case": "forged",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "POST",
+        "case": "duplicate",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "POST",
+        "case": "malformed",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "PUT",
+        "case": "trusted",
+        "exit": 0,
+        "status": "200",
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "PUT",
+        "case": "absent",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "PUT",
+        "case": "forged",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "PUT",
+        "case": "duplicate",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "PUT",
+        "case": "malformed",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "PATCH",
+        "case": "trusted",
+        "exit": 0,
+        "status": "200",
+        "challenge_match": true,
+        "fingerprint_match": true
+      },
+      {
+        "method": "PATCH",
+        "case": "absent",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "PATCH",
+        "case": "forged",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "PATCH",
+        "case": "duplicate",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      },
+      {
+        "method": "PATCH",
+        "case": "malformed",
+        "exit": 0,
+        "status": "403",
+        "challenge_match": null,
+        "fingerprint_match": null
+      }
+    ],
+    "controls": [
+      {
+        "case": "renewed",
+        "exit": 0,
+        "status": "503"
+      },
+      {
+        "case": "untrusted",
+        "exit": 56,
+        "status": "000"
+      },
+      {
+        "case": "copied-valid",
+        "exit": 0,
+        "status": "403"
+      }
+    ],
+    "expired": {
+      "exit": 56,
+      "status": "000"
+    },
+    "maintenance": {
+      "crl-renewal": {
+        "empty_plan": 0
+      },
+      "locally-revoked-no-crl": {
+        "exit": 0,
+        "status": "200",
+        "challenge_match": true
+      },
+      "renewed-client": {
+        "exit": 0,
+        "status": "200",
+        "challenge_match": true
+      },
+      "ca-overlap": {
+        "empty_plan": 0
+      },
+      "overlap-a": {
+        "exit": 0,
+        "status": "200",
+        "challenge_match": true
+      },
+      "overlap-b": {
+        "exit": 0,
+        "status": "200",
+        "challenge_match": true
+      },
+      "ca-a-remove": {
+        "empty_plan": 0
+      },
+      "old-ca-removed": {
+        "exit": 56,
+        "status": "000",
+        "challenge_match": false
+      },
+      "new-ca-retained": {
+        "exit": 0,
+        "status": "200",
+        "challenge_match": true
+      }
+    }
+  },
+  "removal": {
+    "single_apply_failed": "referenced policy and origin pool deletion conflicts",
+    "staged_listener_detach_then_delete_passed": true
+  },
+  "cleanup": {
+    "all_disposable_namespaces_absent_twice": true,
+    "all_disposable_managed_states_empty": true,
+    "both_temporary_credentials_revoked": true,
+    "temporary_credentials_revoked": 3,
+    "disposable_namespaces_absent_twice": 4
+  },
+  "preservation": {
+    "objects": 10,
+    "uids_unchanged": true,
+    "specs_unchanged": true
+  },
+  "containment": {
+    "checked": 587,
+    "findings_count": 0
+  },
+  "pending": [
+    "Default pool canonical served client mTLS; provider issue #2684",
+    "Independent current installed certificate-surface inventory and TLS scope counts",
+    "Merged/published repair delivery and installed acceptance",
+    "Supported Default pool route and fresh unique-host served mTLS qualification"
+  ],
+  "limitations": [
+    "Regional Edge no_crl does not enforce local client revocation",
+    "Configuration lifecycle does not qualify served traffic for every certificate surface"
+  ],
+  "repairs": {
+    "certificate_pr": "https://github.com/f5-sales-demo/certificate-management/pull/146",
+    "provider_pr": "https://github.com/f5-sales-demo/terraform-provider-xcsh/pull/2687",
+    "candidate_default_pool_plan": "planning-only inference disproven by API 400; exception reverted",
+    "staged_detach_read_only_plan": "listener updates only; no resource deletions",
+    "current_schema_ci": "passed on 88c13b9"
+  },
+  "import_policy": {
+    "import_succeeded": true,
+    "first_import_plan_exit": 2,
+    "first_import_plan": "in-place reconciliation; no replacement",
+    "reconcile-plan": 0,
+    "reconcile-apply": 0,
+    "reconciled-empty": 0,
+    "policy-plan": 0,
+    "policy-apply": 0,
+    "policy-empty": 0,
+    "context-plan": 0,
+    "context-apply": 0,
+    "context-empty": 0
+  },
+  "canonical_removal": {
+    "disable-client": {
+      "empty": 0
+    },
+    "remove-client": {
+      "empty": 0
+    },
+    "disable-wingman": {
+      "empty": 0
+    },
+    "remove-wingman": {
+      "empty": 0
+    }
+  },
+  "default_pool": {
+    "canonical_simple_route": "API requires at least one explicit origin pool",
+    "provider_exception": "incorrect; reversal PR #2687",
+    "served_mtls": "unqualified",
+    "fresh_unique_host_released_provider": "TLS handshake reset; no served acceptance"
+  },
+  "origin_restoration": {
+    "installed_owner_material": true,
+    "before_remote_byte_equality_unverified": true,
+    "direct_mtls_exit": 0,
+    "infrastructure_unchanged": true,
+    "prior_service_inactive": true,
+    "final_service_state": "inactive"
+  }
+}

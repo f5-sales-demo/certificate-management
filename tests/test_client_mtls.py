@@ -23,6 +23,19 @@ class ClientMTLSTests(unittest.TestCase):
         main = (ROOT / "terraform/named-certificate/main.tf").read_text()
         assert "no_crl = {}" in main
 
+    def test_detachment_retains_owned_policy_and_trust(self):
+        main = (ROOT / "terraform/named-certificate/main.tf").read_text()
+        client = (ROOT / "terraform/named-certificate/client-mtls.tf").read_text()
+        wingman = (ROOT / "terraform/named-certificate/wingman.tf").read_text()
+        assert "local.active_client_mtls" in main
+        assert "local.active_wingman" in main
+        assert "var.client_mtls.enabled ? var.client_mtls : null" in client
+        assert "var.wingman.enabled ? var.wingman : null" in wingman
+        # Keeping an input object while disabled must keep its resources owned.
+        assert "count          = var.client_mtls == null ? 0 : 1" in client
+        assert re.search(r"count\s*=\s*var.client_mtls == null \? 0 : 1", client)
+        assert re.search(r"count\s*=\s*var.wingman == null \? 0 : 1", wingman)
+
     def test_policy_has_exact_path_and_deny_before_allow(self):
         text = (ROOT / "terraform/named-certificate/client-mtls.tf").read_text()
         assert 'exact_values = ["/mtls/write"]' in text

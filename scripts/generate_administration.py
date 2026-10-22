@@ -97,7 +97,7 @@ def value(text: Any) -> Any:
         "${var.serve ? {} : null}": None,
         "${var.serve ? True : null}": None,
     }
-    examples["${var.client_mtls == null ? {} : null}"] = {}
+    examples["${local.active_client_mtls == null ? {} : null}"] = {}
     if text in examples:
         return examples[text]
     if "base64encode(jsonencode(" in text:
@@ -125,7 +125,7 @@ def public_dynamic(dynamic: dict, shape: dict) -> dict:
     """Render canonical default branches and reject unsupported dynamic blocks."""
     result: dict[str, Any] = {}
     for name, definition in dynamic.items():
-        if "var.client_mtls" in str(definition.get("for_each", "")):
+        if "local.active_client_mtls" in str(definition.get("for_each", "")):
             continue
         if name == "active_service_policies":
             continue
